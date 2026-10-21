@@ -50,6 +50,21 @@ function scriptModuleDependencies(manifestPath) {
   return modules.map((dep) => dep.module_name);
 }
 
+// The game only reports broken JSON in the Content Log, once you're in a world. Catch it here.
+function checkJsonFiles(dir) {
+  for (const file of readdirSync(dir, { recursive: true })) {
+    if (!file.endsWith(".json")) continue;
+    try {
+      JSON.parse(readFileSync(path.join(dir, file), "utf8"));
+    } catch (error) {
+      throw new Error(
+        `${path.relative(ROOT, path.join(dir, file))}: invalid JSON (${error.message})`,
+        { cause: error },
+      );
+    }
+  }
+}
+
 async function buildPack(name) {
   const src = path.join(PACKS_DIR, name);
   const bpOut = path.join(DIST_DIR, `${name}_BP`);
@@ -60,6 +75,7 @@ async function buildPack(name) {
 
   const behaviorDir = path.join(src, "behavior");
   if (existsSync(behaviorDir)) {
+    checkJsonFiles(behaviorDir);
     const external = scriptModuleDependencies(path.join(behaviorDir, "manifest.json"));
     await cp(behaviorDir, bpOut, { recursive: true });
 
@@ -81,6 +97,7 @@ async function buildPack(name) {
 
   const resourceDir = path.join(src, "resource");
   if (existsSync(resourceDir)) {
+    checkJsonFiles(resourceDir);
     await cp(resourceDir, rpOut, { recursive: true });
   }
 }

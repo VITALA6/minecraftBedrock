@@ -1,0 +1,25 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "myteam:slime_cube",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/myteam/entity/slime_cube"
+      },
+      "geometry": {
+        "default": "geometry.slime"
+      },
+      "scripts": {
+        "scale": "2.5"
+      },
+      "render_controllers": ["controller.render.myteam.slime_cube"],
+      "spawn_egg": {
+        "base_color": "#3fb04a",
+        "overlay_color": "#b3203a"
+      }
+    }
+  }
+}

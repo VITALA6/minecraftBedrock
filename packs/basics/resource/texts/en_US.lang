@@ -1,0 +1,7 @@
+pack.name=Basics RP
+pack.description=Textures, models and names for the basics pack.
+
+item.myteam:ruby.name=Ruby
+tile.myteam:ruby_block.name=Block of Ruby
+entity.myteam:slime_cube.name=Slime Cube
+item.spawn_egg.entity.myteam:slime_cube.name=Slime Cube Spawn Egg

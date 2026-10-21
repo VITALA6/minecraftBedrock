@@ -50,15 +50,20 @@ tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
   paths.mjs        shared paths (repo, dist, game dir)
-docs/              learning notes (start with docs/00-setup.md)
+docs/              learning notes (00-setup, 01-custom-content, ...)
 dist/              build output (gitignored)
 ```
+
+Current packs:
+
+- `hello`: script smoke test.
+- `basics`: content-only learning pack (item, block, mob, recipe; see `docs/01-custom-content.md`).
 
 ## Commands
 
 | Command                    | What it does                                                             |
 | -------------------------- | ------------------------------------------------------------------------ |
-| `npm run build`            | type-check (tsc), then build all packs into `dist/`                      |
+| `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`    |
 | `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)   |
 | `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders |
 | `npm run deploy -- --link` | symlink instead of copy (not picked up by the game, see below)           |
@@ -77,6 +82,12 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
   `~/.var/app/io.mrarm.mcpelauncher/data/mcpelauncher/games/com.mojang/`
   - `development_behavior_packs/`, `development_resource_packs/`: deploy targets
   - `minecraftWorlds/`, `logs/`
+- **Debugging: read the Content Log _file_, not the in-game GUI.** The GUI can show nothing while
+  the file has the real error (seen on 2026-10-21: a rejected block).
+  - Files are `logs/ContentLog<date>_<time>_1.txt`, written when Enable Content Log File is on.
+  - Hide the noise with `grep -v '\[verbose\]' <file> | grep -v '^$'`.
+  - A broken definition usually causes follow-on errors, such as recipe or `blocks.json` errors
+    for the missing block. Fix the first one.
 - Override with the `MC_GAME_DIR` env var.
 - **Copy, not symlink (verified 2026-10-21, game 1.26.52.3):** the game didn't pick up symlinked
   packs, even with Flatpak read access to `dist/` and links that resolve inside the sandbox. Copied
@@ -94,7 +105,8 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
 
 1. Create `packs/<name>/behavior`, `packs/<name>/resource` and `packs/<name>/scripts`, with
    `<name>` in snake_case.
-2. Copy both `manifest.json` files and both `pack_icon.png` files from `packs/hello`.
+2. Copy both `manifest.json` files and both `pack_icon.png` files from `packs/hello` (a script
+   pack, 5 UUIDs) or `packs/basics` (a content-only pack, 4 UUIDs, localized pack names).
 3. Run `npm run uuid` and replace **all 5** UUIDs: BP header, BP data module, BP script module,
    RP header, RP resources module. Then set the BP's pack dependency `uuid` to the **new RP header
    UUID**.
@@ -124,4 +136,33 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
     the world from event callbacks or `world.afterEvents.worldLoad`.
   - Handle every promise (for example `form.show()`). eslint's `no-floating-promises` enforces this.
 - **Manifests:** `format_version: 2`, with arrays for pack versions and strings for `module_name`
-  versions.
+  versions. Set `header.name` and `header.description` to `pack.name` and `pack.description`, and
+  define both keys in each pack's own `texts/en_US.lang`.
+- **Content JSON `format_version`:** use the newest version that **vanilla itself ships** for that
+  file type in the installed game. Don't guess, and don't copy versions from tutorials. The vanilla
+  packs are plain JSON inside
+  `~/.var/app/io.mrarm.mcpelauncher/data/mcpelauncher/versions/<game>/assets/assets/{behavior,resource}_packs/vanilla*/__brarchive/*.brarchive`,
+  so `grep -a '"format_version"'` works on them. Those vanilla files are also the best reference
+  for current component names. For example, 1.26.x uses `behavior.melee_box_attack` and
+  `pushable_by_entity`/`pushable_by_block`, not `minecraft:pushable`.
+  - Vanilla files contain internal-only fields such as `internal_vanilla_data`. Don't copy those.
+  - A block with `minecraft:material_instances` **must** also have `minecraft:geometry`. For a
+    plain cube that is `{ "identifier": "minecraft:geometry.full_block" }`. Without it, the block
+    isn't registered at all.
+  - When unsure whether an identifier or enum value exists, `strings` on
+    `versions/<game>/lib/x86_64/libminecraftpe.so` shows what the game knows, including its error
+    message texts.
+  - Check Microsoft Learn when you're unsure whether a component is stable. Anything that needs an
+    experiment is out; `item_specific_speeds` is one example.
+  - Current picks for 1.26.52 are listed in `docs/01-custom-content.md`.
+- **Path-addressed files are namespaced by folder**, because a same-path file in a higher pack
+  silently overrides yours: `textures/myteam/{items,blocks,entity}/...` and
+  `loot_tables/myteam/{blocks,entities}/...`. Identifier-addressed files (`items/`, `blocks/`,
+  `entities/`, `recipes/`) don't need this.
+- **Texture shortnames** in `item_texture.json` and `terrain_texture.json` are global across
+  packs, so prefix them: `myteam_<name>`.
+- **Lang keys:**
+  - items: an explicit `minecraft:display_name` value `item.<id>.name`
+  - blocks: the default `tile.<id>.name`
+  - entities: `entity.<id>.name`
+  - spawn eggs: `item.spawn_egg.entity.<id>.name`

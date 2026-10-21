@@ -64,6 +64,8 @@ Current packs:
   listed in `myteam:ruby_block`'s JSON.
   - **Never activate `basics` and `scripting` on the same world**: same identifiers.
   - Stage 1 content fixes must be made in both packs.
+- `harvest_kitchen`: product MVP (farming + cooking), namespace placeholder `hk` instead of
+  `myteam`. Notes in `docs/harvest-kitchen/mvp.md`.
 
 ## Commands
 
@@ -91,6 +93,16 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
 - **Debugging: read the Content Log _file_, not the in-game GUI.** The GUI can show nothing while
   the file has the real error (seen on 2026-10-21: a rejected block).
   - Files are `logs/ContentLog<date>_<time>_1.txt`, written when Enable Content Log File is on.
+  - **The file loses its tail (seen 2026-10-21 under mcpelauncher).** It's written in 4 KB blocks
+    and the last partial block is never flushed, even on a clean quit. Every log is an exact
+    multiple of 4096 bytes and ends mid-line, and a short session leaves a 0-byte file. Errors from
+    the last few KB of a session are lost.
+  - Launching `mcpelauncher-client` from a terminal doesn't help. Its stdout carries the general
+    game log (`[Minecraft] NO LOG FILE! - …`) but no Content Log messages: no `[Scripting]`, no
+    JSON errors.
+  - Workaround: after loading the world, fly in creative for a minute or two. The
+    `No sound found … 'fly'` verbose spam fills the first 4 KB block, which pushes the load-time
+    messages to disk.
   - Hide the noise with `grep -v '\[verbose\]' <file> | grep -v '^$'`.
   - A broken definition usually causes follow-on errors, such as recipe or `blocks.json` errors
     for the missing block. Fix the first one.

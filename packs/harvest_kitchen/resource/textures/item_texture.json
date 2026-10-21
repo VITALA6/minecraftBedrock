@@ -1,0 +1,24 @@
+{
+  "resource_pack_name": "harvest_kitchen",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "hk_tomato_seeds": {
+      "textures": "textures/hk/items/tomato_seeds"
+    },
+    "hk_tomato": {
+      "textures": "textures/hk/items/tomato"
+    },
+    "hk_sliced_tomato": {
+      "textures": "textures/hk/items/sliced_tomato"
+    },
+    "hk_tomato_soup": {
+      "textures": "textures/hk/items/tomato_soup"
+    },
+    "hk_salad": {
+      "textures": "textures/hk/items/salad"
+    },
+    "hk_stuffed_tomato": {
+      "textures": "textures/hk/items/stuffed_tomato"
+    }
+  }
+}

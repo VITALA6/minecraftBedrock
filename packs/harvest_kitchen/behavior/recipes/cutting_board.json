@@ -1,0 +1,16 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "hk:cutting_board"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["S##"],
+    "key": {
+      "S": { "item": "minecraft:stick" },
+      "#": { "tag": "minecraft:planks" }
+    },
+    "unlock": [{ "item": "hk:tomato" }],
+    "result": { "item": "hk:cutting_board", "count": 1 }
+  }
+}

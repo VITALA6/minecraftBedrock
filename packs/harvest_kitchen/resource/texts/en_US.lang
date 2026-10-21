@@ -1,0 +1,35 @@
+pack.name=Harvest Kitchen RP
+pack.description=Textures, models and names for Harvest Kitchen.
+
+item.hk:tomato_seeds.name=Tomato Seeds
+item.hk:tomato.name=Tomato
+item.hk:sliced_tomato.name=Sliced Tomato
+item.hk:tomato_soup.name=Tomato Soup
+item.hk:salad.name=Garden Salad
+item.hk:stuffed_tomato.name=Stuffed Tomato
+tile.hk:tomato_crop.name=Tomatoes
+tile.hk:cutting_board.name=Cutting Board
+tile.hk:cooking_pot.name=Cooking Pot
+
+hk.ui.item_count=%1$s × %2$s
+hk.ui.busy=§eClose chat or other menus, then try again.
+hk.ui.board.hint=Hold something to slice: %1$s
+hk.ui.pot.title=Cooking Pot
+hk.ui.pot.empty_hint=The pot is empty. Hold an ingredient and use the pot to add it.
+hk.ui.pot.contents=In the pot (%1$s/%2$s): %3$s
+hk.ui.pot.can_cook=Ready to cook
+hk.ui.pot.cook_button=Cook %1$s (%2$s s)
+hk.ui.pot.other_recipes=Other recipes
+hk.ui.pot.needs=§7%1$s: add %2$s
+hk.ui.pot.take_out=Take out ingredients
+hk.ui.pot.taken_out=Ingredients returned.
+hk.ui.pot.added=§aAdded %1$s§r (%2$s/%3$s). Empty hand to cook.
+hk.ui.pot.not_ingredient=§c%1$s isn't used in any recipe.
+hk.ui.pot.full=§cThe pot is full (%1$s items).
+hk.ui.pot.busy=§eThe pot is cooking. Wait until it's done.
+hk.ui.pot.cooking=Cooking %1$s… %2$s s left
+hk.ui.pot.started=§aCooking %1$s§r (%2$s s)
+hk.ui.pot.ready=§a%1$s is ready!
+hk.ui.pot.missing=§c%1$s needs %2$s more.
+hk.ui.pot.empty=§eThe pot is empty.
+hk.ui.pot.gone=§cThat pot is gone.

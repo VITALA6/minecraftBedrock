@@ -1,0 +1,26 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:item": {
+    "description": {
+      "identifier": "hk:tomato_seeds",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.hk:tomato_seeds.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "hk_tomato_seeds"
+        }
+      },
+      "minecraft:block_placer": {
+        "block": "hk:tomato_crop",
+        "use_on": ["minecraft:farmland"]
+      },
+      "minecraft:max_stack_size": 64
+    }
+  }
+}

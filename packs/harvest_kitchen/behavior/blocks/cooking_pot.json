@@ -1,0 +1,67 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:block": {
+    "description": {
+      "identifier": "hk:cooking_pot",
+      "menu_category": {
+        "category": "items"
+      },
+      "states": {
+        "hk:cooking": [false, true]
+      }
+    },
+    "components": {
+      "hk:cooking_station": {},
+      "minecraft:collision_box": {
+        "origin": [-6, 0, -6],
+        "size": [12, 9, 12]
+      },
+      "minecraft:selection_box": {
+        "origin": [-6, 0, -6],
+        "size": [12, 9, 12]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 2.0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 6
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.hk.cooking_pot"
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:map_color": "#6b6b6b",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "hk_cooking_pot_side",
+          "render_method": "opaque"
+        },
+        "up": {
+          "texture": "hk_cooking_pot_top",
+          "render_method": "opaque"
+        }
+      },
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      }
+    },
+    "permutations": [
+      {
+        "condition": "query.block_state('hk:cooking') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "hk_cooking_pot_side",
+              "render_method": "opaque"
+            },
+            "up": {
+              "texture": "hk_cooking_pot_top_cooking",
+              "render_method": "opaque"
+            }
+          },
+          "minecraft:light_emission": 3
+        }
+      }
+    ]
+  }
+}

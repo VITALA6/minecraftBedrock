@@ -3,10 +3,25 @@
   "hk:tomato_crop": {
     "sound": "grass"
   },
+  "hk:onion_crop": {
+    "sound": "grass"
+  },
+  "hk:cucumber_crop": {
+    "sound": "grass"
+  },
+  "hk:chili_bush": {
+    "sound": "sweet_berry_bush"
+  },
+  "hk:strawberry_bush": {
+    "sound": "sweet_berry_bush"
+  },
   "hk:cutting_board": {
     "sound": "wood"
   },
   "hk:cooking_pot": {
-    "sound": "metal"
+    "sound": "copper"
+  },
+  "hk:strawberry_cake": {
+    "sound": "cloth"
   }
 }

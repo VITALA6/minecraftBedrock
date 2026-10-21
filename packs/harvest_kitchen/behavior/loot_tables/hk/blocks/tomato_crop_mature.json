@@ -7,7 +7,15 @@
           "type": "item",
           "name": "hk:tomato",
           "weight": 1,
-          "functions": [{ "function": "set_count", "count": { "min": 2, "max": 4 } }]
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            }
+          ]
         }
       ]
     },
@@ -18,7 +26,15 @@
           "type": "item",
           "name": "hk:tomato_seeds",
           "weight": 1,
-          "functions": [{ "function": "set_count", "count": { "min": 1, "max": 2 } }]
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
         }
       ]
     }

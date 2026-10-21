@@ -1,0 +1,66 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:block": {
+    "description": {
+      "identifier": "hk:strawberry_cake",
+      "menu_category": {
+        "category": "items"
+      },
+      "states": {
+        "hk:slices": {
+          "values": {
+            "min": 0,
+            "max": 3
+          }
+        }
+      }
+    },
+    "components": {
+      "hk:sliced_dish": {},
+      "minecraft:collision_box": {
+        "origin": [-7, 0, -7],
+        "size": [14, 8, 14]
+      },
+      "minecraft:selection_box": {
+        "origin": [-7, 0, -7],
+        "size": [14, 11, 14]
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 0.5
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.hk.strawberry_cake",
+        "bone_visibility": {
+          "slice_1": "q.block_state('hk:slices') <= 3",
+          "slice_2": "q.block_state('hk:slices') <= 2",
+          "slice_3": "q.block_state('hk:slices') <= 1",
+          "slice_4": "q.block_state('hk:slices') <= 0"
+        }
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:loot": "loot_tables/hk/blocks/nothing.json",
+      "minecraft:map_color": "#e8406a",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "hk_strawberry_cake_side",
+          "render_method": "opaque"
+        },
+        "top": {
+          "texture": "hk_strawberry_cake_top",
+          "render_method": "opaque"
+        },
+        "inner": {
+          "texture": "hk_strawberry_cake_inner",
+          "render_method": "opaque"
+        },
+        "berry": {
+          "texture": "hk_strawberry_cake_berry",
+          "render_method": "opaque"
+        }
+      }
+    }
+  }
+}

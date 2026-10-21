@@ -3,6 +3,7 @@ import {
   EquipmentSlot,
   GameMode,
   ItemStack,
+  type Container,
   type Dimension,
   type Player,
   type Vector3,
@@ -33,6 +34,23 @@ export function isCreative(player: Player): boolean {
   return player.getGameMode() === GameMode.Creative;
 }
 
+export function inventoryOf(player: Player): Container | undefined {
+  const container = player.getComponent(EntityComponentTypes.Inventory)?.container;
+  return container?.isValid ? container : undefined;
+}
+
+/** item id -> total count across the player's inventory (hotbar included). */
+export function countInventory(player: Player): Record<string, number> {
+  const counts: Record<string, number> = {};
+  const container = inventoryOf(player);
+  if (!container) return counts;
+  for (let slot = 0; slot < container.size; slot++) {
+    const item = container.getItem(slot);
+    if (item) counts[item.typeId] = (counts[item.typeId] ?? 0) + item.amount;
+  }
+  return counts;
+}
+
 /** Drops `count` of `typeId` as item entities at `location`, in max-size stacks. */
 export function dropItems(dimension: Dimension, location: Vector3, typeId: string, count: number) {
   const stackSize = new ItemStack(typeId).maxAmount;
@@ -41,25 +59,43 @@ export function dropItems(dimension: Dimension, location: Vector3, typeId: strin
   }
 }
 
-/** Puts `count` of `typeId` in the player's inventory; whatever doesn't fit drops at `dropAt`. */
+/**
+ * Puts `count` of `typeId` in the player's hand if it's empty, else in the inventory; whatever
+ * doesn't fit drops at `dropAt`. Never loses items: anything not placed is dropped.
+ */
 export function giveOrDrop(
   player: Player,
   typeId: string,
   count: number,
   dimension: Dimension,
   dropAt: Vector3,
+  preferHand = false,
 ) {
-  const container = player.getComponent(EntityComponentTypes.Inventory)?.container;
-  if (!container?.isValid) {
-    console.warn(`[harvest_kitchen] ${player.name}'s inventory unavailable; dropping ${typeId}`);
-  }
   const stackSize = new ItemStack(typeId).maxAmount;
   let left = count;
-  while (left > 0 && container?.isValid) {
+
+  if (preferHand) {
+    const equippable = player.getComponent(EntityComponentTypes.Equippable);
+    if (equippable && !equippable.getEquipment(EquipmentSlot.Mainhand)) {
+      const batch = Math.min(stackSize, left);
+      equippable.setEquipment(EquipmentSlot.Mainhand, new ItemStack(typeId, batch));
+      left -= batch;
+    }
+  }
+
+  const container = inventoryOf(player);
+  if (!container && left > 0) {
+    console.warn(`[harvest_kitchen] ${player.name}'s inventory unavailable; dropping ${typeId}`);
+  }
+  while (left > 0 && container) {
     const batch = Math.min(stackSize, left);
     const leftover = container.addItem(new ItemStack(typeId, batch));
     left -= batch - (leftover?.amount ?? 0);
     if (leftover) break;
   }
   if (left > 0) dropItems(dimension, dropAt, typeId, left);
+}
+
+export function distance(a: Vector3, b: Vector3): number {
+  return Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
 }

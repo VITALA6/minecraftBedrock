@@ -1,24 +1,20 @@
-import {
-  TicksPerSecond,
-  type ItemComponentRegistry,
-  type ItemCustomComponent,
-} from "@minecraft/server";
+import type { ItemComponentRegistry, ItemCustomComponent } from "@minecraft/server";
 import { COMPONENT_DISH } from "../config";
-import { DISH_EFFECTS } from "../data/dishes";
+import { findDish } from "../data/dishes";
+import { applyEffect } from "./feed";
 
 // Status effects for dishes. The 1.26.30 item format's minecraft:food has no "effects" field, so
-// each dish's JSON lists the "hk:dish": {} marker and the effects come from data/dishes.ts.
+// each dish's JSON lists the "hk:dish": {} marker and the effect comes from data/dishes.ts.
+// Food, saturation, "can always eat" and the returned container are plain minecraft:food JSON.
 
 const dish: ItemCustomComponent = {
   onConsume({ itemStack, source }) {
-    const effects = DISH_EFFECTS[itemStack.typeId];
-    if (!effects) {
-      console.warn(`[harvest_kitchen] ${itemStack.typeId} has ${COMPONENT_DISH} but no effects`);
+    const entry = findDish(itemStack.typeId);
+    if (!entry) {
+      console.warn(`[harvest_kitchen] ${itemStack.typeId} has ${COMPONENT_DISH} but no dish entry`);
       return;
     }
-    for (const { effect, seconds, amplifier } of effects) {
-      source.addEffect(effect, Math.round(seconds * TicksPerSecond), { amplifier });
-    }
+    applyEffect(source, entry.effect);
   },
 };
 

@@ -1,0 +1,157 @@
+{
+  "note": "Sampled from the vanilla resource packs of Minecraft Bedrock 1.26.52.3 by tools/gen-textures.mjs --palette. Shades run dark → light.",
+  "ramps": {
+    "tomato": {
+      "source": "vanilla_1.21.90/textures/items/apple.png (hue 340–15, sat 50–100)",
+      "shades": ["#54090e", "#b4131e", "#ff1c2b", "#ff5e69", "#ff969d"]
+    },
+    "onion": {
+      "source": "vanilla_1.21.90/textures/items/potato_baked.png (hue 25–50, sat 56–100)",
+      "shades": ["#6d3701", "#9a5500", "#c8973a", "#d9aa51", "#f0cd5a"]
+    },
+    "onion_flesh": {
+      "source": "vanilla_1.21.90/textures/items/egg.png",
+      "shades": ["#554e3b", "#746b51", "#b3a57d", "#dfce9b", "#f0e6c6"]
+    },
+    "cucumber": {
+      "source": "vanilla_1.21.90/textures/blocks/melon_side.png",
+      "shades": ["#32691c", "#34791e", "#52811c", "#6f9323", "#a7ac1d"]
+    },
+    "cucumber_flesh": {
+      "source": "vanilla_1.21.90/textures/items/slimeball.png",
+      "shades": ["#34532f", "#477a42", "#76be6d", "#8cd782", "#c9fece"]
+    },
+    "chili": {
+      "source": "vanilla_1.21.90/textures/blocks/flower_rose.png + vanilla_1.21.90/textures/blocks/flower_tulip_red.png (hue 350–20)",
+      "shades": ["#742303", "#9b221a", "#bf2529", "#ed302c", "#ff4540"]
+    },
+    "strawberry": {
+      "source": "vanilla_1.21.90/textures/items/porkchop_raw.png",
+      "shades": ["#512626", "#853e3e", "#a75353", "#ef7070", "#ffadad", "#ffc6c6"]
+    },
+    "leaf": {
+      "source": "vanilla_1.21.90/textures/blocks/carrots_stage_3.png (hue 80–140)",
+      "shades": ["#204626", "#266325", "#2b702a", "#4a8f28", "#55ab2d"]
+    },
+    "bush": {
+      "source": "vanilla_1.21.90/textures/blocks/sweet_berry_bush_stage2.png (hue 110–160)",
+      "shades": ["#1d3822", "#295230", "#286240", "#3c6e42", "#487f4f"]
+    },
+    "flower_yellow": {
+      "source": "vanilla_1.21.90/textures/blocks/flower_dandelion.png (hue 25–60)",
+      "shades": ["#bd6a22", "#f19d25", "#fed639", "#ffec4f"]
+    },
+    "flower_white": {
+      "source": "vanilla_1.21.90/textures/blocks/flower_oxeye_daisy.png (sat 0–30)",
+      "shades": ["#9bbdbd", "#d6e8e8", "#f7f7f7"]
+    },
+    "dirt": {
+      "source": "vanilla_1.21.90/textures/blocks/dirt.png (sat 20–100)",
+      "shades": ["#593d29", "#79553a", "#966c4a", "#b9855c"]
+    },
+    "carrot": {
+      "source": "vanilla_1.21.90/textures/items/carrot.png (hue 15–40)",
+      "shades": ["#752802", "#ac3900", "#d36a0d", "#ff8e09", "#ffc177"]
+    },
+    "potato": {
+      "source": "vanilla_1.21.90/textures/items/potato.png",
+      "shades": ["#6d3701", "#9a5500", "#c8973a", "#d9aa51", "#f8d086"]
+    },
+    "bread": {
+      "source": "vanilla_1.21.90/textures/items/bread.png",
+      "shades": ["#3f2e0e", "#654b17", "#8c661e", "#a27924", "#bc8927"]
+    },
+    "pork": {
+      "source": "vanilla_1.21.90/textures/items/porkchop_cooked.png",
+      "shades": ["#5f4f27", "#997942", "#bca474", "#d3c088", "#e2d3ac"]
+    },
+    "fish": {
+      "source": "vanilla_1.21.90/textures/items/fish_salmon_cooked.png (hue 10–30, sat 40–100)",
+      "shades": ["#66361d", "#9e441f", "#ba4f23", "#bc7d49", "#d39c74"]
+    },
+    "chicken": {
+      "source": "vanilla_1.21.90/textures/items/chicken_cooked.png",
+      "shades": ["#5a2c10", "#8b4420", "#cd7d4a", "#de9d7b", "#eecaac"]
+    },
+    "beet": {
+      "source": "vanilla_1.21.90/textures/items/beetroot.png",
+      "shades": ["#5b1d17", "#8f2d2f", "#a4272c", "#b6484c", "#c07279"]
+    },
+    "stew": {
+      "source": "vanilla_1.21.90/textures/items/rabbit_stew.png (hue 10–25)",
+      "shades": ["#6e2e1b", "#984a2c", "#a45030", "#d27f53", "#cd8c6f"]
+    },
+    "sugar": {
+      "source": "vanilla_1.21.90/textures/items/sugar.png",
+      "shades": ["#545468", "#b9b9cb", "#d5d5df", "#eaeaea"]
+    },
+    "cream": {
+      "source": "vanilla_1.21.90/textures/items/cake.png (hue 30–60)",
+      "shades": ["#d5c8ac", "#f5e6c6", "#fff8e2"]
+    },
+    "sponge": {
+      "source": "vanilla_1.21.90/textures/blocks/cake_side.png (hue 10–30)",
+      "shades": ["#7f3a1d", "#8d4324", "#a74b24", "#bb581d", "#c76124"]
+    },
+    "frosting": {
+      "source": "vanilla_1.21.110/textures/items/dye_powder_pink.png (hue 300–350)",
+      "shades": ["#873b6b", "#9c4c96", "#f7b5d4", "#fcdae4"]
+    },
+    "wood": {
+      "source": "vanilla_1.21.90/textures/blocks/planks_oak.png",
+      "shades": ["#67502c", "#7e6237", "#967441", "#af8f55", "#c29d62"]
+    },
+    "bark": {
+      "source": "vanilla_1.21.90/textures/blocks/log_oak.png",
+      "shades": ["#382b18", "#4c3d26", "#745a36", "#917142", "#987849"]
+    },
+    "bowl": {
+      "source": "vanilla_1.21.90/textures/items/bowl.png",
+      "shades": ["#1f1502", "#3a2706", "#43300b", "#533909", "#714f0f"]
+    },
+    "copper": {
+      "source": "vanilla_1.21.90/textures/items/copper_ingot.png",
+      "shades": ["#6d3421", "#9c4e31", "#c15a36", "#e77c56", "#fc9982"]
+    },
+    "iron": {
+      "source": "vanilla_1.21.90/textures/items/iron_ingot.png",
+      "shades": ["#353535", "#5e5e5e", "#828282", "#a8a8a8", "#d8d8d8"]
+    },
+    "glass": {
+      "source": "vanilla_1.21.90/textures/items/potion_bottle_empty.png (hue 195–225)",
+      "shades": ["#5d8fc2", "#8badd0", "#b3cfec", "#d4e5f7"]
+    },
+    "cork": {
+      "source": "vanilla_1.21.90/textures/items/potion_bottle_empty.png (hue 5–25)",
+      "shades": ["#973716", "#a94725", "#d46d49", "#ccafa5"]
+    },
+    "leather": {
+      "source": "vanilla_1.21.90/textures/items/book_normal.png (hue 25–45)",
+      "shades": ["#161005", "#312104", "#44250a", "#543e13", "#654b17"]
+    },
+    "paper": {
+      "source": "vanilla_1.21.90/textures/items/paper.png",
+      "shades": ["#878787", "#aeaeae", "#c1c1c1", "#d6d6d6", "#fcfcf2"]
+    },
+    "fire": {
+      "source": "vanilla_1.21.90/textures/blocks/fire_0.png (hue 15–60, light 0–95)",
+      "shades": ["#b13f00", "#c05a01", "#db9712", "#eecc54", "#fdfae7"]
+    },
+    "family_heal": {
+      "source": "vanilla/textures/ui/heart_new.png + vanilla/textures/ui/heart.png (hue 350–10, sat 50–100)",
+      "shades": ["#84110e", "#bb1313", "#ff1313", "#ffa39d", "#ffc8c8"]
+    },
+    "family_move": {
+      "source": "vanilla_1.21.110/textures/items/dye_powder_blue_new.png (hue 200–240)",
+      "shades": ["#052463", "#0b347b", "#14499a", "#345ec3", "#5c80d7"]
+    },
+    "family_work": {
+      "source": "vanilla_1.21.90/textures/items/gold_ingot.png (hue 20–60)",
+      "shades": ["#b26411", "#dc9613", "#e9b115", "#fdf55f", "#fffde0"]
+    },
+    "family_explore": {
+      "source": "vanilla_1.21.90/textures/items/emerald.png",
+      "shades": ["#002d00", "#00aa2c", "#17dd62", "#41f384", "#dbffeb"]
+    }
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:block": {
+    "description": {
+      "identifier": "hk:chili_bush",
+      "menu_category": {
+        "category": "none",
+        "is_hidden_in_commands": true
+      },
+      "states": {
+        "hk:growth": {
+          "values": {
+            "min": 0,
+            "max": 3
+          }
+        }
+      }
+    },
+    "components": {
+      "hk:crop_growth": {
+        "type": "bush",
+        "max_stage": 3,
+        "growth_chance": 0.3,
+        "dry_multiplier": 1,
+        "min_light": 9
+      },
+      "minecraft:collision_box": false,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0
+      },
+      "minecraft:destructible_by_explosion": {
+        "explosion_resistance": 0
+      },
+      "minecraft:destruction_particles": {
+        "particle_count": 32
+      },
+      "minecraft:flammable": {
+        "catch_chance_modifier": 60,
+        "destroy_chance_modifier": 100
+      },
+      "minecraft:geometry": {
+        "identifier": "geometry.hk.crop"
+      },
+      "minecraft:light_dampening": 0,
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": false,
+            "on_liquid_touches": "popped"
+          }
+        ]
+      },
+      "minecraft:loot": "loot_tables/hk/blocks/chili_bush_young.json",
+      "minecraft:map_color": "#3a7f2a",
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "hk_chili_bush_stage_0",
+          "render_method": "alpha_test_single_sided",
+          "ambient_occlusion": 0
+        }
+      },
+      "minecraft:movable": {
+        "movement_type": "popped"
+      },
+      "minecraft:placement_filter": {
+        "conditions": [
+          {
+            "allowed_faces": ["up"],
+            "block_filter": [
+              "minecraft:grass_block",
+              "minecraft:dirt",
+              "minecraft:coarse_dirt",
+              "minecraft:podzol",
+              "minecraft:farmland"
+            ]
+          }
+        ]
+      },
+      "minecraft:selection_box": {
+        "origin": [-8, 0, -8],
+        "size": [16, 4, 16]
+      }
+    },
+    "permutations": [
+      {
+        "condition": "query.block_state('hk:growth') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "hk_chili_bush_stage_0",
+              "render_method": "alpha_test_single_sided",
+              "ambient_occlusion": 0
+            }
+          },
+          "minecraft:selection_box": {
+            "origin": [-8, 0, -8],
+            "size": [16, 4, 16]
+          },
+          "minecraft:loot": "loot_tables/hk/blocks/chili_bush_young.json"
+        }
+      },
+      {
+        "condition": "query.block_state('hk:growth') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "hk_chili_bush_stage_1",
+              "render_method": "alpha_test_single_sided",
+              "ambient_occlusion": 0
+            }
+          },
+          "minecraft:selection_box": {
+            "origin": [-8, 0, -8],
+            "size": [16, 7, 16]
+          },
+          "minecraft:loot": "loot_tables/hk/blocks/chili_bush_young.json"
+        }
+      },
+      {
+        "condition": "query.block_state('hk:growth') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "hk_chili_bush_stage_2",
+              "render_method": "alpha_test_single_sided",
+              "ambient_occlusion": 0
+            }
+          },
+          "minecraft:selection_box": {
+            "origin": [-8, 0, -8],
+            "size": [16, 11, 16]
+          },
+          "minecraft:loot": "loot_tables/hk/blocks/chili_bush_young.json"
+        }
+      },
+      {
+        "condition": "query.block_state('hk:growth') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "hk_chili_bush_stage_3",
+              "render_method": "alpha_test_single_sided",
+              "ambient_occlusion": 0
+            }
+          },
+          "minecraft:selection_box": {
+            "origin": [-8, 0, -8],
+            "size": [16, 14, 16]
+          },
+          "minecraft:loot": "loot_tables/hk/blocks/chili_bush_mature.json"
+        }
+      }
+    ]
+  }
+}

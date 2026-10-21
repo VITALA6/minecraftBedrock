@@ -20,7 +20,7 @@
       },
       "minecraft:selection_box": {
         "origin": [-7, 0, -7],
-        "size": [14, 2, 14]
+        "size": [14, 3, 14]
       },
       "minecraft:destructible_by_mining": {
         "seconds_to_destroy": 1.0
@@ -42,8 +42,12 @@
           "texture": "hk_cutting_board_side",
           "render_method": "opaque"
         },
-        "up": {
+        "top": {
           "texture": "hk_cutting_board_top",
+          "render_method": "opaque"
+        },
+        "knife": {
+          "texture": "hk_cutting_board_knife",
           "render_method": "opaque"
         }
       }

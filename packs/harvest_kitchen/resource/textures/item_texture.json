@@ -2,23 +2,89 @@
   "resource_pack_name": "harvest_kitchen",
   "texture_name": "atlas.items",
   "texture_data": {
-    "hk_tomato_seeds": {
-      "textures": "textures/hk/items/tomato_seeds"
+    "hk_chicken_soup": {
+      "textures": "textures/hk/items/chicken_soup"
     },
-    "hk_tomato": {
-      "textures": "textures/hk/items/tomato"
+    "hk_chili_pepper": {
+      "textures": "textures/hk/items/chili_pepper"
+    },
+    "hk_chili_pepper_seeds": {
+      "textures": "textures/hk/items/chili_pepper_seeds"
+    },
+    "hk_chili_stew": {
+      "textures": "textures/hk/items/chili_stew"
+    },
+    "hk_chopped_onion": {
+      "textures": "textures/hk/items/chopped_onion"
+    },
+    "hk_cooking_pot": {
+      "textures": "textures/hk/items/cooking_pot"
+    },
+    "hk_cucumber": {
+      "textures": "textures/hk/items/cucumber"
+    },
+    "hk_cucumber_seeds": {
+      "textures": "textures/hk/items/cucumber_seeds"
+    },
+    "hk_cutting_board": {
+      "textures": "textures/hk/items/cutting_board"
+    },
+    "hk_farmers_sandwich": {
+      "textures": "textures/hk/items/farmers_sandwich"
+    },
+    "hk_fish_chowder": {
+      "textures": "textures/hk/items/fish_chowder"
+    },
+    "hk_garden_salad": {
+      "textures": "textures/hk/items/garden_salad"
+    },
+    "hk_onion": {
+      "textures": "textures/hk/items/onion"
+    },
+    "hk_onion_soup": {
+      "textures": "textures/hk/items/onion_soup"
+    },
+    "hk_recipe_book": {
+      "textures": "textures/hk/items/recipe_book"
+    },
+    "hk_salsa": {
+      "textures": "textures/hk/items/salsa"
+    },
+    "hk_sliced_cucumber": {
+      "textures": "textures/hk/items/sliced_cucumber"
     },
     "hk_sliced_tomato": {
       "textures": "textures/hk/items/sliced_tomato"
     },
+    "hk_strawberry": {
+      "textures": "textures/hk/items/strawberry"
+    },
+    "hk_strawberry_cake": {
+      "textures": "textures/hk/items/strawberry_cake"
+    },
+    "hk_strawberry_cup": {
+      "textures": "textures/hk/items/strawberry_cup"
+    },
+    "hk_strawberry_jam": {
+      "textures": "textures/hk/items/strawberry_jam"
+    },
+    "hk_strawberry_seeds": {
+      "textures": "textures/hk/items/strawberry_seeds"
+    },
+    "hk_tomato": {
+      "textures": "textures/hk/items/tomato"
+    },
+    "hk_tomato_seeds": {
+      "textures": "textures/hk/items/tomato_seeds"
+    },
     "hk_tomato_soup": {
       "textures": "textures/hk/items/tomato_soup"
     },
-    "hk_salad": {
-      "textures": "textures/hk/items/salad"
+    "hk_vegetable_stew": {
+      "textures": "textures/hk/items/vegetable_stew"
     },
-    "hk_stuffed_tomato": {
-      "textures": "textures/hk/items/stuffed_tomato"
+    "hk_veggie_sandwich": {
+      "textures": "textures/hk/items/veggie_sandwich"
     }
   }
 }

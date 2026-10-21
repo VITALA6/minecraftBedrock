@@ -7,10 +7,33 @@
     "tags": ["crafting_table"],
     "pattern": ["S##"],
     "key": {
-      "S": { "item": "minecraft:stick" },
-      "#": { "tag": "minecraft:planks" }
+      "S": {
+        "item": "minecraft:stick"
+      },
+      "#": {
+        "tag": "minecraft:planks"
+      }
     },
-    "unlock": [{ "item": "hk:tomato" }],
-    "result": { "item": "hk:cutting_board", "count": 1 }
+    "unlock": [
+      {
+        "item": "hk:tomato_seeds"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "hk:cucumber_seeds"
+      },
+      {
+        "item": "hk:chili_pepper_seeds"
+      },
+      {
+        "item": "hk:strawberry_seeds"
+      }
+    ],
+    "result": {
+      "item": "hk:cutting_board",
+      "count": 1
+    }
   }
 }

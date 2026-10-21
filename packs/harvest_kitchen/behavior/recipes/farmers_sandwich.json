@@ -1,0 +1,32 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:farmers_sandwich"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "minecraft:bread"
+      },
+      {
+        "item": "minecraft:cooked_porkchop"
+      },
+      {
+        "item": "hk:sliced_tomato"
+      },
+      {
+        "item": "hk:sliced_cucumber"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:sliced_cucumber"
+      }
+    ],
+    "result": {
+      "item": "hk:farmers_sandwich",
+      "count": 1
+    }
+  }
+}

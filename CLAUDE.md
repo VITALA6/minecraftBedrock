@@ -51,7 +51,12 @@ tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
   paths.mjs        shared paths (repo, dist, game dir)
+  gen-textures.mjs Harvest Kitchen 16×16 textures from art/harvest_kitchen/palette.json
+                   (--palette re-samples vanilla) -> art/harvest_kitchen/generated/
 docs/              learning notes (00-setup, 01-custom-content, ...)
+art/<pack>/        art sources: models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
+                   Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
+                   and final/ (hand-finished) textures. Copy into the pack's resource/ by hand.
 dist/              build output (gitignored)
 ```
 
@@ -64,8 +69,10 @@ Current packs:
   listed in `myteam:ruby_block`'s JSON.
   - **Never activate `basics` and `scripting` on the same world**: same identifiers.
   - Stage 1 content fixes must be made in both packs.
-- `harvest_kitchen`: product MVP (farming + cooking), namespace placeholder `hk` instead of
-  `myteam`. Notes in `docs/harvest-kitchen/mvp.md`.
+- `harvest_kitchen`: the product (farming + cooking), namespace placeholder `hk` instead of
+  `myteam`. Code notes in `docs/harvest-kitchen/slice.md`, plan in `docs/harvest-kitchen/plan.md`,
+  open issues in `docs/harvest-kitchen/blockers.md`, test scripts in `docs/harvest-kitchen/tests/`.
+  `/hk:debug <kit|grow|fast|pot|validate|reset>` is the operator test kit.
 
 ## Commands
 

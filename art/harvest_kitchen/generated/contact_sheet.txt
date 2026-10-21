@@ -1,0 +1,14 @@
+Contact sheet: each texture at 4x, rows top to bottom, files left to right.
+
+row 1 (produce): items/tomato.png, items/onion.png, items/cucumber.png, items/chili_pepper.png, items/strawberry.png
+row 2 (seeds): items/tomato_seeds.png, items/cucumber_seeds.png, items/chili_pepper_seeds.png, items/strawberry_seeds.png
+row 3 (prepared): items/sliced_tomato.png, items/sliced_cucumber.png, items/chopped_onion.png
+row 4 (dishes): items/tomato_soup.png, items/vegetable_stew.png, items/chili_stew.png, items/fish_chowder.png, items/chicken_soup.png, items/onion_soup.png, items/garden_salad.png, items/salsa.png, items/strawberry_cup.png, items/strawberry_jam.png, items/veggie_sandwich.png, items/farmers_sandwich.png, items/strawberry_cake.png
+row 5 (stations): items/cooking_pot.png, items/cutting_board.png, items/recipe_book.png
+row 6 (ui): ui/family_heal.png, ui/family_move.png, ui/family_work.png, ui/family_explore.png, ui/locked.png, ui/chapter_crops.png, ui/chapter_what_can_i_make.png, ui/needs_heat.png
+row 7 (pot): blocks/cooking_pot_liquid_ready.png, blocks/cooking_pot_top_hot.png
+row 8 (tomato_crop): blocks/tomato_crop_stage_0.png, blocks/tomato_crop_stage_1.png, blocks/tomato_crop_stage_2.png, blocks/tomato_crop_stage_3.png
+row 9 (onion_crop): blocks/onion_crop_stage_0.png, blocks/onion_crop_stage_1.png, blocks/onion_crop_stage_2.png, blocks/onion_crop_stage_3.png
+row 10 (cucumber_crop): blocks/cucumber_crop_stage_0.png, blocks/cucumber_crop_stage_1.png, blocks/cucumber_crop_stage_2.png, blocks/cucumber_crop_stage_3.png
+row 11 (chili_bush): blocks/chili_bush_stage_0.png, blocks/chili_bush_stage_1.png, blocks/chili_bush_stage_2.png, blocks/chili_bush_stage_3.png
+row 12 (strawberry_bush): blocks/strawberry_bush_stage_0.png, blocks/strawberry_bush_stage_1.png, blocks/strawberry_bush_stage_2.png, blocks/strawberry_bush_stage_3.png

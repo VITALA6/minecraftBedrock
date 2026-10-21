@@ -1,5 +1,7 @@
 # Harvest Kitchen — MVP vertical slice
 
+> **Superseded for code by [slice.md](slice.md) (2026-10-22); kept as the MVP's in-game record.**
+
 Working title. Pack `packs/harvest_kitchen` (BP + RP + scripts), namespace placeholder `hk`.
 Stable `@minecraft/server` 2.10.0 and `@minecraft/server-ui` 2.2.0 only, no experiments.
 

@@ -16,15 +16,12 @@
           "default": "hk_tomato_soup"
         }
       },
+      "minecraft:max_stack_size": 1,
       "minecraft:food": {
         "nutrition": 6,
         "saturation_modifier": 0.6,
         "can_always_eat": true,
         "using_converts_to": "minecraft:bowl"
-      },
-      "minecraft:max_stack_size": 1,
-      "minecraft:tags": {
-        "tags": ["minecraft:is_food"]
       },
       "minecraft:use_animation": {
         "value": "eat"
@@ -34,7 +31,10 @@
         "use_duration": 1.6,
         "movement_modifier": 0.35
       },
-      "hk:dish": {}
+      "hk:dish": {},
+      "minecraft:tags": {
+        "tags": ["minecraft:is_food"]
+      }
     }
   }
 }

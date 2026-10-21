@@ -46,6 +46,7 @@ packs/<name>/
   behavior/        BP source: manifest.json, pack_icon.png, later entities/, items/, ...
   resource/        RP source: manifest.json, pack_icon.png, later textures/, texts/, ...
   scripts/main.ts  Script API entry; bundled into the BP as scripts/main.js
+types/             ambient globals the game provides (console); no DOM lib on purpose
 tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
@@ -58,6 +59,11 @@ Current packs:
 
 - `hello`: script smoke test.
 - `basics`: content-only learning pack (item, block, mob, recipe; see `docs/01-custom-content.md`).
+- `scripting`: a self-contained **copy** of `basics` content plus a Script API ruby economy (see
+  `docs/02-scripting.md`). It copies rather than depends because the bank custom component must be
+  listed in `myteam:ruby_block`'s JSON.
+  - **Never activate `basics` and `scripting` on the same world**: same identifiers.
+  - Stage 1 content fixes must be made in both packs.
 
 ## Commands
 
@@ -135,6 +141,19 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
   - With 2.x, top-level code runs in early-execution mode. Subscribe to events there, but touch
     the world from event callbacks or `world.afterEvents.worldLoad`.
   - Handle every promise (for example `form.show()`). eslint's `no-floating-promises` enforces this.
+  - **Verify every API in the pinned `.d.ts` before using it.**
+    - `@privilege no-restricted-execution` marks calls that throw inside before-events and custom
+      command callbacks. Defer those with `system.run`.
+    - Custom components and custom commands register only in `system.beforeEvents.startup`.
+  - **Module layout** (see `packs/scripting/scripts`):
+    - `main.ts` only wires things together, and `config.ts` holds IDs and numbers.
+    - Each feature is a module exporting `register*()`, in `events/`, `components/` or `ui/`.
+    - Shared state goes through one module (`wallet.ts`).
+    - Validation lives in logic modules (`shop.ts`), not in UI code.
+  - **After any `await`** (forms), check `player.isValid`, and re-validate server-side before
+    changing anything.
+  - Scoreboard objective IDs use `[a-z0-9_]` (`myteam_coins`), because they get typed into
+    commands. Dynamic property keys use `myteam:`.
 - **Manifests:** `format_version: 2`, with arrays for pack versions and strings for `module_name`
   versions. Set `header.name` and `header.description` to `pack.name` and `pack.description`, and
   define both keys in each pack's own `texts/en_US.lang`.

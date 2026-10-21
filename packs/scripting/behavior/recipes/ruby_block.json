@@ -1,0 +1,15 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "myteam:ruby_block"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["###", "###", "###"],
+    "key": {
+      "#": { "item": "myteam:ruby" }
+    },
+    "unlock": [{ "item": "myteam:ruby" }],
+    "result": { "item": "myteam:ruby_block", "count": 1 }
+  }
+}

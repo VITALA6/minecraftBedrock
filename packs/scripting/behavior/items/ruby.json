@@ -1,0 +1,22 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:item": {
+    "description": {
+      "identifier": "myteam:ruby",
+      "menu_category": {
+        "category": "items"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.myteam:ruby.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "myteam_ruby"
+        }
+      },
+      "minecraft:max_stack_size": 64
+    }
+  }
+}

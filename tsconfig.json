@@ -17,5 +17,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["packs/*/scripts/**/*.ts"]
+  "include": ["packs/*/scripts/**/*.ts", "types/*.d.ts"]
 }

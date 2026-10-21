@@ -1,0 +1,12 @@
+{
+  "resource_pack_name": "scripting",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "myteam_ruby": {
+      "textures": "textures/myteam/items/ruby"
+    },
+    "myteam_wallet": {
+      "textures": "textures/myteam/items/wallet"
+    }
+  }
+}

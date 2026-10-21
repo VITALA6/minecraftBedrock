@@ -16,6 +16,9 @@
       },
       "minecraft:loot": "loot_tables/myteam/blocks/ruby_block.json",
       "minecraft:map_color": "#b3203a",
+      "minecraft:movable": {
+        "movement_type": "immovable"
+      },
       "minecraft:geometry": {
         "identifier": "minecraft:geometry.full_block"
       },

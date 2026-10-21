@@ -3,13 +3,22 @@ import { BLOCK_RUBY, OWNER_PROPERTY_PREFIX } from "../config";
 
 // Who placed each ruby block, stored as world dynamic properties keyed by position:
 //   "myteam:owner:minecraft:overworld:10,64,-3" -> '{"id":"-4294967295","name":"Steve"}'
-// Limitation: blocks placed by commands have no owner (anyone can break them), and an explosion
-// or piston leaves a stale entry, which the next placement at that spot overwrites.
+//
+// Ways around the protection, and how each is closed:
+//   - pistons:    the block JSON sets minecraft:movable to "immovable"
+//   - explosions: owned ruby blocks are removed from the explosion's impacted blocks below
+//   - commands (/setblock, /fill): operators only, which is intended
+// Blocks placed by commands have no owner, so anyone can break them.
+// Each placed block costs one property (~90 bytes); ruby blocks cost coins or rubies, which keeps
+// the registry small for this learning pack.
 
 interface Owner {
   readonly id: string;
   readonly name: string;
 }
+
+// Stands in for an owner record that exists but can't be read: treat the block as protected.
+const UNKNOWN_OWNER: Owner = { id: "", name: "an unknown player" };
 
 function ownerKey(block: Block): string {
   const { x, y, z } = block.location;
@@ -24,12 +33,13 @@ function isOwner(value: unknown): value is Owner {
 
 function readOwner(block: Block): Owner | undefined {
   const raw = world.getDynamicProperty(ownerKey(block));
-  if (typeof raw !== "string") return undefined;
+  if (raw === undefined) return undefined;
+  if (typeof raw !== "string") return UNKNOWN_OWNER;
   try {
     const parsed: unknown = JSON.parse(raw);
-    return isOwner(parsed) ? parsed : undefined;
+    return isOwner(parsed) ? parsed : UNKNOWN_OWNER;
   } catch {
-    return undefined;
+    return UNKNOWN_OWNER;
   }
 }
 
@@ -37,7 +47,12 @@ export function registerBlockProtection(): void {
   world.afterEvents.playerPlaceBlock.subscribe(
     ({ block, player }) => {
       const owner: Owner = { id: player.id, name: player.name };
-      world.setDynamicProperty(ownerKey(block), JSON.stringify(owner));
+      try {
+        world.setDynamicProperty(ownerKey(block), JSON.stringify(owner));
+      } catch (error) {
+        console.error(`[protection] could not record owner: ${String(error)}`);
+        player.sendMessage("§cCouldn't record you as this block's owner; it is unprotected.");
+      }
     },
     { blockTypes: [BLOCK_RUBY] },
   );
@@ -57,6 +72,13 @@ export function registerBlockProtection(): void {
     },
     { blockTypes: [BLOCK_RUBY] },
   );
+
+  // Explosions don't go through playerBreakBlock. Spare owned ruby blocks, let the rest blow up.
+  world.beforeEvents.explosion.subscribe((event) => {
+    const impacted = event.getImpactedBlocks();
+    const kept = impacted.filter((block) => block.typeId !== BLOCK_RUBY || !readOwner(block));
+    if (kept.length !== impacted.length) event.setImpactedBlocks(kept);
+  });
 
   // After the break, the block is already air, so check the permutation that was broken.
   world.afterEvents.playerBreakBlock.subscribe(({ block, brokenBlockPermutation }) => {

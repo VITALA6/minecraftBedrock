@@ -27,6 +27,12 @@ export function registerScriptEventHook(): void {
         console.warn(`[admin] ${SET_COINS} must be run by a player, not a command block/console`);
         return;
       }
+      // /scriptevent needs operator rights, but an op-built NPC button or command block can run it
+      // `as` a regular player. Enforce the same level as the slash command.
+      if (sourceEntity.commandPermissionLevel < CommandPermissionLevel.GameDirectors) {
+        sourceEntity.sendMessage("§cYou don't have permission to do that.");
+        return;
+      }
       const amount = parseAmount(message);
       if (amount === undefined) {
         sourceEntity.sendMessage(`§cUsage: /scriptevent ${SET_COINS} <0-${MAX_COINS}>`);

@@ -49,7 +49,7 @@ packs/scripting/scripts/
     earning.ts            entityDie -> coins + action bar
     wallet-item.ts        itemUse on myteam:wallet -> open menu
     passive-income.ts     system.runInterval: +1 coin near a ruby block every 60 s
-    block-protection.ts   beforeEvents.playerBreakBlock: owner-only breaking
+    block-protection.ts   beforeEvents.playerBreakBlock + explosion: owner-only removal
     admin.ts              /scriptevent myteam:setcoins, /myteam:setcoins
 ```
 
@@ -85,6 +85,19 @@ marked `@privilege no-restricted-execution` in the `.d.ts` throw. Examples of su
 The fix is to **defer** the change: `system.run(() => ...)` runs the callback at the start of the
 next tick, in normal mode. That's what `block-protection.ts` does to send its "belongs to Steve"
 message. Custom command callbacks behave the same way, so `/myteam:setcoins` defers its write too.
+
+**Guard every path, not just the obvious one.** "Players can't break someone else's ruby block" is
+only true if every way of removing the block is covered:
+
+| Path                 | How it's covered                                                               |
+| -------------------- | ------------------------------------------------------------------------------ |
+| Mining               | `beforeEvents.playerBreakBlock`, which cancels the break                       |
+| TNT and creepers     | `beforeEvents.explosion` calls `setImpactedBlocks()` without owned ruby blocks |
+| Pistons              | `"minecraft:movable": { "movement_type": "immovable" }` in the block JSON      |
+| `/setblock`, `/fill` | operators only, which is intended                                              |
+
+The two admin hooks follow the same rule: `/scriptevent myteam:setcoins` checks
+`player.commandPermissionLevel`, just like the slash command does.
 
 **Early execution.** With 2.x, top-level module code runs **before the world exists**.
 

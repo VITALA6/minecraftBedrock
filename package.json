@@ -1,0 +1,29 @@
+{
+  "name": "minecraft-bedrock-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node tools/build.mjs",
+    "dev": "node tools/build.mjs --watch",
+    "deploy": "node tools/deploy.mjs",
+    "typecheck": "tsc",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "uuid": "node -e \"for (let i = 0; i < 5; i++) console.log(crypto.randomUUID())\""
+  },
+  "dependencies": {
+    "@minecraft/server": "2.10.0",
+    "@minecraft/server-ui": "2.2.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "esbuild": "0.28.2",
+    "eslint": "10.13.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.13.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0"
+  }
+}

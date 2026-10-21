@@ -1,0 +1,21 @@
+{
+  // Type-checking only; esbuild does the actual compiling/bundling (tools/build.mjs).
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    // No DOM: the Bedrock script runtime has no window/document/setTimeout.
+    // Use system.run / system.runTimeout from @minecraft/server instead.
+    "lib": ["ES2022"],
+    "types": [],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["packs/*/scripts/**/*.ts"]
+}

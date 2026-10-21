@@ -1,0 +1,38 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Hello BP",
+    "description": "Minimal pack that proves the build pipeline works.",
+    "uuid": "eb4e9b15-371b-4198-b06d-2dbb5e498ef3",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 50]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "054cb0b6-b4ea-44e6-a862-7db2d1260168",
+      "version": [1, 0, 0]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "00d2fed8-e15b-4cf9-abb4-2bf5344cc8b4",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "6e3d3ba5-3252-471c-af5b-c6f354f665d1",
+      "version": [1, 0, 0]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.10.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.2.0"
+    }
+  ]
+}

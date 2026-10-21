@@ -1,0 +1,17 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Hello RP",
+    "description": "Resources for the hello pack.",
+    "uuid": "6e3d3ba5-3252-471c-af5b-c6f354f665d1",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 26, 50]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "ba7e890a-5289-4e92-80ed-21272c7cbafc",
+      "version": [1, 0, 0]
+    }
+  ]
+}

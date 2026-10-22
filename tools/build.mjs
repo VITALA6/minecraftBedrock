@@ -70,18 +70,22 @@ function checkJsonFiles(dir) {
 // Shown in game (chat on join, Content Log, /hk:debug validate) so a test session can tell
 // which build is running: deploy only copies files, a world keeps its scripts until re-entered
 // or /reload. "<git short hash>[+ if uncommitted changes] <local time>".
-function buildId() {
-  const now = new Date();
-  const pad = (n) => String(n).padStart(2, "0");
-  const time = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+export function gitHash() {
   try {
     const hash = execFileSync("git", ["rev-parse", "--short", "HEAD"], { encoding: "utf8" }).trim();
     const dirty =
       execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim() !== "";
-    return `${hash}${dirty ? "+" : ""} ${time}`;
+    return `${hash}${dirty ? "+" : ""}`;
   } catch {
-    return `dev ${time}`;
+    return "dev";
   }
+}
+
+function buildId(hash = gitHash()) {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const time = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  return `${hash} ${time}`;
 }
 
 // A release build compiles out what only test sessions want: scripts read __RELEASE__ (for
@@ -89,7 +93,9 @@ function buildId() {
 // in the Content Log). /hk:debug stays, operator-only, in both.
 const RELEASE = process.argv.includes("--release");
 
-async function buildPack(name) {
+/** Builds one pack into dist/. `hash` is the git hash baked into the build id (tools/package.mjs
+ *  passes the one it puts in the file name). */
+export async function buildPack(name, { release = RELEASE, hash } = {}) {
   const src = path.join(PACKS_DIR, name);
   const bpOut = path.join(DIST_DIR, `${name}_BP`);
   const rpOut = path.join(DIST_DIR, `${name}_RP`);
@@ -115,8 +121,8 @@ async function buildPack(name) {
         // Game-provided modules stay as imports; everything else is bundled in.
         external,
         define: {
-          __BUILD_ID__: JSON.stringify(buildId()),
-          __RELEASE__: JSON.stringify(RELEASE),
+          __BUILD_ID__: JSON.stringify(buildId(hash)),
+          __RELEASE__: JSON.stringify(release),
         },
         logLevel: "warning",
       });

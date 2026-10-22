@@ -50,6 +50,7 @@ types/             ambient globals the game provides (console); no DOM lib on pu
 tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
+  package.mjs      release build of harvest_kitchen -> dist/HarvestKitchen-<hash>.mcaddon
   paths.mjs        shared paths (repo, dist, game dir)
   test.mjs         bundles packs/*/tests with esbuild, runs node --test (no @minecraft imports)
   gen-textures.mjs Harvest Kitchen 16×16 textures -> art/harvest_kitchen/generated/: the
@@ -93,6 +94,7 @@ Current packs:
 | -------------------------- | ------------------------------------------------------------------------ |
 | `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`    |
 | `npm run build:release`    | `build` as a release (`__RELEASE__`): no test-session chat on join       |
+| `npm run package`          | harvest_kitchen release as `dist/HarvestKitchen-<hash>.mcaddon`          |
 | `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)   |
 | `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders |
 | `npm run deploy -- --link` | symlink instead of copy (not picked up by the game, see below)           |

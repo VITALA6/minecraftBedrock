@@ -233,7 +233,12 @@ const RAMP_SPECS = {
   cucumber: { from: ["blocks/melon_side"] },
   cucumber_flesh: { from: ["items/slimeball"] },
   chili: { from: ["blocks/flower_rose", "blocks/flower_tulip_red"], hue: [350, 20] },
-  strawberry: { from: ["items/porkchop_raw"], n: 6 },
+  // Pink (≈340°), not red: keeps strawberry apart from tomato (art-style.md "distinct hues").
+  strawberry: {
+    from: ["items/dye_powder_pink", "blocks/glazed_terracotta_pink"],
+    hue: [315, 350],
+    sat: [30, 100],
+  },
   leaf: { from: ["blocks/carrots_stage_3"], hue: [80, 140] },
   bush: { from: ["blocks/sweet_berry_bush_stage2"], hue: [110, 160] },
   flower_yellow: { from: ["blocks/flower_dandelion"], hue: [25, 60], n: 4 },
@@ -244,6 +249,7 @@ const RAMP_SPECS = {
   potato: { from: ["items/potato"] },
   bread: { from: ["items/bread"] },
   pork: { from: ["items/porkchop_cooked"] },
+  meat: { from: ["items/mutton_cooked"] },
   fish: { from: ["items/fish_salmon_cooked"], hue: [10, 30], sat: [40, 100] },
   chicken: { from: ["items/chicken_cooked"] },
   beet: { from: ["items/beetroot"] },
@@ -390,6 +396,51 @@ function potRamps() {
   );
 }
 
+/** Hue shifting (art-style.md): palette.json keeps the raw vanilla samples, and this transform runs
+ *  at load time. Along a ramp (dark → light), position t ∈ [0, 1]:
+ *  - shades below the middle rotate their hue toward cool blue-violet (250°), by up to
+ *    HUE_COOL degrees at the darkest shade;
+ *  - shades above the middle rotate toward warm orange-yellow (40°), by up to HUE_WARM at the
+ *    lightest (a target nearer pure yellow turns browns olive, so browns keep their hue);
+ *  - the middle shade keeps its vanilla hue.
+ *  Near-grey ramps (iron, sugar, paper) have no hue to rotate, so their darkest shade gets a faint
+ *  blue tint and their lightest a faint warm tint instead. Lightness is never changed. */
+const HUE_COOL = 14;
+const HUE_WARM = 10;
+const HUE_COOL_TARGET = 250;
+const HUE_WARM_TARGET = 40;
+
+function hslToRgb([h, s, l]) {
+  s /= 100;
+  l /= 100;
+  const k = (n) => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = (n) => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [f(0), f(8), f(4)].map((v) => Math.round(v * 255));
+}
+
+function rotateToward(h, target, deg) {
+  const d = ((target - h + 540) % 360) - 180; // signed shortest distance
+  return (h + Math.sign(d) * Math.min(Math.abs(d), deg) + 360) % 360;
+}
+
+function hueShift(ramp) {
+  const n = ramp.length;
+  if (n < 2) return ramp;
+  const grey = ramp.every((rgb) => rgbToHsl(rgb)[1] < 12);
+  return ramp.map((rgb, i) => {
+    const w = 1 - (2 * i) / (n - 1); // +1 darkest … −1 lightest
+    let [h, s, l] = rgbToHsl(rgb);
+    if (grey) {
+      if (w > 0.99) [h, s] = [230, Math.max(s, 8)];
+      else if (w < -0.99) [h, s] = [45, Math.max(s, 8)];
+      else return rgb;
+    } else if (w > 0) h = rotateToward(h, HUE_COOL_TARGET, w * HUE_COOL);
+    else if (w < 0) h = rotateToward(h, HUE_WARM_TARGET, -w * HUE_WARM);
+    return hslToRgb([h, s, l]);
+  });
+}
+
 // ---------------------------------------------------------------------------------------------
 // Drawing. A layer is 256 RGBA entries (null = transparent). Sprites are stacks of layers:
 // hand-placed pixel rows with a legend, or shape masks shaded automatically.
@@ -477,19 +528,24 @@ function capsule(points) {
 const union = (...ms) => ms[0].map((_, i) => ms.some((m) => m[i]));
 const minus = (a, b) => a.map((v, i) => v && !b[i]);
 
-/** Vanilla-style shading lit from the top left: a 1px outline (4-neighbour edge) in the darkest
- *  shade, a shadow band inside the bottom/right edge, a light band inside the top/left edge and
- *  a flat base. `shades` = [outline, shadow, base, light]. */
-function shade(m, name, shades = [0, 1, 2, 3]) {
+/** Shading lit from the top left, without a uniform dark rim ("pillow shading"):
+ *  - bottom/right edge (4-neighbour outside below or to the right): darkest shade;
+ *  - one pixel further in from the bottom/right: shadow shade;
+ *  - top/left edge: a mid-light shade, so the lit side has no dark outline;
+ *  - one pixel further in from the top/left: light shade; everything else: base.
+ *  `shades` = [bottom-right edge, shadow, base, light, top-left edge], as ramp indices. */
+function shade(m, name, shades = [0, 1, 2, 3, 2]) {
   const inside = (x, y) => x >= 0 && y >= 0 && x < S && y < S && m[y * S + x];
+  const [edgeBR, shadow, base, light, edgeTL = base] = shades;
   const layer = blank();
   for (let y = 0; y < S; y++)
     for (let x = 0; x < S; x++) {
       if (!inside(x, y)) continue;
-      const edge = !inside(x + 1, y) || !inside(x, y + 1) || !inside(x - 1, y) || !inside(x, y - 1);
+      const outBR = !inside(x + 1, y) || !inside(x, y + 1);
+      const outTL = !inside(x - 1, y) || !inside(x, y - 1);
       const nearBR = !inside(x + 2, y) || !inside(x, y + 2) || !inside(x + 1, y + 1);
       const nearTL = !inside(x - 2, y) || !inside(x, y - 2) || !inside(x - 1, y - 1);
-      const k = edge ? shades[0] : nearBR ? shades[1] : nearTL ? shades[3] : shades[2];
+      const k = outBR ? edgeBR : outTL ? edgeTL : nearBR ? shadow : nearTL ? light : base;
       layer[y * S + x] = c(name, k);
     }
   return layer;
@@ -549,7 +605,7 @@ function stamp(spec, legend, x, y) {
 // Sprites (step 2). Each entry: [folder, file name, draw()]. Order = contact sheet order.
 // ---------------------------------------------------------------------------------------------
 
-const SPRITES = [];
+export const SPRITES = [];
 const def = (folder, name, draw, row) => SPRITES.push({ folder, name, draw, row: row ?? folder });
 
 // --- Produce -----------------------------------------------------------------------------------
@@ -582,15 +638,14 @@ def(
       rows(
         pad(`
           ................
-          ........c.......
-          .......cb.......
-          .....ddcbcc.....
-          ...dd.dbab.cb...
-          ......c..b......
+          ........b.......
+          .......db.......
+          .....ddbbdd.....
+          ...dd.dbbb.bd...
+          ......b..b......
           ...44...........
-          ..44............
-          ..3.............`),
-        { ...L("leaf", "abcde"), ...L("tomato", "01234") },
+          ..44............`),
+        { ...L("leaf", " b d"), ...L("tomato", "    4") },
         "tomato",
       ),
     ),
@@ -609,36 +664,36 @@ def(
           ........#.......
           .......##.......
           ......####......
+          .....######.....
           ....########....
           ...##########...
           ..############..
-          .##############.
-          .##############.
-          .##############.
+          ..############..
           ..############..
           ...##########...
-          .....######.....
+          ....########....
+          ......####......
           ................
           ................`),
         "onion",
       ),
       rows(
         pad(`
+          ................
           ........3.......
           .......34.......
-          .......32.......
           .......32.......
           .......3........
           ......1..1......
           .....1....1.....
-          ...41......1....
-          ..44.1......1...
-          ..4..1......1...
-          ..3..1.....1....
-          ......1...1.....
+          ....4......1....
+          ...44.1.....1...
+          ...4..1.....1...
+          ......1....1....
+          .......1..1.....
           ................
-          ......r.rr.r....
-          .....r..r...r...`),
+          ................
+          .....r.rr.r.....`),
         { ...L("onion", "01234"), r: c("onion_flesh", 2) },
         "onion",
       ),
@@ -646,6 +701,7 @@ def(
   "produce",
 );
 
+// Long items run from bottom left to top right (art-style.md).
 def(
   "items",
   "cucumber",
@@ -660,8 +716,8 @@ def(
       ),
       rows(
         pad(`
-          ..............ab
-          .............ab.
+          ..............bb
+          .............bb.
           ................
           ..........4.....
           ........4...3...
@@ -672,10 +728,8 @@ def(
           ..4..3..........
           ....4...........
           ................
-          ..3.............
-          ................
-          .y..............`),
-        { ...L("cucumber", "01234"), ...L("leaf", "ab"), y: c("flower_yellow", 2) },
+          ..3.............`),
+        { ...L("cucumber", "0123"), 4: c("cucumber_flesh", 3), b: c("leaf", 1) },
         "cucumber",
       ),
     ),
@@ -689,28 +743,27 @@ def(
     stack(
       shade(
         capsule([
-          [5.6, 5.4, 2.9],
+          [10.4, 5.4, 2.9],
           [8, 8.6, 2.6],
-          [10, 11.6, 1.9],
-          [11.8, 13.4, 1.1],
-          [13.6, 14.2, 0.6],
+          [6, 11.6, 1.9],
+          [4.2, 13.4, 1.1],
+          [2.4, 14.2, 0.6],
         ]),
         "chili",
       ),
       rows(
         pad(`
-          .ab.............
-          ..bc............
-          ...cd...........
-          ..cddcb.........
-          .bcdccbb........
-          ..b.c.b.........
-          ...4............
-          ...44...........
-          ....44..........
-          ......4.........
-          .......4........`),
-        { ...L("leaf", "abcde"), ...L("chili", "01234") },
+          .............ba.
+          ............bb..
+          ...........db...
+          .........bddbb..
+          ........bbdbbbb.
+          .........b.b.b..
+          ........h.......
+          .......hh.......
+          ......h.........
+          .....h..........`),
+        { ...L("leaf", " ab d"), h: c("carrot", -1) },
         "chili",
       ),
     ),
@@ -741,153 +794,169 @@ def(
           ................
           ................`),
         "strawberry",
-        [0, 2, 3, 3],
       ),
       rows(
         pad(`
-          ........ab......
-          .......ab.......
-          ...cdd.bc.ddc...
-          ..cddcbbccbddc..
-          ...b.cb..bc..b..
+          ........bb......
+          .......bb.......
+          ...bdd.bd.ddb...
+          ..bddbbbbbbddb..
+          ...b.bb..bb..b..
           ...4..y...y.....
           ..4.y...y...y...
           ....y..y..y.....
           ......y...y.....
           .....y..y.......
           .......y........`),
-        { ...L("leaf", "abcde"), ...L("strawberry", " 1234"), y: c("flower_yellow", -1) },
+        { ...L("leaf", " b d"), 4: c("strawberry", 4), y: c("flower_yellow", -1) },
         "strawberry",
       ),
     ),
   "produce",
 );
 
-// --- Seeds -------------------------------------------------------------------------------------
+// --- Seeds: every seed has its own sprite, colour and layout (art-style.md) ---------------------
 
-const SEED_SPOTS = [
-  [3, 3],
-  [9, 2],
-  [5, 8],
-  [11, 8],
-  [7, 12],
-  [2, 12],
-];
-
-function seeds(shape, legend, spots = SEED_SPOTS) {
-  return stack(...spots.map(([x, y]) => stamp(shape, legend, x, y)));
-}
-
+// Tomato: small flat teardrops, pale cream-yellow, in a heaped pile.
 def(
   "items",
   "tomato_seeds",
-  () =>
-    seeds(
-      `
-      .oo
-      olmo
-      omdo
-      .oo`,
-      {
-        l: c("onion_flesh", -1),
-        m: c("onion_flesh", 3),
-        d: c("onion_flesh", 2),
-        o: c("tomato", 1),
-      },
-      SEED_SPOTS.slice(0, 5),
-    ),
+  () => {
+    const seed = `
+      .l.
+      lmm
+      mmd
+      .d.`;
+    const legend = { l: c("onion_flesh", -1), m: c("onion_flesh", 3), d: c("potato", 1) };
+    return stack(
+      ...[
+        [6, 2],
+        [3, 5],
+        [9, 5],
+        [6, 6],
+        [1, 9],
+        [4, 9],
+        [8, 9],
+        [11, 9],
+      ].map(([x, y]) => stamp(seed, legend, x, y)),
+    );
+  },
   "seeds",
 );
 
+// Cucumber: long pale mint ovals laid in a neat diagonal row.
 def(
   "items",
   "cucumber_seeds",
-  () =>
-    seeds(
-      `
-      ..l
-      .lm
-      lmo
-      mo.`,
-      { l: c("cucumber_flesh", -1), m: c("cucumber_flesh", 3), o: c("cucumber", 1) },
-    ),
+  () => {
+    const seed = `
+      ..lm
+      .lmd
+      lmd.
+      md..`;
+    const legend = {
+      l: c("cucumber_flesh", -1),
+      m: c("cucumber_flesh", 3),
+      d: c("cucumber_flesh", 1),
+    };
+    return stack(
+      ...[
+        [1, 3],
+        [4, 6],
+        [7, 9],
+        [10, 11],
+      ].map(([x, y]) => stamp(seed, legend, x, y)),
+    );
+  },
   "seeds",
 );
 
+// Chili: round flat orange discs with a notch, arranged in a ring.
 def(
   "items",
   "chili_pepper_seeds",
-  () =>
-    seeds(
-      `
+  () => {
+    const seed = `
       .ll.
-      lmmo
-      lmmo
-      .oo.`,
-      { l: c("flower_yellow", -1), m: c("flower_yellow", 2), o: c("chili", 1) },
-      SEED_SPOTS.slice(0, 5),
-    ),
+      lmmd
+      lm..
+      .dd.`;
+    const legend = { l: c("carrot", -1), m: c("carrot", 3), d: c("carrot", 1) };
+    return stack(
+      ...[
+        [6, 1],
+        [10, 4],
+        [10, 9],
+        [5, 11],
+        [1, 7],
+        [2, 2],
+      ].map(([x, y]) => stamp(seed, legend, x, y)),
+    );
+  },
   "seeds",
 );
 
+// Strawberry: tiny plum-pink achenes sprinkled in a heart-shaped cloud.
 def(
   "items",
   "strawberry_seeds",
-  () =>
-    seeds(
-      `
+  () => {
+    const seed = `
       lm
-      mo`,
-      { l: c("flower_yellow", -1), m: c("flower_yellow", 2), o: c("strawberry", 1) },
-      [
-        [4, 3],
+      md`;
+    // Bright core, dark plum edge: reads on the slot grey (#8B8B8B).
+    const legend = { l: c("strawberry", 3), m: c("strawberry", 1), d: c("strawberry", 0) };
+    return stack(
+      ...[
+        [2, 3],
+        [5, 2],
         [9, 2],
-        [12, 5],
-        [6, 6],
-        [2, 8],
-        [9, 8],
-        [5, 10],
-        [12, 10],
-        [8, 12],
-        [3, 13],
-      ],
-    ),
+        [12, 3],
+        [3, 6],
+        [7, 5],
+        [11, 6],
+        [5, 9],
+        [9, 9],
+        [7, 12],
+      ].map(([x, y]) => stamp(seed, legend, x, y)),
+    );
+  },
   "seeds",
 );
 
 // --- Prepared ingredients ------------------------------------------------------------------------
 
-const TOMATO_SLICE = `
-  ...0000...
-  .00111100.
-  .01g22g10.
-  01gs32sg10
-  0123333210
-  0122332210
-  01gs22sg10
-  .01g22g10.
-  .00111100.
-  ...0000...`;
-
-function tomatoSlice(x, y) {
-  return stamp(
-    TOMATO_SLICE,
-    {
-      ...L("tomato", "0123"),
-      g: c("flower_yellow", -1),
-      s: c("onion_flesh", -1),
-    },
-    x,
-    y,
+function tomatoSlice(cx, cy, r) {
+  const layer = stack(
+    shade(ellipse(cx, cy, r, r), "tomato", [0, 1, 1, 1, 2]),
+    shade(ellipse(cx, cy, r - 1.3, r - 1.3), "tomato", [2, 2, 3, 3, 3]),
   );
+  const x = Math.floor(cx);
+  const y = Math.floor(cy);
+  // Four seed pockets (gel + seed) around a light core.
+  for (const [dx, dy] of [
+    [-2, -2],
+    [1, -2],
+    [-2, 1],
+    [1, 1],
+  ]) {
+    layer[(y + dy) * S + x + dx] = c("flower_yellow", -1);
+    layer[(y + dy + (dy < 0 ? 1 : 0)) * S + x + dx + (dx < 0 ? 1 : 0)] = c("onion_flesh", -1);
+  }
+  return layer;
 }
 
-def("items", "sliced_tomato", () => stack(tomatoSlice(6, 1), tomatoSlice(1, 6)), "prepared");
+def(
+  "items",
+  "sliced_tomato",
+  () => stack(tomatoSlice(10, 6, 5), tomatoSlice(6, 10, 5.2)),
+  "prepared",
+);
 
 function cucumberSlice(cx, cy, r) {
   const layer = stack(
-    shade(ellipse(cx, cy, r, r), "cucumber", [0, 0, 1, 2]),
-    shade(ellipse(cx, cy, r - 1, r - 1), "cucumber_flesh", [4, 4, 4, 4]),
+    shade(ellipse(cx, cy, r, r), "cucumber", [0, 0, 1, 1, 2]),
+    shade(ellipse(cx, cy, r - 1, r - 1), "cucumber_flesh", [3, 4, 4, 4, 4]),
   );
   const x = Math.floor(cx);
   const y = Math.floor(cy);
@@ -908,48 +977,62 @@ def(
   "prepared",
 );
 
+// Chopped onion: an onion cut lengthwise (same silhouette as the onion item, its layers drawn as
+// nested contours), with a little pile of dice in front.
 def(
   "items",
   "chopped_onion",
   () => {
+    const half = mask(`
+      ................
+      ..........#.....
+      .........###....
+      ........#####...
+      .......#######..
+      ......#########.
+      ......#########.
+      ......#########.
+      .......#######..
+      ........#####...
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................`);
+    // Distance (in 4-neighbour steps) from the outside, per pixel.
+    const depth = half.map(() => 0);
+    let ring = half.slice();
+    for (let d = 1; ring.some(Boolean); d++) {
+      ring.forEach((v, i) => v && (depth[i] = d));
+      const inside = (x, y) => x >= 0 && y >= 0 && x < S && y < S && ring[y * S + x];
+      ring = ring.map((v, i) => {
+        const x = i % S;
+        const y = Math.floor(i / S);
+        return v && inside(x + 1, y) && inside(x - 1, y) && inside(x, y + 1) && inside(x, y - 1);
+      });
+    }
+    const skin = shade(half, "onion", [1, 1, 3, 3, 3]);
+    const layer = half.map((v, i) => {
+      if (!v) return null;
+      if (depth[i] === 1) return skin[i];
+      return depth[i] % 2 === 0 ? c("onion_flesh", 2) : c("onion_flesh", -1);
+    });
     const cube = `
-      lll
+      ll.
       mmd
-      mdd`;
-    const flesh = { l: c("onion_flesh", -1), m: c("onion_flesh", 3), d: c("onion_flesh", 1) };
-    const pile = [
-      [6, 3],
-      [9, 4],
-      [4, 5],
-      [7, 6],
-      [10, 7],
-      [2, 8],
-      [5, 8],
-      [12, 9],
-      [8, 9],
-      [3, 11],
-      [6, 11],
-      [9, 12],
-      [12, 12],
-    ];
+      md.`;
+    const flesh = { l: c("onion_flesh", -1), m: c("onion_flesh", 3), d: c("onion_flesh", 2) };
     return stack(
-      ...pile.map(([x, y]) => stamp(cube, flesh, x, y)),
-      stamp(
-        `
-        .43
-        42.`,
-        L("onion", "01234"),
-        11,
-        5,
-      ),
-      stamp(
-        `
-        34
-        21`,
-        L("onion", "01234"),
-        1,
-        12,
-      ),
+      layer,
+      ...[
+        [3, 7],
+        [1, 10],
+        [5, 10],
+        [2, 13],
+        [7, 12],
+        [10, 11],
+      ].map(([x, y]) => stamp(cube, flesh, x, y)),
     );
   },
   "prepared",
@@ -957,30 +1040,36 @@ def(
 
 // --- Dishes ------------------------------------------------------------------------------------
 
-/** One shared bowl (plan §4.2): drawn once, every bowl dish adds only its contents. The mouth
- *  ('s') is rows 6–8; contents cover it and may heap above the back rim. */
+/** One shared bowl (plan §4.2, art-style.md), drawn once; every bowl dish adds only its contents.
+ *  12 px wide, 8 rows from the back rim to the rounded foot (6 rows of body below the mouth),
+ *  3 colours: dark rim/inside/shadow, mid body, light lit rim. The mouth ('s', rows 6–8) starts
+ *  as the dark inside of the bowl. Dishes come in three silhouette classes so they differ by
+ *  texture, not only colour: smooth liquid in the mouth, a heap above the rim, and a big
+ *  protrusion on one side. */
 const BOWL = `
   ................
   ................
   ................
   ................
   ................
-  ....00000000....
-  ..00ssssssss00..
-  .0ssssssssssss0.
-  03ssssssssssss30
-  0433333333333320
-  0122222222222210
-  .01222222222210.
-  ..011111111110..
-  ...0000000000...
+  .....DDDDDD.....
+  ...DDssssssDD...
+  ..DssssssssssD..
+  ..LssssssssssD..
+  ..LLLLLLLLLLMD..
+  ...LMMMMMMMMD...
+  ....MMMMMMMD....
+  ......DDDD......
+  ................
   ................
   ................`;
 
-const bowl = () => rows(BOWL, { ...L("bowl", "01234"), s: c("bowl", 1) }, "bowl");
+const bowl = () =>
+  rows(BOWL, { D: c("bowl", 0), s: c("bowl", 0), M: c("bowl", 3), L: c("bowl", 4) }, "bowl");
 const bowlDish = (name, contents, legend) =>
   def("items", name, () => stack(bowl(), rows(pad(contents), legend(), name)), "dishes");
 
+// Smooth liquid: one flat colour, a highlight streak, one garnish.
 bowlDish(
   "tomato_soup",
   `
@@ -990,108 +1079,60 @@ bowlDish(
   ................
   ................
   ................
-  ....22322232....
-  ..1222wWw22322..
-  ..2212wWWw2gG1..`,
-  () => ({ ...L("tomato", "01234"), w: c("cream", 1), W: c("cream", 2), ...L("leaf", "  Gg") }),
-);
-
-bowlDish(
-  "vegetable_stew",
-  `
-  ................
-  ................
-  ................
-  ................
-  ......Oo.Pp.....
-  ....PpOoRrPp....
-  ....sSPpSsRr....
-  ..SsRrsSOosSPp..
-  ..ssOossPpssss..`,
+  .....hhTTwT.....
+  ...hTTTwwTTTt...
+  ...tTTTTwTgTt...`,
   () => ({
-    ...L("stew", "  sS"),
-    ...L("carrot", "  oO"),
-    ...L("potato", "   pP"),
-    ...L("tomato", " rR"),
+    h: c("carrot", -1),
+    T: c("chili", 3),
+    t: c("chili", 1),
+    w: c("cream", -1),
+    g: c("leaf", 3),
   }),
 );
 
-bowlDish(
-  "chili_stew",
-  `
-  .............ab.
-  ............cb..
-  ...........131..
-  ..........1331..
-  .........1331...
-  ........1331....
-  ....SSs1331sS...
-  ..SsMmSs10sSMm..
-  ..ssSMmssssMmss.`,
-  () => ({
-    ...L("chili", "01234"),
-    ...L("leaf", "abc"),
-    ...L("beet", " sS"),
-    ...L("chicken", " mM"),
-  }),
-);
-
-bowlDish(
-  "fish_chowder",
-  `
-  ................
-  .........FF.FF..
-  .........fFFFf..
-  ..........fFf...
-  ..........fFf...
-  ...........f....
-  ....wwWwwwfw....
-  ..wWwpPwwwwFfw..
-  ..wwFfwwpPwwGw..`,
-  () => ({ ...L("cream", "wW"), ...L("potato", "   pP"), ...L("fish", "   fF"), G: c("leaf", 3) }),
-);
-
-bowlDish(
-  "chicken_soup",
-  `
-  ................
-  ...WW...........
-  ...sW...........
-  .....W..........
-  .....Cc.........
-  ....cCCk........
-  ....kcckYYyY....
-  ..yOoykkyyyOoy..
-  ..yyyGyyOoyyGy..`,
-  () => ({
-    ...L("potato", "   yY"),
-    ...L("carrot", "  oO"),
-    ...L("chicken", " kcC"),
-    G: c("leaf", 3),
-    W: c("sugar", -1),
-    s: c("sugar", 1),
-  }),
-);
-
+// Smooth golden-brown broth with a cheese-topped crouton floating in the middle.
 bowlDish(
   "onion_soup",
   `
   ................
   ................
   ................
-  ......wWWw......
-  ....wwWWWWww....
-  ...kwWwwwwwyk...
-  ..0kbbbbbbbbk0..
-  ..32kkkkkkkk23..
-  ..222312413222..`,
+  ................
+  ................
+  ......CCCC......
+  .....cCCCcc.....
+  ...hOObbbbbOO...
+  ...OOObbbbOOo...`,
   () => ({
-    ...L("onion", " 1234"),
-    ...L("cream", " wW"),
-    y: c("potato", 4),
-    k: c("bread", 1),
-    b: c("bread", 3),
-    0: c("bowl", 0),
+    C: c("flower_yellow", -1),
+    c: c("flower_yellow", 2),
+    b: c("bread", 4),
+    O: c("onion", 1),
+    o: c("onion", 0),
+    h: c("onion", 3),
+  }),
+);
+
+// Chunky heaps rising above the rim.
+bowlDish(
+  "salsa",
+  `
+  ................
+  ................
+  ......3w32......
+  ....32g323w2....
+  ...3w233221g3...
+  ...23g2w3232w...
+  ...32g12w3212...
+  ...12211g21w2...
+  ...21122w1221...`,
+  () => ({
+    1: c("chili", 1),
+    2: c("chili", 3),
+    3: c("carrot", 3),
+    w: c("onion_flesh", -1),
+    g: c("leaf", 4),
   }),
 );
 
@@ -1099,50 +1140,33 @@ bowlDish(
   "garden_salad",
   `
   ................
-  ......de........
-  ...edccde.de....
-  ..dccbcdccdce...
-  .edcrRrbdcbdcd..
-  .dcbRyRbkCkcbce.
-  ..cbrRrcCcCkdcd.
-  ..dcbOcdbkCkcb..
-  ..cbcbOcbcbcbO..`,
+  .......ed.......
+  ....edcdcde.....
+  ...dccbcdcdcd...
+  ..edcrRrbdcbdc..
+  ..dcbRRrbkCkcb..
+  ..cbrrrcCCCkbc..
+  ...bcbbcbkCkb...
+  ...cbcbbcbbcb...`,
   () => ({
-    ...L("leaf", "abcde"),
+    ...L("leaf", " bcd"),
+    e: c("leaf", 3),
     ...L("tomato", " rR"),
-    y: c("flower_yellow", -1),
     k: c("cucumber", 1),
     C: c("cucumber_flesh", -1),
-    c: c("leaf", 2),
-    O: c("carrot", 3),
   }),
 );
 
-bowlDish(
-  "salsa",
-  `
-  ................
-  ................
-  ................
-  ................
-  ................
-  ....23w322g2....
-  ...2g3322w332...
-  ..32w23g32o32w..
-  ..22322w22o222..`,
-  () => ({ ...L("tomato", "0123"), w: c("onion_flesh", -1), g: c("leaf", 4), o: c("chili", 3) }),
-);
-
 const BERRY = `
-  .cdc.
-  34543
-  3y4y2
-  13y21
-  .121.`;
+  .gG.
+  3443
+  3y32
+  .21.`;
 
 const berryLegend = () => ({
-  ...L("strawberry", "012345"),
-  ...L("leaf", "  cd"),
+  ...L("strawberry", " 1234"),
+  g: c("leaf", 1),
+  G: c("leaf", 3),
   y: c("flower_yellow", -1),
 });
 
@@ -1160,29 +1184,143 @@ def(
           ................
           ................
           ................
-          ....23232323....
-          ..232323232323..
-          ..323232323232..`),
+          .....232323.....
+          ...2323232323...
+          ...3232323232...`),
         L("strawberry", "  23"),
         "strawberry_cup",
       ),
-      stamp(BERRY, berryLegend(), 2, 3),
-      stamp(BERRY, berryLegend(), 9, 3),
-      stamp(BERRY, berryLegend(), 5, 1),
-      stamp(
-        `
-        W.....W..
-        .........
-        ...W.....
-        ........W`,
-        { W: c("sugar", -1) },
-        3,
-        6,
-      ),
+      stamp(BERRY, berryLegend(), 2, 4),
+      stamp(BERRY, berryLegend(), 10, 4),
+      stamp(BERRY, berryLegend(), 4, 2),
+      stamp(BERRY, berryLegend(), 8, 2),
+      stamp(BERRY, berryLegend(), 6, 0),
+      stamp(BERRY, berryLegend(), 4, 5),
+      stamp(BERRY, berryLegend(), 8, 5),
     ),
   "dishes",
 );
 
+// Chunky stew: carrot, potato, tomato and onion chunks, each lit top-left with its own shadow
+// side, half sunk in a brown-orange broth.
+def(
+  "items",
+  "vegetable_stew",
+  () => {
+    const chunk = (light, dark) => ({ l: light, d: dark });
+    const carrot = chunk(c("carrot", 3), c("chicken", 1));
+    const potato = chunk(c("potato", -1), c("chicken", 1));
+    const tomato = chunk(c("tomato", 2), c("chicken", 1));
+    const onion = chunk(c("onion_flesh", -1), c("chicken", 1));
+    const piece = (legend, x, y) =>
+      stamp(
+        `
+        ll
+        ld`,
+        legend,
+        x,
+        y,
+      );
+    return stack(
+      bowl(),
+      rows(
+        pad(`
+          ................
+          ................
+          ................
+          ......ssss......
+          ....ssssssss....
+          ...ssssssssss...
+          ...ssssssssss...
+          ...ssssssssss...
+          ...ssssssssss...`),
+        { s: c("chicken", 2) },
+        "vegetable_stew",
+      ),
+      piece(carrot, 6, 2),
+      piece(potato, 9, 3),
+      piece(tomato, 4, 4),
+      piece(onion, 7, 4),
+      piece(carrot, 11, 5),
+      piece(potato, 3, 6),
+      piece(carrot, 6, 6),
+      piece(tomato, 9, 6),
+      piece(onion, 5, 8),
+      piece(potato, 10, 8),
+    );
+  },
+  "dishes",
+);
+
+// A big protrusion on one side.
+bowlDish(
+  "chili_stew",
+  `
+  ............dbb.
+  ...........34db.
+  ..........34421.
+  .........344211.
+  ........34421...
+  .......34421....
+  .....BB4421B....
+  ...BBBB421BBb...
+  ...bBBBB1BBbb...`,
+  () => ({
+    ...L("chili", " 1234"),
+    ...L("leaf", " b d"),
+    B: c("beet", 2),
+    b: c("beet", 0),
+  }),
+);
+
+// A silver fish in side view, half out of the cream chowder: eye, dorsal fin, forked tail.
+bowlDish(
+  "fish_chowder",
+  `
+  ................
+  ......dd........
+  ....dddFdd...dd.
+  ...dFFFFFFdd.dF.
+  ..dkFFFFFFFFddd.
+  ..FFFFFFFFFFdd..
+  ...bbbbbbbbd.dF.
+  ...wwbbbbwwW.dd.
+  ...wWwwgwwWwwg..`,
+  () => ({
+    d: c("iron", 1),
+    F: c("iron", 2),
+    b: c("iron", -1),
+    k: c("bowl", 0),
+    w: c("sugar", 2),
+    W: c("cream", -1),
+    g: c("leaf", 3),
+  }),
+);
+
+bowlDish(
+  "chicken_soup",
+  `
+  ..WW............
+  ..WsW...........
+  ...sW...........
+  ...sCc..........
+  ..CCCck.........
+  ..CCccck........
+  ..CCccckkYYY....
+  ...CckkkYYyYY...
+  ...yYYyYYYyYy...`,
+  () => ({
+    C: c("chicken", 2),
+    c: c("chicken", 1),
+    k: c("chicken", 0),
+    W: c("sugar", -1),
+    s: c("sugar", 1),
+    Y: c("flower_yellow", -1),
+    y: c("flower_yellow", 2),
+  }),
+);
+
+// Not a bowl: the jam comes in a tall jar (it returns a glass bottle).
 def(
   "items",
   "strawberry_jam",
@@ -1191,69 +1329,74 @@ def(
       `
       ................
       ................
-      ....00000000....
-      ...0222222220...
-      ...0111111110...
-      ....00000000....
-      ...gHggggggggg..
-      ..gHjJJJJJJjjg..
-      ..gHJJJJJJjjjg..
-      ..gHJJsJJJjjjg..
-      ..gHJJJJJjjjjg..
-      ..ggJJJJjjjjkg..
-      ..gHjjjjjjjkkg..
-      ...gkkkkkkkkg...
-      ....gggggggg....
+      .....KKKKKK.....
+      ....KKKKKKKk....
+      ....kkkkkkkk....
+      .....gHgggg.....
+      ....gHJJJjjg....
+      ...gHJJJJjjdg...
+      ...gHJJJjjjdg...
+      ...gHJJjjjjdg...
+      ...gHJjjjjjdg...
+      ...gHjjjjjddg...
+      ...gjjjjjdddg...
+      ....gddddddg....
+      .....gggggg.....
       ................`,
       {
-        ...L("cork", "012"),
+        K: c("cork", 2),
+        k: c("cork", 0),
         g: c("glass", 0),
         H: c("glass", -1),
-        J: c("beet", 2),
-        j: c("beet", 1),
-        k: c("beet", 0),
-        s: c("strawberry", 4),
+        J: c("beet", 3),
+        j: c("beet", 2),
+        d: c("beet", 0),
       },
       "strawberry_jam",
     ),
   "dishes",
 );
 
+// Sandwiches: the top bread slice shows its crumb face. Veggie is low and green-red;
+// the farmer's is tall with a thick brown meat layer.
 const SANDWICH_LEGEND = () => ({
-  ...L("bread", "01234"),
+  c: c("bread", 3),
+  d: c("bread", 1),
+  M: c("cream", -1),
   m: c("cream", 0),
-  M: c("cream", 2),
   g: c("cucumber", 1),
   G: c("cucumber_flesh", -1),
-  ...L("tomato", " rR"),
-  ...L("pork", " pP"),
+  r: c("tomato", 1),
+  R: c("tomato", 2),
+  p: c("meat", 1),
+  P: c("meat", 3),
 });
 
+// A long sub roll, bottom left to top right like vanilla bread: the filling shows as a band
+// between the two halves of the roll.
 def(
   "items",
   "veggie_sandwich",
-  () =>
-    rows(
-      `
-      ................
-      ................
-      ...00000000000..
-      ..0344444444430.
-      ..04MMMMMMMMM20.
-      ..04MMmMMMMMM20.
-      ..04MMMMMMmMM20.
-      ..04MMMMMMMMM20.
-      ..03222222222210
-      gGgGggGgGggGgGg.
-      .rRrRRrrRrRRrRr.
-      .02333333333320.
-      ..011111111110..
-      ...0000000000...
-      ................
-      ................`,
-      SANDWICH_LEGEND(),
-      "veggie_sandwich",
-    ),
+  () => {
+    const axis = (dx, dy, r) =>
+      capsule([
+        [3.6 + dx, 11.8 + dy, r],
+        [11.8 + dx, 3.6 + dy, r],
+      ]);
+    const filling = shade(axis(0.2, 0.2, 2.9), "cucumber", [1, 1, 2, 2, 2]);
+    // Tomato dots along the filling band.
+    for (const [x, y] of [
+      [5, 12],
+      [8, 9],
+      [11, 6],
+    ])
+      filling[y * S + x] = c("tomato", 2);
+    return stack(
+      shade(axis(1.3, 1.3, 2.4), "bread", [0, 1, 2, 2, 2]),
+      filling,
+      shade(axis(-0.9, -0.9, 2.5), "bread", [1, 2, 3, 4, 3]),
+    );
+  },
   "dishes",
 );
 
@@ -1263,28 +1406,30 @@ def(
   () =>
     rows(
       `
+      .........G......
+      .........k......
+      ....ccccckcc....
+      ...cMMMMMkMMd...
+      ...cMMMMMMMmd...
+      ...cMMMMMMmmd...
+      ...dddddddddd...
+      ..gGgGggGgGgg...
+      ...rRrRrRRrRrr..
+      ..PPPPPPPPPPPp..
+      ..PPPPPPPPPPpp..
+      ...pppppppppp...
+      ...cccccccccd...
+      ....dddddddd....
       ................
-      ...00000000000..
-      ..0344444444430.
-      ..04MMMMMMMMM20.
-      ..04MMmMMMMMM20.
-      ..04MMMMMMmMM20.
-      ..04MMMMMMMMM20.
-      ..03222222222210
-      gGgGggGgGggGgGg.
-      .rRrRRrrRrRRrRr.
-      pPPpPPPPpPPPPPp.
-      .pppPPpppPPpppp.
-      .02333333333320.
-      ..011111111110..
-      ...0000000000...
       ................`,
-      SANDWICH_LEGEND(),
+      { ...SANDWICH_LEGEND(), k: c("cream", -1) },
       "farmers_sandwich",
     ),
   "dishes",
 );
 
+// Strawberry cake, 3/4 view like vanilla's cake item: a pink-frosted top with a big strawberry,
+// pink drips, and a side showing a pale pink cream layer between golden sponge.
 def(
   "items",
   "strawberry_cake",
@@ -1292,31 +1437,30 @@ def(
     rows(
       `
       ................
+      ......GGG.......
+      .....24422......
+      ...hF4y4y2FFp...
+      ..hFF12y221FFp..
+      .hFFFF1221FFFFp.
+      .hFFFFFFFFFFFFp.
+      .FFFFFFFFFFFFpp.
+      .SFSSSFSSFSSSFs.
+      .hhhhhhhhhhhhhh.
+      .SSSSSSSSSSSSss.
+      ..ssssssssssss..
       ................
-      ......dcd.......
-      .....34431......
-      ...fF3y3y1Ff....
-      .fFFF23y21FFFf..
-      fFFFFF1221FFFFf.
-      fFFFFFFFFFFFFFf.
-      fpFFFFFFFFFFFpf.
-      0fpFpFFpFFpFfp0.
-      0213p12p21p2210.
-      0mMMMMMMMMMMMm0.
-      0122222222222210
-      .01111111111110.
-      ..000000000000..
+      ................
+      ................
       ................`,
       {
-        ...L("strawberry", " 12345"),
-        ...L("leaf", "  cd"),
+        ...L("strawberry", " 12 4"),
+        G: c("leaf", 3),
         y: c("flower_yellow", -1),
-        f: c("frosting", 1),
+        h: c("frosting", -1),
         F: c("frosting", 2),
-        p: c("frosting", 3),
-        ...L("sponge", "012"),
-        m: c("cream", 1),
-        M: c("cream", 2),
+        p: c("frosting", 1),
+        S: c("potato", -1),
+        s: c("potato", 2),
       },
       "strawberry_cake",
     ),
@@ -1325,6 +1469,7 @@ def(
 
 // --- Stations and book ---------------------------------------------------------------------------
 
+// Tall lidded pot with side handles, so it never reads as a bowl dish or a cake.
 def(
   "items",
   "cooking_pot",
@@ -1332,20 +1477,20 @@ def(
     rows(
       `
       ................
-      ................
       .......43.......
-      ......0320......
-      ....iiJJJIii....
-      ...iJJIIIIIIi...
-      .iiiiiiiiiiiiii.
-      iJJJJJJJJJJIIIIi
-      iiiiiiiiiiiiiiii
-      i.0443333332210i
-      ..0433333332210.
-      ..0333333322210.
-      ..0222222222110.
-      ...01111111110..
-      ....000000000...
+      ......J320......
+      ....JJJJIIii....
+      ...JJIIIIIIIi...
+      ..iiiiiiiiiiii..
+      .JJJJJJJJJJJJIi.
+      .i433333333221i.
+      .i333333333221i.
+      ..333333333221..
+      ..333333332221..
+      ..222222222210..
+      ..222222222110..
+      ...0111111110...
+      ....00000000....
       ................`,
       {
         ...L("pot_copper", "01234"),
@@ -1391,19 +1536,9 @@ def(
       ................
       ................
       .............#..
-      ................
-      ................
-      ................
-      ................
-      ................
-      ................
-      ................
-      ................
-      ................
-      ................
       ................`);
     return stack(
-      shade(minus(board, hole), "wood", [0, 1, 3, 4]),
+      shade(minus(board, hole), "wood", [0, 1, 3, 4, 3]),
       rows(
         `
         ................
@@ -1415,14 +1550,14 @@ def(
         ...2222..KKk....
         ........KKk.....
         .....2.KKk.222..
-        ......iKk.......
-        ...222hi........
+        ......kKk.......
+        ...222hk........
         ....hhh...222...
         ...hhh..........
         ..hh..2222......
         ................
         ................`,
-        { 2: c("wood", 2), K: c("iron", 4), k: c("iron", 2), i: c("iron", 1), h: c("bark", 1) },
+        { 2: c("wood", 2), K: c("iron", 4), k: c("iron", 2), h: c("bark", 1) },
         "cutting_board",
       ),
     );
@@ -1437,31 +1572,29 @@ def(
     rows(
       `
       ................
-      ...00000000000..
-      ..0b33333333330.
-      ..0b22222222220p
-      ..0b2MMMMMMMM20p
-      ..0b2mmmmdcmm20p
-      ..0b2mmrRrrmm20p
-      ..0b2mmrrrqmm20p
-      ..0b2mmmqqmmm20p
-      ..0b2nnnnnnnn20p
-      ..0b22222222220p
-      ..0b22222222220p
-      ..0b11111111110p
-      ...0000000y00000
-      ..........y.....
+      ...11111111111..
+      ..1b33333333331.
+      ..1b22222222220p
+      ..1b2MMMMMMMM20p
+      ..1b2MMMMdcMM20p
+      ..1b2MMrRrrMM20p
+      ..1b2MMrrrrMM20p
+      ..1b2MMMrrMMM20p
+      ..1b2MMMMMMMM20p
+      ..1b22222222220p
+      ..1b22222222220p
+      ..1b11111111110p
+      ...0000000000000
+      ................
       ................`,
       {
         ...L("copper", "0123"),
         b: c("copper", 1),
         p: c("paper", -1),
-        n: c("cream", 0),
-        m: c("cream", 1),
-        M: c("cream", 2),
-        ...L("tomato", "oqrR"),
-        ...L("leaf", "   cd"),
-        y: c("flower_yellow", -1),
+        M: c("cream", 1),
+        ...L("tomato", "  rR"),
+        d: c("leaf", 3),
+        c: c("leaf", 1),
       },
       "recipe_book",
     ),
@@ -1600,8 +1733,8 @@ def(
   "family_explore",
   () =>
     stack(
-      shade(ellipse(8, 9, 6.6, 6.6), "family_explore", [0, 1, 2, 3]),
-      shade(ellipse(8, 9, 4.6, 4.6), "paper", [2, 3, 4, 4]),
+      shade(ellipse(8, 9, 6.6, 6.6), "family_explore", [0, 1, 2, 3, 2]),
+      shade(ellipse(8, 9, 4.6, 4.6), "paper", [2, 3, 4, 4, 3]),
       rows(
         `
         ................
@@ -1635,23 +1768,23 @@ def(
       shade(
         mask(`
           ................
+          ..############..
           .##############.
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
-          ################
           .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          .##############.
+          ..############..
           ................`),
         "iron",
-        [0, 0, 1, 1],
+        [0, 0, 1, 1, 1],
       ),
       rows(
         `
@@ -1721,24 +1854,41 @@ def(
   "ui",
 );
 
+// A magnifying glass over a tomato: "look at what you have". Handle bottom left, lens top right.
 def(
   "ui",
   "chapter_what_can_i_make",
   () =>
     stack(
-      bowl(),
+      shade(
+        capsule([
+          [2, 14, 1.3],
+          [6, 10, 1.3],
+        ]),
+        "wood",
+        [1, 1, 1, 3, 3],
+      ),
+      shade(ellipse(9.5, 6.5, 5.5, 5.5), "iron", [0, 1, 1, 3, 3]),
+      shade(ellipse(9.5, 6.5, 3.6, 3.6), "glass", [2, 2, 2, 3, 3]),
       rows(
-        pad(`
-          ........Y.......
-          ........Y.......
-          ...Y..YYWYY.....
-          ..YWY...Y.......
-          ...Y....Y...Y...
-          ...........YWY..
-          ....sSsSSsSs.Y..
-          ..sSssSssSsssS..
-          ..ssssssSsssss..`),
-        { ...L("stew", "  sS"), Y: c("flower_yellow", -1), W: c("sugar", -1) },
+        `
+        ................
+        ................
+        ................
+        ........W.......
+        .......W..rr....
+        .........rrrr...
+        .........rrro...
+        ..........oo....
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................
+        ................`,
+        { W: c("sugar", -1), r: c("tomato", 2), o: c("tomato", 1) },
         "chapter_what_can_i_make",
       ),
     ),
@@ -1753,20 +1903,20 @@ def(
       shade(
         mask(`
           ................
-          ........#.......
-          .......##.......
-          .......###......
-          ......####......
-          .....#####..#...
-          ....#######.##..
-          ...##########...
-          ...###########..
+          .......#........
+          ......##........
+          ......###....#..
+          ..#...####..##..
+          ..##..#####.##..
+          ..###.#########.
+          ..#############.
           ..############..
+          .#############..
+          .#############..
           ..############..
-          ..############..
-          ...##########...
-          ....########....
-          .....######.....
+          ..###########...
+          ...#########....
+          .....#####......
           ................`),
         "fire",
         [0, 1, 1, 1],
@@ -1860,10 +2010,13 @@ def(
 
 /** Crop legend: a–e = foliage ramp (dark → light), 0–4 = fruit ramp, y/Y = flower, w/W = white
  *  flower, s = dry/soil accent. */
-function cropLegend(foliage, fruit) {
+function cropLegend(foliage, fruit, fruitShades = "11234") {
   return {
     ...L(foliage, "abcde"),
-    ...(fruit ? L(fruit, "01234") : {}),
+    a: c(foliage, 1), // 4 foliage shades: crop stages allow 8 colours in all
+    ...(fruit
+      ? Object.fromEntries([..."01234"].map((ch, i) => [ch, c(fruit, +fruitShades[i])]))
+      : {}),
     y: c("flower_yellow", 1),
     Y: c("flower_yellow", -1),
     w: c("flower_white", 1),
@@ -2177,7 +2330,7 @@ const CROPS = {
     ],
   },
   strawberry_bush: {
-    legend: () => cropLegend("leaf", "strawberry"),
+    legend: () => cropLegend("leaf", "strawberry", "11233"),
     stages: [
       `
       ................
@@ -2265,7 +2418,10 @@ for (const [crop, { legend, stages }] of Object.entries(CROPS))
 
 function loadPalette() {
   const { ramps } = JSON.parse(readFileSync(PALETTE_FILE, "utf8"));
-  P = Object.fromEntries(Object.entries(ramps).map(([k, v]) => [k, v.shades.map(fromHex)]));
+  P = Object.fromEntries(
+    Object.entries(ramps).map(([k, v]) => [k, hueShift(v.shades.map(fromHex))]),
+  );
+  // The pot ramps stay raw: the pot icon must match the S8 model textures pixel for pixel.
   Object.assign(P, potRamps());
 }
 

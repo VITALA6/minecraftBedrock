@@ -26,8 +26,8 @@
       "shades": ["#742303", "#9b221a", "#bf2529", "#ed302c", "#ff4540"]
     },
     "strawberry": {
-      "source": "vanilla_1.21.90/textures/items/porkchop_raw.png",
-      "shades": ["#512626", "#853e3e", "#a75353", "#ef7070", "#ffadad", "#ffc6c6"]
+      "source": "vanilla_1.21.110/textures/items/dye_powder_pink.png + vanilla_1.21.90/textures/blocks/glazed_terracotta_pink.png (hue 315–350, sat 30–100)",
+      "shades": ["#873b6b", "#d6658f", "#f38baa", "#f4b5cb", "#fcdae4"]
     },
     "leaf": {
       "source": "vanilla_1.21.90/textures/blocks/carrots_stage_3.png (hue 80–140)",
@@ -64,6 +64,10 @@
     "pork": {
       "source": "vanilla_1.21.90/textures/items/porkchop_cooked.png",
       "shades": ["#5f4f27", "#997942", "#bca474", "#d3c088", "#e2d3ac"]
+    },
+    "meat": {
+      "source": "vanilla_1.21.90/textures/items/mutton_cooked.png",
+      "shades": ["#2a160d", "#522f1f", "#82483a", "#9d6147", "#a3705a"]
     },
     "fish": {
       "source": "vanilla_1.21.90/textures/items/fish_salmon_cooked.png (hue 10–30, sat 40–100)",

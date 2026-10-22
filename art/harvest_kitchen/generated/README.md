@@ -34,7 +34,16 @@ All textures are 16×16 with no baked-in words; `locked` uses a single `?` glyph
 
 ## Editing a texture
 
-Shapes live in `tools/gen-textures.mjs` as pixel rows with a legend (one character per pixel, each
-mapped to a palette ramp shade), sometimes combined with shape masks that are shaded
-automatically (outline, shadow band bottom-right, light band top-left). Bowl dishes share one
-`BOWL` and only draw their contents. Change the rows, rerun, and check the contact sheet.
+Rules are in `docs/harvest-kitchen/art-style.md`. After a change, run
+`node tools/lint-textures.mjs`. It checks the measurable rules and writes `review_sheet.png`.
+
+- Shapes live in `tools/gen-textures.mjs` as pixel rows with a legend (one character per pixel,
+  each mapped to a palette ramp shade). Some are shape masks that `shade()` lights from the top
+  left: the darkest shade on the bottom/right edge, a shadow band inside it, a lighter top/left
+  edge and a light band inside it. There is no uniform dark rim.
+- Ramps are hue-shifted at load time by `hueShift()`: shadows turn cool, highlights warm.
+  `palette.json` keeps the raw vanilla samples.
+- Bowl dishes share one 3-colour `BOWL` and draw only their contents, in one of three classes:
+  smooth liquid at the rim, a heap above the rim, or a big protrusion on one side.
+
+Change the rows, rerun both scripts, and check the review sheet.

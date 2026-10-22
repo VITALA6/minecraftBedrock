@@ -53,6 +53,8 @@ tools/
   paths.mjs        shared paths (repo, dist, game dir)
   gen-textures.mjs Harvest Kitchen 16×16 textures from art/harvest_kitchen/palette.json
                    (--palette re-samples vanilla) -> art/harvest_kitchen/generated/
+  lint-textures.mjs checks generated/ against docs/harvest-kitchen/art-style.md, writes
+                   generated/review_sheet.png
 docs/              learning notes (00-setup, 01-custom-content, ...)
 art/<pack>/        art sources: models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
                    Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
@@ -85,6 +87,7 @@ Current packs:
 | `npm run typecheck`        | `tsc` only                                                               |
 | `npm run lint`             | eslint (type-aware for pack scripts)                                     |
 | `npm run format`           | prettier write (`format:check` to verify)                                |
+| `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet   |
 | `npm run uuid`             | print 5 fresh UUIDs (one new BP+RP+script pack needs exactly 5)          |
 
 Deploy once, then keep `npm run dev` running. It re-copies the deployed packs into the game after

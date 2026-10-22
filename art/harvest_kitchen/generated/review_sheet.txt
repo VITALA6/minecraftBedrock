@@ -1,0 +1,49 @@
+Review sheet: per group, vanilla references (left), then each icon at 1x in a slot, 4x, 4x
+grayscale and 4x silhouette. Red frame = flagged by the linter.
+
+produce: tomato, onion, cucumber, chili_pepper, strawberry
+seeds: tomato_seeds, cucumber_seeds, chili_pepper_seeds, strawberry_seeds
+prepared: sliced_tomato, sliced_cucumber, chopped_onion
+dishes: tomato_soup, onion_soup, salsa, garden_salad, strawberry_cup, vegetable_stew, chili_stew, fish_chowder, chicken_soup, strawberry_jam, veggie_sandwich, farmers_sandwich, strawberry_cake
+stations: cooking_pot, cutting_board, recipe_book
+ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops, chapter_what_can_i_make, needs_heat
+
+Per icon: colours, bounding box, grayscale range.
+  tomato: 7 colours, 14x14, grey 154
+  onion: 6 colours, 12x14, grey 143
+  cucumber: 6 colours, 15x15, grey 111
+  chili_pepper: 8 colours, 13x15, grey 173
+  strawberry: 8 colours, 12x14, grey 155
+  tomato_seeds: 3 colours, 13x11, grey 142
+  cucumber_seeds: 3 colours, 13x12, grey 134
+  chili_pepper_seeds: 3 colours, 13x14, grey 140
+  strawberry_seeds: 3 colours, 12x12, grey 113
+  sliced_tomato: 6 colours, 14x14, grey 193
+  sliced_cucumber: 5 colours, 14x14, grey 159
+  chopped_onion: 5 colours, 14x15, grey 142
+  tomato_soup: 8 colours, 12x8, grey 228
+  onion_soup: 9 colours, 12x8, grey 189
+  salsa: 8 colours, 12x11, grey 209
+  garden_salad: 10 colours, 12x12, grey 216
+  strawberry_cup: 10 colours, 12x13, grey 211
+  vegetable_stew: 9 colours, 12x11, grey 209
+  chili_stew: 10 colours, 13x13, grey 125
+  fish_chowder: 9 colours, 13x12, grey 228
+  chicken_soup: 10 colours, 12x13, grey 216
+  strawberry_jam: 7 colours, 10x13, grey 185
+  veggie_sandwich: 7 colours, 15x15, grey 101
+  farmers_sandwich: 10 colours, 12x14, grey 194
+  strawberry_cake: 9 colours, 14x11, grey 120
+  cooking_pot: 8 colours, 14x14, grey 142
+  cutting_board: 8 colours, 15x12, grey 157
+  recipe_book: 10 colours, 14x13, grey 193
+  family_heal: 5 colours, 14x11, grey 170
+  family_move: 5 colours, 12x12, grey 94
+  family_work: 8 colours, 14x14, grey 173
+  family_explore: 9 colours, 14x15, grey 222
+  locked: 3 colours, 14x14, grey 167
+  chapter_crops: 9 colours, 14x14, grey 166
+  chapter_what_can_i_make: 10 colours, 14x14, grey 184
+  needs_heat: 5 colours, 14x14, grey 181
+
+Problems: none

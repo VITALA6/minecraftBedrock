@@ -1,0 +1,28 @@
+# eggplant_seeds: the purple stem end of an eggplant (drooping green calyx) above scattered flat tan seeds.
+palette
+p eggplant.4
+P eggplant.3
+Q eggplant.2
+d eggplant.0
+g leaf.4
+G leaf.2
+W #f3e3b4
+m #d2b170
+s #91703f
+grid
+........gG......
+.......gG.......
+.....gGGGGGg....
+....gGpPGGPGGg..
+.....GppPPPGQG..
+.....pPPPPPQQd..
+.....PPPPPQQQd..
+......QPPQQQdd..
+.......Qdddd....
+...Wm........Wm.
+...mms..Wm...mms
+........mms.....
+.Wm.............
+.mms...Wm..Wm...
+.......mms.mms..
+................

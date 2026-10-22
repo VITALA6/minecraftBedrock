@@ -1,0 +1,30 @@
+# cooking_pot (stations). Hand-drawn: front view, a little from above. Domed iron lid with a copper
+# knob, a bright iron rim with a dark lip shadow under it, iron loop handles on both sides, a straight-
+# walled copper belly with a vertical shine on the left that darkens to the right and toward the base.
+# Colours stay on the pot model ramps (pot_iron, pot_copper).
+palette
+g pot_iron.0
+f pot_iron.1
+c pot_iron.2
+e pot_copper.0
+h pot_copper.1
+d pot_copper.2
+b pot_copper.3
+a pot_copper.4
+grid
+................
+................
+.......bd.......
+......cdhg......
+....cccccffg....
+...cccccfffgg...
+..cccccccccffg..
+..gggggggggggg..
+.ccdabddddhheff.
+.f.dabddddhhe.g.
+.ffdabdddhhheeg.
+...dabdddhhhee..
+...dbddddhhhee..
+...hdddddhhhee..
+....hhhhhheee...
+................

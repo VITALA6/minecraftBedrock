@@ -1,0 +1,31 @@
+# chapter_what_can_i_make (ui). Recipe-book chapter "What can I make": a magnifying glass over a
+# bowl dish. Iron rim lit top left (2 px, dark on the bottom right), pale glass with a glint, a
+# tapering bowl (light rim, dark body and foot) under a stew dome inside, wooden handle.
+palette
+b iron.0
+c iron.1
+a iron.3
+d sugar.3
+e glass.3
+f glass.2
+i wood.3
+j wood.1
+o stew.3
+B bowl.4
+grid
+................
+.......aaaab....
+......aaaaacb...
+.....aacdeeccb..
+....aacdooofccb.
+....aaeooooofcb.
+....aajjjjjjjcb.
+....aaeBBBBBfcb.
+....bccfBBBfccb.
+.....bccfffccb..
+....ijbcccccb...
+...ijj.bbbbb....
+..ijj...........
+.ijj............
+.jj.............
+................

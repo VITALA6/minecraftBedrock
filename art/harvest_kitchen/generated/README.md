@@ -35,6 +35,9 @@ All textures are 16×16 with no baked-in words; `locked` uses a single `?` glyph
 
 ## Editing a texture
 
+Item and UI icons are hand-authored grids in `art/harvest_kitchen/pixels/` (see its README); edit
+those, not the generator. The notes below are about the procedural fallback.
+
 Rules are in `docs/harvest-kitchen/art-style.md`. After a change, run
 `node tools/lint-textures.mjs`. It checks the measurable rules and writes `review_sheet.png`.
 

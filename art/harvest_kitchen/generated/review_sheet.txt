@@ -1,5 +1,6 @@
 Review sheet: per group, vanilla references (left), then each icon at 1x in a slot, 4x, 4x
-grayscale and 4x silhouette. Red frame = flagged by the linter.
+grayscale and 4x silhouette. Red frame = flagged by the linter. Hand-authored icons
+(art/harvest_kitchen/pixels/) show the procedural drawing they replaced on the left.
 
 produce: tomato, onion, cucumber, chili_pepper, strawberry, eggplant
 seeds: tomato_seeds, cucumber_seeds, chili_pepper_seeds, strawberry_seeds, eggplant_seeds
@@ -12,61 +13,61 @@ ingredients: bowl, carrot, potato, bread, beef, mutton, stick, chicken, cod, sal
 biomes: biome_plains, biome_forest, biome_cherry_grove, biome_taiga, biome_savanna, biome_jungle, biome_badlands, biome_swamp, biome_river, biome_meadow
 
 Per icon: colours, bounding box, grayscale range.
-  tomato: 7 colours, 14x14, grey 154
-  onion: 6 colours, 12x14, grey 143
-  cucumber: 6 colours, 15x15, grey 111
-  chili_pepper: 8 colours, 13x15, grey 173
-  strawberry: 8 colours, 12x14, grey 155
-  eggplant: 7 colours, 13x13, grey 119
-  tomato_seeds: 3 colours, 12x11, grey 142
-  cucumber_seeds: 3 colours, 12x12, grey 134
-  chili_pepper_seeds: 3 colours, 12x12, grey 140
-  strawberry_seeds: 3 colours, 10x10, grey 113
-  eggplant_seeds: 3 colours, 12x12, grey 141
-  sliced_tomato: 6 colours, 14x14, grey 193
-  sliced_cucumber: 5 colours, 14x14, grey 159
-  sliced_eggplant: 7 colours, 14x14, grey 181
-  chopped_onion: 5 colours, 14x15, grey 142
-  tomato_soup: 8 colours, 12x8, grey 228
-  onion_soup: 9 colours, 12x8, grey 189
-  salsa: 8 colours, 12x11, grey 209
-  garden_salad: 10 colours, 12x12, grey 216
-  strawberry_cup: 10 colours, 12x13, grey 228
-  vegetable_stew: 9 colours, 12x11, grey 209
-  chili_stew: 10 colours, 12x13, grey 125
-  fish_chowder: 9 colours, 12x12, grey 228
-  chicken_soup: 10 colours, 12x13, grey 228
-  strawberry_jam: 7 colours, 10x13, grey 185
-  veggie_sandwich: 7 colours, 15x15, grey 101
-  hearty_sandwich: 10 colours, 12x14, grey 194
-  strawberry_cake: 10 colours, 14x12, grey 133
-  stuffed_eggplant: 8 colours, 12x12, grey 160
-  ratatouille: 10 colours, 12x11, grey 148
-  eggplant_curry: 8 colours, 12x8, grey 216
-  eggplant_salad: 9 colours, 13x11, grey 216
-  veggie_skewer: 9 colours, 15x14, grey 162
-  tomato_soup_mix: 9 colours, 14x13, grey 200
-  chili_stew_mix: 10 colours, 15x13, grey 209
-  vegetable_stew_mix: 7 colours, 15x13, grey 200
-  fish_chowder_mix: 10 colours, 13x13, grey 209
-  chicken_soup_mix: 10 colours, 13x13, grey 216
-  onion_soup_mix: 9 colours, 13x13, grey 200
-  ratatouille_mix: 10 colours, 13x13, grey 200
-  eggplant_curry_mix: 10 colours, 14x13, grey 200
-  strawberry_jam_mix: 6 colours, 11x13, grey 114
-  stuffed_eggplant_mix: 10 colours, 12x12, grey 156
-  cooking_pot: 8 colours, 14x14, grey 142
-  cutting_board: 8 colours, 15x12, grey 157
-  kitchen_table: 10 colours, 12x13, grey 185
-  recipe_poster: 9 colours, 14x10, grey 186
-  family_heal: 5 colours, 14x11, grey 170
-  family_move: 5 colours, 12x12, grey 94
-  family_work: 8 colours, 14x14, grey 173
-  family_explore: 9 colours, 14x15, grey 222
-  locked: 3 colours, 14x14, grey 167
-  chapter_crops: 9 colours, 14x14, grey 166
+  tomato: 8 colours, 14x14, grey 187
+  onion: 6 colours, 14x14, grey 165
+  cucumber: 7 colours, 14x14, grey 167
+  chili_pepper: 7 colours, 14x13, grey 154
+  strawberry: 9 colours, 13x14, grey 176
+  eggplant: 8 colours, 13x14, grey 196
+  tomato_seeds: 10 colours, 12x15, grey 212
+  cucumber_seeds: 6 colours, 13x13, grey 170
+  chili_pepper_seeds: 8 colours, 14x13, grey 170
+  strawberry_seeds: 9 colours, 14x13, grey 185
+  eggplant_seeds: 9 colours, 15x15, grey 180
+  sliced_tomato: 8 colours, 14x13, grey 187
+  sliced_cucumber: 6 colours, 14x14, grey 170
+  sliced_eggplant: 7 colours, 14x14, grey 190
+  chopped_onion: 7 colours, 13x14, grey 156
+  tomato_soup: 9 colours, 12x8, grey 171
+  onion_soup: 9 colours, 12x11, grey 221
+  salsa: 10 colours, 12x12, grey 222
+  garden_salad: 10 colours, 12x11, grey 210
+  strawberry_cup: 9 colours, 14x14, grey 197
+  vegetable_stew: 10 colours, 12x11, grey 199
+  chili_stew: 10 colours, 13x13, grey 129
+  fish_chowder: 8 colours, 12x8, grey 232
+  chicken_soup: 10 colours, 12x12, grey 220
+  strawberry_jam: 9 colours, 12x13, grey 205
+  veggie_sandwich: 8 colours, 14x12, grey 173
+  hearty_sandwich: 8 colours, 14x12, grey 156
+  strawberry_cake: 10 colours, 14x13, grey 186
+  stuffed_eggplant: 10 colours, 14x12, grey 186
+  ratatouille: 10 colours, 12x9, grey 167
+  eggplant_curry: 10 colours, 12x9, grey 206
+  eggplant_salad: 10 colours, 12x10, grey 233
+  veggie_skewer: 10 colours, 14x14, grey 198
+  tomato_soup_mix: 10 colours, 13x12, grey 201
+  chili_stew_mix: 10 colours, 14x12, grey 209
+  vegetable_stew_mix: 10 colours, 14x14, grey 209
+  fish_chowder_mix: 9 colours, 12x12, grey 210
+  chicken_soup_mix: 10 colours, 12x14, grey 216
+  onion_soup_mix: 10 colours, 14x14, grey 209
+  ratatouille_mix: 10 colours, 14x12, grey 200
+  eggplant_curry_mix: 10 colours, 14x12, grey 209
+  strawberry_jam_mix: 10 colours, 13x14, grey 224
+  stuffed_eggplant_mix: 10 colours, 14x14, grey 202
+  cooking_pot: 8 colours, 14x13, grey 142
+  cutting_board: 8 colours, 14x14, grey 177
+  kitchen_table: 9 colours, 14x13, grey 205
+  recipe_poster: 8 colours, 14x8, grey 205
+  family_heal: 5 colours, 14x12, grey 170
+  family_move: 6 colours, 12x13, grey 188
+  family_work: 8 colours, 14x14, grey 187
+  family_explore: 7 colours, 14x13, grey 214
+  locked: 6 colours, 12x14, grey 191
+  chapter_crops: 9 colours, 14x14, grey 134
   chapter_what_can_i_make: 10 colours, 14x14, grey 184
-  needs_heat: 5 colours, 14x14, grey 181
+  needs_heat: 9 colours, 14x14, grey 186
   bowl: 4 colours, 12x8, grey 216
   carrot: 7 colours, 13x14, grey 130
   potato: 5 colours, 14x10, grey 162

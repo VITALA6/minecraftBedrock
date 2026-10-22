@@ -1,0 +1,31 @@
+# stuffed_eggplant_mix: a raw eggplant half (pale cut rim, purple skin on the shadow side) heaped
+# with raw mutton mince, tomato and onion bits; no container, like the dish. Lies diagonally with
+# the cap at the narrow bottom-left end; the mix spoon stands in the filling, top right.
+palette
+D bowl_dark   # spoon shadow (as on every mix)
+S spoon_light
+f #ecdcac     # cut flesh rim / onion bits
+p #e88a82     # raw mince
+q #ad332e     # raw mince, shadow
+T tomato.2
+e #7d3bb3     # skin
+a #3a1c5e     # skin, cool shadow
+G leaf.4
+g leaf.1
+grid
+................
+.............S..
+............SD..
+...........SD...
+..........SDfe..
+........fSDppea.
+.......fSpqTpea.
+......fppfpqpea.
+.....fpTTqppea..
+....fpfqppqea...
+...fpppTqpea....
+..ffppqpqea.....
+.Gfppqqeaa......
+.gGaeeaa........
+..gg............
+................

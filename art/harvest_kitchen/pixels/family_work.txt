@@ -1,0 +1,28 @@
+# family_work (ui). Work family: a golden pickaxe, handle bottom left to head top right (vanilla
+# layout), with a thick head so the yellow dominates. Dark bark handle.
+palette
+o family_work.0
+s family_work.1
+m family_work.2
+l family_work.3
+w family_work.4
+L bark.3
+M bark.2
+D bark.1
+grid
+................
+......lllllm....
+....lwwwllmms...
+...lmssssmmmmo..
+..ms.......mmso.
+.........LMDmso.
+........LMD.mso.
+.......LMD..mso.
+......LMD...mso.
+.....LMD....mso.
+....LMD.....mo..
+...LMD......mo..
+..LMD......so...
+.LMD.......o....
+.MD.............
+................

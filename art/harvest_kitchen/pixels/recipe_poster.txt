@@ -1,0 +1,30 @@
+# recipe_poster (stations). Hand-drawn: the 2-wide wall poster, axis-aligned like the placed block:
+# a dark wood frame (lighter top/left rails, darker bottom/right), cream paper with a 1 px shadow
+# under the top rail, two red pins in the top corners, and one recipe in pictograms:
+# tomato > (arrow) > a bowl of tomato soup.
+palette
+L bark.2      # frame top/left, bowl
+D bark.0      # frame bottom/right, arrow, bowl shadow
+W cream.2     # paper
+w cream.0     # paper shadow under the top rail
+R tomato.2    # tomato, pins
+r tomato.1    # tomato shadow
+H tomato.3    # tomato highlight, soup
+g leaf.3      # tomato leaf
+grid
+................
+................
+................
+................
+.LLLLLLLLLLLLLD.
+.LRwwwwwwwwwwRD.
+.LWgWWWWWWWWWWD.
+.LHRRWDWWLHHDWD.
+.LRRrWDDWLLLDWD.
+.LWrrWDWWWLDWWD.
+.LWWWWWWWWWWWWD.
+.DDDDDDDDDDDDDD.
+................
+................
+................
+................

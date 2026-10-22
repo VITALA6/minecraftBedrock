@@ -1,0 +1,31 @@
+# chapter_crops (ui). Recipe-book chapter "Crops": a sprout growing out of a soil mound. Two full
+# leaves in a V (the right one larger), lit on their upper faces with a warm yellow-green tip,
+# cool dark undersides; a 2 px stem (lit left, shadow right); the mound is light on its top-left
+# slope and dark at the base.
+palette
+f dirt.0
+d leaf.1
+c leaf.2
+i dirt.1
+a leaf.3
+e dirt.2
+b leaf.4
+g dirt.3
+h #b9dc55
+grid
+................
+...........hbb..
+..hb......hbbac.
+.hbba....hbbacd.
+.abbaa..hbaacd..
+..aaacc.bacdd...
+...ddccacdd.....
+.....dcad.......
+......ca........
+......cd........
+.....gcdge......
+...gggcdeeeei...
+..ggeeeeeeeiii..
+.geeeeeeeiiiiff.
+.ffffffffffffff.
+................

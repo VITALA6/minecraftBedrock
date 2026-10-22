@@ -1,0 +1,32 @@
+# kitchen_table (stations). Hand-drawn after the block: a wooden kitchen counter seen from the
+# front and a little above. The lit top overhangs 1 px and carries a red-and-cream gingham runner
+# across it that hangs down over both ends; under it a wide drawer with one centred cream pull
+# (one pull, not two, so the front never reads as a face), a pair of cupboard doors, short legs.
+# Light from the top left: right side and rails darker.
+palette
+A wood.4      # top, lit
+a wood.3      # drawer and door panels
+f wood.2      # front frame
+c wood.1      # frame shadow (right, bottom rail)
+b bark.0      # gaps, shadow under the top
+R tomato.2    # runner red (top)
+W cream.2     # runner cream (top), drawer pull
+r tomato.1    # runner red (hanging, shaded)
+w cream.0     # runner cream (hanging, shaded)
+grid
+................
+................
+...AAAAAAAAAA...
+..RRWWRRWWRRWW..
+.RWWRRWWRRWWRRw.
+.WAAAAAAAAAAAAr.
+.rbbbbbbbbbbbbw.
+.wfaaaaaaaaafcr.
+.rfaaaWWWaaafcw.
+..ffffffffffcc..
+..faaaabaaaafc..
+..faaaabaaaafc..
+..cccccccccccc..
+..fc........fc..
+..fc........fc..
+................

@@ -1,0 +1,30 @@
+# ratatouille_mix: raw eggplant, tomato and cucumber pieces in the shared bowl; a whole cucumber
+# lies across it, its end out over the right rim below the spoon (upper right is its place); spoon top right.
+palette
+D bowl_dark
+M bowl_mid
+L bowl_light
+S spoon_light
+a #23592d    # cucumber shadow
+c #347a2e    # cucumber skin
+l #5d9c30    # lit skin
+h #a6c84c    # highlight / cut flesh
+e eggplant.2
+T tomato.2
+grid
+................
+.............S..
+............SD..
+...........SD..a
+..........SD.lhc
+.....DDDDSDlhcca
+...DDeDTSlhccaa.
+..DhcDeeDccaaD..
+..LDTDeDTDhcDD..
+..LLLLLLLLLLMD..
+...LMMMMMMMMD...
+....MMMMMMMD....
+......DDDD......
+................
+................
+................

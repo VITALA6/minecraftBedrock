@@ -1,0 +1,29 @@
+# sliced_eggplant (prepared). Hand-drawn: two round slices, cut face up, overlapping on the
+# diagonal (back one top left, front one bottom right). Skin from the whole eggplant (lit purple top
+# left, indigo shadow bottom right, thicker on the shadow side), a green-cream band under the skin,
+# cream flesh that dims toward the thick skin, brown seed specks in a loose ring.
+palette
+L #8240a6           # lit skin (eggplant body)
+R #5a2a82           # skin (eggplant body)
+E #3a1c5e           # skin shadow, cool (eggplant shadow)
+g #d4d39a           # green-cream band under the skin
+F #f4ecc8           # flesh, warm cream
+S #7a5a30           # seed specks
+f #ddcb9c           # flesh in shadow, toward the thick skin
+grid
+................
+....LLLR........
+..LLggggRR......
+..LgFFFSfR......
+.LgFSFFFfRE.....
+.LgFFFFFLLLR....
+.RgFSFLLggggRR..
+.RFFFFLgFFFSfR..
+..RFFLgFSFFFfRE.
+..ERfLgFFFFFfRE.
+....ERgFSFFFSEE.
+.....RFFFFFFfEE.
+......RFFSFfEE..
+......ERfffEEE..
+........EEEE....
+................

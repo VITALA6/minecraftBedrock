@@ -1,0 +1,31 @@
+# strawberry_jam_mix: the jam's glass jar, open (no cloth lid yet), packed with whole raw
+# strawberries under a layer of sugar (no jam yet); one whole strawberry leans out over the
+# left of the mouth; the mix spoon stands in it, top right.
+palette
+D bowl_dark   # spoon shadow (as on every mix)
+S spoon_light
+h #dcefff     # glass, lit
+e #7a9ec8     # glass, cool shadow
+w #f4f2ee     # sugar
+M #ea4a86     # strawberry
+k #a8266a     # strawberry shadow
+L #ff74a0     # strawberry, lit
+s #ffe27a     # seed
+G #4a9a2c     # leaf
+grid
+................
+.............S..
+..GG........SD..
+.GLMG......SD...
+.LsMk.....SD....
+.LMsk....SD.....
+..khwwwwSwwwe...
+...hwwwwwwwwe...
+..hwwLMwwLMwwe..
+..hLMsMkLMsMke..
+..hMsMkwMMMkwe..
+..hkMkLMskLMMe..
+..hwkkMsMkwMke..
+...ekkkkwkkke...
+....eeeeeeee....
+................

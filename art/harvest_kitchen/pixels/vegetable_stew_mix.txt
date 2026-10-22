@@ -1,0 +1,30 @@
+# vegetable_stew_mix: tomato, carrot rounds, onion and potato bits in the shared bowl; a whole
+# carrot leans against the bowl's lower right outside, greens up (lower right is its place); spoon top right.
+palette
+D bowl_dark
+M bowl_mid
+L bowl_light
+S spoon_light
+k carrot.1   # carrot shadow
+c carrot.3
+y carrot.4   # lit carrot / potato
+g leaf.3
+T tomato.2
+o onion_flesh.4
+grid
+................
+.............S..
+............SD..
+...........SD...
+..........SD....
+.....DDDDSD.....
+...DDTDoSDyDD...
+..DyDckDTTDoDDg.
+..LoTDDyDckDDgg.
+..LLLLLLLLLLMDyc
+...LMMMMMMMMDyk.
+....MMMMMMMDyc..
+......DDDD.ck...
+..........ck....
+..........k.....
+................

@@ -12,6 +12,7 @@ import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import zlib from "node:zlib";
+import { checkGridNames, gridFile, readGrid } from "./pixels.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ART_DIR = path.join(ROOT, "art/harvest_kitchen");
@@ -156,7 +157,7 @@ export function decodePng(buf) {
 // Resource packs layer: a file in vanilla_<newer> overrides the same path in older ones.
 // ---------------------------------------------------------------------------------------------
 
-function readBrarchive(file) {
+export function readBrarchive(file) {
   const b = readFileSync(file);
   const count = b.readUInt32LE(8);
   const base = 16 + count * 256;
@@ -454,7 +455,7 @@ let P = {}; // ramp name -> [[r,g,b], ...] dark → light
 const blank = () => new Array(S * S).fill(null);
 
 /** Colour of ramp `name` at `i` (0 = darkest). Negative counts from the light end. */
-function c(name, i) {
+export function c(name, i) {
   const ramp = P[name];
   if (!ramp) throw new Error(`Unknown ramp ${name}`);
   const idx = i < 0 ? ramp.length + i : Math.min(i, ramp.length - 1);
@@ -4119,7 +4120,10 @@ for (const [crop, { legend, stages }] of Object.entries(CROPS))
 
 // === MAIN ===
 
-function loadPalette() {
+/** Ramp name -> hue-shifted shades ([r, g, b], dark → light), after loadPalette(). */
+export const ramps = () => P;
+
+export function loadPalette() {
   const { ramps } = JSON.parse(readFileSync(PALETTE_FILE, "utf8"));
   P = Object.fromEntries(
     Object.entries(ramps).map(([k, v]) => [k, hueShift(v.shades.map(fromHex))]),
@@ -4182,11 +4186,12 @@ function main() {
     console.log(`wrote ${path.relative(ROOT, PALETTE_FILE)}`);
   }
   loadPalette();
+  checkGridNames(SPRITES);
   for (const dir of ["blocks", "items", "ui", "ingredients"])
     rmSync(path.join(OUT_DIR, dir), { recursive: true, force: true });
   const rendered = [];
   for (const sprite of SPRITES) {
-    const layer = sprite.draw();
+    const layer = renderSprite(sprite);
     const file = `${sprite.folder}/${sprite.name}.png`;
     mkdirSync(path.join(OUT_DIR, sprite.folder), { recursive: true });
     writeFileSync(path.join(OUT_DIR, file), encodePng(toImage(layer)));
@@ -4196,6 +4201,14 @@ function main() {
   console.log(
     `wrote ${rendered.length} textures + contact sheet to ${path.relative(ROOT, OUT_DIR)}/`,
   );
+}
+
+/** A sprite's texture: its hand-authored grid (art/harvest_kitchen/pixels/<name>.txt) when one
+ *  exists, else the procedural drawing (the fallback). `procedural: true` always draws. */
+export function renderSprite(sprite, { procedural = false } = {}) {
+  if (!Object.keys(P).length) loadPalette();
+  if (!procedural && existsSync(gridFile(sprite.name))) return readGrid(sprite.name, c).layer;
+  return sprite.draw();
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

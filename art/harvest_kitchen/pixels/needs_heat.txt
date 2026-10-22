@@ -1,0 +1,32 @@
+# needs_heat (ui). Needs heat: a fire burning on two logs (campfire hint). Hot white-yellow core low
+# in the flame, orange body, dark red tips, the left tongue a row taller than the right so the
+# flame isn't mirror-symmetric; two short logs underneath (the flame shows between them), each
+# lit on top with its pale cut end on the left. Two logs, not one long plank, so the silhouette
+# stays clear of the sandwich and pot.
+palette
+a fire.0
+b fire.1
+c fire.2
+d fire.3
+e fire.4
+w wood.4
+L bark.3
+M bark.2
+D bark.1
+grid
+................
+........a.......
+.......ab.......
+...a...bba......
+...ab.bbcba..a..
+..abb.bccbb.ab..
+..abbbbcdcbbbb..
+..abbbcddcbbba..
+..bbccddeddcba..
+..bccdeeedccba..
+...bcdeeeedcb...
+....bcdddcba....
+..wLLDbbbbwLLD..
+.wLMMMD..wLMMMD.
+..DDDD....DDDD..
+................

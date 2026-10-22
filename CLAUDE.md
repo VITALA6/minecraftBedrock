@@ -52,8 +52,10 @@ tools/
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
   paths.mjs        shared paths (repo, dist, game dir)
   test.mjs         bundles packs/*/tests with esbuild, runs node --test (no @minecraft imports)
-  gen-textures.mjs Harvest Kitchen 16×16 textures from art/harvest_kitchen/palette.json
-                   (--palette re-samples vanilla) -> art/harvest_kitchen/generated/
+  gen-textures.mjs Harvest Kitchen 16×16 textures -> art/harvest_kitchen/generated/: the
+                   hand-authored grid in art/harvest_kitchen/pixels/ when one exists, else the
+                   procedural fallback from palette.json (--palette re-samples vanilla)
+  pixels.mjs       pixel grids -> PNG; --preview <name> (8× next to vanilla, lint), --export
   lint-textures.mjs checks generated/ against docs/harvest-kitchen/art-style.md, writes
                    generated/review_sheet.png
   gen-pot-block.mjs  writes the cooking pot block JSON (liquid colour permutations)
@@ -63,7 +65,7 @@ tools/
   gen-ghost-atlas.mjs writes the ghost-ingredient particle atlas and particle JSON
                    (all generators take --check, which the tests run)
 docs/              learning notes (00-setup, 01-custom-content, ...)
-art/<pack>/        art sources: models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
+art/<pack>/        art sources: pixels/ (hand-authored 16×16 icon grids), models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
                    Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
                    and final/ (hand-finished) textures. Copy into the pack's resource/ by hand.
 dist/              build output (gitignored)

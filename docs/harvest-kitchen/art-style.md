@@ -2,12 +2,16 @@
 
 Rules for every 16×16 texture in the pack: item icons, UI icons and crop stages. They extend plan
 §4 (vanilla-like pixel art, family colours reserved for effect accents) and §4.5 (the pipeline).
-`tools/gen-textures.mjs` draws to these rules, and `tools/lint-textures.mjs` checks the ones a
-script can measure (the **lint** column). The rest is checked by eye on the review sheet.
+Item and UI icons are **hand-authored** text grids in `art/harvest_kitchen/pixels/<name>.txt`
+(format and the per-icon art loop: `pixels/README.md`). `tools/gen-textures.mjs` uses a grid
+whenever one exists and falls back to its procedural drawing otherwise (crop stages, block faces,
+poster ingredients, biomes). `tools/lint-textures.mjs` checks the rules a script can measure (the
+**lint** column). The rest is checked by eye on the review sheet.
 
 ```sh
-node tools/gen-textures.mjs     # regenerate art/harvest_kitchen/generated/
-node tools/lint-textures.mjs    # check it, and write generated/review_sheet.png
+node tools/pixels.mjs --preview <name>   # one icon at 8x next to vanilla items, with its lint
+node tools/gen-textures.mjs              # regenerate art/harvest_kitchen/generated/
+node tools/lint-textures.mjs             # check it, and write generated/review_sheet.png
 ```
 
 ## Icon production rules
@@ -21,6 +25,7 @@ node tools/lint-textures.mjs    # check it, and write generated/review_sheet.png
 | **Long items run diagonally from bottom-left to top-right** (cucumber, chili, knife, pickaxe). | no                                    |
 | **No orphan pixels:** every pixel touches another pixel of the shape.                          | orphan pixels (no opaque 8-neighbour) |
 | **Clean line steps:** diagonal edges step evenly (1-1-1, 2-2-2, 1-2-1-2), with no lone jags.   | no                                    |
+| **No dither in fills:** each food piece is a 2×2+ cluster with a lit top-left pixel.           | no                                    |
 
 ### Shading and colour
 
@@ -43,10 +48,13 @@ node tools/lint-textures.mjs    # check it, and write generated/review_sheet.png
   highlight streak) vs. a chunky stew (pieces with their own light and shadow) vs. a heap (a
   mound that rises above the rim).
 - **Mixes (D16) are one family:** the shared bowl with raw pieces inside (no broth, so the dark
-  inside shows), one whole ingredient sticking out in a place no other mix uses, and a light
+  inside shows), one whole ingredient sticking out in a place or with a shape no other mix
+  uses (the tomato ball and the eggplant bar share the top left), and a light
   metal spoon top right. A shared heap above the rim made every mix the same silhouette; the
   food hues (red, orange, golden, brown) all sit within 50° of each other after hue shifting, so
   mixes are told apart by where their ingredient sticks out.
+- **Brown dishes don't fight the bowl.** The bowl sits at ~40°, so a brown broth melts into it:
+  cap or garnish the dish instead (onion soup wears a melted-cheese lid).
 - **Every seed has its own shape and its own colour.** No two seed icons share a seed sprite or a
   layout, and none looks like a vanilla seed.
 - Effect family colours (red heal, blue move, yellow work, green explore) stay reserved for the
@@ -84,7 +92,9 @@ wheat seeds, mushroom stew, bread), then shows each icon:
 3. at 4× in **grayscale** (value contrast);
 4. at 4× as a **black silhouette** (shape alone).
 
-Flagged icons get a red frame in the 4× row. The vanilla references need the game installed (see
+Hand-authored icons show two columns in every row: the procedural drawing they replaced
+("before", left of the thin rule) and the grid ("after"). Flagged icons get a red frame on the
+after view in the 4× row. The vanilla references need the game installed (see
 CLAUDE.md "Versions"); without it the sheet is drawn without them.
 
 ## Recipe posters

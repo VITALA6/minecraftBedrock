@@ -26,7 +26,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 import zlib from "node:zlib";
 import { build } from "esbuild";
-import { decodePng } from "./gen-textures.mjs";
+import { decodePng, encodePng } from "./gen-textures.mjs";
 import { ROOT } from "./paths.mjs";
 
 /** Texels per block; the poster is 2 blocks wide, 1 tall. */
@@ -808,7 +808,8 @@ async function main() {
   }
   await updateTerrain(posters);
   mkdirSync(PREVIEW_DIR, { recursive: true });
-  writeFileSync(path.join(PREVIEW_DIR, "posters.png"), encodeIndexedPng(contactSheet(posters, 2, 3))); // prettier-ignore
+  // Truecolour: all posters together can use more than the 256 colours an indexed page holds.
+  writeFileSync(path.join(PREVIEW_DIR, "posters.png"), encodePng(contactSheet(posters, 2, 3)));
   console.log(
     `[posters] ${posters.length} posters, ${keep.size} textures (${HALF_SIZE}×${HALF_SIZE}), ` +
       `${(bytes / 1024).toFixed(0)} KiB; preview in ${path.relative(ROOT, PREVIEW_DIR)}/`,

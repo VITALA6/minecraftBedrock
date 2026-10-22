@@ -1,0 +1,29 @@
+# family_explore (ui). Explore family: a green pocket compass. Chunky green rim lit from the top
+# left with a small bow on top; pale mint face with a glass glint top left, a north tick, and a
+# two-tone needle (green north, grey south) on a dark pivot. The face stays green-tinted so the
+# family green dominates.
+palette
+k family_explore.0
+d family_explore.1
+m family_explore.2
+l family_explore.3
+w family_explore.4
+q #a9dcbd
+s iron.2
+grid
+................
+.......md.......
+.....mllmmd.....
+...mlwllmmmdk...
+..mlmqqddqqmdk..
+.mlmqwwqqqdqmdk.
+.mlmqwqqqdkqmdk.
+.mlmqqqqdkqqmdk.
+.mlmqqqkkqqqmdk.
+.mdmqqssqqqqmdk.
+.mdmqssqqqqqddk.
+..dddqqqqqqddk..
+...kddddddddk...
+.....kkkkkk.....
+................
+................

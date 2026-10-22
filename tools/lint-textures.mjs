@@ -10,7 +10,15 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { SPRITES, decodePng, encodePng, vanillaTextures } from "./gen-textures.mjs";
+import {
+  SPRITES,
+  decodePng,
+  encodePng,
+  loadPalette,
+  renderSprite,
+  vanillaTextures,
+} from "./gen-textures.mjs";
+import { gridFile } from "./pixels.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const GEN_DIR = path.join(ROOT, "art/harvest_kitchen/generated");
@@ -190,6 +198,26 @@ function similarPairs(icons) {
   return pairs;
 }
 
+/** Checks one icon image as the full lint would (pixels.mjs --preview). */
+export function lintOne(sprite, img) {
+  const t = { ...sprite, img, profile: profileOf(sprite.folder, sprite.name), mature: true };
+  t.stats = analyse(img);
+  return { stats: t.stats, fails: checks(t) };
+}
+
+/** Similar-pair findings of one icon against `others` ([{sprite, img}]), as text. */
+export function similarTo(sprite, img, others) {
+  const wrap = (s, im) => ({ ...s, img: im, stats: analyse(im) });
+  const me = wrap(sprite, img);
+  const hue = (v) => (v === null ? "grey" : `${Math.round(v)}°`);
+  return others.flatMap((o) =>
+    similarPairs([me, wrap(o.sprite, o.img)]).map(
+      (p) =>
+        `${sprite.name} ~ ${o.sprite.name} (IoU ${p.iou.toFixed(2)}, hue ${hue(p.ha)} vs ${hue(p.hb)}, ${p.differ} px differ)`,
+    ),
+  );
+}
+
 // ---------------------------------------------------------------------------------------------
 // Review sheet
 // ---------------------------------------------------------------------------------------------
@@ -241,6 +269,8 @@ const FONT = {
   9: "111101111001110",
   "-": "000000111000000",
   ".": "000000000000010",
+  ":": "000010000010000",
+  "|": "010010010010010",
   "?": "110001010000010",
   " ": "000000000000000",
 };
@@ -253,7 +283,7 @@ const SLOT_4X = 18 * ZOOM;
 const CELL_W = SLOT_4X + 12;
 const LABEL_CHARS = Math.floor(CELL_W / CHAR_W);
 
-function canvas(w, h) {
+export function canvas(w, h) {
   const px = new Uint8Array(w * h * 4);
   for (let i = 0; i < w * h; i++) px.set([...PANEL, 255], i * 4);
   const rect = (x, y, rw, rh, rgb) => {
@@ -265,7 +295,7 @@ function canvas(w, h) {
 }
 
 /** Inventory slot (18 px at `scale`, dark top/left, light bottom/right) with `img` drawn inside. */
-function drawSlot(cv, x, y, scale, img, mode) {
+export function drawSlot(cv, x, y, scale, img, mode) {
   const size = 18 * scale;
   cv.rect(x, y, size, size, SLOT);
   cv.rect(x, y, size, scale, SLOT_DARK);
@@ -290,7 +320,7 @@ function drawSlot(cv, x, y, scale, img, mode) {
   }
 }
 
-function drawText(cv, x, y, text, rgb = INK) {
+export function drawText(cv, x, y, text, rgb = INK) {
   [...text.toUpperCase()].forEach((ch, n) => {
     const glyph = FONT[ch] ?? FONT["?"];
     [...glyph].forEach((bit, k) => {
@@ -306,19 +336,19 @@ function drawText(cv, x, y, text, rgb = INK) {
   });
 }
 
-/** Splits a snake_case name into label lines of at most LABEL_CHARS characters. */
-function labelLines(name) {
+/** Splits a snake_case name into label lines of at most `max` characters. */
+function labelLines(name, max = LABEL_CHARS) {
   const lines = [];
   let line = "";
   for (let word of name.split("_")) {
-    while (word.length > LABEL_CHARS) {
+    while (word.length > max) {
       if (line) lines.push(line);
-      lines.push(word.slice(0, LABEL_CHARS));
-      word = word.slice(LABEL_CHARS);
+      lines.push(word.slice(0, max));
+      word = word.slice(max);
       line = "";
     }
     if (!line) line = word;
-    else if (line.length + 1 + word.length <= LABEL_CHARS) line += " " + word;
+    else if (line.length + 1 + word.length <= max) line += " " + word;
     else {
       lines.push(line);
       line = word;
@@ -338,40 +368,57 @@ function loadVanillaRefs() {
   }
 }
 
+/** Hand-authored icons (t.before set) get two columns: the procedural "before" on the left, a
+ *  thin rule, and the grid "after" on the right, in every row. */
 function reviewSheet(groups, refs) {
   const PAD = 16;
   const SEP = 20;
-  const rowsOf = (cols) => Math.max(...cols.map((t) => labelLines(t.name).length));
+  const PAIR_GAP = 10;
+  const widthOf = (t) => (t.before ? CELL_W + SLOT_4X + PAIR_GAP : CELL_W);
+  const labelsOf = (t) => labelLines(t.name, Math.floor((widthOf(t) - 12) / CHAR_W));
   const layout = groups.map((g) => {
     const cols = [...refs, ...g.items];
-    const labelH = rowsOf(cols) * LINE_H;
+    const labelH = Math.max(...cols.map((t) => labelsOf(t).length)) * LINE_H;
     const h = LINE_H + 6 + (18 + 8) + (SLOT_4X + 4 + labelH + 8) + (SLOT_4X + 8) * 2;
-    return { ...g, cols, labelH, h };
+    const width = cols.reduce((sum, t) => sum + widthOf(t), 0);
+    return { ...g, cols, labelH, h, width };
   });
-  const w =
-    PAD * 2 + Math.max(...layout.map((g) => g.cols.length)) * CELL_W + (refs.length ? SEP : 0);
+  const w = PAD * 2 + Math.max(...layout.map((g) => g.width)) + (refs.length ? SEP : 0);
   const h = PAD + layout.reduce((sum, g) => sum + g.h + PAD, 0);
   const cv = canvas(w, h);
+  const DIM = [0x70, 0x70, 0x70];
 
   let y = PAD;
   for (const g of layout) {
-    drawText(cv, PAD, y, g.title);
+    const paired = g.items.some((t) => t.before);
+    drawText(cv, PAD, y, paired ? `${g.title}   - each icon: before | after` : g.title);
     const top = y + LINE_H + 6;
+    let x = PAD;
     g.cols.forEach((t, col) => {
-      const x = PAD + col * CELL_W + (refs.length && !t.vanilla ? SEP : 0);
+      if (col === refs.length && refs.length) x += SEP;
+      const views = t.before ? [t.before, t.img] : [t.img];
+      const xs = views.map((_, k) => x + k * (SLOT_4X + PAIR_GAP));
       let yy = top;
-      drawSlot(cv, x, yy, 1, t.img);
+      views.forEach((img, k) => drawSlot(cv, xs[k], yy, 1, img));
       yy += 18 + 8;
       if (t.fails?.length || t.pairs?.length)
-        cv.rect(x - 3, yy - 3, SLOT_4X + 6, SLOT_4X + 6, FLAG);
-      drawSlot(cv, x, yy, ZOOM, t.img);
-      labelLines(t.name).forEach((line, n) =>
-        drawText(cv, x, yy + SLOT_4X + 4 + n * LINE_H, line, t.vanilla ? [0x70, 0x70, 0x70] : INK),
+        cv.rect(xs.at(-1) - 3, yy - 3, SLOT_4X + 6, SLOT_4X + 6, FLAG);
+      views.forEach((img, k) => drawSlot(cv, xs[k], yy, ZOOM, img));
+      labelsOf(t).forEach((line, n) =>
+        drawText(cv, x, yy + SLOT_4X + 4 + n * LINE_H, line, t.vanilla ? DIM : INK),
       );
+      const rowsTop = yy;
       yy += SLOT_4X + 4 + g.labelH + 8;
-      drawSlot(cv, x, yy, ZOOM, t.img, "grey");
+      views.forEach((img, k) => drawSlot(cv, xs[k], yy, ZOOM, img, "grey"));
       yy += SLOT_4X + 8;
-      drawSlot(cv, x, yy, ZOOM, t.img, "silhouette");
+      views.forEach((img, k) => drawSlot(cv, xs[k], yy, ZOOM, img, "silhouette"));
+      if (t.before) {
+        const rx = x + SLOT_4X + PAIR_GAP / 2 - 1;
+        cv.rect(rx, top, 1, 18, DIM);
+        cv.rect(rx, rowsTop, 1, SLOT_4X, DIM);
+        cv.rect(rx, yy - SLOT_4X - 8, 1, SLOT_4X * 2 + 8, DIM);
+      }
+      x += widthOf(t);
     });
     if (refs.length)
       cv.rect(PAD + refs.length * CELL_W + SEP / 2 - 6, top, 2, g.h - LINE_H - 6, INK);
@@ -410,6 +457,15 @@ function main() {
   }
 
   const icons = textures.filter((t) => t.profile === "icon" && t.stats);
+  // Hand-authored icons: show the procedural drawing they replaced next to them.
+  loadPalette();
+  for (const t of icons)
+    if (existsSync(gridFile(t.name))) {
+      const layer = renderSprite(t, { procedural: true });
+      const px = new Uint8Array(S * S * 4);
+      layer.forEach((v, i) => v && px.set(v, i * 4));
+      t.before = { w: S, h: S, px };
+    }
   const pairs = similarPairs(icons);
   for (const p of pairs) {
     p.a.pairs.push(p.b.name);
@@ -436,7 +492,8 @@ function main() {
   writeFileSync(path.join(GEN_DIR, "review_sheet.png"), reviewSheet(groups, refs));
   const index = [
     "Review sheet: per group, vanilla references (left), then each icon at 1x in a slot, 4x, 4x",
-    "grayscale and 4x silhouette. Red frame = flagged by the linter.",
+    "grayscale and 4x silhouette. Red frame = flagged by the linter. Hand-authored icons",
+    "(art/harvest_kitchen/pixels/) show the procedural drawing they replaced on the left.",
     "",
     ...groups.map((g) => `${g.title}: ${g.items.map((t) => t.name).join(", ")}`),
     "",

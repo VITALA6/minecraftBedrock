@@ -1,0 +1,28 @@
+# locked (ui). A locked recipe: an iron padlock with a keyhole. Bright 2 px shackle (lit outer
+# left face, dark outer right face) over a darker, cool-grey body so the lock stands off the slot
+# grey; bright top bevel and lit left edge, shadow on the right and bottom, a keyhole whose lower
+# lip catches the light.
+palette
+k iron.0
+d #575a66   # body, cool grey
+m iron.2
+l iron.3
+w iron.4
+x #1b1a22   # keyhole
+grid
+................
+.....lwwwwm.....
+....lwmmmmld....
+....wm....ld....
+....wm....ld....
+....wm....ld....
+..lwwwwwwwwwwm..
+..wmmmmmmmmmmk..
+..mddddxxddddk..
+..mdddxxxxdddk..
+..mdddxxxxdddk..
+..mddddxxddddk..
+..mddddxxddddk..
+..mddddmmddddk..
+..dkkkkkkkkkkk..
+................

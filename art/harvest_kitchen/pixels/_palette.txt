@@ -1,0 +1,7 @@
+# Named colours shared by several grids: "<name> <colour>" (hex or a palette.json ramp shade).
+# The shared bowl of every bowl dish and bowl mix (art-style.md "Families of items").
+bowl_dark bowl.0
+bowl_mid bowl.3
+bowl_light bowl.4
+# The light metal spoon of the mixes.
+spoon_light iron.-1

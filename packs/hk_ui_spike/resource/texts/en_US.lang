@@ -1,0 +1,12 @@
+pack.name=HK UI Spike RP
+pack.description=S9 spike: JSON UI layout for forms whose title starts with the HK marker. Throwaway.
+
+## Text inside the custom layout (labels with a literal lang key)
+hk_ui_spike.book.recipe=Recipe
+hk_ui_spike.book.tap_hint=Tap a slot to see where it comes from
+hk_ui_spike.pot.in_pot=In the pot
+hk_ui_spike.pot.almost=Almost!
+hk_ui_spike.pot.almost_hint=Add this to cook more
+hk_ui_spike.data.fmt_bytes=Prefix cut counts BYTES
+hk_ui_spike.data.fmt_chars=Prefix cut counts CHARACTERS
+hk_ui_spike.data.grid_note=Grid 6x3: cells 15-18 are past the last button

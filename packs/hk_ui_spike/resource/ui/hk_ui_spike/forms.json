@@ -1,0 +1,1520 @@
+{
+  "namespace": "hk_ui_spike",
+  "text_dark": {
+    "type": "label",
+    "color": [0.27, 0.16, 0.07],
+    "shadow": false,
+    "layer": 4
+  },
+  "text_light": {
+    "type": "label",
+    "color": [0.98, 0.93, 0.8],
+    "shadow": true,
+    "layer": 4
+  },
+  "form_title@hk_ui_spike.text_dark": {
+    "text": "#hk_title",
+    "size": ["100% - 24px", 10],
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "text_alignment": "center",
+    "$hk_title_offset": [0, 7],
+    "offset": "$hk_title_offset",
+    "bindings": [
+      {
+        "binding_name": "#title_text",
+        "binding_type": "global"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#title_text - $hk_marker)",
+        "target_property_name": "#hk_title"
+      }
+    ]
+  },
+  "form_body@hk_ui_spike.text_dark": {
+    "text": "#form_text",
+    "bindings": [
+      {
+        "binding_name": "#form_text",
+        "binding_type": "global"
+      }
+    ]
+  },
+  "slot_icon": {
+    "type": "image",
+    "$hk_icon_size|default": [16, 16],
+    "size": "$hk_icon_size",
+    "layer": 3,
+    "bindings": [
+      {
+        "binding_name": "#form_button_texture",
+        "binding_name_override": "#texture",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_texture_file_system",
+        "binding_name_override": "#texture_file_system",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not (((#texture = '') or (#texture = 'loading')) or (('%.1s' * #form_button_text) = 'l')))",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "slot_silhouette@hk_ui_spike.slot_icon": {
+    "color": [0.1, 0.07, 0.05],
+    "bindings": [
+      {
+        "binding_name": "#form_button_texture",
+        "binding_name_override": "#texture",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_texture_file_system",
+        "binding_name_override": "#texture_file_system",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "((not ((#texture = '') or (#texture = 'loading'))) and (('%.1s' * #form_button_text) = 'l'))",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "slot_question@hk_ui_spike.text_light": {
+    "text": "?",
+    "layer": 5,
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.1s' * #form_button_text) = 'l')",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "slot_count@hk_ui_spike.text_light": {
+    "text": "#hk_count",
+    "anchor_from": "bottom_right",
+    "anchor_to": "bottom_right",
+    "offset": [0, 1],
+    "layer": 6,
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "('§r' + (('%.3s' * #form_button_text) - ('%.1s' * #form_button_text)))",
+        "target_property_name": "#hk_count"
+      }
+    ]
+  },
+  "slot_flame": {
+    "type": "image",
+    "texture": "textures/ui/flame_full_image",
+    "size": [9, 9],
+    "anchor_from": "top_right",
+    "anchor_to": "top_right",
+    "offset": [2, -2],
+    "layer": 6,
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.1s' * #form_button_text) = 'h')",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "slot_content": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "controls": [
+      {
+        "icon@hk_ui_spike.slot_icon": {}
+      },
+      {
+        "silhouette@hk_ui_spike.slot_silhouette": {}
+      },
+      {
+        "question@hk_ui_spike.slot_question": {}
+      },
+      {
+        "count@hk_ui_spike.slot_count": {}
+      },
+      {
+        "flame@hk_ui_spike.slot_flame": {}
+      }
+    ]
+  },
+  "slot_hover_text@common.hover_text": {
+    "layer": 30,
+    "bindings": [
+      {
+        "binding_type": "collection_details",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#form_button_text - ('%.3s' * #form_button_text))",
+        "target_property_name": "#hover_text"
+      }
+    ]
+  },
+  "slot_highlight": {
+    "type": "image",
+    "texture": "textures/hk_ui_spike/slot_hover",
+    "size": ["100% - 2px", "100% - 2px"],
+    "layer": 2
+  },
+  "slot_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      {
+        "binding_type": "collection_details",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default@hk_ui_spike.slot_content": {}
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "highlight@hk_ui_spike.slot_highlight": {}
+            },
+            {
+              "content@hk_ui_spike.slot_content": {}
+            },
+            {
+              "tooltip@hk_ui_spike.slot_hover_text": {}
+            }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "highlight@hk_ui_spike.slot_highlight": {}
+            },
+            {
+              "content@hk_ui_spike.slot_content": {
+                "offset": [0, 1]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "slot_cell": {
+    "type": "panel",
+    "$hk_size|default": [20, 20],
+    "size": "$hk_size",
+    "controls": [
+      {
+        "bg": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/slot",
+          "size": ["100%", "100%"],
+          "layer": 1,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "bg_dead": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/slot_dead",
+          "size": ["100%", "100%"],
+          "layer": 1,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e'))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "button@hk_ui_spike.slot_button": {}
+      }
+    ]
+  },
+  "slot@hk_ui_spike.slot_cell": {
+    "collection_index": "$hk_idx"
+  },
+  "text_button_content": {
+    "type": "stack_panel",
+    "orientation": "horizontal",
+    "size": ["100%c", 18],
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "layer": 3,
+    "controls": [
+      {
+        "icon_panel": {
+          "type": "panel",
+          "size": [20, 18],
+          "controls": [
+            {
+              "icon@hk_ui_spike.slot_icon": {
+                "$hk_icon_size": [16, 16]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label@hk_ui_spike.text_light": {
+          "text": "#hk_name",
+          "size": ["default", 10],
+          "anchor_from": "left_middle",
+          "anchor_to": "left_middle",
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_button_text - ('%.3s' * #form_button_text))",
+              "target_property_name": "#hk_name"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "text_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      {
+        "binding_type": "collection_details",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "content@hk_ui_spike.text_button_content": {}
+            }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button_hover",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "content@hk_ui_spike.text_button_content": {}
+            }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button_pressed",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "content@hk_ui_spike.text_button_content": {
+                "offset": [0, 1]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "text_button_cell": {
+    "type": "panel",
+    "size": "$hk_size",
+    "collection_index": "$hk_idx",
+    "controls": [
+      {
+        "dead": {
+          "type": "panel",
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button_dead",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "content@hk_ui_spike.text_button_content": {
+                "alpha": 0.5
+              }
+            }
+          ]
+        }
+      },
+      {
+        "button@hk_ui_spike.text_button": {}
+      }
+    ]
+  },
+  "glyph_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      {
+        "binding_type": "collection_details",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "glyph": {
+                "type": "image",
+                "texture": "$hk_glyph",
+                "size": [11, 11],
+                "layer": 3
+              }
+            }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button_hover",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "glyph": {
+                "type": "image",
+                "texture": "$hk_glyph",
+                "size": [11, 11],
+                "layer": 3
+              }
+            },
+            {
+              "tooltip@hk_ui_spike.slot_hover_text": {}
+            }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button_pressed",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "glyph": {
+                "type": "image",
+                "texture": "$hk_glyph",
+                "size": [11, 11],
+                "layer": 3,
+                "offset": [0, 1]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "glyph_cell": {
+    "type": "panel",
+    "$hk_size|default": [24, 18],
+    "size": "$hk_size",
+    "collection_index": "$hk_idx",
+    "controls": [
+      {
+        "dead": {
+          "type": "panel",
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/button_dead",
+                "size": ["100%", "100%"],
+                "layer": 1,
+                "$hk_tint|default": [1, 1, 1],
+                "color": "$hk_tint"
+              }
+            },
+            {
+              "glyph": {
+                "type": "image",
+                "texture": "$hk_glyph",
+                "size": [11, 11],
+                "layer": 3,
+                "alpha": 0.35
+              }
+            }
+          ]
+        }
+      },
+      {
+        "button@hk_ui_spike.glyph_button": {}
+      }
+    ]
+  },
+  "ribbon_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      {
+        "binding_type": "collection_details",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "ribbon": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/ribbon",
+                "size": ["100%", "100%"],
+                "color": "$hk_tint",
+                "layer": 1
+              }
+            },
+            {
+              "icon@hk_ui_spike.slot_icon": {
+                "$hk_icon_size": [12, 12],
+                "anchor_from": "right_middle",
+                "anchor_to": "right_middle",
+                "offset": [-7, 0]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "ribbon": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/ribbon",
+                "size": ["100%", "100%"],
+                "color": "$hk_tint",
+                "layer": 1
+              }
+            },
+            {
+              "highlight@hk_ui_spike.slot_highlight": {}
+            },
+            {
+              "icon@hk_ui_spike.slot_icon": {
+                "$hk_icon_size": [12, 12],
+                "anchor_from": "right_middle",
+                "anchor_to": "right_middle",
+                "offset": [-7, 0]
+              }
+            },
+            {
+              "tooltip@hk_ui_spike.slot_hover_text": {}
+            }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "ribbon": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/ribbon",
+                "size": ["100%", "100%"],
+                "color": "$hk_tint",
+                "layer": 1,
+                "offset": [1, 0]
+              }
+            },
+            {
+              "icon@hk_ui_spike.slot_icon": {
+                "$hk_icon_size": [12, 12],
+                "anchor_from": "right_middle",
+                "anchor_to": "right_middle",
+                "offset": [-7, 0]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "ribbon_cell": {
+    "type": "panel",
+    "size": [34, 18],
+    "collection_index": "$hk_idx",
+    "controls": [
+      {
+        "active": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/slot_hover",
+          "size": ["100% + 2px", "100% + 2px"],
+          "layer": 0,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.1s' * #form_button_text) = 'a')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "button@hk_ui_spike.ribbon_button": {}
+      }
+    ]
+  },
+  "book_layout": {
+    "type": "panel",
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "collection_name": "form_buttons",
+    "layer": 2,
+    "bindings": [
+      {
+        "binding_name": "#title_text",
+        "binding_type": "global"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#title_text - $hk_marker) = #title_text))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "size": [300, 186],
+    "controls": [
+      {
+        "ribbon_pot@hk_ui_spike.ribbon_cell": {
+          "$hk_idx": 16,
+          "$hk_tint": [0.86, 0.52, 0.3],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [28, 22],
+          "layer": 0
+        }
+      },
+      {
+        "ribbon_board@hk_ui_spike.ribbon_cell": {
+          "$hk_idx": 17,
+          "$hk_tint": [0.47, 0.72, 0.36],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [28, 46],
+          "layer": 0
+        }
+      },
+      {
+        "ribbon_crafting@hk_ui_spike.ribbon_cell": {
+          "$hk_idx": 18,
+          "$hk_tint": [0.42, 0.57, 0.88],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [28, 70],
+          "layer": 0
+        }
+      },
+      {
+        "ribbon_crops@hk_ui_spike.ribbon_cell": {
+          "$hk_idx": 19,
+          "$hk_tint": [0.93, 0.8, 0.3],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [28, 94],
+          "layer": 0
+        }
+      },
+      {
+        "ribbon_make@hk_ui_spike.ribbon_cell": {
+          "$hk_idx": 20,
+          "$hk_tint": [0.86, 0.46, 0.66],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [28, 118],
+          "layer": 0
+        }
+      },
+      {
+        "cover": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/book_cover",
+          "size": ["100%", "100%"],
+          "layer": 1
+        }
+      },
+      {
+        "left_page": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/book_page",
+          "size": [141, 174],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [7, 6],
+          "layer": 2
+        }
+      },
+      {
+        "right_page": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/book_page",
+          "size": [141, 174],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [-7, 6],
+          "layer": 2
+        }
+      },
+      {
+        "gutter": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/book_gutter",
+          "size": [10, 174],
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [0, 6],
+          "layer": 3
+        }
+      },
+      {
+        "left": {
+          "type": "panel",
+          "size": [141, 174],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [7, 6],
+          "layer": 4,
+          "collection_name": "form_buttons",
+          "controls": [
+            {
+              "title@hk_ui_spike.form_title": {}
+            },
+            {
+              "big_frame": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/slot",
+                "size": [56, 56],
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [0, 21],
+                "layer": 1,
+                "collection_name": "form_buttons",
+                "controls": [
+                  {
+                    "big_dish": {
+                      "type": "panel",
+                      "size": [48, 48],
+                      "collection_index": 9,
+                      "layer": 1,
+                      "controls": [
+                        {
+                          "icon@hk_ui_spike.slot_icon": {
+                            "$hk_icon_size": [48, 48]
+                          }
+                        },
+                        {
+                          "silhouette@hk_ui_spike.slot_silhouette": {
+                            "$hk_icon_size": [48, 48]
+                          }
+                        },
+                        {
+                          "question@hk_ui_spike.slot_question": {
+                            "font_scale_factor": 2
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "body@hk_ui_spike.form_body": {
+                "size": [128, "default"],
+                "max_size": [128, 30],
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "text_alignment": "center",
+                "offset": [0, 81]
+              }
+            },
+            {
+              "family@hk_ui_spike.slot": {
+                "$hk_idx": 14,
+                "$hk_size": [22, 22],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [22, 112]
+              }
+            },
+            {
+              "effect@hk_ui_spike.slot": {
+                "$hk_idx": 15,
+                "$hk_size": [22, 22],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [46, 112]
+              }
+            },
+            {
+              "station@hk_ui_spike.slot": {
+                "$hk_idx": 13,
+                "$hk_size": [22, 22],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [96, 112]
+              }
+            },
+            {
+              "prev@hk_ui_spike.glyph_cell": {
+                "$hk_idx": 10,
+                "$hk_glyph": "textures/hk_ui_spike/nav_prev",
+                "anchor_from": "bottom_left",
+                "anchor_to": "bottom_left",
+                "offset": [6, -6]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "right": {
+          "type": "panel",
+          "collection_name": "form_buttons",
+          "size": [141, 174],
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "offset": [-7, 6],
+          "layer": 4,
+          "controls": [
+            {
+              "heading@hk_ui_spike.text_dark": {
+                "text": "hk_ui_spike.book.recipe",
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [0, 10]
+              }
+            },
+            {
+              "in_0@hk_ui_spike.slot": {
+                "$hk_idx": 0,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [10, 34]
+              }
+            },
+            {
+              "in_1@hk_ui_spike.slot": {
+                "$hk_idx": 1,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [30, 34]
+              }
+            },
+            {
+              "in_2@hk_ui_spike.slot": {
+                "$hk_idx": 2,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [50, 34]
+              }
+            },
+            {
+              "in_3@hk_ui_spike.slot": {
+                "$hk_idx": 3,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [10, 54]
+              }
+            },
+            {
+              "in_4@hk_ui_spike.slot": {
+                "$hk_idx": 4,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [30, 54]
+              }
+            },
+            {
+              "in_5@hk_ui_spike.slot": {
+                "$hk_idx": 5,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [50, 54]
+              }
+            },
+            {
+              "in_6@hk_ui_spike.slot": {
+                "$hk_idx": 6,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [10, 74]
+              }
+            },
+            {
+              "in_7@hk_ui_spike.slot": {
+                "$hk_idx": 7,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [30, 74]
+              }
+            },
+            {
+              "in_8@hk_ui_spike.slot": {
+                "$hk_idx": 8,
+                "$hk_size": [20, 20],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [50, 74]
+              }
+            },
+            {
+              "arrow": {
+                "type": "image",
+                "texture": "textures/hk_ui_spike/arrow",
+                "size": [24, 16],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [74, 56],
+                "layer": 1
+              }
+            },
+            {
+              "result@hk_ui_spike.slot": {
+                "$hk_idx": 9,
+                "$hk_size": [30, 30],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [102, 49]
+              }
+            },
+            {
+              "hint@hk_ui_spike.text_dark": {
+                "text": "hk_ui_spike.book.tap_hint",
+                "color": [0.45, 0.32, 0.18],
+                "size": [124, "default"],
+                "text_alignment": "center",
+                "font_scale_factor": 0.8,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [0, 104]
+              }
+            },
+            {
+              "next@hk_ui_spike.glyph_cell": {
+                "$hk_idx": 11,
+                "$hk_glyph": "textures/hk_ui_spike/nav_next",
+                "anchor_from": "bottom_right",
+                "anchor_to": "bottom_right",
+                "offset": [-6, -6]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "home@hk_ui_spike.glyph_cell": {
+          "$hk_idx": 12,
+          "$hk_glyph": "textures/hk_ui_spike/nav_home",
+          "anchor_from": "bottom_middle",
+          "anchor_to": "bottom_middle",
+          "offset": [0, -12],
+          "layer": 6
+        }
+      },
+      {
+        "close@common.close_button": {
+          "layer": 20,
+          "$close_button_offset": [-3, 3]
+        }
+      }
+    ]
+  },
+  "pot_layout": {
+    "type": "panel",
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "collection_name": "form_buttons",
+    "layer": 2,
+    "bindings": [
+      {
+        "binding_name": "#title_text",
+        "binding_type": "global"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#title_text - $hk_marker) = #title_text))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "size": [240, 172],
+    "controls": [
+      {
+        "bg": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/pot_panel",
+          "size": ["100%", "100%"],
+          "layer": 1
+        }
+      },
+      {
+        "title@hk_ui_spike.form_title": {
+          "color": [0.98, 0.93, 0.8],
+          "shadow": true
+        }
+      },
+      {
+        "in_pot@hk_ui_spike.text_light": {
+          "text": "hk_ui_spike.pot.in_pot",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [14, 22]
+        }
+      },
+      {
+        "well": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/pot_well",
+          "size": [96, 52],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [12, 34],
+          "layer": 2
+        }
+      },
+      {
+        "in_0@hk_ui_spike.slot": {
+          "$hk_idx": 0,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [14, 36],
+          "layer": 3
+        }
+      },
+      {
+        "in_1@hk_ui_spike.slot": {
+          "$hk_idx": 1,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [36, 36],
+          "layer": 3
+        }
+      },
+      {
+        "in_2@hk_ui_spike.slot": {
+          "$hk_idx": 2,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [58, 36],
+          "layer": 3
+        }
+      },
+      {
+        "in_3@hk_ui_spike.slot": {
+          "$hk_idx": 3,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [80, 36],
+          "layer": 3
+        }
+      },
+      {
+        "in_4@hk_ui_spike.slot": {
+          "$hk_idx": 4,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [14, 58],
+          "layer": 3
+        }
+      },
+      {
+        "in_5@hk_ui_spike.slot": {
+          "$hk_idx": 5,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [36, 58],
+          "layer": 3
+        }
+      },
+      {
+        "in_6@hk_ui_spike.slot": {
+          "$hk_idx": 6,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [58, 58],
+          "layer": 3
+        }
+      },
+      {
+        "in_7@hk_ui_spike.slot": {
+          "$hk_idx": 7,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [80, 58],
+          "layer": 3
+        }
+      },
+      {
+        "arrow": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/arrow",
+          "size": [24, 16],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [116, 46],
+          "layer": 2
+        }
+      },
+      {
+        "heat@hk_ui_spike.slot": {
+          "$hk_idx": 8,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [117, 66],
+          "layer": 3
+        }
+      },
+      {
+        "result@hk_ui_spike.slot": {
+          "$hk_idx": 9,
+          "$hk_size": [30, 30],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [150, 39],
+          "layer": 3
+        }
+      },
+      {
+        "cook@hk_ui_spike.text_button_cell": {
+          "$hk_idx": 10,
+          "$hk_size": [80, 24],
+          "$hk_tint": [0.75, 1, 0.7],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [150, 76],
+          "layer": 3
+        }
+      },
+      {
+        "almost@hk_ui_spike.text_light": {
+          "text": "hk_ui_spike.pot.almost",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [14, 100]
+        }
+      },
+      {
+        "almost_slot@hk_ui_spike.slot": {
+          "$hk_idx": 11,
+          "$hk_size": [22, 22],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [14, 112],
+          "layer": 3
+        }
+      },
+      {
+        "almost_hint@hk_ui_spike.text_light": {
+          "text": "hk_ui_spike.pot.almost_hint",
+          "font_scale_factor": 0.8,
+          "size": [70, "default"],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [40, 116]
+        }
+      },
+      {
+        "book@hk_ui_spike.text_button_cell": {
+          "$hk_idx": 12,
+          "$hk_size": [104, 24],
+          "anchor_from": "bottom_right",
+          "anchor_to": "bottom_right",
+          "offset": [-10, -10],
+          "layer": 3
+        }
+      },
+      {
+        "close@common.close_button": {
+          "layer": 20,
+          "$close_button_offset": [-3, 3]
+        }
+      }
+    ]
+  },
+  "data_cell": {
+    "type": "panel",
+    "size": [22, 22],
+    "controls": [
+      {
+        "cell@hk_ui_spike.slot_cell": {
+          "$hk_size": [22, 22]
+        }
+      }
+    ]
+  },
+  "data_layout": {
+    "type": "panel",
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "collection_name": "form_buttons",
+    "layer": 2,
+    "bindings": [
+      {
+        "binding_name": "#title_text",
+        "binding_type": "global"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#title_text - $hk_marker) = #title_text))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "size": [252, 214],
+    "controls": [
+      {
+        "bg": {
+          "type": "image",
+          "texture": "textures/hk_ui_spike/book_page",
+          "size": ["100%", "100%"],
+          "layer": 1
+        }
+      },
+      {
+        "title@hk_ui_spike.form_title": {}
+      },
+      {
+        "probe_fmt_bytes@hk_ui_spike.text_dark": {
+          "text": "hk_ui_spike.data.fmt_bytes",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [10, 20],
+          "bindings": [
+            {
+              "binding_name": "#title_text",
+              "binding_type": "global"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.6s' * #title_text) = '§h§k')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "probe_fmt_chars@hk_ui_spike.text_dark": {
+          "text": "hk_ui_spike.data.fmt_chars",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [10, 20],
+          "bindings": [
+            {
+              "binding_name": "#title_text",
+              "binding_type": "global"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.4s' * #title_text) = '§h§k')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "minus@hk_ui_spike.text_dark": {
+          "text": "#hk_minus",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [10, 31],
+          "bindings": [
+            {
+              "binding_name": "#title_text",
+              "binding_type": "global"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "('minus: ' + ((#title_text - $hk_marker) - 'AB'))",
+              "target_property_name": "#hk_minus"
+            }
+          ]
+        }
+      },
+      {
+        "body@hk_ui_spike.form_body": {
+          "size": [232, "default"],
+          "max_size": [232, 50],
+          "font_scale_factor": 0.8,
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [10, 44]
+        }
+      },
+      {
+        "grid": {
+          "type": "grid",
+          "size": [132, 66],
+          "grid_dimensions": [6, 3],
+          "grid_item_template": "hk_ui_spike.data_cell",
+          "collection_name": "form_buttons",
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [0, 104],
+          "layer": 3
+        }
+      },
+      {
+        "grid_note@hk_ui_spike.text_dark": {
+          "text": "hk_ui_spike.data.grid_note",
+          "color": [0.45, 0.32, 0.18],
+          "font_scale_factor": 0.8,
+          "size": [232, "default"],
+          "text_alignment": "center",
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [0, 176]
+        }
+      },
+      {
+        "close@common.close_button": {
+          "layer": 20,
+          "$close_button_offset": [-3, 3]
+        }
+      }
+    ]
+  },
+  "forms": {
+    "type": "panel",
+    "size": [0, 0],
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "controls": [
+      {
+        "book@hk_ui_spike.book_layout": {
+          "$hk_marker": "§h§k§1"
+        }
+      },
+      {
+        "pot@hk_ui_spike.pot_layout": {
+          "$hk_marker": "§h§k§2"
+        }
+      },
+      {
+        "data@hk_ui_spike.data_layout": {
+          "$hk_marker": "§h§k§3"
+        }
+      }
+    ]
+  }
+}

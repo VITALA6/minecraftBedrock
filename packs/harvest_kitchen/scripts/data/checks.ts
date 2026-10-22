@@ -23,7 +23,7 @@ import { STATIONS, type ContainerStation } from "./stations";
 // The half of the data check that needs no game API: duplicate ids, counts, capacity, icons,
 // lang key prefixes, effect families, and that every recipe and ingredient can be reached. Pure,
 // so tests run it in Node, also on deliberately broken copies of the data. validate.ts adds the
-// game-side half at world load (items, blocks, states, biomes, effects, food JSON) using
+// game-side half at world load (items, blocks, states, biomes, effects, food components) using
 // referencedItems/referencedBlocks below.
 
 /** Everything the check reads, so tests can feed broken data. */
@@ -149,6 +149,10 @@ export function checkContent(content: Content = CONTENT): string[] {
       say(`${where}: needs ${size} > capacity ${station.capacity}`);
     }
     if (!(recipe.seconds > 0)) say(`${where}: bad cook time`);
+    const dish = content.dishes.find((d) => d.id === recipe.result);
+    if (station?.states.liquid && !dish?.liquid) {
+      say(`${where}: dish ${recipe.result} has no liquid colour (data/dishes.ts)`);
+    }
   }
   for (const recipe of content.craftingRecipes) {
     const where = `crafting recipe ${recipe.id}`;
@@ -230,8 +234,8 @@ export function referencedBlocks(
     refs.push({ id: crop.block, where: `crop ${crop.key}`, states: [STATE_GROWTH] });
   }
   for (const station of content.stations) {
-    const { fill, phase, hot } = station.states;
-    const states = [fill?.name, phase, hot].filter((n): n is string => n !== undefined);
+    const { fill, phase, hot, liquid } = station.states;
+    const states = [fill?.name, phase, hot, liquid].filter((n): n is string => n !== undefined);
     refs.push({ id: station.block, where: `station ${station.id}`, states });
   }
   for (const dish of content.dishes) {

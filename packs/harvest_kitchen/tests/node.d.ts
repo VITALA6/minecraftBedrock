@@ -29,3 +29,11 @@ declare module "node:fs" {
   export function readdirSync(path: string, options?: { recursive?: boolean }): string[];
   export function existsSync(path: string): boolean;
 }
+
+declare module "node:child_process" {
+  export function spawnSync(
+    command: string,
+    args: readonly string[],
+    options?: { encoding?: "utf8"; cwd?: string },
+  ): { status: number | null; stdout: string; stderr: string };
+}

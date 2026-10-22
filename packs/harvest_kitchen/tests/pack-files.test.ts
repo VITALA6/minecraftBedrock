@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { describe, it } from "node:test";
 import { HK_ITEM_IDS } from "../scripts/book/unlock";
@@ -6,11 +7,13 @@ import { readParams } from "../scripts/crops/growth-logic";
 import { CROPS } from "../scripts/data/crops";
 import { DISHES, FAMILIES } from "../scripts/data/dishes";
 import { EFFECT_ICONS, UI_ICONS, itemIcon } from "../scripts/data/icons";
+import { LIQUIDS } from "../scripts/data/liquids";
 import { CRAFTING_RECIPES } from "../scripts/data/recipes";
-import { STATIONS } from "../scripts/data/stations";
+import { STATIONS, stationById } from "../scripts/data/stations";
+import { evalCondition, type MolangValue } from "./molang";
 
-// What validate.ts can't check in game (texture files, lang keys) and what it can only check at
-// world load (food values in the item JSON), checked offline against the pack's files.
+// What validate.ts can't check in game (texture files, lang keys, and the food values in the item
+// JSON, whose ItemFoodComponent reads throw in 1.26.52), checked offline against the pack's files.
 // tools/test.mjs runs tests from the repo root, so paths are repo-relative.
 
 const PACK = "packs/harvest_kitchen";
@@ -241,12 +244,13 @@ describe("station and placed-dish block states against the data", () => {
   const states = (id: string) => blocks.get(id)?.description.states ?? {};
 
   for (const station of STATIONS) {
-    it(`${station.block}: fill range, phase values and hot flag`, () => {
+    it(`${station.block}: fill range, phase values, hot flag and liquid colours`, () => {
       const declared = states(station.block);
-      const { fill, phase, hot } = station.states;
+      const { fill, phase, hot, liquid } = station.states;
       if (fill) assert.deepEqual(declared[fill.name], { values: { min: 0, max: fill.levels } });
       if (phase) assert.deepEqual(declared[phase], ["idle", "ready", "cooking", "done"]);
       if (hot) assert.deepEqual(declared[hot], [false, true]);
+      if (liquid) assert.deepEqual(declared[liquid], [...LIQUIDS]);
     });
   }
 
@@ -291,4 +295,124 @@ describe("same-id placer items (B3)", () => {
       assert.notEqual(block.description.menu_category?.category ?? "none", "none");
     });
   }
+});
+
+describe("cooking pot looks (tools/gen-pot-block.mjs)", () => {
+  const pot = stationById("pot");
+  const block = blocks.get("hk:cooking_pot");
+  const terrain = (
+    JSON.parse(read(`${RP}/textures/terrain_texture.json`)) as {
+      texture_data: Record<string, { textures: string }>;
+    }
+  ).texture_data;
+  type Materials = Record<string, { texture: string; render_method?: string }>;
+  const permutations: { condition: string; components: Record<string, unknown> }[] =
+    block?.permutations ?? [];
+
+  it("the block JSON is what the generator writes", () => {
+    const run = spawnSync("node", ["tools/gen-pot-block.mjs", "--check"], { encoding: "utf8" });
+    assert.equal(run.status, 0, run.stderr || run.stdout);
+  });
+
+  it("every liquid colour has its plain and ready texture, registered with an hk_ shortname", () => {
+    for (const liquid of LIQUIDS) {
+      for (const name of [`cooking_pot_liquid_${liquid}`, `cooking_pot_liquid_${liquid}_ready`]) {
+        assert.equal(terrain[`hk_${name}`]?.textures, `textures/hk/blocks/${name}`, name);
+        assert.ok(existsSync(`${RP}/textures/hk/blocks/${name}.png`), `${name}.png`);
+      }
+    }
+  });
+
+  it("every texture the pot names exists, and every material is opaque (plan §5.1)", () => {
+    assert.ok(block);
+    const all = [
+      block.components["minecraft:material_instances"] as Materials,
+      ...permutations.map(
+        (p) => p.components["minecraft:material_instances"] as Materials | undefined,
+      ),
+    ].filter((m): m is Materials => m !== undefined);
+    for (const materials of all) {
+      for (const [slot, { texture, render_method }] of Object.entries(materials)) {
+        assert.equal(render_method, "opaque", `${slot}: ${texture}`);
+        const path = terrain[texture]?.textures;
+        assert.ok(path, `${texture} in terrain_texture.json`);
+        assert.ok(existsSync(`${RP}/${path}.png`), `${path}.png`);
+      }
+    }
+  });
+
+  it("every state combination shows its liquid colour, the ready glint, the hot rim and the light", () => {
+    assert.ok(block && pot);
+    const { fill, phase, hot, liquid } = pot.states;
+    assert.ok(fill && phase && hot && liquid);
+    const base = block.components["minecraft:material_instances"] as Materials;
+    let combinations = 0;
+    for (let level = 0; level <= fill.levels; level++) {
+      for (const ph of ["idle", "ready", "cooking", "done"]) {
+        for (const isHot of [false, true]) {
+          for (const colour of LIQUIDS) {
+            combinations++;
+            const states: Record<string, MolangValue> = {
+              [fill.name]: level,
+              [phase]: ph,
+              [hot]: isHot,
+              [liquid]: colour,
+            };
+            const applied = permutations.filter((p) => evalCondition(p.condition, states));
+            const withMaterials = applied.filter(
+              (p) => p.components["minecraft:material_instances"] !== undefined,
+            );
+            const where = JSON.stringify(states);
+            assert.ok(withMaterials.length <= 1, `${where}: several material permutations`);
+            const materials: Materials =
+              (withMaterials[0]?.components["minecraft:material_instances"] as
+                Materials | undefined) ?? base;
+            const ready = ph === "ready" || ph === "done";
+            assert.equal(
+              materials.liquid?.texture,
+              `hk_cooking_pot_liquid_${colour}${ready ? "_ready" : ""}`,
+              where,
+            );
+            assert.equal(
+              materials.top?.texture,
+              isHot ? "hk_cooking_pot_top_hot" : "hk_cooking_pot_top",
+              where,
+            );
+            const light: unknown = applied
+              .map((p) => p.components["minecraft:light_emission"])
+              .find((v) => v !== undefined);
+            assert.equal(light ?? 0, isHot && ph === "cooking" ? 7 : 0, `${where}: light`);
+          }
+        }
+      }
+    }
+    // the bit budget (CLAUDE.md: states share 16 bits): 4 × 4 × 2 × 7 = 224 < 2^8
+    assert.equal(combinations, (fill.levels + 1) * 4 * 2 * LIQUIDS.length);
+    assert.ok(combinations <= 256);
+  });
+});
+
+describe("strawberry cake support (B15)", () => {
+  const cake = blocks.get("hk:strawberry_cake");
+
+  it("can only be placed on top of a block, and pops when pushed", () => {
+    assert.ok(cake);
+    assert.deepEqual(cake.components["minecraft:placement_filter"], {
+      conditions: [{ allowed_faces: ["up"] }],
+    });
+    assert.deepEqual(cake.components["minecraft:movable"], { movement_type: "popped" });
+  });
+
+  it("drops nothing when it pops or breaks (no free cake)", () => {
+    assert.ok(cake);
+    const path = cake.components["minecraft:loot"];
+    assert.equal(typeof path, "string");
+    const loot = JSON.parse(read(`${BP}/${path as string}`)) as {
+      pools?: { entries?: unknown[] }[];
+    };
+    assert.deepEqual(
+      (loot.pools ?? []).flatMap((p) => p.entries ?? []),
+      [],
+    );
+  });
 });

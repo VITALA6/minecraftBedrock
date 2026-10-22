@@ -1,4 +1,11 @@
-import { BLOCK_COOKING_POT, ITEM_COOKING_POT, STATE_FILL, STATE_HOT, STATE_PHASE } from "../config";
+import {
+  BLOCK_COOKING_POT,
+  ITEM_COOKING_POT,
+  STATE_FILL,
+  STATE_HOT,
+  STATE_LIQUID,
+  STATE_PHASE,
+} from "../config";
 
 // Container stations as config (plan §5.2): a block that holds ingredients, matches recipes from
 // data/recipes.ts, cooks over time and shows its state through block states. The pot is the only
@@ -24,6 +31,8 @@ export interface ContainerStation {
     readonly phase?: string;
     /** Bool state: heat below right now (cached; refreshed by the sweep and on use). */
     readonly hot?: string;
+    /** String state with the values of LIQUIDS (data/liquids.ts): the liquid's colour. */
+    readonly liquid?: string;
   };
 }
 
@@ -39,6 +48,7 @@ export const STATIONS: readonly ContainerStation[] = [
       fill: { name: STATE_FILL, levels: 3 },
       phase: STATE_PHASE,
       hot: STATE_HOT,
+      liquid: STATE_LIQUID,
     },
   },
 ];

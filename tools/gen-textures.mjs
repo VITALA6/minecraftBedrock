@@ -1954,36 +1954,77 @@ function potTexture(name) {
 
 const sameColour = (a, b) => a && b && a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
 
-def(
-  "blocks",
-  "cooking_pot_liquid_ready",
-  () =>
-    stack(
-      potTexture("cooking_pot_liquid"),
-      rows(
-        `
-        ................
-        ................
-        ....l...........
-        ...lWl..........
-        ....l......l....
-        ..........lWl...
-        ...........l....
-        ................
-        ......l.........
-        .....lWl........
-        ......l.....l...
-        ................
-        ..l.............
-        ................
-        .........l......
-        ................`,
-        { l: c("pot_liquid", -1), W: c("cream", -1) },
-        "cooking_pot_liquid_ready",
-      ),
-    ),
-  "pot",
-);
+// Pot liquid colours, one per value of the pot's hk:liquid state (LIQUIDS in
+// packs/harvest_kitchen/scripts/data/liquids.ts; tests/pack-files.test.ts checks that every id has
+// both PNGs in the pack). `shades` replace the S8 liquid's four shades rank for rank (dark → light),
+// so every colour keeps the S8 ripples. `glint` colours the ready sparkle: its arms (default: the
+// lightest liquid shade) and its centre (default: the lightest cream). Tomato is the S8 texture.
+const POT_LIQUIDS = {
+  water: () => ({ shades: [c("glass", 0), c("glass", 1), c("glass", 2), c("glass", 3)] }),
+  tomato: () => ({ shades: P.pot_liquid.map((rgb) => [...rgb, 255]) }),
+  chili: () => ({ shades: [c("beet", 0), c("beet", 1), c("beet", 3), c("beet", 4)] }),
+  jam: () => ({
+    shades: [c("strawberry", 0), c("strawberry", 1), c("strawberry", 2), c("strawberry", 3)],
+  }),
+  stew: () => ({ shades: [c("meat", 1), c("meat", 2), c("meat", 3), c("meat", 4)] }),
+  broth: () => ({ shades: [c("onion", 1), c("onion", 2), c("onion", 3), c("onion", 4)] }),
+  cream: () => ({
+    shades: [c("onion_flesh", 2), c("cream", 0), c("cream", 1), c("cream", 2)],
+    // pale on pale: a golden sparkle so the ready glint still shows
+    glint: { arms: c("flower_yellow", 2) },
+  }),
+};
+
+/** The S8 liquid recoloured: each S8 shade (P.pot_liquid, dark → light) → `shades` at its rank. */
+function potLiquid(shades) {
+  const base = potTexture("cooking_pot_liquid");
+  if (P.pot_liquid.length !== shades.length) {
+    throw new Error(
+      `pot liquid has ${P.pot_liquid.length} shades, the recolour gives ${shades.length}`,
+    );
+  }
+  return base.map((v) => {
+    const k = P.pot_liquid.findIndex((g) => sameColour(g, v));
+    if (k < 0) throw new Error("cooking_pot_liquid.png has a colour outside its own ramp");
+    return shades[k];
+  });
+}
+
+for (const [liquid, look] of Object.entries(POT_LIQUIDS)) {
+  def("blocks", `cooking_pot_liquid_${liquid}`, () => potLiquid(look().shades), "pot");
+  def(
+    "blocks",
+    `cooking_pot_liquid_${liquid}_ready`,
+    () => {
+      const { shades, glint } = look();
+      return stack(
+        potLiquid(shades),
+        rows(
+          `
+          ................
+          ................
+          ....l...........
+          ...lWl..........
+          ....l......l....
+          ..........lWl...
+          ...........l....
+          ................
+          ......l.........
+          .....lWl........
+          ......l.....l...
+          ................
+          ..l.............
+          ................
+          .........l......
+          ................`,
+          { l: glint?.arms ?? shades[shades.length - 1], W: glint?.center ?? c("cream", -1) },
+          `cooking_pot_liquid_${liquid}_ready`,
+        ),
+      );
+    },
+    "pot",
+  );
+}
 
 def(
   "blocks",

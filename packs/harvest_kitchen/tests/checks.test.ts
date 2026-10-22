@@ -195,6 +195,17 @@ describe("data check on broken data", () => {
     );
   });
 
+  it("a pot dish without a liquid colour", () => {
+    const plain = DISHES.map((d) => (d.id === "hk:onion_soup" ? { ...d, liquid: undefined } : d));
+    reports(
+      check({ dishes: plain }),
+      "station recipe hk:onion_soup: dish hk:onion_soup has no liquid colour (data/dishes.ts)",
+    );
+    // a station without a liquid state doesn't need one
+    const noLiquid = { ...pot, states: { ...pot.states, liquid: undefined } };
+    reports(check({ dishes: plain, stations: [noLiquid] }));
+  });
+
   it("family lang keys need the hk.family. prefix", () => {
     reports(
       check({
@@ -264,7 +275,7 @@ describe("references for the in-game half", () => {
   it("lists every block with the states the scripts drive", () => {
     const refs = referencedBlocks();
     const states = (id: string) => refs.find((r) => r.id === id)?.states;
-    assert.deepEqual(states("hk:cooking_pot"), ["hk:fill", "hk:phase", "hk:hot"]);
+    assert.deepEqual(states("hk:cooking_pot"), ["hk:fill", "hk:phase", "hk:hot", "hk:liquid"]);
     assert.deepEqual(states("hk:chili_bush"), ["hk:growth"]);
     assert.deepEqual(states("hk:strawberry_cake"), ["hk:slices"]);
     assert.deepEqual(states("minecraft:campfire"), []);

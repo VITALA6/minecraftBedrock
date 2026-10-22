@@ -19,11 +19,47 @@
     "hk_cooking_pot_lid": {
       "textures": "textures/hk/blocks/cooking_pot_lid"
     },
-    "hk_cooking_pot_liquid": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid"
+    "hk_cooking_pot_liquid_broth": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_broth"
     },
-    "hk_cooking_pot_liquid_ready": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_ready"
+    "hk_cooking_pot_liquid_broth_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_broth_ready"
+    },
+    "hk_cooking_pot_liquid_chili": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_chili"
+    },
+    "hk_cooking_pot_liquid_chili_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_chili_ready"
+    },
+    "hk_cooking_pot_liquid_cream": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_cream"
+    },
+    "hk_cooking_pot_liquid_cream_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_cream_ready"
+    },
+    "hk_cooking_pot_liquid_jam": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_jam"
+    },
+    "hk_cooking_pot_liquid_jam_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_jam_ready"
+    },
+    "hk_cooking_pot_liquid_stew": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_stew"
+    },
+    "hk_cooking_pot_liquid_stew_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_stew_ready"
+    },
+    "hk_cooking_pot_liquid_tomato": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_tomato"
+    },
+    "hk_cooking_pot_liquid_tomato_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_tomato_ready"
+    },
+    "hk_cooking_pot_liquid_water": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_water"
+    },
+    "hk_cooking_pot_liquid_water_ready": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_water_ready"
     },
     "hk_cooking_pot_side": {
       "textures": "textures/hk/blocks/cooking_pot_side"

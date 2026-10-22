@@ -6,6 +6,7 @@ import {
   type RGB,
   type Vector3,
 } from "@minecraft/server";
+import { particleInputs } from "../data/particles";
 
 // The feedback vocabulary (plan §2.2): every action answers with a sound, a particle and at most
 // one short action bar line. Effects are best-effort: a particle or sound that fails (unloaded
@@ -32,12 +33,17 @@ export function particle(
   spread = 0.25,
   color?: RGB,
 ): void {
-  let vars: MolangVariableMap | undefined;
-  if (color) {
-    vars = new MolangVariableMap();
-    vars.setColorRGB("variable.color", color);
-  }
   try {
+    // Exactly the variables this particle reads (data/particles.ts), so none is left unset.
+    const inputs = particleInputs(id, color);
+    let vars: MolangVariableMap | undefined;
+    if (inputs.length > 0) {
+      vars = new MolangVariableMap();
+      for (const input of inputs) {
+        if (input.kind === "color") vars.setColorRGB(input.name, input.value);
+        else vars.setVector3(input.name, input.value);
+      }
+    }
     for (let i = 0; i < count; i++) {
       const at =
         count === 1

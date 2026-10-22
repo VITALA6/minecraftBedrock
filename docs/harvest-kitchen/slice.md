@@ -9,25 +9,26 @@ Written 2026-10-21/22 without an in-game run. Everything not yet seen working in
 
 ## What's implemented
 
-| Feature           | How                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 5 crops           | Tomato, onion, cucumber (`crop`: break to harvest) and chili, strawberry (`bush`: use to pick). One block component `hk:crop_growth` with a flat `type` param. Onion is its own seed.                                                                                                                                                                                                                                                     |
-| Bushes            | Mature (stage 3) + use with anything: drops 1–3 chili / 2–3 strawberries, falls back to stage 2, regrows. Bone meal on a young bush grows it. Planted on grass, dirt, coarse dirt, podzol or farmland (see decisions).                                                                                                                                                                                                                    |
-| Seed drops        | Breaking short grass, tall grass, fern or large fern (not creative, not shears): one roll; each crop has 5 % in its biomes (`Dimension.getBiome()`) and 1 % anywhere else, so a break drops at most one HK seed.                                                                                                                                                                                                                          |
-| Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                 |
-| Station engine    | Generic container station from config (`data/stations.ts`): recipe list, capacity, heat rule, visual-state mapping. One `runInterval` (10 ticks) drives every station with contents. Cook time is stored as ticks left and only counts down with heat, so it pauses without heat and survives `/reload` (the active list is rebuilt at `worldLoad`).                                                                                      |
-| Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                  |
-| Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`. Bone visibility shows the liquid level and the lid (cooking). Permutations swap the liquid to "ready" (ready or done) and the rim to "hot"; light 7 while cooking with heat. All materials `opaque`.                                                                                                                                                        |
-| Pot interactions  | Exactly §2.3: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the pot screen for several or for "idle with items", says `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills. |
-| Pot screen (§2.4) | `ActionFormData`: Cook (one button per possible dish), Almost! (only when nothing is possible: closest recipe's first missing item → its book page), In the pot (one button per type → take it out, screen reopens), Recipe Book (→ the pot chapter). Every choice re-validated after the form.                                                                                                                                           |
-| Recipe book (§3)  | `hk:recipe_book` item (`onUse`). Home → What can I make? / Pot / Board / Crafting / Crops. Dish pages: effect line in the body, effect button, ingredient buttons that chain to the crop page, the Board, the dish page, or a "Vanilla item" hint; the station button. Crops page with biome hints. Back is the last button on every page but Home.                                                                                       |
-| Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; locked entries are `???` with the locked icon. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. Book handed out the first time any HK item enters the inventory; craftable from Book + any HK seed (tag `hk:seeds`, onion included).                           |
-| Dishes            | All 13 MUST dishes. Pot: tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam. Crafting (shapeless): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                          |
-| Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Generic `hk:sliced_dish` component.                                                                                                                  |
-| Validation        | `data/validate.ts` at `worldLoad`; results in the Content Log, via `/hk:debug validate`, and announced to operators on join if there are problems.                                                                                                                                                                                                                                                                                        |
-| `/hk:debug`       | Operator-only custom command (see below).                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Feature           | How                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5 crops           | Tomato, onion, cucumber (`crop`: break to harvest) and chili, strawberry (`bush`: use to pick). One block component `hk:crop_growth` with a flat `type` param. Onion is its own seed.                                                                                                                                                                                                                                                                               |
+| Bushes            | Mature (stage 3) + use with anything: drops 1–3 chili / 2–3 strawberries, falls back to stage 2, regrows. Bone meal on a young bush grows it. Planted on grass, dirt, coarse dirt, podzol or farmland (see decisions).                                                                                                                                                                                                                                              |
+| Seed drops        | Breaking short grass, tall grass, fern or large fern (not creative, not shears): one roll; each crop has 5 % in its biomes (`Dimension.getBiome()`) and 1 % anywhere else, so a break drops at most one HK seed.                                                                                                                                                                                                                                                    |
+| Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                                           |
+| Station engine    | Generic container station from config (`data/stations.ts`): recipe list, capacity, heat rule, visual-state mapping. One `runInterval` (10 ticks) drives every station with contents. Cook time is stored as ticks left and only counts down with heat, so it pauses without heat and survives `/reload` (the active list is rebuilt at `worldLoad`).                                                                                                                |
+| Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                            |
+| Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`, `hk:liquid` (7 colours). Bone visibility shows the liquid level and the lid (cooking). The liquid shows what's in the pot (`liquidOf`: the matched dish's colour, else the main ingredient's, else clear water) with a glint when ready or done; the rim glows when hot; light 7 while cooking with heat. Generated permutations (`tools/gen-pot-block.mjs`). All materials `opaque`. |
+| Pot interactions  | Exactly §2.3: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the pot screen for several or for "idle with items", says `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills.                           |
+| Pot screen (§2.4) | `ActionFormData`: Cook (one button per possible dish), Almost! (only when nothing is possible: closest recipe's first missing item → its book page), In the pot (one button per type → take it out, screen reopens), Recipe Book (→ the pot chapter). Every choice re-validated after the form.                                                                                                                                                                     |
+| Recipe book (§3)  | `hk:recipe_book` item (`onUse`). Home → What can I make? / Pot / Board / Crafting / Crops. Dish pages: effect line in the body, effect button, ingredient buttons that chain to the crop page, the Board, the dish page, or a "Vanilla item" hint; the station button. Crops page with biome hints. Back is the last button on every page but Home.                                                                                                                 |
+| Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; locked entries are `???` with the locked icon. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. Book handed out the first time any HK item enters the inventory; craftable from Book + any HK seed (tag `hk:seeds`, onion included).                                                     |
+| Dishes            | All 13 MUST dishes. Pot: tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam. Crafting (shapeless): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                                                    |
+| Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Only placeable on top of a block; pops (dropping nothing) when the block below goes or a piston pushes it (B15). Generic `hk:sliced_dish` component.                           |
+| Validation        | `data/validate.ts` at `worldLoad`; results in the Content Log, via `/hk:debug validate`, and announced to operators on join if there are problems.                                                                                                                                                                                                                                                                                                                  |
+| `/hk:debug`       | Operator-only custom command (see below).                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
-Dish table (food values are in the item JSON **and** `data/dishes.ts`; validation compares them):
+Dish table (food values are in the item JSON **and** `data/dishes.ts`; `tests/pack-files.test.ts`
+compares them, B17). Pot dishes also have a liquid colour (see "Pot liquid colours"):
 
 | Dish            | Station  | Ingredients                                            | Food  | Effect                 | Always eat | Cook |
 | --------------- | -------- | ------------------------------------------------------ | ----- | ---------------------- | ---------- | ---- |
@@ -48,6 +49,30 @@ Dish table (food values are in the item JSON **and** `data/dishes.ts`; validatio
 All effects are level I. Station items: Cooking Pot (`IBI`/`III`, iron + bowl), Cutting Board
 (stick + 2 planks in a row), Recipe Book (Book + any HK seed, shapeless).
 
+## Pot liquid colours
+
+`data/liquids.ts` and the `liquid` field in `data/dishes.ts`; rule in `liquidOf`
+(`stations/station-logic.ts`):
+
+1. A recipe matches (done: the finished dish; cooking: the job's dish; ready: the first possible
+   recipe in recipe order) → that dish's colour.
+2. Otherwise → the colour there's most of among the ingredients, counts summed per colour; a tie
+   goes to the stronger colour (chili > tomato > jam > stew > broth > cream).
+3. Nothing that colours it (empty, or only bowls, bottles, sugar) → clear water.
+
+| Colour (`hk:liquid`) | Dishes                   | Ingredients                       | Texture ramp (palette)   |
+| -------------------- | ------------------------ | --------------------------------- | ------------------------ |
+| `water` (default)    | none                     | none                              | `glass`                  |
+| `tomato`             | Tomato Soup              | Tomato                            | the S8 liquid, unchanged |
+| `chili`              | Chili Stew               | Chili Pepper                      | `beet` (deep red)        |
+| `jam`                | Strawberry Jam           | Strawberry                        | `strawberry` (pink-red)  |
+| `stew`               | Vegetable Stew           | Raw Beef                          | `meat` (brown)           |
+| `broth`              | Chicken Soup, Onion Soup | Onion, Carrot, Raw Chicken, Bread | `onion` (golden)         |
+| `cream`              | Fish Chowder             | Potato, Raw Cod, Raw Salmon       | `onion_flesh` + `cream`  |
+
+Each colour has `cooking_pot_liquid_<colour>.png` and `_ready.png` (the same sparkle overlay as
+before; on `cream` the sparkle is golden so it still shows). No dish is green, so there's no green.
+
 ## Identifiers
 
 - **Items:** `hk:tomato`, `hk:onion`, `hk:cucumber`, `hk:chili_pepper`, `hk:strawberry`;
@@ -60,7 +85,8 @@ All effects are level I. Station items: Cooking Pot (`IBI`/`III`, iron + bowl), 
 - **Blocks:** `hk:tomato_crop`, `hk:onion_crop`, `hk:cucumber_crop`, `hk:chili_bush`,
   `hk:strawberry_bush`, `hk:cooking_pot`, `hk:cutting_board`, `hk:strawberry_cake`.
 - **Block states:** `hk:growth` 0–3 (crops, bushes); `hk:fill` 0–3, `hk:phase`
-  idle|ready|cooking|done, `hk:hot` bool (pot: 2 + 2 + 1 = 5 bits, 32 permutations);
+  idle|ready|cooking|done, `hk:hot` bool, `hk:liquid` water|tomato|chili|jam|stew|broth|cream
+  (pot: 2 + 2 + 1 + 3 = 8 bits, 4 × 4 × 2 × 7 = 224 permutations);
   `hk:slices` 0–3 (cake); `minecraft:cardinal_direction` (board).
 - **Custom components:** block `hk:crop_growth`, `hk:cutting_station`, `hk:container_station`,
   `hk:sliced_dish`; item `hk:dish`, `hk:recipe_book`.
@@ -81,19 +107,22 @@ scripts/
   data/                      content as data; no logic
     crops.ts                 every crop: type, seed, soil, biomes, pick counts, colour, hint key
     recipes.ts               cutting, station (pot) and crafting recipes + matching helpers
-    dishes.ts                food values, effects, effect families, slices
+    dishes.ts                food values, effects, effect families, slices, pot liquid colour
+    liquids.ts               pot liquid colours (hk:liquid values), ingredient colours,
+                             dominantLiquid (pure)
+    particles.ts             Molang variables each vanilla particle reads (pure)
     stations.ts              container station configs (the pot)
     icons.ts                 vanilla item/effect icon paths, our UI icons
     checks.ts                the game-independent data check (pure, unit-tested)
-    validate.ts              worldLoad check: checks.ts + items, blocks, states, biomes, food JSON
+    validate.ts              worldLoad check: checks.ts + items, blocks, states, biomes, food component
   crops/
     crop-growth.ts           hk:crop_growth: reads the block, applies growth-logic.ts
     growth-logic.ts          params, random-tick growth, bone meal, bush picking (pure)
     seed-drops.ts            grass break -> seed-roll.ts -> spawn the seed
     seed-roll.ts             per-biome chances, one roll per break (pure)
   stations/
-    station-logic.ts         container station rules and saved form (pure): phase, fill, routing,
-                             add/take/start/countdown/finish/collect/spill
+    station-logic.ts         container station rules and saved form (pure): phase, fill, liquid
+                             colour, routing, add/take/start/countdown/finish/collect/spill
     station-engine.ts        reads/saves the state, heat, visuals, feedback, the one sweep
     station-store.ts         station persistence (world dynamic properties)
     container-station.ts     hk:container_station: component and before-event entry points
@@ -102,6 +131,7 @@ scripts/
   food/
     dish.ts                  hk:dish: effect on eat
     sliced-dish.ts           hk:sliced_dish: eat a slice of a placed dish
+    dish-support.ts          pops a placed dish left on air (break/explosion/piston; B15)
     feed.ts                  hunger/saturation/effect helpers
   book/
     unlock.ts                crops of each item/dish, unlock rule, hk:found format, toast timing (pure)
@@ -121,7 +151,10 @@ tests/                       node:test unit tests for the pure modules (see "Tes
 
 - **A pot recipe:** one entry in `STATION_RECIPES` (`data/recipes.ts`) and, for a new dish, an
   entry in `DISHES` (`data/dishes.ts`) plus the item JSON (`minecraft:food`, `"hk:dish": {}`),
-  texture `textures/hk/items/<name>.png` + `item_texture.json` + lang key. The pot, its screen,
+  texture `textures/hk/items/<name>.png` + `item_texture.json` + lang key. A pot dish needs a
+  `liquid` colour (`checks.ts` reports a missing one); a new colour is a `LIQUIDS` entry
+  (`data/liquids.ts`, append only), a `POT_LIQUIDS` entry in `tools/gen-textures.mjs`, the two
+  PNGs copied + `terrain_texture.json`, then `node tools/gen-pot-block.mjs`. The pot, its screen,
   "Almost!", the book and validation pick it up.
 - **A crafting dish:** the shapeless JSON in `behavior/recipes/`, the same recipe in
   `CRAFTING_RECIPES` (it's what the book shows; keep both in sync), a `DISHES` entry, item JSON,
@@ -154,14 +187,25 @@ tests/                       node:test unit tests for the pure modules (see "Tes
 Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its data-driven
   `red_shrub` block. `minecraft:item_visual` exists too, but it renders geometry, not a flat icon.
   **(untested)**
-- **Hot vs cold is a state (`hk:hot`), not computed only on use.** It costs 1 bit (5 bits total,
-  32 permutations). Heat is still checked live whenever it matters (start cooking, every sweep);
+- **Hot vs cold is a state (`hk:hot`), not computed only on use.** It costs 1 bit (8 bits total
+  with `hk:liquid`). Heat is still checked live whenever it matters (start cooking, every sweep);
   the state is only the visual cache.
-- **Ready look is a texture swap** (`cooking_pot_liquid_ready`) for phases ready **and** done; hot
-  rim is `cooking_pot_top_hot`. Four permutations cover the hot × ready combinations (permutations
-  replace `material_instances` whole), and a fifth adds `light_emission: 7` when cooking with heat.
-  This relies on several matching permutations applying together (different components).
+- **Pot liquid colours are a state plus generated permutations** (B16). `hk:liquid` holds one of
+  7 colours; `refreshVisuals` sets it from `liquidOf` on every save (add, take out, take all,
+  cook start, done, collect) and on every sweep, place and random tick, so it always follows the
+  contents. A permutation's `material_instances` replaces the whole component, so each colour ×
+  ready glint (phase ready or done) × hot rim is one permutation (27 + the base), written by
+  `tools/gen-pot-block.mjs` from `LIQUIDS` and the pot config; a fifth kind adds
+  `light_emission: 7` when cooking with heat. Chosen over per-colour liquid bones with
+  `bone_visibility` because it needs no geometry change (the S8 model stays as exported) and one
+  texture slot; the cost is a long but generated JSON, kept honest by `--check` in `npm test`.
+  This still relies on a material permutation and the light permutation applying together.
   **(untested)**
+- **Particles get exactly the Molang variables they read** (`data/particles.ts`).
+  `water_splash_particle` reads `variable.direction.x/.y/.z` for its emitter direction; spawned
+  without it, each pot add logged `unable to find member variable .x/.y/.z` and `unhandled
+request for unknown variable`. It now gets `setVector3("variable.direction", up)`. The table
+  covers every id in `PARTICLE`, from the 1.26.52.3 vanilla definitions.
 - **Cook time is ticks left, saved every sweep.** No wall-clock deadline: it pauses without heat
   and while the game is paused. One `runInterval` for all stations; stations without contents
   aren't tracked (idle empty pots refresh their look on use, place, random tick and heat changes).
@@ -215,7 +259,7 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
   depending on the game. Type-only imports are erased and allowed.
 - **Pure modules:** `stations/station-logic.ts`, `stations/heat.ts`, `crops/growth-logic.ts`,
   `crops/seed-roll.ts`, `book/unlock.ts`, `data/checks.ts`, plus `config.ts` and `data/*.ts` except
-  `validate.ts`. Random numbers and "is this item loaded" come in as parameters.
+  `validate.ts` (`data/liquids.ts` and `data/particles.ts` included). Random numbers and "is this item loaded" come in as parameters.
 - **Types:** `tests/node.d.ts` declares the few Node APIs the tests use (there's no `@types/node`,
   and the scripts must not see Node globals). `tsc` and eslint (type-aware) cover `tests/`.
   `tools/build.mjs` copies only `behavior/`, `resource/` and the `scripts/main.ts` bundle, so tests
@@ -225,7 +269,11 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
   (`seed-roll`), discovery and unlocks (`unlock`), the data check on good and deliberately broken
   data (`checks`), and pack files against the data (`pack-files`: lang keys both ways, display
   names, `textures/hk/` icon PNGs, food values in item JSON, crafting JSON vs `CRAFTING_RECIPES`,
-  crop block params/states/loot, pot and cake states).
+  crop block params/states/loot, pot and cake states), liquid colours (`station-logic`
+  "liquid colour", `liquids`), particle variables (`particles`), the pot's generated permutations
+  (`pack-files` "cooking pot looks": runs `tools/gen-pot-block.mjs --check` and evaluates every
+  condition for all 224 state combinations with the small Molang evaluator in `tests/molang.ts`)
+  and the cake's placement filter and empty loot (`pack-files` "strawberry cake support").
 - What stays game-only (needs the in-game test): everything in `station-engine.ts`,
   `container-station.ts` and the other `@minecraft/server` modules (block reads, heat lookups,
   hand-outs, forms, events), and `validate.ts`'s item/block/biome/effect/food checks.
@@ -243,8 +291,10 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
   block component hooks `onPlayerInteract`, `onPlace`, `onRandomTick`, `onPlayerBreak`,
   `onBreak` (`brokenBlockPermutation`); item component `onUse`, `onUseOn`, `onConsume`;
   `EntityComponentTypes.Hunger` / `Saturation` (`EntityAttributeComponent.setCurrentValue`);
-  `ItemComponentTypes.Food` (`ItemFoodComponent.nutrition`, `canAlwaysEat`, `usingConvertsTo`);
-  `MolangVariableMap.setColorRGB`; `ScreenDisplay.setTitle` with `subtitle`;
+  `ItemComponentTypes.Food` (only `getComponent`; its properties throw in game, B17);
+  `MolangVariableMap.setColorRGB` / `setVector3`; `world.afterEvents.blockExplode`,
+  `pistonActivate` (`BlockPistonComponent.getAttachedBlocksLocations`); `Block.isAir`,
+  `isLiquid`; `Dimension.runCommand`; `ScreenDisplay.setTitle` with `subtitle`;
   `ActionFormData.header/divider/button(icon)`; `show()` is `no-restricted-execution` (the book
   item defers it with `system.run`); `Block.above(steps)`; `Player.getBlockFromViewDirection`.
   `tsc` checks every call against these typings.
@@ -254,10 +304,11 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
   `random.eat`, `random.orb`, `item.book.page_turn`, `item.bone_meal.use`,
   `block.sweet_berry_bush.pick`. Block sound types `grass`, `sweet_berry_bush`, `wood`, `copper`,
   `cloth` are in vanilla `blocks.json`.
-- **Particles** (vanilla RP `particles/`): `minecraft:water_splash_particle`,
-  `minecraft:basic_smoke_particle`, `minecraft:villager_happy`, `minecraft:white_smoke_particle`,
-  `minecraft:falling_dust` (takes `variable.color`), `minecraft:heart_particle`,
-  `minecraft:crop_growth_emitter`.
+- **Particles** (vanilla RP `particles.brarchive`, newest layer): `minecraft:water_splash_particle`
+  (reads `variable.direction.x/.y/.z`), `minecraft:basic_smoke_particle`,
+  `minecraft:villager_happy`, `minecraft:white_smoke_particle`, `minecraft:falling_dust` (reads
+  `variable.color.r/.g/.b`), `minecraft:heart_particle`, `minecraft:crop_growth_emitter` (sets its
+  own `variable.size`). See `data/particles.ts`.
 - **Texture paths** (vanilla `textures_list.json` / `contents.json`): every entry in
   `data/icons.ts`, including `textures/items/beef_raw`, `fish_raw`, `fish_salmon_raw`,
   `chicken_raw`, `potion_bottle_empty`, `porkchop_cooked`, `book_normal`, `campfire`,
@@ -299,6 +350,34 @@ Everything below is unproven in game:
 14. `/hk:debug` with `cheatsRequired: false` shows for operators in a world without cheats.
 15. Biome ids such as `minecraft:mesa_plateau_stone` resolve through `BiomeTypes.get` (validation
     reports any that don't).
+16. The cake pops when the block below goes, through its `placement_filter` or the script net
+    (B15), and a pop drops nothing.
+17. The pot's 28 permutations load and the liquid colour shows per state (B16).
+18. The water splash with `variable.direction` = up still looks like a splash out of the pot.
+
+## In-game checks for the 2026-10-22 fixes
+
+Deploy, re-enter the world (block JSON and textures changed), enable the Content Log file.
+
+1. **Data check (B17):** the Content Log has `[harvest_kitchen] data check: 0 problem(s)` and no
+   `can't read food` lines; `/hk:debug validate` prints 0 problems.
+2. **Molang errors:** put ingredients into a pot (each add splashes), chop on the board, eat cake,
+   bone-meal a crop, cook something. The Content Log has no `unable to find member variable` /
+   `unhandled request for unknown variable` lines. The splash should still look like water
+   jumping out of the pot.
+3. **Pot liquid** (campfire under the pot, `/hk:debug kit`):
+   - Add 1 onion: golden broth. Add 2 tomatoes: red (2 beat 1). Take the tomatoes out on the pot
+     screen: golden again. Sneak + empty hand (take all): empty pot.
+   - Add 2 tomatoes + a bowl: red with the ready glint. Add 3 onions: still red (a dish matches).
+   - Cook (empty hand): lid on, red while cooking. Done: red with the glint. Collect: the 3 onions
+     are left, golden broth without the glint.
+   - Jam (3 strawberries, sugar, bottle): pink. Chowder (cod, potato, onion, bowl): creamy with a
+     golden glint. Chili Stew: deep red. Vegetable Stew: brown. Onion/Chicken Soup: golden.
+   - Only a bowl and sugar: clear blue water.
+   - Remove the campfire while it shows: the rim cools, the colour stays. Break a full pot: it
+     spills as before.
+   - Content Log: no error about `hk:cooking_pot` permutations or missing textures.
+4. **Cake (B15):** the steps in blockers.md B15.
 
 ## Art
 
@@ -312,9 +391,10 @@ identifiers, bones and slots. Crops and bushes use the `#`-shaped `geometry.hk.c
 - `textures/hk/items/<name>.png`, shortname `hk_<name>`: the 5 produce, 4 seeds, 3 prepared, 13
   dishes, `recipe_book`, `cooking_pot`, `cutting_board` (28 files).
 - `textures/hk/blocks/`: `<block>_stage_0..3` for the 5 crops/bushes; `cooking_pot_side`, `_top`,
-  `_liquid`, `_lid` (S8), `cooking_pot_liquid_ready`, `cooking_pot_top_hot`;
+  `_lid` (S8), `cooking_pot_top_hot`; `cooking_pot_liquid_<colour>` and `_<colour>_ready` for the
+  7 liquid colours (the S8 liquid recoloured; `tomato` is the S8 texture itself);
   `cutting_board_side`, `_top`, `_knife`; `strawberry_cake_side`, `_top`, `_inner`, `_berry`
-  (33 files, shortnames `hk_<file>`).
+  (45 files, shortnames `hk_<file>`).
 - `textures/hk/ui/`: `family_heal`, `family_move`, `family_work`, `family_explore`, `locked`,
   `chapter_crops`, `chapter_what_can_i_make`, `needs_heat` (referenced by path).
 

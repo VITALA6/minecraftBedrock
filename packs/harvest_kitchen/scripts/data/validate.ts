@@ -15,9 +15,9 @@ import { DISHES } from "./dishes";
 // This checks everything once at world load. The game-independent half (duplicates, counts,
 // capacity, icons, lang key prefixes, reachability) is checkContent in checks.ts, which the tests
 // also run; this adds what needs the game: every item, block, block state, biome and effect the
-// data names, and food values against the item JSON. Problems go to the Content Log, and because
-// the log file loses its last 4 KB under mcpelauncher, they're also kept for /hk:debug validate
-// and announced to operators on join.
+// data names, and that every dish item has minecraft:food (its values are checked offline, see
+// below). Problems go to the Content Log, and because the log file loses its last 4 KB under
+// mcpelauncher, they're also kept for /hk:debug validate and announced to operators on join.
 //
 // What a script can't check: whether a texture file exists or a lang key has a translation.
 // Those were checked offline (see docs/harvest-kitchen/slice.md) and are covered by
@@ -59,26 +59,22 @@ export function validateData(): readonly string[] {
     }
   }
 
-  // Dishes: effect type, food values against the item JSON
+  // Dishes: effect type, and that the item has minecraft:food at all.
+  // The food *values* aren't compared here. In game (1.26.52, @minecraft/server 2.10.0) reading
+  // ItemFoodComponent.nutrition threw "Failed to get property 'nutrition'" at worldLoad for every
+  // dish (1.26.30-format items), although getComponent() returned the component. The .d.ts only
+  // says each property "can throw", so it can't be relied on. tests/pack-files.test.ts compares
+  // nutrition, can_always_eat and using_converts_to in the item JSON against DISHES offline.
   for (const dish of DISHES) {
     const where = `dish ${dish.id}`;
     if (dish.effect && !EffectTypes.get(dish.effect.effect)) say(`${where}: unknown effect`);
     if (dish.slices || !ItemTypes.get(dish.id)) continue;
     try {
-      const food = new ItemStack(dish.id).getComponent(ItemComponentTypes.Food);
-      if (!food) say(`${where}: item has no minecraft:food`);
-      else {
-        if (food.nutrition !== dish.nutrition) {
-          say(`${where}: nutrition ${food.nutrition} in JSON, ${dish.nutrition} in data`);
-        }
-        if (food.canAlwaysEat !== dish.canAlwaysEat) say(`${where}: can_always_eat differs`);
-        const container = dish.container?.split(":")[1];
-        if (container && !food.usingConvertsTo.includes(container)) {
-          say(`${where}: returns "${food.usingConvertsTo}", data says ${dish.container}`);
-        }
+      if (!new ItemStack(dish.id).getComponent(ItemComponentTypes.Food)) {
+        say(`${where}: item has no minecraft:food`);
       }
     } catch (error) {
-      say(`${where}: can't read food: ${String(error)}`);
+      say(`${where}: can't read the item: ${String(error)}`);
     }
   }
 

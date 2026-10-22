@@ -205,9 +205,73 @@ why, the fallback taken, and what you need to decide or test.
 
 ## B15. The cake can float (CR12)
 
-- **What:** neither the cake nor the pot has a `minecraft:placement_filter`. Placed against a wall,
-  the cake hangs in mid-air and stays when the block below goes. Vanilla cake pops.
-- **Test:** place the cake against the side of a block and break the block under it.
-- **Option:** add `"minecraft:placement_filter": { "conditions": [{ "allowed_faces": ["up"] }] }`
-  to the cake. Before doing the same for the pot, check that a pot popped this way fires `onBreak`,
-  so its contents spill.
+- **What:** the cake had no `minecraft:placement_filter`. Placed against a wall it hung in mid-air,
+  and it stayed when the block under it went. Vanilla cake pops and drops nothing.
+- **Research (2026-10-22, 1.26.52.3):**
+  - Microsoft Learn (`minecraft:placement_filter`): `block_filter` entries are a block name or a
+    block descriptor `{ name, states, tags }`; "if the block is already placed and the conditions
+    become invalid (e.g., the supporting block is removed), the block will pop off".
+  - The binary accepts the same: "BlockDescriptor requires a string, block object, or any_tag
+    object", "Cannot have both a block name and tag expression in a block descriptor". Vanilla
+    1.26.50 features and entities use Molang tag descriptors such as
+    `{ "tags": "query.any_tag('minecraft:leaves')" }`. No vanilla data-driven block (only slabs
+    and stairs are data-driven) has a `placement_filter` to copy.
+  - "Any solid block" can't be written as a filter. A negated tag expression
+    (`!q.any_tag(...)`) also matches air, which has no tags. A positive allowlist of the tool tags
+    vanilla blocks carry (`minecraft:is_{pickaxe,axe,shovel,hoe,shears}_item_destructible`)
+    would refuse every block without one of them (glass, maybe others), so it wasn't used.
+  - `allowed_faces: ["up"]` alone certainly stops wall and ceiling placement. Whether its
+    neighbour-change re-check pops the cake when the block below goes, with an empty
+    `block_filter`, is unproven (Microsoft Learn implies it does).
+- **Applied:**
+  - `strawberry_cake.json`: `placement_filter` `{ "conditions": [{ "allowed_faces": ["up"] }] }`
+    and `minecraft:movable` `popped` (vanilla cake breaks when a piston pushes it).
+  - Safety net `food/dish-support.ts`: after a player break, an explosion (`blockExplode`, per
+    block) or a piston move (its attached blocks, 3 ticks later), it looks at the one block above
+    each position. A placed dish standing on air or liquid gets `setblock … air destroy` (break
+    particles and sound, its loot table: nothing). No tick, no scan, deduplicated per position.
+    Not covered without one of those events: water or lava flowing in, fire, endermen,
+    `/setblock`.
+  - `tests/pack-files.test.ts` "strawberry cake support (B15)" pins the JSON and the empty loot.
+- **Test:**
+  1. Try to place a cake against the side of a block and on a ceiling: refused (no cake).
+  2. Place a cake on dirt, eat one slice, break the dirt (survival): the cake pops with break
+     particles and drops **nothing**.
+  3. Place a cake on a block, push that block away with a piston: the cake pops, nothing drops.
+     Push the cake itself with a piston: it pops, nothing drops.
+  4. Place a cake on TNT and light it: no floating cake afterwards.
+  5. Watch the Content Log for errors from `dish-support` or `placement_filter`.
+- **If a pop drops a cake item:** that's a free-cake exploit. Switch `minecraft:movable` to
+  `immovable` and tell me which step dropped it.
+- **Which route popped it** can't be seen (both play the break effect). To prove the JSON route
+  alone, comment out `registerDishSupport()` in `main.ts` and repeat step 2. If it then floats,
+  keep the script; if not, the script is only a safety net and can stay.
+
+## B16. Pot liquid colours: 27 material permutations (untested)
+
+- **What:** the liquid now follows the contents (`hk:liquid`, 7 colours; rule in `liquidOf`,
+  `stations/station-logic.ts`). A permutation's `material_instances` replaces the whole component,
+  so each colour × ready glint × hot rim combination is its own permutation: 27 plus the base
+  (water, not ready, cold), and the light permutation. `tools/gen-pot-block.mjs` writes them;
+  `tests/pack-files.test.ts` evaluates every condition for all 224 state combinations and checks
+  the liquid/top texture and light each one gets.
+- **Unproven:** that 28 permutations on one block load without a Content Log warning, and that the
+  light permutation still combines with a material permutation (slice.md untested assumption 3).
+- **Test:** see "In-game test: pot liquid" in slice.md.
+- **Fallback:** if the game rejects the count, move the colour into the geometry instead: one
+  liquid bone per colour and level (`liquid_<colour>_<1..3>`, own material slot each), shown with
+  `bone_visibility`. That needs a geometry generator script; the permutations drop back to the
+  4 hot × ready ones.
+
+## B17. `ItemFoodComponent` properties throw in game
+
+- **What:** at `worldLoad`, `new ItemStack(<dish>).getComponent(ItemComponentTypes.Food)` returned
+  the component, but reading `.nutrition` threw `Failed to get property 'nutrition'` for all 12
+  item dishes (1.26.30 item format, `@minecraft/server` 2.10.0). The `.d.ts` marks each property
+  "can throw" with no reason given; it's not a privilege error.
+- **Applied:** `validate.ts` only checks that each dish item has `minecraft:food`. The values
+  (nutrition, can_always_eat, using_converts_to) are compared offline by `tests/pack-files.test.ts`.
+- **Test:** the world-load line reads `data check: 0 problem(s)`, and `/hk:debug validate` says the
+  same.
+- **Decide:** nothing. Re-try the read after a game update if a script ever needs food values in
+  game (the book uses `DISHES`, not the component).

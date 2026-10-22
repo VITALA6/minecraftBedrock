@@ -28,6 +28,7 @@ import {
   fillLevel,
   finishJob,
   isEmpty,
+  liquidOf,
   phaseOf,
   progressCells,
   spillContents,
@@ -105,8 +106,9 @@ function isHot(ref: StationRef, block: Block): boolean {
 export function refreshVisuals(ref: StationRef, state = readStation(ref)): void {
   const block = stationBlock(ref);
   if (!block) return;
-  const { fill, phase, hot } = ref.station.states;
+  const { fill, phase, hot, liquid } = ref.station.states;
   const patch: Record<string, StateValue> = {};
+  if (liquid) patch[liquid] = liquidOf(ref.station, state);
   if (fill) patch[fill.name] = fillLevel(ref.station, state, fill.levels);
   if (phase) patch[phase] = phaseOf(ref.station, state);
   if (hot) patch[hot] = isHot(ref, block);

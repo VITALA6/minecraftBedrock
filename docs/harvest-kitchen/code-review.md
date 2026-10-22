@@ -200,7 +200,10 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR12. Cake and pot can float (needs-game)
 
-**Status: open → B15.**
+**Status: cake fixed 2026-10-22, in-game check → B15** (`placement_filter` `allowed_faces: ["up"]`
+and `movable: popped` in `strawberry_cake.json`, plus the script safety net
+`food/dish-support.ts`; tests "strawberry cake support (B15)" in `tests/pack-files.test.ts`). The
+pot is unchanged, as recommended below.
 
 - **Where:** `behavior/blocks/strawberry_cake.json`, `cooking_pot.json` (no
   `minecraft:placement_filter`).

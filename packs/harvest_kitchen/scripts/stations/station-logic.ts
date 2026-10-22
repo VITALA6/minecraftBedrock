@@ -8,6 +8,8 @@ import {
   recipesFor,
   type StationRecipe,
 } from "../data/recipes";
+import { findDish } from "../data/dishes";
+import { dominantLiquid, type Liquid } from "../data/liquids";
 import type { ContainerStation } from "../data/stations";
 
 // The container station's rules as pure functions of its saved state: what's possible, what a
@@ -153,6 +155,24 @@ export function fillLevel(station: ContainerStation, state: StationState, levels
   const amount = totalItems(state) + (state.out?.count ?? 0);
   const level = amount === 0 ? 0 : Math.ceil((amount / station.capacity) * levels);
   return Math.max(0, Math.min(levels, level));
+}
+
+/**
+ * The liquid colour the station shows, so the pot reflects what's in it:
+ *   - a dish is matched (done: the finished dish; cooking: the job's dish; ready: the first
+ *     possible recipe in recipe order) -> that dish's colour;
+ *   - otherwise, or if that dish has no colour -> the colour there's most of among the
+ *     ingredients (dominantLiquid, data/liquids.ts);
+ *   - nothing that colours it -> clear water.
+ */
+export function liquidOf(station: ContainerStation, state: StationState): Liquid {
+  const result = state.out
+    ? state.out.item
+    : state.job
+      ? findStationRecipe(state.job.recipe)?.result
+      : possibleRecipes(station, state)[0]?.result;
+  const dishLiquid = result === undefined ? undefined : findDish(result)?.liquid;
+  return dishLiquid ?? dominantLiquid(state.items);
 }
 
 /**

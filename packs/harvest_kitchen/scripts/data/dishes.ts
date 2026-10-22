@@ -14,10 +14,11 @@ import {
   ITEM_VEGETABLE_STEW,
   ITEM_VEGGIE_SANDWICH,
 } from "../config";
+import type { Liquid } from "./liquids";
 
 // Every dish (plan §1.3). Nutrition, saturation and "can always eat" also live in each item's
-// JSON (minecraft:food); they are repeated here so the book can show them and data/validate.ts
-// can catch the two drifting apart. The effect lives only here: the 1.26.30 item format has no
+// JSON (minecraft:food); they are repeated here so the book can show them, and
+// tests/pack-files.test.ts catches the two drifting apart. The effect lives only here: the 1.26.30 item format has no
 // food effects, and custom component params can't hold a list of objects (plan §5.1), so the
 // "hk:dish" item component applies it on eat.
 
@@ -104,6 +105,11 @@ export interface Dish {
   readonly container?: string;
   readonly effect?: DishEffect;
   readonly slices?: Slices;
+  /**
+   * Liquid colour in the pot once this dish's recipe matches (ready, cooking, done). Every
+   * station-made dish needs one (data/checks.ts); crafting-table dishes have none.
+   */
+  readonly liquid?: Liquid;
 }
 
 const effect = (id: string, seconds: number): DishEffect => ({
@@ -116,6 +122,7 @@ export const DISHES: readonly Dish[] = [
   // pot
   {
     id: ITEM_TOMATO_SOUP,
+    liquid: "tomato",
     nutrition: 6,
     canAlwaysEat: true,
     container: "minecraft:bowl",
@@ -123,6 +130,7 @@ export const DISHES: readonly Dish[] = [
   },
   {
     id: ITEM_VEGETABLE_STEW,
+    liquid: "stew",
     nutrition: 10,
     canAlwaysEat: true,
     container: "minecraft:bowl",
@@ -130,6 +138,7 @@ export const DISHES: readonly Dish[] = [
   },
   {
     id: ITEM_CHILI_STEW,
+    liquid: "chili",
     nutrition: 10,
     canAlwaysEat: true,
     container: "minecraft:bowl",
@@ -137,6 +146,7 @@ export const DISHES: readonly Dish[] = [
   },
   {
     id: ITEM_FISH_CHOWDER,
+    liquid: "cream",
     nutrition: 8,
     canAlwaysEat: true,
     container: "minecraft:bowl",
@@ -144,6 +154,7 @@ export const DISHES: readonly Dish[] = [
   },
   {
     id: ITEM_CHICKEN_SOUP,
+    liquid: "broth",
     nutrition: 8,
     canAlwaysEat: true,
     container: "minecraft:bowl",
@@ -151,6 +162,7 @@ export const DISHES: readonly Dish[] = [
   },
   {
     id: ITEM_ONION_SOUP,
+    liquid: "broth",
     nutrition: 7,
     canAlwaysEat: true,
     container: "minecraft:bowl",
@@ -158,6 +170,7 @@ export const DISHES: readonly Dish[] = [
   },
   {
     id: ITEM_STRAWBERRY_JAM,
+    liquid: "jam",
     nutrition: 4,
     canAlwaysEat: true,
     container: "minecraft:glass_bottle",

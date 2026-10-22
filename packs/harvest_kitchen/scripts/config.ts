@@ -62,6 +62,7 @@ export const STATE_GROWTH = "hk:growth"; // crops and bushes, 0..max_stage
 export const STATE_FILL = "hk:fill"; // container stations, 0..3
 export const STATE_PHASE = "hk:phase"; // container stations: idle | ready | cooking | done
 export const STATE_HOT = "hk:hot"; // container stations: heat below, cached for the visual
+export const STATE_LIQUID = "hk:liquid"; // container stations: liquid colour (data/liquids.ts)
 export const STATE_SLICES = "hk:slices"; // sliced dishes: slices eaten
 
 // --- dynamic properties --------------------------------------------------------------------------
@@ -86,6 +87,7 @@ export const CHOP_MAX_DISTANCE = 4; // sneak-chop stops when the player is farth
 export const UNLOCK_TOAST_COOLDOWN_TICKS = 60; // "★ New recipe!" at most once per 3 s
 export const BOOK_OPEN_GAP_TICKS = 5; // onUse + onUseOn of one click open the book once
 export const SLICE_BITE_GAP_TICKS = 10; // a held use button eats at most 2 slices per second
+export const PISTON_SETTLE_TICKS = 3; // a pushed block lands ~2 ticks after the piston fires
 
 export const DEBUG_GROW_RADIUS = 8; // /hk:debug grow
 

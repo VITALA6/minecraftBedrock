@@ -10,6 +10,7 @@ import {
   fillLevel,
   finishJob,
   isEmpty,
+  liquidOf,
   parseSaved,
   phaseOf,
   progressCells,
@@ -514,5 +515,117 @@ describe("saved form", () => {
         ?.ticks;
     assert.equal(job(-5), 0);
     assert.equal(job(12.7), 12);
+  });
+});
+
+describe("liquid colour (what the pot shows)", () => {
+  const CHILI = "hk:chili_pepper";
+  const ONION = "hk:onion";
+
+  it("an empty pot, or one with only bowls and sugar, is clear water", () => {
+    assert.equal(liquidOf(pot, EMPTY), "water");
+    assert.equal(liquidOf(pot, { items: { [BOWL]: 2, "minecraft:sugar": 1 } }), "water");
+  });
+
+  it("before any dish matches: the colour there's most of", () => {
+    assert.equal(liquidOf(pot, { items: { [TOMATO]: 1 } }), "tomato");
+    assert.equal(liquidOf(pot, { items: { [TOMATO]: 1, [ONION]: 2 } }), "broth");
+    assert.equal(liquidOf(pot, { items: { "minecraft:potato": 1, "minecraft:cod": 1 } }), "cream");
+  });
+
+  it("ingredients of one colour add up: 2 onions + 1 carrot (3 broth) beat 2 tomatoes", () => {
+    const items = { [TOMATO]: 2, [ONION]: 2, "minecraft:carrot": 1 };
+    assert.equal(liquidOf(pot, { items }), "broth");
+  });
+
+  it("a tie goes to the stronger colour, whatever was added first", () => {
+    assert.equal(liquidOf(pot, { items: { [ONION]: 1, [CHILI]: 1 } }), "chili");
+    assert.equal(liquidOf(pot, { items: { [CHILI]: 1, [ONION]: 1 } }), "chili");
+    assert.equal(liquidOf(pot, { items: { "minecraft:potato": 1, [TOMATO]: 1 } }), "tomato");
+  });
+
+  it("ready: the dish's colour, even when the ingredients say otherwise", () => {
+    // chicken soup = chicken, onion, carrot, bowl: broth; extra chili doesn't change it
+    const chicken = {
+      "minecraft:chicken": 1,
+      [ONION]: 1,
+      "minecraft:carrot": 1,
+      [BOWL]: 1,
+    };
+    assert.equal(phaseOf(pot, { items: chicken }), "ready");
+    assert.equal(liquidOf(pot, { items: chicken }), "broth");
+    // fish chowder is cream although onion + potato + cod would be cream anyway; jam is jam
+    const jam = { "hk:strawberry": 3, "minecraft:sugar": 1, "minecraft:glass_bottle": 1 };
+    assert.equal(liquidOf(pot, { items: jam }), "jam");
+    // 2 tomatoes + bowl + 3 onions: tomato soup is possible, so tomato wins over the broth majority
+    assert.equal(liquidOf(pot, { items: { ...soupReady.items, [ONION]: 3 } }), "tomato");
+  });
+
+  it("several possible dishes: the first in recipe order", () => {
+    // tomato soup (2 tomato + bowl) and onion soup (2 onion + bread + bowl) both possible
+    const both = { [TOMATO]: 2, [ONION]: 2, "minecraft:bread": 1, [BOWL]: 1 };
+    assert.equal(liquidOf(pot, { items: both }), "tomato");
+  });
+
+  it("cooking: the job's dish", () => {
+    assert.equal(liquidOf(pot, cooking(50)), "tomato");
+    const stew: StationState = {
+      items: { [CHILI]: 1, "minecraft:beef": 1, [TOMATO]: 1, [ONION]: 1, [BOWL]: 1 },
+      job: { recipe: "hk:chili_stew", ticks: 10, total: 200 },
+    };
+    assert.equal(liquidOf(pot, stew), "chili");
+  });
+
+  it("done: the finished dish, also with leftovers of another colour", () => {
+    assert.equal(liquidOf(pot, done), "tomato");
+    const chowder: StationState = {
+      items: { [CHILI]: 2 },
+      out: { item: "hk:fish_chowder", count: 1 },
+    };
+    assert.equal(liquidOf(pot, chowder), "cream");
+  });
+
+  it("an unknown job or output falls back to the ingredients", () => {
+    assert.equal(
+      liquidOf(pot, { items: { [ONION]: 1 }, job: { recipe: "hk:gone", ticks: 1, total: 1 } }),
+      "broth",
+    );
+    assert.equal(liquidOf(pot, { items: {}, out: { item: "hk:gone", count: 1 } }), "water");
+  });
+
+  it("follows the pot through add, take out, cook, finish and collect", () => {
+    let state: StationState = EMPTY;
+    const add = (id: string, n = 1) => {
+      const result = addItems(pot, state, id, n);
+      assert.ok(result.kind === "added");
+      state = result.state;
+    };
+    add(ONION);
+    assert.equal(liquidOf(pot, state), "broth");
+    add(TOMATO, 2);
+    assert.equal(liquidOf(pot, state), "tomato"); // 2 tomatoes outweigh 1 onion
+    const out = takeOutItems(state, TOMATO);
+    assert.ok(out);
+    state = out.state;
+    assert.equal(liquidOf(pot, state), "broth");
+    add(TOMATO, 2);
+    add(BOWL);
+    assert.equal(phaseOf(pot, state), "ready");
+    assert.equal(liquidOf(pot, state), "tomato");
+    const started = start(state);
+    assert.ok(started.kind === "started");
+    state = started.state;
+    assert.equal(liquidOf(pot, state), "tomato");
+    const finished = finishJob({ ...state, job: { recipe: SOUP, ticks: 0, total: 1 } }, () => true);
+    assert.ok(finished?.kind === "finished");
+    state = finished.state;
+    assert.equal(liquidOf(pot, state), "tomato");
+    const collected = collectOutput(state);
+    assert.ok(collected);
+    state = collected.state; // the onion is left
+    assert.equal(liquidOf(pot, state), "broth");
+    const all = takeAllItems(state);
+    assert.ok(all);
+    assert.equal(liquidOf(pot, all.state), "water");
   });
 });

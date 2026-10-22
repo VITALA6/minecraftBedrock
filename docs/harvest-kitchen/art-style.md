@@ -60,7 +60,7 @@ node tools/lint-textures.mjs    # check it, and write generated/review_sheet.png
 | contrast     | icons, crop stages | grayscale (0.299 R + 0.587 G + 0.114 B) max − min is under 80                                                                                                                                 |
 | similar pair | icon pairs         | silhouette overlap (IoU) ≥ 0.8 **and** dominant hues within 20°. The hue is taken from the pixels where the two icons differ, so a shared base (the bowl) doesn't make every bowl dish match. |
 
-"Icons" are `items/` and `ui/`. "Crop stages" are `blocks/*_stage_*`; early stages are small on
+"Icons" are `items/`, `ui/` and `ingredients/` (our own versions of vanilla ingredients for the book). "Crop stages" are `blocks/*_stage_*`; early stages are small on
 purpose, so they skip the bounding-box check. The pot face textures are opaque block faces and only
 get the alpha check.
 

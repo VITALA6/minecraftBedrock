@@ -1,5 +1,10 @@
 # S9: JSON UI form screen for the book and the pot (D13)
 
+> **Closed 2026-10-22, not run in game.** D13 was reversed because of Microsoft's cooperative
+> add-on rule against `ui/` overrides (§4.1); D14 (page images in a `CustomForm`) replaced it. The
+> spike pack `packs/hk_ui_spike` is deleted (it is in git history at commit `86a3a4e`). This document
+> stays as the record of what was learned.
+
 **Question:** can a resource pack override draw a book-style layout only for forms whose title
 carries our marker, leave every other form exactly vanilla, and map `ActionFormData` buttons to
 fixed slots?

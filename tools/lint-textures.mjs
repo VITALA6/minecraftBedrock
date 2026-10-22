@@ -9,6 +9,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import { SPRITES, decodePng, encodePng, vanillaTextures } from "./gen-textures.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -16,7 +17,7 @@ const GEN_DIR = path.join(ROOT, "art/harvest_kitchen/generated");
 const S = 16;
 
 // Calibrated on vanilla 1.26.52 icons (see art-style.md).
-const LIMITS = {
+export const LIMITS = {
   minColours: 3,
   maxColours: 10, // icons; vanilla items mostly use 7-10
   maxColoursPlant: 8, // crop stages
@@ -38,12 +39,12 @@ const grey = (px, i) => 0.299 * px[i * 4] + 0.587 * px[i * 4 + 1] + 0.114 * px[i
 const colourKey = (px, i) => (px[i * 4] << 16) | (px[i * 4 + 1] << 8) | px[i * 4 + 2];
 
 function profileOf(folder, name) {
-  if (folder === "items" || folder === "ui") return "icon";
+  if (folder === "items" || folder === "ui" || folder === "ingredients") return "icon";
   if (/_stage_\d+$/.test(name)) return "plant";
   return "face";
 }
 
-function analyse(img) {
+export function analyse(img) {
   const { w, h, px } = img;
   const opaque = new Array(w * h).fill(false);
   const colours = new Set();
@@ -117,7 +118,7 @@ function checks(t) {
   return fails;
 }
 
-function hsl(r, g, b) {
+export function hsl(r, g, b) {
   [r, g, b] = [r / 255, g / 255, b / 255];
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -462,4 +463,4 @@ function main() {
   );
 }
 
-main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

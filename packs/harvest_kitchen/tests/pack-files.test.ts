@@ -8,17 +8,20 @@ import { CROPS } from "../scripts/data/crops";
 import { DISHES, FAMILIES } from "../scripts/data/dishes";
 import { EFFECT_ICONS, UI_ICONS, itemIcon } from "../scripts/data/icons";
 import { LIQUIDS } from "../scripts/data/liquids";
-import { CRAFTING_RECIPES } from "../scripts/data/recipes";
+import { KITCHEN_TAG } from "../scripts/config";
+import { CRAFTING_RECIPES, STATION_RECIPES, craftingJsonIds } from "../scripts/data/recipes";
 import { STATIONS, stationById } from "../scripts/data/stations";
 import {
   FACINGS,
   HALVES,
   POSTER_COUNT,
   POSTER_MAX_STATES,
+  POSTER_PAGES,
   POSTER_TEXTURE_DIR,
   halfOfPart,
   halfTexture,
   posterIndices,
+  posterStates,
 } from "../scripts/posters/poster-logic";
 import { evalCondition, type MolangValue } from "./molang";
 
@@ -53,6 +56,7 @@ interface ItemJson {
 interface ShapelessJson {
   "minecraft:recipe_shapeless"?: {
     description: { identifier: string };
+    tags: string[];
     ingredients: { item?: string; tag?: string }[];
     result: { item: string; count?: number };
   };
@@ -81,6 +85,12 @@ const blocks = new Map(
     return [block["minecraft:block"].description.identifier, block["minecraft:block"]] as const;
   }),
 );
+
+/**
+ * HK items without an item JSON: blocks whose own block item is the item (the Kitchen Table, a
+ * full cube, needs no flat icon). Their name is the block's tile key.
+ */
+const blockItems = new Set([...blocks.keys()].filter((id) => !items.has(id)));
 
 const langKeys = new Set(
   read(`${RP}/texts/en_US.lang`)
@@ -133,7 +143,9 @@ describe("lang keys", () => {
 
   it("every HK item has a display name in the lang file", () => {
     const missing = HK_ITEM_IDS.filter((id) => {
-      const key = items.get(id)?.components["minecraft:display_name"]?.value;
+      const key = blockItems.has(id)
+        ? `tile.${id}.name`
+        : items.get(id)?.components["minecraft:display_name"]?.value;
       return !key || !langKeys.has(key);
     });
     assert.deepEqual(missing, []);
@@ -141,10 +153,14 @@ describe("lang keys", () => {
 });
 
 describe("icons", () => {
-  it("every HK item has an item JSON", () => {
+  it("every HK item has an item JSON, or is a block's own item", () => {
     assert.deepEqual(
-      HK_ITEM_IDS.filter((id) => !items.has(id)),
+      HK_ITEM_IDS.filter((id) => !items.has(id) && !blockItems.has(id)),
       [],
+    );
+    assert.deepEqual(
+      [...blockItems].filter((id) => HK_ITEM_IDS.includes(id)),
+      ["hk:kitchen_table"],
     );
   });
 
@@ -176,7 +192,7 @@ describe("item JSON against data/dishes.ts", () => {
   }
 });
 
-describe("crafting JSON against CRAFTING_RECIPES (the book's copy)", () => {
+describe("crafting JSON against CRAFTING_RECIPES (the posters' copy)", () => {
   const shapeless = new Map(
     jsonFiles(`${BP}/recipes`)
       .map(({ json }) => (json as ShapelessJson)["minecraft:recipe_shapeless"])
@@ -185,21 +201,75 @@ describe("crafting JSON against CRAFTING_RECIPES (the book's copy)", () => {
   );
 
   for (const recipe of CRAFTING_RECIPES) {
-    it(`${recipe.id}: same result and ingredients`, () => {
-      const json = shapeless.get(recipe.id);
-      assert.ok(json, `behavior/recipes has no shapeless ${recipe.id}`);
-      assert.equal(json.result.item, recipe.result);
-      assert.equal(json.result.count ?? 1, recipe.count);
-      const fromJson = json.ingredients.map((i) => i.item ?? `tag:${i.tag}`).sort();
-      const fromData = recipe.ingredients
-        .flatMap(({ items: ids, count }) => {
-          assert.equal(ids.length, 1, "alternatives need a tag in the JSON; compare by hand");
-          return Array<string>(count).fill(ids[0] as string);
-        })
-        .sort();
-      assert.deepEqual(fromJson, fromData);
+    it(`${recipe.id}: same result, ingredients and table (one JSON per alternative)`, () => {
+      const tags = recipe.table === "kitchen" ? [KITCHEN_TAG] : ["crafting_table"];
+      for (const variant of craftingJsonIds(recipe)) {
+        const json = shapeless.get(variant.id);
+        assert.ok(json, `behavior/recipes has no shapeless ${variant.id}`);
+        assert.equal(json.result.item, recipe.result);
+        assert.equal(json.result.count ?? 1, recipe.count);
+        assert.deepEqual(json.tags, tags, variant.id);
+        const fromJson = json.ingredients.map((i) => i.item ?? `tag:${i.tag}`).sort();
+        assert.deepEqual(fromJson, [...variant.items].sort(), variant.id);
+      }
     });
   }
+
+  it("every Kitchen Table recipe in the JSON is in the data (none crafts elsewhere)", () => {
+    const known = new Set(CRAFTING_RECIPES.flatMap((r) => craftingJsonIds(r).map((v) => v.id)));
+    const kitchen = [...shapeless.values()].filter((r) => r.tags.includes(KITCHEN_TAG));
+    assert.ok(kitchen.length >= STATION_RECIPES.length);
+    for (const r of kitchen) {
+      assert.ok(known.has(r.description.identifier), r.description.identifier);
+      assert.deepEqual(
+        r.tags,
+        [KITCHEN_TAG],
+        `${r.description.identifier}: only the Kitchen Table`,
+      );
+    }
+  });
+});
+
+describe("Kitchen Table and mixes (D16)", () => {
+  it("is a stable minecraft:crafting_table block with only our tag, named by its tile key", () => {
+    const table = blocks.get("hk:kitchen_table");
+    assert.ok(table);
+    assert.deepEqual(table.components["minecraft:crafting_table"], {
+      crafting_tags: [KITCHEN_TAG],
+      table_name: "tile.hk:kitchen_table.name",
+    });
+    assert.ok(langKeys.has("tile.hk:kitchen_table.name"));
+    // no container in minecraft:block_entity (the binary refuses it with a crafting table)
+    assert.equal(table.components["minecraft:block_entity"], undefined);
+    assert.deepEqual(table.components["minecraft:geometry"], {
+      identifier: "minecraft:geometry.full_block",
+    });
+  });
+
+  it("is crafted on the vanilla table from a crafting table and a bowl", () => {
+    const recipe = (JSON.parse(read(`${BP}/recipes/kitchen_table.json`)) as ShapelessJson)[
+      "minecraft:recipe_shapeless"
+    ];
+    assert.ok(recipe);
+    assert.deepEqual(recipe.tags, ["crafting_table"]);
+    assert.deepEqual(recipe.ingredients, [
+      { item: "minecraft:crafting_table" },
+      { item: "minecraft:bowl" },
+    ]);
+    assert.deepEqual(recipe.result, { item: "hk:kitchen_table", count: 1 });
+  });
+
+  it("every mix is an item that isn't food, has a name and an icon", () => {
+    const mixes = STATION_RECIPES.flatMap((r) => r.ingredients.flatMap((i) => i.items));
+    assert.equal(mixes.length, STATION_RECIPES.length);
+    for (const id of mixes) {
+      const item = items.get(id);
+      assert.ok(item, id);
+      assert.equal(item.components["minecraft:food"], undefined, `${id} isn't eaten raw`);
+      assert.ok(langKeys.has(`item.${id}.name`), id);
+      assert.ok(existsSync(`${RP}/${itemIcon(id) ?? ""}.png`), id);
+    }
+  });
 });
 
 describe("crop block JSON against data/crops.ts", () => {
@@ -397,9 +467,10 @@ describe("cooking pot looks (tools/gen-pot-block.mjs)", () => {
         }
       }
     }
-    // the bit budget (CLAUDE.md: states share 16 bits): 4 × 4 × 2 × 7 = 224 < 2^8
+    // the bit budget (states share 16 bits): 4 × 4 × 2 × 9 = 288, 2 + 2 + 1 + 4 = 9 bits
     assert.equal(combinations, (fill.levels + 1) * 4 * 2 * LIQUIDS.length);
-    assert.ok(combinations <= 256);
+    const bits = (n: number) => Math.ceil(Math.log2(n));
+    assert.ok(bits(fill.levels + 1) + bits(4) + bits(2) + bits(LIQUIDS.length) <= 16);
   });
 });
 
@@ -474,11 +545,12 @@ describe("recipe poster (D15)", () => {
     );
   });
 
-  it("states: one hk:poster value per recipe + the blank, within the int state limit", () => {
+  it("states: hk:poster (16 per page) and hk:poster_page cover every recipe + the blank", () => {
     assert.ok(poster);
     const states = poster.description.states ?? {};
-    assert.deepEqual(states["hk:poster"], { values: { min: 0, max: POSTER_COUNT - 1 } });
-    assert.ok(POSTER_COUNT <= POSTER_MAX_STATES, `${POSTER_COUNT} values`);
+    assert.deepEqual(states["hk:poster"], { values: { min: 0, max: POSTER_MAX_STATES - 1 } });
+    assert.deepEqual(states["hk:poster_page"], { values: { min: 0, max: POSTER_PAGES - 1 } });
+    assert.ok(POSTER_PAGES * POSTER_MAX_STATES >= POSTER_COUNT, `${POSTER_COUNT} posters`);
     assert.deepEqual(states["hk:facing"], [...FACINGS]);
     assert.equal(states["hk:right"], undefined, "the half comes from the part number, not a state");
   });
@@ -554,9 +626,11 @@ describe("recipe poster (D15)", () => {
           if (!half) continue; // cardinal into/out of the wall: refused on place
           for (const index of posterIndices()) {
             combinations++;
+            const { slot, page } = posterStates(index);
             const states: Record<string, MolangValue> = {
               "hk:facing": facing,
-              "hk:poster": index,
+              "hk:poster": slot,
+              "hk:poster_page": page,
               "minecraft:cardinal_direction": cardinal,
               "minecraft:multi_block_part": part,
             };

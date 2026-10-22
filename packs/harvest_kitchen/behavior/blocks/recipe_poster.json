@@ -5,7 +5,8 @@
       "identifier": "hk:recipe_poster",
       "menu_category": { "category": "items" },
       "states": {
-        "hk:poster": { "values": { "min": 0, "max": 13 } },
+        "hk:poster": { "values": { "min": 0, "max": 15 } },
+        "hk:poster_page": { "values": { "min": 0, "max": 1 } },
         "hk:facing": ["north", "south", "east", "west"]
       },
       "traits": {
@@ -39,7 +40,7 @@
     },
     "permutations": [
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
@@ -48,7 +49,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
@@ -57,7 +58,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
@@ -66,7 +67,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
@@ -75,7 +76,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
@@ -84,7 +85,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
@@ -93,7 +94,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
@@ -102,7 +103,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
@@ -111,7 +139,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
@@ -120,7 +148,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
@@ -129,7 +157,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
@@ -138,7 +166,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
@@ -147,7 +175,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
@@ -156,7 +184,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
@@ -165,7 +211,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
@@ -174,7 +220,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
@@ -183,7 +229,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
@@ -192,7 +238,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
@@ -201,7 +247,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
@@ -210,7 +256,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
@@ -219,7 +265,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
@@ -228,7 +274,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
@@ -237,7 +310,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
@@ -246,7 +319,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
@@ -255,7 +328,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
@@ -264,7 +337,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
@@ -273,7 +346,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
@@ -282,7 +355,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
@@ -291,7 +382,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
@@ -300,7 +391,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
@@ -309,7 +400,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
@@ -318,7 +409,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
@@ -327,7 +418,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
@@ -336,7 +427,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
@@ -345,7 +436,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
@@ -354,7 +445,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
@@ -363,7 +481,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
@@ -372,7 +490,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
@@ -381,7 +499,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
@@ -390,7 +508,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
@@ -399,7 +517,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
@@ -408,7 +526,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
@@ -417,7 +553,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
@@ -426,7 +562,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
@@ -435,7 +571,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
@@ -444,7 +580,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
@@ -453,7 +589,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
@@ -462,7 +598,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
@@ -471,7 +607,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
@@ -480,7 +616,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
@@ -489,7 +652,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
@@ -498,7 +661,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
@@ -507,7 +670,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
@@ -516,7 +679,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
@@ -525,7 +688,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
@@ -534,7 +697,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
@@ -543,7 +724,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
@@ -552,7 +733,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
@@ -561,7 +742,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
@@ -570,7 +751,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
@@ -579,7 +760,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
@@ -588,7 +769,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
@@ -597,7 +778,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
@@ -606,7 +787,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
@@ -615,7 +823,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
@@ -624,7 +832,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
@@ -633,7 +841,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
@@ -642,7 +850,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
@@ -651,7 +859,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
@@ -660,7 +868,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
@@ -669,7 +895,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
@@ -678,7 +904,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
@@ -687,7 +913,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
@@ -696,7 +922,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
@@ -705,7 +931,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
@@ -714,7 +940,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
@@ -723,7 +949,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
@@ -732,7 +958,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
@@ -741,7 +994,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
@@ -750,7 +1003,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
@@ -759,7 +1012,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
@@ -768,7 +1021,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
@@ -777,7 +1030,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
@@ -786,7 +1039,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
@@ -795,7 +1066,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
@@ -804,7 +1075,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
@@ -813,7 +1084,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
@@ -822,7 +1093,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
@@ -831,7 +1102,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
@@ -840,7 +1111,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
@@ -849,7 +1120,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
@@ -858,7 +1129,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
@@ -867,7 +1165,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
@@ -876,7 +1174,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
@@ -885,7 +1183,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
@@ -894,7 +1192,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
@@ -903,7 +1201,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
@@ -912,7 +1210,25 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
@@ -921,7 +1237,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
@@ -930,7 +1246,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 2 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
@@ -939,7 +1255,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 3 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 3 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
@@ -948,7 +1264,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 4 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 4 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
@@ -957,7 +1273,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 5 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 5 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
@@ -966,7 +1282,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 6 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 6 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
@@ -975,7 +1291,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 7 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 7 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
@@ -984,7 +1300,34 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 8 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 8 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_stuffed_eggplant_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 9 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 10 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 11 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
@@ -993,7 +1336,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 9 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 12 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
@@ -1002,7 +1345,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 10 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 13 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
@@ -1011,7 +1354,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 11 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 14 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
@@ -1020,7 +1363,7 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 12 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 15 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
@@ -1029,10 +1372,28 @@
         }
       },
       {
-        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 13 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
             "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 1 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 2 && q.block_state('hk:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_skewer_right", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 90, 0] }
         }

@@ -37,6 +37,10 @@
       "source": "vanilla_1.21.90/textures/blocks/sweet_berry_bush_stage2.png (hue 110–160)",
       "shades": ["#1d3822", "#295230", "#286240", "#3c6e42", "#487f4f"]
     },
+    "eggplant": {
+      "source": "vanilla_1.21.110/textures/items/dye_powder_purple.png (hue 260–320)",
+      "shades": ["#511a71", "#542d96", "#7d3bb3", "#a651db", "#ca82d9"]
+    },
     "flower_yellow": {
       "source": "vanilla_1.21.90/textures/blocks/flower_dandelion.png (hue 25–60)",
       "shades": ["#bd6a22", "#f19d25", "#fed639", "#ffec4f"]

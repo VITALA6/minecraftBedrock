@@ -241,6 +241,8 @@ const RAMP_SPECS = {
   },
   leaf: { from: ["blocks/carrots_stage_3"], hue: [80, 140] },
   bush: { from: ["blocks/sweet_berry_bush_stage2"], hue: [110, 160] },
+  // The only purple crop (plan §1.1, D2b).
+  eggplant: { from: ["items/dye_powder_purple"], hue: [260, 320] },
   flower_yellow: { from: ["blocks/flower_dandelion"], hue: [25, 60], n: 4 },
   flower_white: { from: ["blocks/flower_oxeye_daisy"], sat: [0, 30], n: 3 },
   dirt: { from: ["blocks/dirt"], sat: [20, 100], n: 4 },
@@ -815,6 +817,42 @@ def(
   "produce",
 );
 
+// Eggplant (D2b): the only purple crop. A long item, so it runs from bottom left (the round end)
+// to top right (the green cap and stem); fatter at the bottom than the cucumber.
+def(
+  "items",
+  "eggplant",
+  () =>
+    stack(
+      shade(
+        capsule([
+          [4.6, 11.4, 3.7],
+          [8.2, 7.8, 2.7],
+          [10.6, 5.4, 1.9],
+        ]),
+        "eggplant",
+      ),
+      rows(
+        pad(`
+          ................
+          ................
+          .............b..
+          ............bb..
+          ..........dbbd..
+          ..........bdb...
+          .........d.d....
+          ................
+          ......4.........
+          .....4..........
+          ...44...........
+          ...4............`),
+        { ...L("leaf", " b d"), 4: c("eggplant", 4) },
+        "eggplant",
+      ),
+    ),
+  "produce",
+);
+
 // --- Seeds: small, sparse grains like vanilla wheat seeds (5–7 grains of 2–3 px, lots of empty
 // space). Every seed has its own grain shape, colour and scatter (art-style.md) -----------------
 
@@ -911,6 +949,29 @@ def(
   "seeds",
 );
 
+// Eggplant: flat tan squares (2×2, the only square grain), in a loose diagonal band.
+def(
+  "items",
+  "eggplant_seeds",
+  () =>
+    scatter(
+      `
+      lm
+      md`,
+      { l: c("potato", -1), m: c("bread", 3), d: c("bread", 1) },
+      [
+        [2, 3],
+        [7, 2],
+        [12, 4],
+        [4, 8],
+        [10, 8],
+        [6, 12],
+        [12, 12],
+      ],
+    ),
+  "seeds",
+);
+
 // --- Prepared ingredients ------------------------------------------------------------------------
 
 function tomatoSlice(cx, cy, r) {
@@ -961,6 +1022,34 @@ def(
   "items",
   "sliced_cucumber",
   () => stack(cucumberSlice(11, 5.5, 3.7), cucumberSlice(5, 5, 3.7), cucumberSlice(8, 11, 3.7)),
+  "prepared",
+);
+
+// Eggplant slices: cream flesh with a purple skin ring and a ring of seed dots. Top-left and
+// bottom-right (the tomato slices go the other way), so the two never share a silhouette.
+function eggplantSlice(cx, cy, r) {
+  const layer = stack(
+    shade(ellipse(cx, cy, r, r), "eggplant", [0, 1, 1, 2, 3]),
+    shade(ellipse(cx, cy, r - 1.2, r - 1.2), "onion_flesh", [3, 4, 4, 4, 4]),
+  );
+  const x = Math.floor(cx);
+  const y = Math.floor(cy);
+  for (const [dx, dy] of [
+    [-2, 0],
+    [2, 0],
+    [0, -2],
+    [0, 2],
+    [-1, -1],
+    [1, 1],
+  ])
+    layer[(y + dy) * S + x + dx] = c("bread", 3);
+  return layer;
+}
+
+def(
+  "items",
+  "sliced_eggplant",
+  () => stack(eggplantSlice(10.2, 10.2, 4.8), eggplantSlice(5.6, 5.6, 4.6)),
   "prepared",
 );
 
@@ -1467,6 +1556,431 @@ def(
   "dishes",
 );
 
+// Eggplant dishes (plan §1.3 #17–#21).
+
+// Stuffed eggplant: a roasted eggplant half (dark purple boat, bottom left to top right) with a
+// browned meat filling and a few spots of melted cheese. Not a bowl dish (nothing comes back).
+def(
+  "items",
+  "stuffed_eggplant",
+  () =>
+    rows(
+      `
+      ................
+      ................
+      .............g..
+      ...........ggg..
+      .........MmmGg..
+      .......MMYmmm3..
+      .....MMmmmmm33..
+      ....MYmmmmYm32..
+      ...MMmmmmmm332..
+      ..MmmmYmmm3322..
+      ..3mmmmmm33221..
+      ..33mmm333221...
+      ..2333333221....
+      ...22222211.....
+      ................
+      ................`,
+      {
+        Y: c("flower_yellow", -1),
+        M: c("meat", 4),
+        m: c("meat", 2),
+        3: c("eggplant", 2),
+        2: c("eggplant", 1),
+        1: c("eggplant", 0),
+        g: c("leaf", 3),
+        G: c("leaf", 1),
+      },
+      "stuffed_eggplant",
+    ),
+  "dishes",
+);
+
+// Ratatouille: overlapping vegetable slices, mostly eggplant, standing in a thin tomato sauce
+// just above the rim.
+bowlDish(
+  "ratatouille",
+  `
+  ................
+  ................
+  ......Ee........
+  .....EfeEe......
+  ....EfeEfeTE....
+  ...EfeEfeTteE...
+  ...EfeTEfeCEfe..
+  ...feTtfeCCfeT..
+  ...sstsssstsss..`,
+  () => ({
+    E: c("eggplant", 3),
+    e: c("eggplant", 1),
+    f: c("eggplant", 4),
+    T: c("tomato", 3),
+    t: c("tomato", 2),
+    C: c("cucumber", 4),
+    s: c("tomato", 0),
+  }),
+);
+
+// Eggplant curry: a smooth green curry (the Thai kind, which is made with eggplant) with purple
+// eggplant chunks and a red chili slice.
+bowlDish(
+  "eggplant_curry",
+  `
+  ................
+  ................
+  ................
+  ................
+  ................
+  ................
+  .....hHHhEeH....
+  ...hHEeHHHhrEe..
+  ...HHeeHHHHHee..`,
+  () => ({
+    H: c("cucumber_flesh", 3),
+    h: c("cucumber_flesh", -1),
+    E: c("eggplant", 3),
+    e: c("eggplant", 1),
+    r: c("chili", 3),
+  }),
+);
+
+// Eggplant salad: a heap of eggplant slices (cream with a purple rim), cucumber and white onion.
+bowlDish(
+  "eggplant_salad",
+  `
+  ................
+  ................
+  ......eEEe......
+  .....eFFFFe.....
+  ....eFFeeFFEcc..
+  ...ceFFeEEFeCc..
+  ...CceeFFFFeCcw.
+  ...ccwweFFewcCw.
+  ...wwcwweewwccw.`,
+  () => ({
+    E: c("eggplant", 3),
+    e: c("eggplant", 1),
+    F: c("onion_flesh", -1),
+    C: c("cucumber_flesh", -1),
+    c: c("cucumber", 2),
+    w: c("sugar", 2),
+  }),
+);
+
+// Veggie skewer: a stick from bottom left to top right through eggplant, tomato and onion
+// chunks. The stick comes back when it's eaten.
+def(
+  "items",
+  "veggie_skewer",
+  () =>
+    rows(
+      `
+      ..............h.
+      .............hd.
+      ..........EEhd..
+      .........EEEe...
+      ........eEEe....
+      .......TTee.....
+      ......TTTt......
+      .....rTTr.......
+      ....WWrr........
+      ...WWWw.........
+      ..hwWw..........
+      .hdww...........
+      hd..............
+      d...............
+      ................
+      ................`,
+      {
+        h: c("wood", 4),
+        d: c("wood", 1),
+        E: c("eggplant", 3),
+        e: c("eggplant", 1),
+        T: c("tomato", 3),
+        t: c("tomato", 2),
+        r: c("tomato", 1),
+        W: c("onion_flesh", -1),
+        w: c("onion_flesh", 2),
+      },
+      "veggie_skewer",
+    ),
+  "dishes",
+);
+
+// --- Mixes (D16): a pot dish's raw ingredients, put together on the Kitchen Table ---------------
+// Every mix is the shared bowl with raw pieces in it (no broth: the dark inside shows between
+// them), one whole ingredient sticking out, each in its own place, and a spoon leaning
+// out top right, so all mixes read as one family ("still to be cooked") that no cooked dish
+// shares. The spoon is light metal on the bowl's darkest shade: a wooden one added the bowl's
+// golden-brown to every mix and made them all read as one hue (lint "similar pair"). Raw pieces stay inside the bowl: a shared heap
+// gave every mix the same silhouette (lint "similar pair"). The jam mix comes in its bottle and
+// the stuffed eggplant has no container, as their dishes do.
+
+const SPOON = `
+  .............hd.
+  ............hd..
+  ...........hd...
+  ..........hd....`;
+
+const spoon = () => rows(pad(SPOON), { h: c("iron", -1), d: c("bowl", 0) }, "spoon");
+
+const mixDish = (name, contents, legend) =>
+  def(
+    "items",
+    `${name}_mix`,
+    () => stack(bowl(), rows(pad(contents), legend(), `${name}_mix`), spoon()),
+    "mixes",
+  );
+
+// A big whole tomato sitting on the right rim, tomato pieces.
+mixDish(
+  "tomato_soup",
+  `
+  ................
+  ................
+  ................
+  ...........gg...
+  .........tTTTTt.
+  ........tTTTTTtr
+  ...rRrr.tTTTTttr
+  ...RrrrrtTTTttrr
+  ...rRr.r.trrrrr.`,
+  () => ({
+    T: c("tomato", 3),
+    t: c("tomato", 2),
+    r: c("tomato", 1),
+    R: c("tomato", 0),
+    g: c("leaf", 3),
+  }),
+);
+
+// A chili pepper over the left rim, on marbled raw beef and an onion piece.
+mixDish(
+  "chili_stew",
+  `
+  ................
+  ................
+  ................
+  ....g...........
+  ...gKk..........
+  .KKKkk..........
+  KKKkkBBbBW......
+  kkkbBBWbbBbW....
+  ...bbBb.bBbW....`,
+  () => ({
+    K: c("chili", 4),
+    k: c("chili", 2),
+    g: c("leaf", 3),
+    B: c("meat", 3),
+    b: c("meat", 1),
+    W: c("onion_flesh", -1),
+  }),
+);
+
+// A carrot lying over the left rim, leaves up, on more carrot pieces.
+mixDish(
+  "vegetable_stew",
+  `
+  ................
+  ................
+  ......l.l.......
+  .....lll........
+  ....CCl.........
+  ...CCc..........
+  .CCCcCCcCC......
+  CCCcCCcCCcCc....
+  cc.cc.cc.CccC...`,
+  () => ({ C: c("carrot", 3), c: c("carrot", 1), l: c("leaf", 3) }),
+);
+
+// A raw fish (silver-blue, so it never reads as a cooked dish) with its tail up on the left,
+// on potato and onion.
+mixDish(
+  "fish_chowder",
+  `
+  ................
+  ..f.............
+  ..ff............
+  ...fG...........
+  ...GGg..........
+  ...GGgg.........
+  ...gGGGGGGkWW...
+  ...PgggggggWWW..
+  ...Pp.pp...WW...`,
+  () => ({
+    G: c("glass", 2),
+    g: c("glass", 1),
+    f: c("glass", 0),
+    k: c("bowl", 0),
+    P: c("potato", -1),
+    p: c("potato", 2),
+    W: c("onion_flesh", -1),
+  }),
+);
+
+// A pale raw drumstick standing in the middle, bone up, with carrot pieces.
+mixDish(
+  "chicken_soup",
+  `
+  ......WW........
+  ......WsW.......
+  .......ss.......
+  .......ss.......
+  ......cCCc......
+  .....cCCCCc.....
+  ...OocCCCCCcOo..
+  ...OOocCCCcOOo..
+  ...Oo.OO.oOOo...`,
+  () => ({
+    W: c("sugar", -1),
+    s: c("sugar", 1),
+    C: c("onion_flesh", -1),
+    c: c("strawberry", 3),
+    O: c("carrot", 3),
+    o: c("carrot", 1),
+  }),
+);
+
+// A whole onion sitting on the right rim, sprouting, on bread.
+mixDish(
+  "onion_soup",
+  `
+  .............g..
+  ............g...
+  ...........34...
+  ..........3442..
+  .........344421.
+  .........344421.
+  ...bbbb.3442211.
+  ...bbbbb344221..
+  ...bbbb.b34211..`,
+  () => ({ ...L("onion", " 1234"), b: c("bread", 4), g: c("leaf", 3) }),
+);
+
+// A cucumber standing up on the left, eggplant and tomato pieces.
+mixDish(
+  "ratatouille",
+  `
+  .....c..........
+  ....CCc.........
+  ....CCc.........
+  ...CCcc.........
+  ...CCc..........
+  ...Ccc..........
+  ...cc.EETteEE...
+  ...EEeTTtEEeTt..
+  ...Ee.Tt.EeTt...`,
+  () => ({
+    C: c("cucumber", 4),
+    c: c("cucumber", 2),
+    E: c("eggplant", 3),
+    e: c("eggplant", 1),
+    T: c("tomato", 3),
+    t: c("tomato", 1),
+  }),
+);
+
+// A whole eggplant over the left rim, eggplant and chili pieces.
+mixDish(
+  "eggplant_curry",
+  `
+  ................
+  ................
+  ................
+  ................
+  .g..............
+  .GEE............
+  ..EEEe..........
+  ..EEeeEeKkEe....
+  ...eeE.eKk.E....`,
+  () => ({
+    g: c("leaf", 4),
+    G: c("leaf", 2),
+    E: c("eggplant", 3),
+    e: c("eggplant", 1),
+    K: c("chili", 3),
+    k: c("chili", 1),
+  }),
+);
+
+// The jam's glass bottle holding raw strawberries, sugar on top.
+def(
+  "items",
+  "strawberry_jam_mix",
+  () =>
+    rows(
+      `
+      ................
+      ......gHg.......
+      ......gHg.......
+      .....gwWwg......
+      ....gwWwwwg.....
+      ...gHSSsSSsg....
+      ...gHSsSSsSg....
+      ..gHSSsSSsSsg...
+      ..gHsSSsSSsSg...
+      ..gHSsSSsSssg...
+      ..gHSSsSssssg...
+      ...gsSssssssg...
+      ....gssssssg....
+      .....gggggg.....
+      ................
+      ................`,
+      {
+        g: c("glass", 0),
+        H: c("glass", -1),
+        w: c("sugar", 1),
+        W: c("sugar", -1),
+        S: c("strawberry", 2),
+        s: c("strawberry", 1),
+      },
+      "strawberry_jam_mix",
+    ),
+  "mixes",
+);
+
+// A raw eggplant half (bright purple boat) filled with raw meat, tomato and onion, before the
+// oven-like roast in the pot browns it.
+def(
+  "items",
+  "stuffed_eggplant_mix",
+  () =>
+    rows(
+      `
+      ................
+      ................
+      .............g..
+      ...........ggg..
+      .........RWrGg..
+      .......RWRrrr4..
+      .....RRrMrWr44..
+      ....RWrMmrmm43..
+      ...RRMmmWmr443..
+      ..RrWmmMmm4433..
+      ..4rMmmmm44332..
+      ..44mmm444332...
+      ..3444444332....
+      ...33333322.....
+      ................
+      ................`,
+      {
+        R: c("tomato", 3),
+        r: c("tomato", 1),
+        W: c("onion_flesh", -1),
+        M: c("pork", -1),
+        m: c("pork", 3),
+        4: c("eggplant", 4),
+        3: c("eggplant", 3),
+        2: c("eggplant", 2),
+        g: c("leaf", 3),
+        G: c("leaf", 1),
+      },
+      "stuffed_eggplant_mix",
+    ),
+  "mixes",
+);
+
 // --- Stations and book ---------------------------------------------------------------------------
 
 // Tall lidded pot with side handles, so it never reads as a bowl dish or a cake.
@@ -1562,6 +2076,47 @@ def(
       ),
     );
   },
+  "stations",
+);
+
+// The Kitchen Table (D16): a wooden worktable in 3/4 view with a red-and-cream checked cloth on
+// top and a drawer in front, so it never reads as the vanilla crafting table (grid top, tools).
+def(
+  "items",
+  "kitchen_table",
+  () =>
+    rows(
+      `
+      ................
+      ................
+      ..RRWWRRWWRRWW..
+      ..WWRRWWRRWWRR..
+      ..RRWWRRWWRRWW..
+      ..rrwwrrwwrrww..
+      ..444444444444..
+      ..122222222221..
+      ..1k2kkkkkk2k1..
+      ..1k2kHHkkk2k1..
+      ..1k2kkkkkk2k1..
+      ..122222222221..
+      ..11........11..
+      ..11........11..
+      ..00........00..
+      ................`,
+      {
+        R: c("tomato", 2),
+        r: c("tomato", 1),
+        W: c("cream", -1),
+        w: c("cream", 0),
+        4: c("wood", 4),
+        2: c("wood", 2),
+        1: c("wood", 1),
+        0: c("wood", 0),
+        k: c("bark", 1),
+        H: c("iron", -1),
+      },
+      "kitchen_table",
+    ),
   "stations",
 );
 
@@ -2110,6 +2665,79 @@ ing("beef", () =>
 );
 
 // Raw chicken: a plucked, pale pink bird with a leg and a pale bone end.
+// Raw mutton: a lamb chop, pink-red meat with a cream fat rim and the bone sticking out bottom
+// left, so it never reads as the beef steak.
+ing("mutton", () =>
+  stack(
+    shade(
+      mask(`
+        ................
+        ................
+        ................
+        ......#####.....
+        ....#########...
+        ...###########..
+        ...###########..
+        ...###########..
+        ...##########...
+        ....########....
+        ....######......
+        ...###..........
+        ..###...........
+        .###............
+        .##.............
+        ................`),
+      "tomato",
+      [0, 1, 1, 2, 2],
+    ),
+    rows(
+      pad(`
+        ................
+        ................
+        ................
+        ......WWWWW.....
+        ....WW.....WW...
+        ...W.........W..
+        ...W.....w...W..
+        ...W...w.....W..
+        ...W..w....ww...
+        ....W.....w.....
+        ....WWW.........
+        ...BBB..........
+        ..BBb...........
+        .BBb............
+        .Bb.............`),
+      { W: c("onion_flesh", -1), w: c("onion_flesh", 3), B: c("sugar", -1), b: c("sugar", 1) },
+      "mutton",
+    ),
+  ),
+);
+
+// Stick: a thin twig from bottom left to top right, like vanilla's.
+ing("stick", () =>
+  rows(
+    `
+    ................
+    ................
+    ............hd..
+    ...........hd...
+    ..........hd....
+    .........hk.....
+    ........hd......
+    .......hd.......
+    ......hd........
+    .....hd.........
+    ....hd..........
+    ...hd...........
+    ..hd............
+    ..d.............
+    ................
+    ................`,
+    { h: c("wood", 4), d: c("bark", 1), k: c("bark", 3) },
+    "stick",
+  ),
+);
+
 ing("chicken", () =>
   stack(
     shade(
@@ -2818,6 +3446,17 @@ const POT_LIQUIDS = {
     // pale on pale: a golden sparkle so the ready glint still shows
     glint: { arms: c("flower_yellow", 2) },
   }),
+  eggplant: () => ({
+    shades: [c("eggplant", 0), c("eggplant", 1), c("eggplant", 2), c("eggplant", 3)],
+  }),
+  curry: () => ({
+    shades: [
+      c("cucumber_flesh", 1),
+      c("cucumber_flesh", 2),
+      c("cucumber_flesh", 3),
+      c("cucumber_flesh", 4),
+    ],
+  }),
 };
 
 /** The S8 liquid recoloured: each S8 shade (P.pot_liquid, dark → light) → `shades` at its rank. */
@@ -2890,6 +3529,111 @@ def(
     });
   },
   "pot",
+);
+
+// --- Kitchen Table faces (D16): a full cube, opaque, light from the top left ------------------
+
+const TABLE_LEGEND = () => ({
+  4: c("wood", 4),
+  3: c("wood", 3),
+  2: c("wood", 2),
+  1: c("wood", 1),
+  0: c("wood", 0),
+  k: c("bark", 1),
+  K: c("bark", 0),
+  R: c("tomato", 2),
+  r: c("tomato", 1),
+  W: c("cream", -1),
+  w: c("cream", 0),
+  H: c("iron", -1),
+  h: c("iron", 1),
+});
+
+// Top: oak boards with a checked cloth across the middle.
+def(
+  "blocks",
+  "kitchen_table_top",
+  () =>
+    rows(
+      `
+      4444444444444444
+      3333333333k33333
+      3333k33333333333
+      2222222222222222
+      kkkkkkkkkkkkkkkk
+      RRWWRRWWRRWWRRWW
+      RRWWRRWWRRWWRRWW
+      WWRRWWRRWWRRWWRR
+      WWRRWWRRWWRRWWRR
+      RRWWRRWWRRWWRRWW
+      rrwwrrwwrrwwrrww
+      kkkkkkkkkkkkkkkk
+      4444444444444444
+      33333k3333333333
+      333333333333k333
+      2222222222222222`,
+      TABLE_LEGEND(),
+      "kitchen_table_top",
+    ),
+  "table",
+);
+
+// Sides: the cloth hanging over the edge, two drawers with metal knobs, legs and a shelf.
+def(
+  "blocks",
+  "kitchen_table_side",
+  () =>
+    rows(
+      `
+      RRWWRRWWRRWWRRWW
+      rrwwrrwwrrwwrrww
+      4444444444444444
+      2222222222222222
+      1333333k3333333k
+      13kkkk3k3kkkk31k
+      13kHHk3k3kHHk31k
+      13kkkk3k3kkkk31k
+      1111111K1111111K
+      22KKKKKKKKKKKK2K
+      21KKKKKKKKKKKK1K
+      2144444444444410
+      21222222222222K0
+      21KKKKKKKKKKKK10
+      21KKKKKKKKKKKK10
+      10KKKKKKKKKKKK00`,
+      TABLE_LEGEND(),
+      "kitchen_table_side",
+    ),
+  "table",
+);
+
+// Bottom: plain boards.
+def(
+  "blocks",
+  "kitchen_table_bottom",
+  () =>
+    rows(
+      `
+      2222222222222222
+      2222222k22222222
+      1111111111111111
+      kkkkkkkkkkkkkkkk
+      3333333333333333
+      22222k2222222222
+      1111111111111111
+      kkkkkkkkkkkkkkkk
+      2222222222222222
+      222222222222k222
+      1111111111111111
+      kkkkkkkkkkkkkkkk
+      3333333333333333
+      2222222k22222222
+      1111111111111111
+      kkkkkkkkkkkkkkkk`,
+      TABLE_LEGEND(),
+      "kitchen_table_bottom",
+    ),
+  "table",
 );
 
 // --- Crops (cross "#" model, transparent, plant grows up from the bottom row) ------------------
@@ -3286,6 +4030,79 @@ const CROPS = {
       4y32bcb.bcb3443.
       32y2.bbbbbb4y32.
       .21....b...32y2.`,
+    ],
+  },
+  eggplant_crop: {
+    legend: () => cropLegend("leaf", "eggplant"),
+    stages: [
+      `
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      .....ed..de.....
+      ....dcc..ccd....
+      ......cbbc......
+      .......bb.......`,
+      `
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ................
+      ......ede.......
+      ....edcdcd..e...
+      ...dcbcbcde.d...
+      ..edcb.b.cdcd...
+      ..dcb..b..bcd...
+      ...b.edbde.b....
+      ....dcbbbcd.....
+      .....bcbcb......
+      .......b........`,
+      `
+      ................
+      ................
+      ................
+      ......ede.......
+      ....edcdcde.....
+      ...dcb3bcbcd....
+      ..edcbcbcd4de...
+      ..dcb.cbc.bcd...
+      .edc..bbb..cde..
+      .dcb.edbde.bcd..
+      ..b.dc3bcd4.b...
+      ...dcbcbbcbcd...
+      ....bcb.bcb.....
+      .....bbbbb......
+      ......bbb.......
+      .......b........`,
+      `
+      ................
+      ................
+      ................
+      ......ede.......
+      ....edcdcde.....
+      ...dcbcbcbcd....
+      ..edcbcbcdcde...
+      ..dcbdcbcd.cd...
+      .edc.4bbb.dcde..
+      .dcb.43bde4bcd..
+      ..b.d32bcd43b...
+      ...d.32bb.32d...
+      ..dc.21bb.21....
+      ....b.1bbb.1....
+      .....bbbbb......
+      .......b........`,
     ],
   },
 };

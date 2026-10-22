@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { describe, it } from "node:test";
+import { recipesFor } from "../scripts/data/recipes";
 import { stationById, type ContainerStation } from "../scripts/data/stations";
 import type { StationState } from "../scripts/stations/station-logic";
 import { potChoices } from "../scripts/ui/pot-status";
@@ -13,17 +14,17 @@ const state = (items: Record<string, number>, extra: Partial<StationState> = {})
   items,
   ...extra,
 });
-const soupAndOnionSoup = { "hk:tomato": 2, "hk:onion": 2, "minecraft:bread": 1, "minecraft:bowl": 1 }; // prettier-ignore
+const soupAndOnionSoup = { "hk:tomato_soup_mix": 1, "hk:onion_soup_mix": 2 };
 
 describe("pot choice form", () => {
   it("no form when empty, idle with items, or one dish possible", () => {
     assert.deepEqual(potChoices(pot, state({})), []);
     assert.deepEqual(potChoices(pot, state({ "hk:onion": 1 })), []);
-    assert.deepEqual(potChoices(pot, state({ "hk:tomato": 2, "minecraft:bowl": 1 })), []);
+    assert.deepEqual(potChoices(pot, state({ "hk:tomato_soup_mix": 3 })), []);
   });
 
   it("no form while cooking or done, whatever is inside", () => {
-    const job = { recipe: "hk:tomato_soup", ticks: 10, total: 100 };
+    const job = { recipe: "hk:tomato_soup", ticks: 10, total: 100, servings: 1 };
     assert.deepEqual(potChoices(pot, state(soupAndOnionSoup, { job })), []);
     const out = { item: "hk:tomato_soup", count: 1 };
     assert.deepEqual(potChoices(pot, state(soupAndOnionSoup, { out })), []);
@@ -36,24 +37,16 @@ describe("pot choice form", () => {
     ]);
   });
 
-  // A pot holds 8 items, so few dishes fit at once. 4 is the most (vegetable stew, tomato soup,
-  // chicken soup and fish chowder share a bowl, an onion, a carrot and a potato). Pinned so a new
-  // recipe that makes the form longer shows up here (blockers.md: 4 buttons must fit unscrolled).
-  it("a full pot (8 items) offers at most 4 dishes", () => {
-    const ids = [
-      ...new Set(
-        ["hk:tomato", "hk:onion", "minecraft:carrot", "minecraft:potato", "minecraft:bowl"].concat(
-          ["minecraft:bread", "minecraft:chicken", "minecraft:beef", "hk:chili_pepper"],
-          ["minecraft:cod", "hk:strawberry", "minecraft:sugar", "minecraft:glass_bottle"],
-        ),
-      ),
-    ];
+  // A pot holds 4 mixes (D16), so at most 4 different dishes. Pinned so a capacity change that
+  // makes the form longer shows up here (blockers.md B23: 4 buttons must fit unscrolled).
+  it("a full pot (4 mixes) offers at most 4 dishes", () => {
+    const mixes = [...new Set(recipesFor("pot").flatMap((r) => r.ingredients.flatMap((i) => i.items)))]; // prettier-ignore
     let most = 0;
     const walk = (start: number, items: Record<string, number>, left: number) => {
       most = Math.max(most, potChoices(pot, state(items)).length);
       if (left === 0) return;
-      for (let i = start; i < ids.length; i++) {
-        const id = ids[i] as string;
+      for (let i = start; i < mixes.length; i++) {
+        const id = mixes[i] as string;
         walk(i, { ...items, [id]: (items[id] ?? 0) + 1 }, left - 1);
       }
     };

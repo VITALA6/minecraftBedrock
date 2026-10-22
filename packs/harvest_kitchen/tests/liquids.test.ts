@@ -3,12 +3,12 @@ import { describe, it } from "node:test";
 import { DISHES } from "../scripts/data/dishes";
 import {
   DEFAULT_LIQUID,
-  INGREDIENT_LIQUIDS,
   LIQUIDS,
   LIQUID_STRENGTH,
   dominantLiquid,
+  type Liquid,
 } from "../scripts/data/liquids";
-import { STATION_RECIPES, ingredientsOf } from "../scripts/data/recipes";
+import { STATION_RECIPES } from "../scripts/data/recipes";
 
 describe("liquid data", () => {
   it("water is the default and the first state value", () => {
@@ -16,8 +16,8 @@ describe("liquid data", () => {
     assert.equal(DEFAULT_LIQUID, "water");
   });
 
-  it("stays a small palette that fits 3 state bits", () => {
-    assert.ok(LIQUIDS.length <= 8, `${LIQUIDS.length} colours`);
+  it("stays a small palette that fits 4 state bits", () => {
+    assert.ok(LIQUIDS.length <= 16, `${LIQUIDS.length} colours`);
     assert.equal(new Set(LIQUIDS).size, LIQUIDS.length, "no duplicates");
   });
 
@@ -25,14 +25,6 @@ describe("liquid data", () => {
     assert.deepEqual(
       [...LIQUID_STRENGTH].sort(),
       LIQUIDS.filter((l) => l !== DEFAULT_LIQUID).sort(),
-    );
-  });
-
-  it("every coloured ingredient is something the pot accepts", () => {
-    const accepted = ingredientsOf("pot");
-    assert.deepEqual(
-      Object.keys(INGREDIENT_LIQUIDS).filter((id) => !accepted.has(id)),
-      [],
     );
   });
 
@@ -48,21 +40,28 @@ describe("liquid data", () => {
 });
 
 describe("dominantLiquid", () => {
+  // A colour lookup like the pot's (each mix colours it as its dish).
+  const colours: Record<string, Liquid> = {
+    "hk:a": "cream",
+    "hk:b": "cream",
+    "hk:t": "tomato",
+    "hk:s": "stew",
+    "hk:j": "jam",
+  };
+  const colourOf = (id: string) => colours[id];
+
   it("is water when nothing colours it", () => {
-    assert.equal(dominantLiquid({}), "water");
-    assert.equal(dominantLiquid({ "minecraft:bowl": 3, "minecraft:sugar": 2 }), "water");
+    assert.equal(dominantLiquid({}, colourOf), "water");
+    assert.equal(dominantLiquid({ "minecraft:bowl": 3 }, colourOf), "water");
   });
 
   it("ignores zero and negative counts", () => {
-    assert.equal(dominantLiquid({ "hk:tomato": 0, "hk:onion": -1 }), "water");
+    assert.equal(dominantLiquid({ "hk:t": 0, "hk:s": -1 }, colourOf), "water");
   });
 
   it("sums per colour, then the stronger colour wins a tie", () => {
-    assert.equal(
-      dominantLiquid({ "minecraft:cod": 1, "minecraft:salmon": 1, "hk:tomato": 1 }),
-      "cream",
-    );
-    assert.equal(dominantLiquid({ "minecraft:beef": 1, "hk:strawberry": 1 }), "jam");
-    assert.equal(dominantLiquid({ "minecraft:beef": 2, "hk:strawberry": 1 }), "stew");
+    assert.equal(dominantLiquid({ "hk:a": 1, "hk:b": 1, "hk:t": 1 }, colourOf), "cream");
+    assert.equal(dominantLiquid({ "hk:s": 1, "hk:j": 1 }, colourOf), "jam");
+    assert.equal(dominantLiquid({ "hk:s": 2, "hk:j": 1 }, colourOf), "stew");
   });
 });

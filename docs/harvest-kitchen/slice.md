@@ -7,23 +7,30 @@ per D9, no migration). The spec is `plan.md` §1–§3 and §5.2.
 Written 2026-10-21/22 without an in-game run. Everything not yet seen working in game is tagged
 **(untested)**. All art is **placeholder** at the final paths (see "Art" below).
 
+**Latest batch (2026-10-22, D16–D18, untested in game):** the Kitchen Table and mixes, the
+eggplant and its 5 dishes, a second poster state, the mix hint ghost, release builds. See
+"Kitchen Table and mixes (D16)" below; in-game steps in `tests/round-4-kitchen-table.md`.
+
 ## What's implemented
 
 | Feature           | How                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 5 crops           | Tomato, onion, cucumber (`crop`: break to harvest) and chili, strawberry (`bush`: use to pick). One block component `hk:crop_growth` with a flat `type` param. Onion is its own seed.                                                                                                                                                                                                                                                                                                                  |
+| 6 crops           | Tomato, onion, cucumber, eggplant (`crop`: break to harvest) and chili, strawberry (`bush`: use to pick). One block component `hk:crop_growth` with a flat `type` param. Onion is its own seed.                                                                                                                                                                                                                                                                                                        |
 | Bushes            | Mature (stage 3) + use with anything: drops 1–3 chili / 2–3 strawberries, falls back to stage 2, regrows. Bone meal on a young bush grows it. Planted on grass, dirt, coarse dirt, podzol or farmland (see decisions).                                                                                                                                                                                                                                                                                 |
 | Seed drops        | Breaking short grass, tall grass, fern or large fern (not creative, not shears): one roll; each crop has 5 % in its biomes (`Dimension.getBiome()`) and 1 % anywhere else, so a break drops at most one HK seed.                                                                                                                                                                                                                                                                                       |
-| Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                                                                              |
+| Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber, Eggplant → 2 Sliced Eggplant. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                                                |
 | Station engine    | Generic container station from config (`data/stations.ts`): recipe list, capacity, heat rule, visual-state mapping. One `runInterval` (10 ticks) drives every station with contents. Cook time is stored as ticks left and only counts down with heat, so it pauses without heat and survives `/reload` (the active list is rebuilt at `worldLoad`).                                                                                                                                                   |
 | Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                                                               |
 | Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`, `hk:liquid` (7 colours). Bone visibility shows the liquid level and the lid (cooking). The liquid shows what's in the pot (`liquidOf`: the matched dish's colour, else the main ingredient's, else clear water) with a glint when ready or done; the rim glows when hot; light 7 while cooking with heat. Generated permutations (`tools/gen-pot-block.mjs`). All materials `opaque`.                                    |
+| Kitchen Table     | D16: `hk:kitchen_table`, a full block with `minecraft:crafting_table` (`crafting_tags: ["hk_kitchen"]`, `table_name` = its tile key). Use it: the vanilla 3×3 crafting screen and recipe book with only the 11 mix recipes (10 mixes; the chowder has a cod and a salmon recipe). No script. Crafted (shapeless, vanilla table) from a crafting table + a bowl. **(untested)**                                                                                                                         |
+| Mixes             | D16: one item per pot dish, `hk:<dish>_mix` (stack 16, not food). The raw ingredients and the bowl or bottle go in on the Kitchen Table; the pot cooks the mix (capacity 4 mixes; every mix of the chosen dish cooks at once).                                                                                                                                                                                                                                                                         |
 | Pot interactions  | Exactly §2.3 with D15: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the choice form only when several are possible, says `Add <first missing>` (no form) when idle with items and `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills. |
 | Pot screen (D15)  | Only when two or more dishes are possible: an `ActionFormData` titled "Cooking Pot", one button per dish (its icon + `Cook <dish>`), no body, no Close button (the X closes it). Cold pot: fizz + `♨ Needs fire below` instead of the form. The tap goes through `startCooking`, which re-validates. See "Ghost ingredients and the choice form (D15)".                                                                                                                                                |
+| Mix hint          | D16: a raw ingredient used on the pot is refused with `✘ Make a mix first`, and the mixes it goes into float above that pot for 3 s, for that player only (even over an empty pot).                                                                                                                                                                                                                                                                                                                    |
 | Ghost ingredients | D15: within 6 blocks of a pot with contents, its closest recipe's missing items float above it as semi-transparent bobbing icons (one per missing item); ready → the dish icon(s) with gold sparkles; done → the dish, nearly solid; empty or cooking → nothing. Adding an item pops its ghost. Per-player particles from one interval, capped. See "Ghost ingredients and the choice form (D15)".                                                                                                     |
 | Recipe posters    | `hk:recipe_poster` (D15, replaces the recipe book): a 2×1 wall poster (one `minecraft:multi_block`) showing one recipe: ingredients → result, station (+ flame), effect family badge. Sneak + use cycles through the dishes the player has discovered (all in creative; `Break grass to find seeds` when none); plain use names the dish and its effect. Crafted from paper + any HK crop (tag `hk:crops`); one is handed out the first time a player gets an HK item. See "Recipe posters (D15)".     |
 | Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; posters only cycle to unlocked dishes. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. A Recipe Poster is handed out the first time any HK item enters the inventory (`hk:poster_given`).                                                                                                                                  |
-| Dishes            | All 13 MUST dishes. Pot: tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam. Crafting (shapeless): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                                                                                       |
+| Dishes            | 18: the 13 MUST dishes plus 5 eggplant dishes (D17). Pot (each from its mix): tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam, stuffed eggplant, ratatouille, eggplant curry. Crafting (shapeless, vanilla table): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake, eggplant salad, veggie skewer. Effects via `hk:dish`; containers come back via `using_converts_to`.                     |
 | Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Only placeable on top of a block; pops (dropping nothing) when the block below goes or a piston pushes it (B15). Generic `hk:sliced_dish` component.                                                              |
 | Validation        | `data/validate.ts` at `worldLoad`; results in the Content Log, via `/hk:debug validate`, and announced to operators on join if there are problems.                                                                                                                                                                                                                                                                                                                                                     |
 | `/hk:debug`       | Operator-only custom command (see below).                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -31,51 +38,66 @@ Written 2026-10-21/22 without an in-game run. Everything not yet seen working in
 Dish table (food values are in the item JSON **and** `data/dishes.ts`; `tests/pack-files.test.ts`
 compares them, B17). Pot dishes also have a liquid colour (see "Pot liquid colours"):
 
-| Dish            | Station  | Ingredients                                            | Food  | Effect                 | Always eat | Cook |
-| --------------- | -------- | ------------------------------------------------------ | ----- | ---------------------- | ---------- | ---- |
-| Tomato Soup     | Pot      | 2 Tomato, Bowl                                         | 6     | Regeneration 8 s       | yes        | 5 s  |
-| Vegetable Stew  | Pot      | Tomato, Onion, Carrot, Potato, Bowl                    | 10    | Regeneration 15 s      | yes        | 10 s |
-| Chili Stew      | Pot      | Chili, Raw Beef, Tomato, Onion, Bowl                   | 10    | Fire Resistance 120 s  | yes        | 10 s |
-| Fish Chowder    | Pot      | Raw Cod or Salmon, Potato, Onion, Bowl                 | 8     | Water Breathing 120 s  | yes        | 8 s  |
-| Chicken Soup    | Pot      | Raw Chicken, Onion, Carrot, Bowl                       | 8     | Absorption 60 s        | yes        | 8 s  |
-| Onion Soup      | Pot      | 2 Onion, Bread, Bowl                                   | 7     | Night Vision 120 s     | yes        | 6 s  |
-| Strawberry Jam  | Pot      | 3 Strawberry, Sugar, Glass Bottle                      | 4     | Speed 60 s             | yes        | 6 s  |
-| Garden Salad    | Crafting | 2 Sliced Tomato, Sliced Cucumber, Carrot, Bowl         | 6     | Speed 90 s             | yes        |      |
-| Salsa           | Crafting | Sliced Tomato, Chopped Onion, Chili, Bowl              | 4     | Haste 90 s             | yes        |      |
-| Veggie Sandwich | Crafting | Bread, Sliced Tomato, Sliced Cucumber                  | 7     | none                   | no         |      |
-| Hearty Sandwich | Crafting | Bread, Cooked Porkchop, Sliced Tomato, Sliced Cucumber | 10    | none                   | no         |      |
-| Strawberry Cup  | Crafting | 3 Strawberry, Sugar, Bowl                              | 5     | Jump Boost 60 s        | yes        |      |
-| Strawberry Cake | Crafting | Cake, 2 Strawberry                                     | 3 × 4 | Regeneration 5 s/slice | yes        |      |
+Pot dishes: the ingredients are those of the **mix** (Kitchen Table); the pot cooks the mix (D16).
 
-All effects are level I. Station items: Cooking Pot (`IBI`/`III`, iron + bowl), Cutting Board
-(stick + 2 planks in a row), Recipe Poster (paper + any HK crop, shapeless).
+| Dish             | Station  | Ingredients                                            | Food  | Effect                 | Always eat | Cook |
+| ---------------- | -------- | ------------------------------------------------------ | ----- | ---------------------- | ---------- | ---- |
+| Tomato Soup      | Pot      | 2 Tomato, Bowl                                         | 6     | Regeneration 8 s       | yes        | 5 s  |
+| Vegetable Stew   | Pot      | Tomato, Onion, Carrot, Potato, Bowl                    | 10    | Regeneration 15 s      | yes        | 10 s |
+| Chili Stew       | Pot      | Chili, Raw Beef, Tomato, Onion, Bowl                   | 10    | Fire Resistance 120 s  | yes        | 10 s |
+| Fish Chowder     | Pot      | Raw Cod or Salmon, Potato, Onion, Bowl                 | 8     | Water Breathing 120 s  | yes        | 8 s  |
+| Chicken Soup     | Pot      | Raw Chicken, Onion, Carrot, Bowl                       | 8     | Absorption 60 s        | yes        | 8 s  |
+| Onion Soup       | Pot      | 2 Onion, Bread, Bowl                                   | 7     | Night Vision 120 s     | yes        | 6 s  |
+| Strawberry Jam   | Pot      | 3 Strawberry, Sugar, Glass Bottle                      | 4     | Speed 60 s             | yes        | 6 s  |
+| Garden Salad     | Crafting | 2 Sliced Tomato, Sliced Cucumber, Carrot, Bowl         | 6     | Speed 90 s             | yes        |      |
+| Salsa            | Crafting | Sliced Tomato, Chopped Onion, Chili, Bowl              | 4     | Haste 90 s             | yes        |      |
+| Veggie Sandwich  | Crafting | Bread, Sliced Tomato, Sliced Cucumber                  | 7     | none                   | no         |      |
+| Hearty Sandwich  | Crafting | Bread, Cooked Porkchop, Sliced Tomato, Sliced Cucumber | 10    | none                   | no         |      |
+| Strawberry Cup   | Crafting | 3 Strawberry, Sugar, Bowl                              | 5     | Jump Boost 60 s        | yes        |      |
+| Strawberry Cake  | Crafting | Cake, 2 Strawberry                                     | 3 × 4 | Regeneration 5 s/slice | yes        |      |
+| Stuffed Eggplant | Pot      | Eggplant, Raw Mutton, Onion, Tomato                    | 10    | Health Boost 180 s     | yes        | 10 s |
+| Ratatouille      | Pot      | Eggplant, Tomato, Cucumber, Bowl                       | 8     | Slow Falling 60 s      | yes        | 8 s  |
+| Eggplant Curry   | Pot      | Eggplant, Chili Pepper, Onion, Potato, Bowl            | 8     | Haste 120 s            | yes        | 10 s |
+| Eggplant Salad   | Crafting | Sliced Eggplant, Sliced Cucumber, Chopped Onion, Bowl  | 5     | Water Breathing 90 s   | yes        |      |
+| Veggie Skewer    | Crafting | Stick, Sliced Eggplant, Sliced Tomato, Chopped Onion   | 4     | Night Vision 90 s      | yes        |      |
+
+All effects are level I. Cook times are per batch (every mix of the dish cooks at once). The
+skewer gives its stick back. Station items: Cooking Pot (`IBI`/`III`, iron + bowl), Cutting Board
+(stick + 2 planks in a row), Recipe Poster (paper + any HK crop, shapeless), Kitchen Table
+(crafting table + bowl, shapeless).
 
 ## Pot liquid colours
 
 `data/liquids.ts` and the `liquid` field in `data/dishes.ts`; rule in `liquidOf`
 (`stations/station-logic.ts`):
 
-1. A recipe matches (done: the finished dish; cooking: the job's dish; ready: the first possible
-   recipe in recipe order) → that dish's colour.
-2. Otherwise → the colour there's most of among the ingredients, counts summed per colour; a tie
-   goes to the stronger colour (chili > tomato > jam > stew > broth > cream).
-3. Nothing that colours it (empty, or only bowls, bottles, sugar) → clear water.
+1. Done: the finished dish's colour; cooking: the job's dish.
+2. Otherwise → the colour there's most of among the mixes inside, each mix counting as its dish's
+   colour (`itemLiquid`), counts summed per colour; a tie goes to the stronger colour
+   (chili > eggplant > tomato > jam > stew > broth > curry > cream).
+3. Nothing that colours it (empty, or raw items saved before D16) → clear water.
 
-| Colour (`hk:liquid`) | Dishes                   | Ingredients                       | Texture ramp (palette)   |
-| -------------------- | ------------------------ | --------------------------------- | ------------------------ |
-| `water` (default)    | none                     | none                              | `glass`                  |
-| `tomato`             | Tomato Soup              | Tomato                            | the S8 liquid, unchanged |
-| `chili`              | Chili Stew               | Chili Pepper                      | `beet` (deep red)        |
-| `jam`                | Strawberry Jam           | Strawberry                        | `strawberry` (pink-red)  |
-| `stew`               | Vegetable Stew           | Raw Beef                          | `meat` (brown)           |
-| `broth`              | Chicken Soup, Onion Soup | Onion, Carrot, Raw Chicken, Bread | `onion` (golden)         |
-| `cream`              | Fish Chowder             | Potato, Raw Cod, Raw Salmon       | `onion_flesh` + `cream`  |
+| Colour (`hk:liquid`) | Dishes                         | Texture ramp (palette)   |
+| -------------------- | ------------------------------ | ------------------------ |
+| `water` (default)    | none                           | `glass`                  |
+| `tomato`             | Tomato Soup, Ratatouille       | the S8 liquid, unchanged |
+| `chili`              | Chili Stew                     | `beet` (deep red)        |
+| `jam`                | Strawberry Jam                 | `strawberry` (pink-red)  |
+| `stew`               | Vegetable Stew                 | `meat` (brown)           |
+| `broth`              | Chicken Soup, Onion Soup       | `onion` (golden)         |
+| `cream`              | Fish Chowder                   | `onion_flesh` + `cream`  |
+| `eggplant` (D17)     | Stuffed Eggplant               | `eggplant` (purple)      |
+| `curry` (D17)        | Eggplant Curry (a green curry) | `cucumber_flesh` (green) |
 
 Each colour has `cooking_pot_liquid_<colour>.png` and `_ready.png` (the same sparkle overlay as
-before; on `cream` the sparkle is golden so it still shows). No dish is green, so there's no green.
+before; on `cream` the sparkle is golden so it still shows).
 
 ## Identifiers
 
+- **Items (D16/D17):** `hk:eggplant`, `hk:eggplant_seeds`, `hk:sliced_eggplant`; mixes
+  `hk:<dish>_mix` for the 10 pot dishes; dishes `hk:stuffed_eggplant`, `hk:ratatouille`,
+  `hk:eggplant_curry`, `hk:eggplant_salad`, `hk:veggie_skewer`; `hk:kitchen_table` (the block's
+  own item, no item JSON).
 - **Items:** `hk:tomato`, `hk:onion`, `hk:cucumber`, `hk:chili_pepper`, `hk:strawberry`;
   seeds `hk:tomato_seeds`, `hk:cucumber_seeds`, `hk:chili_pepper_seeds`, `hk:strawberry_seeds`;
   prepared `hk:sliced_tomato`, `hk:chopped_onion`, `hk:sliced_cucumber`; dishes
@@ -85,15 +107,18 @@ before; on `cream` the sparkle is golden so it still shows). No dish is green, s
   `hk:cooking_pot`, `hk:cutting_board`.
 - **Blocks:** `hk:tomato_crop`, `hk:onion_crop`, `hk:cucumber_crop`, `hk:chili_bush`,
   `hk:strawberry_bush`, `hk:cooking_pot`, `hk:cutting_board`, `hk:strawberry_cake`,
-  `hk:recipe_poster`.
+  `hk:recipe_poster`, `hk:eggplant_crop`, `hk:kitchen_table`.
 - **Block states:** `hk:growth` 0–3 (crops, bushes); `hk:fill` 0–3, `hk:phase`
-  idle|ready|cooking|done, `hk:hot` bool, `hk:liquid` water|tomato|chili|jam|stew|broth|cream
-  (pot: 2 + 2 + 1 + 3 = 8 bits, 4 × 4 × 2 × 7 = 224 permutations);
-  `hk:slices` 0–3 (cake); `minecraft:cardinal_direction` (board); poster: `hk:poster` 0–13,
-  `hk:facing` north|south|east|west, `hk:right` bool, plus `minecraft:cardinal_direction` and
-  `minecraft:multi_block_part` from its traits (4 + 2 + 1 + 2 + 1 = 10 bits).
+  idle|ready|cooking|done, `hk:hot` bool, `hk:liquid`
+  water|tomato|chili|jam|stew|broth|cream|eggplant|curry (pot: 2 + 2 + 1 + 4 = 9 bits,
+  4 × 4 × 2 × 9 = 288 combinations); `hk:slices` 0–3 (cake); `minecraft:cardinal_direction`
+  (board); poster: `hk:poster` 0–15 and `hk:poster_page` 0–1 (index = page × 16 + `hk:poster`,
+  19 posters), `hk:facing` north|south|east|west, plus `minecraft:cardinal_direction` and
+  `minecraft:multi_block_part` from its traits (4 + 1 + 2 + 2 + 1 = 10 bits).
 - **Custom components:** block `hk:crop_growth`, `hk:cutting_station`, `hk:container_station`,
   `hk:sliced_dish`, `hk:recipe_poster`; item `hk:dish`.
+- **Crafting tag:** `hk_kitchen` (`KITCHEN_TAG`): the Kitchen Table's `crafting_tags` and the
+  `tags` of every mix recipe.
 - **Item tags:** `hk:seeds` (4 seeds + onion; no recipe uses it any more), `hk:crops` (the 5
   produce items), used by the poster recipe.
 - **Dynamic properties:** world `hk:st:<station>:<dimension>:<x>,<y>,<z>` (station JSON),
@@ -165,9 +190,12 @@ tests/                       node:test unit tests for the pure modules (see "Tes
 
 ## How to add content
 
-- **A pot recipe:** one entry in `STATION_RECIPES` (`data/recipes.ts`) and, for a new dish, an
-  entry in `DISHES` (`data/dishes.ts`) plus the item JSON (`minecraft:food`, `"hk:dish": {}`),
-  texture `textures/hk/items/<name>.png` + `item_texture.json` + lang key. A pot dish needs a
+- **A pot recipe (D16: two steps):** the mix item JSON (`hk:<dish>_mix`, stack 16, no food) +
+  texture + lang; its Kitchen Table recipe as shapeless JSON with `"tags": ["hk_kitchen"]` (one
+  file per alternative of a "cod or salmon" slot, `craftingJsonIds`) and as a `mix(...)` entry in
+  `CRAFTING_RECIPES`; a `pot(dish, mix, seconds)` entry in `STATION_RECIPES` (`data/recipes.ts`);
+  for a new dish, an entry in `DISHES` (`data/dishes.ts`) plus the item JSON (`minecraft:food`,
+  `"hk:dish": {}`), texture `textures/hk/items/<name>.png` + `item_texture.json` + lang key. A pot dish needs a
   `liquid` colour (`checks.ts` reports a missing one); a new colour is a `LIQUIDS` entry
   (`data/liquids.ts`, append only), a `POT_LIQUIDS` entry in `tools/gen-textures.mjs`, the two
   PNGs copied + `terrain_texture.json`, then `node tools/gen-pot-block.mjs`. The pot, its choice
@@ -176,8 +204,8 @@ tests/                       node:test unit tests for the pure modules (see "Tes
   ghost atlas (`tests/ghosts.test.ts` fails until then).
 - **A crafting dish:** the shapeless JSON in `behavior/recipes/`, the same recipe in
   `CRAFTING_RECIPES` (it's what the posters show; keep both in sync), a `DISHES` entry, item JSON,
-  texture, lang. Every new dish gets a poster: `npm run posters` (the 16th `hk:poster` value is
-  the last one; a 16th dish needs a second state, see "Recipe posters (D15)").
+  texture, lang. Every new dish gets a poster: `npm run posters` (indices past 15 go to the next
+  `hk:poster_page`; the generator adds pages as needed).
 - **A crop:** a `CROPS` entry (`data/crops.ts`); a block JSON copied from `tomato_crop.json` or
   `chili_bush.json` (`hk:growth` state, `hk:crop_growth` params, per-stage textures and loot);
   seed item (`minecraft:block_placer`, tag `hk:seeds`), produce item, two loot tables under
@@ -206,6 +234,13 @@ tests/                       node:test unit tests for the pure modules (see "Tes
 Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its data-driven
   `red_shrub` block. `minecraft:item_visual` exists too, but it renders geometry, not a flat icon.
   **(untested)**
+- **Release builds (D18):** `npm run build:release` (`tools/build.mjs --release`) defines
+  `__RELEASE__` true; `debug/debug-command.ts` then sends no join chat (build id, data-check
+  count). The Content Log keeps both, and `/hk:debug` (operator-only) works in every build.
+  `DEBUG_POSTERS` and its per-step chat are gone. Deploy the normal build for test sessions.
+- **The Kitchen Table is pure JSON (D16).** The vanilla crafting screen does the matching, the
+  recipe book and the "what's missing" display, so there's no form and no JSON UI (D13). The
+  pot side is still the station engine; see "Kitchen Table and mixes (D16)".
 - **Hot vs cold is a state (`hk:hot`), not computed only on use.** It costs 1 bit (8 bits total
   with `hk:liquid`). Heat is still checked live whenever it matters (start cooking, every sweep);
   the state is only the visual cache.
@@ -301,6 +336,16 @@ request for unknown variable`. It now gets `setVector3("variable.direction", up)
   pop, empty loot, thin boxes, the 1 px panel geometry, every facing × half × recipe combination
   evaluated through the Molang conditions (one permutation, right texture, right rotation, opaque),
   and the crafting recipe + `hk:crops` tag on exactly the produce.
+- **D16/D17 coverage:** the Kitchen Table recipes as matching data (`recipe-matching`: slots,
+  counts, cod-or-salmon, `craftingJsonIds`, servings), every pot recipe is one Kitchen Table mix,
+  `stationInputsMadeFrom`; the pot with mixes (`station-logic`: capacity 4, refusals naming the
+  mix, batch start/finish, old jobs read as 1 serving, mix liquid colours); the mix hint
+  (`ghosts`); posters' two states round-trip and the 19-poster block (`posters`, `pack-files`);
+  `pack-files` "Kitchen Table and mixes": the block's component and tag, its recipe, every mix
+  item, every crafting JSON (each alternative) against the data with its table tag, and no
+  Kitchen Table JSON the data doesn't know; data check on a mix nothing cooks and two
+  alternatives slots (`checks`); eggplant seeds per biome (`seed-roll`), crops of each new dish
+  (`unlock`).
 - **D15 coverage:** the ghosts (`ghosts`): what every pot state shows (empty, missing with partial
   counts, cod-or-salmon turns, ready one/several, cooking, done, and every state of up to 4
   items: ghosts unless empty, capped, each icon has an atlas cell), pops, the row layout per
@@ -418,6 +463,17 @@ Everything below is unproven in game:
 21. `Player.spawnParticle` is visible only to that player, and a spawn every 0.5 s per icon
     (≤ 96 emitters/s total) costs nothing visible on a phone.
 22. The choice form with 4 dish buttons fits without scrolling on PC and phone (blockers.md B23).
+23. D16 Kitchen Table (blockers.md B25): the block loads with `minecraft:crafting_table` at
+    format 1.26.50; using it opens the crafting screen titled "Kitchen Table"; only `hk_kitchen`
+    recipes craft there and they craft nowhere else; the recipe book there lists only them; the
+    two chowder mix recipes both show; the block item renders as a 3D cube.
+24. D16 batch cooking: a stack of 4 soups (stack size 1) is handed out as 4 items (hand first,
+    then inventory, then dropped), and `Soup is ready!` reads fine for a batch.
+25. D16 mix hint: a ghost row above an empty (untracked) pot shows for 3 s and disappears.
+26. D17: the eggplant crop's stage textures read as one sequence; `hk:liquid` with 9 values (4
+    bits) and the pot's 36 permutations load; the poster's second state `hk:poster_page` is set
+    together with `hk:poster` in `beforeOnPlayerPlace` and by `setStates` on cycling, and both
+    parts keep matching.
 
 ## In-game checks for D15 (ghosts and the choice form)
 
@@ -455,7 +511,7 @@ are in the test list in `blockers.md` B24; the short version:
    right (not mirrored, not facing the wall). Repeat on all four wall directions.
 4. Use: `Tomato Soup · ❤ Regeneration 8 s`. Sneak + use with only tomato found: stays Tomato
    Soup. Find an onion, sneak + use: Fish Chowder → Chicken Soup → Onion Soup → … → back.
-5. Creative: sneak + use walks all 13 dishes.
+5. Creative: sneak + use walks all 18 dishes.
 6. Break the right half: both go, one poster drops. Break the wall behind one half: both go, one
    poster drops. In creative: nothing drops.
 7. Crafting table: paper + any of the 5 crops gives a poster.
@@ -685,10 +741,11 @@ has discovered.
   multi-block trait allows no other trait (Microsoft Learn), so `minecraft:placement_position` /
   `block_face` can't be used. With `placement_direction` present, the parts run along the stored
   cardinal direction; the 90° offset turns that from "into the wall" to "along the wall".
-- **States:** `hk:poster` 0–13 (0 = blank, then the 13 dishes in recipe order:
-  `posters/poster-logic.ts`), `hk:facing` north|south|east|west (out of the wall), `hk:right`
-  (this part shows the right half). 10 bits with the trait states. The int state allows 16
-  values: 15 dishes + blank. A 16th dish needs a second state (e.g. `hk:poster_page`).
+- **States:** the poster index (0 = blank, then the 18 dishes in recipe order:
+  `posters/poster-logic.ts`) is `hk:poster` 0–15 within `hk:poster_page` 0–1 (an int state
+  allows 16 values; D17), `hk:facing` north|south|east|west (out of the wall). The half a part
+  shows comes from its trait states (`halfOfPart`), not from a state of ours. 10 bits with the
+  trait states.
 - **Facing:** `beforeOnPlayerPlace` (stable `BlockCustomComponent`) reads the clicked face
   (`face`) and sets `hk:facing`, `hk:right` (first guess from the cardinal direction) and the
   first discovered dish in `permutationToPlace`. One tick later the script reads where the parts
@@ -741,15 +798,90 @@ The renderer (`tools/gen-posters.mjs`, the old book page renderer) bundles the p
 ones. Re-run after changing a dish, recipe or any texture in `art/harvest_kitchen/generated/`. The
 lint rules are in `art-style.md` "Recipe posters".
 
+## Kitchen Table and mixes (D16)
+
+Pot dishes take two steps: the raw ingredients become a **mix** on the Kitchen Table, and the pot
+cooks the mix over fire. Cold dishes stay on the vanilla crafting table.
+
+```
+tomatoes + bowl --(Kitchen Table)--> Tomato Soup Mix --(pot over fire, 5 s)--> Tomato Soup
+```
+
+### The table (`behavior/blocks/kitchen_table.json`, no script)
+
+- `minecraft:crafting_table` with `crafting_tags: ["hk_kitchen"]` and `table_name:
+"tile.hk:kitchen_table.name"`. **Stable:** Microsoft Learn's component page says "Released from
+  the Holiday Creator Features experiment in 1.19.50" (format ≥ 1.19.50; the block list marks only
+  `instrument_sound` and old-format `replaceable` as experimental); the 1.26.52.3 binary has
+  `minecraft:crafting_table`, `crafting_tags`, `table_name` and the error "Block cannot have both
+  a "container" in "minecraft:block_entity" and a "minecraft:crafting_table" component."
+- Using it opens the vanilla 3×3 crafting screen. A recipe is craftable there only if its `tags`
+  contain one of the table's `crafting_tags`; the mix recipes carry only `hk_kitchen`, so they
+  can't be made in the inventory grid or on a vanilla table, and the cold dishes (tag
+  `crafting_table`) can't be made on ours. The recipe book there is expected to list only the
+  table's recipes **(untested, blockers.md B25)**. Each mix recipe unlocks in the book with its
+  first HK crop (`unlock`).
+- A full cube (`minecraft:geometry.full_block`): faces `kitchen_table_top` (boards and a checked
+  cloth), `_side` (cloth edge, two drawers, shelf), `_bottom`. The item is the block's own (a 3D
+  cube in the hotbar, like the vanilla crafting table), so there's no item JSON; its name is the
+  tile key. `textures/hk/items/kitchen_table.png` is the flat icon the posters and forms use.
+- Crafted shapeless on the vanilla table from a crafting table + a bowl; unlocks with any seed.
+
+### Mixes and the pot
+
+- One mix per pot dish, `hk:<dish>_mix`: the old pot recipe's items, bowl or bottle included, as
+  a shapeless Kitchen Table recipe (`mix(...)` in `CRAFTING_RECIPES`, `table: "kitchen"`).
+  Fish chowder's "cod or salmon" is two JSON recipes, `hk:fish_chowder_mix` (cod) and
+  `hk:fish_chowder_mix_salmon` (`craftingJsonIds`; `checks.ts` allows one alternatives slot per
+  recipe). Mixes stack to 16 and aren't food.
+- Pot recipes (`STATION_RECIPES`) are one mix → one dish, with the same ids and cook times as
+  before, so a pot's saved job keeps working.
+- **Capacity 4 mixes, batch cooking.** Starting a dish cooks every serving of it in the pot
+  (`servingsOf`; saved as `job.servings`, a job saved before has 1): 3 Tomato Soup Mixes give 3
+  soups in one cook time; finishing never makes more than the pot still holds. Two different
+  mixes in the pot open the choice form, as two possible dishes did before; the other mix stays.
+- **Liquid colour:** each mix colours the liquid as its dish (`itemLiquid`); with several kinds
+  the most wins, ties to the stronger colour.
+- **Raw ingredients** used on the pot: `✘ Make a mix first` (thud, puff), and the mixes the item
+  goes into (`stationInputsMadeFrom`, at most 5) float above that pot as ghosts for 3 s, for that
+  player only (`showMixHint`, `stations/ghosts.ts`; mode `hint`, 65 % alpha, no sparkle). The
+  hint replaces that pot's own ghosts while it lasts and is cleared when the pot changes. Other
+  items keep `✘ Can't cook <item>`.
+- What's no longer reachable for the pot: the "missing" ghosts, "cod or salmon" turns, the
+  `Add <item>` hint and `closestRecipe` (a one-mix recipe is either possible or untouched). The
+  code stays generic for a station with multi-slot recipes (the oven); old saved pots with raw
+  items show nothing, say `Add ingredients`, and sneak + empty hand gives the items back (D9).
+
+### Posters
+
+A pot dish's poster lists the mix's raw ingredients (`posterRecipe` in `tools/gen-posters.mjs`)
+and its station row is the two steps: `[Kitchen Table] → [pot] + [flame]`. Crafting dishes keep
+the crafting-table icon. 19 posters (blank + 18 dishes) are more than one int state holds, so the
+index is `hk:poster` (0–15) within `hk:poster_page` (0–1): `posterStates` / `posterIndexOf`
+(`posters/poster-logic.ts`), conditions in `tools/gen-poster-block.mjs` (151 permutations).
+Placed posters from before keep their page-0 picture, but dish indices after the new pot dishes
+moved (the crafting dishes are 3 later); no poster had shipped.
+
+### Art (generated, `npm run textures`)
+
+Mixes are the shared bowl with raw pieces inside (no broth), one whole ingredient sticking out
+in its own place (tomato on the right rim, chili and eggplant over the left rim, carrot lying
+left, cucumber and fish tail up on the left, drumstick and onion in the middle and on the right)
+and a light metal spoon top right: one family that no cooked dish shares, and every pair passes
+the linter's similar-pair rule (a shared heap made 26 pairs). The jam mix is the jam's bottle with
+raw berries and sugar; the stuffed eggplant mix is a raw (bright purple) eggplant half. New palette
+ramp `eggplant` (vanilla purple dye). Raw mutton and the stick are drawn for the posters
+(`generated/ingredients/`).
+
 ## /hk:debug
 
 Operator-only (`GameDirectors`), works without cheats. One enum argument:
 
-| Command              | Does                                                                                                                                                                                                                                                           |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/hk:debug kit`      | Gives every HK item (8 of stackables, 1 of bowl dishes), every vanilla ingredient the recipes use, a campfire, 32 bone meal, a wooden hoe, a water bucket and 2 paper (for the poster recipe). What doesn't fit drops at your feet. Chat: `Kit: N item types`. |
-| `/hk:debug grow`     | Sets every HK crop/bush within 8 blocks (±4 vertically) to its last stage. Chat: `Grew N crops.`                                                                                                                                                               |
-| `/hk:debug fast`     | Toggles fast cooking (saved in the world): new jobs take 1 s, running ones finish within a second. Chat: `Fast cooking on/off.`                                                                                                                                |
-| `/hk:debug pot`      | Prints the station you look at (8 blocks): id, position, phase, block states, items, job ticks, output, what the ghosts show (D15), saved size, number of active stations, fast flag.                                                                          |
-| `/hk:debug validate` | Re-runs the data check and prints the count plus up to 40 problems to chat.                                                                                                                                                                                    |
-| `/hk:debug reset`    | Forgets your found crops and that you got the starter poster (to retest discovery and the hand-out).                                                                                                                                                           |
+| Command              | Does                                                                                                                                                                                                                                                                                                                             |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/hk:debug kit`      | Gives every HK item (8 of stackables, 1 of bowl dishes; mixes and the Kitchen Table included), every vanilla ingredient the recipes use (raw mutton and sticks too), a campfire, 32 bone meal, a wooden hoe, a water bucket and 2 paper (for the poster recipe). What doesn't fit drops at your feet. Chat: `Kit: N item types`. |
+| `/hk:debug grow`     | Sets every HK crop/bush within 8 blocks (±4 vertically) to its last stage. Chat: `Grew N crops.`                                                                                                                                                                                                                                 |
+| `/hk:debug fast`     | Toggles fast cooking (saved in the world): new jobs take 1 s, running ones finish within a second. Chat: `Fast cooking on/off.`                                                                                                                                                                                                  |
+| `/hk:debug pot`      | Prints the station you look at (8 blocks): id, position, phase, block states, items, job ticks, output, what the ghosts show (D15), saved size, number of active stations, fast flag.                                                                                                                                            |
+| `/hk:debug validate` | Re-runs the data check and prints the count plus up to 40 problems to chat.                                                                                                                                                                                                                                                      |
+| `/hk:debug reset`    | Forgets your found crops and that you got the starter poster (to retest discovery and the hand-out).                                                                                                                                                                                                                             |

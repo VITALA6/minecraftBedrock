@@ -1,0 +1,35 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:vegetable_stew_mix"
+    },
+    "tags": ["hk_kitchen"],
+    "ingredients": [
+      {
+        "item": "hk:tomato"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "minecraft:carrot"
+      },
+      {
+        "item": "minecraft:potato"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:tomato"
+      }
+    ],
+    "result": {
+      "item": "hk:vegetable_stew_mix",
+      "count": 1
+    }
+  }
+}

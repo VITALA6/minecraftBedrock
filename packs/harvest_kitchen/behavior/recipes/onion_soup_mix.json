@@ -1,0 +1,32 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:onion_soup_mix"
+    },
+    "tags": ["hk_kitchen"],
+    "ingredients": [
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "minecraft:bread"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:onion"
+      }
+    ],
+    "result": {
+      "item": "hk:onion_soup_mix",
+      "count": 1
+    }
+  }
+}

@@ -8,7 +8,8 @@
 // Why generated: a permutation's minecraft:material_instances replaces the whole component, and
 // whether a material permutation and a transformation permutation combine isn't proven (blockers
 // B16 relies on it for the pot), so every permutation carries both: 4 facings (hk:facing) × 2
-// halves (from the part number and cardinal direction) × the recipes (hk:poster) = one full copy each, the first being the base.
+// halves (from the part number and cardinal direction) × the recipes (hk:poster within
+// hk:poster_page) = one full copy each, the first being the base.
 //
 // The poster is a minecraft:multi_block with 2 parts (horizontal multi-blocks are stable from
 // block format 1.26.50, Microsoft Learn "Create a Multi-Block"). That trait allows only one more
@@ -38,7 +39,7 @@ async function loadData() {
     stdin: {
       contents: [
         'export * from "./packs/harvest_kitchen/scripts/posters/poster-logic";',
-        'export { BLOCK_RECIPE_POSTER, COMPONENT_RECIPE_POSTER, STATE_POSTER, STATE_FACING } from "./packs/harvest_kitchen/scripts/config";',
+        'export { BLOCK_RECIPE_POSTER, COMPONENT_RECIPE_POSTER, STATE_POSTER, STATE_POSTER_PAGE, STATE_FACING } from "./packs/harvest_kitchen/scripts/config";',
       ].join("\n"),
       resolveDir: ROOT,
       loader: "ts",
@@ -54,10 +55,15 @@ async function loadData() {
 }
 
 function blockJson(d) {
-  if (d.POSTER_COUNT > d.POSTER_MAX_STATES) {
-    throw new Error(`${d.POSTER_COUNT} poster states: an int state holds at most 16 (add a state)`);
-  }
+  if (d.POSTER_PAGES > d.POSTER_MAX_STATES) throw new Error(`${d.POSTER_COUNT} posters: too many`);
+  const paged = d.POSTER_PAGES > 1;
   const q = (state) => `q.block_state('${state}')`;
+  /** The condition for poster `index`: hk:poster, and hk:poster_page once there are two pages. */
+  const indexCondition = (index) => {
+    const { slot, page } = d.posterStates(index);
+    const slotCondition = `${q(d.STATE_POSTER)} == ${slot}`;
+    return paged ? `${slotCondition} && ${q(d.STATE_POSTER_PAGE)} == ${page}` : slotCondition;
+  };
   const look = (facing, half, index) => ({
     "minecraft:material_instances": {
       "*": { texture: d.halfTexture(index, half).shortname, render_method: "opaque" },
@@ -84,7 +90,7 @@ function blockJson(d) {
         permutations.push({
           condition: [
             `${q(d.STATE_FACING)} == '${facing}'`,
-            `${q(d.STATE_POSTER)} == ${index}`,
+            indexCondition(index),
             `(${halfCondition(facing, half)})`,
           ].join(" && "),
           components: look(facing, half, index),
@@ -101,7 +107,12 @@ function blockJson(d) {
         identifier: d.BLOCK_RECIPE_POSTER,
         menu_category: { category: "items" },
         states: {
-          [d.STATE_POSTER]: { values: { min: 0, max: d.POSTER_COUNT - 1 } },
+          [d.STATE_POSTER]: {
+            values: { min: 0, max: Math.min(d.POSTER_COUNT, d.POSTER_MAX_STATES) - 1 },
+          },
+          ...(paged
+            ? { [d.STATE_POSTER_PAGE]: { values: { min: 0, max: d.POSTER_PAGES - 1 } } }
+            : {}),
           [d.STATE_FACING]: [...d.FACINGS],
         },
         traits: {

@@ -9,3 +9,6 @@ declare const console: {
 
 // Injected by tools/build.mjs (esbuild define): "<git short hash>[+] <time>" of the build.
 declare const __BUILD_ID__: string;
+
+// Injected by tools/build.mjs: true for `node tools/build.mjs --release` (npm run build:release).
+declare const __RELEASE__: boolean;

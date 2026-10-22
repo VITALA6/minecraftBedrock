@@ -1,7 +1,8 @@
 // Builds every pack in packs/ into dist/<name>_BP and dist/<name>_RP.
 //
-//   node tools/build.mjs           one-off build
-//   node tools/build.mjs --watch   rebuild on any change under packs/
+//   node tools/build.mjs             one-off build (a test build)
+//   node tools/build.mjs --release   one-off release build: no test-session chat output
+//   node tools/build.mjs --watch     rebuild on any change under packs/ (test builds)
 //
 // Per pack:
 //   behavior/        -> copied to dist/<name>_BP/
@@ -83,6 +84,11 @@ function buildId() {
   }
 }
 
+// A release build compiles out what only test sessions want: scripts read __RELEASE__ (for
+// example, operators no longer get the build id and data-check count in chat on join; both stay
+// in the Content Log). /hk:debug stays, operator-only, in both.
+const RELEASE = process.argv.includes("--release");
+
 async function buildPack(name) {
   const src = path.join(PACKS_DIR, name);
   const bpOut = path.join(DIST_DIR, `${name}_BP`);
@@ -108,7 +114,10 @@ async function buildPack(name) {
         target: "es2022",
         // Game-provided modules stay as imports; everything else is bundled in.
         external,
-        define: { __BUILD_ID__: JSON.stringify(buildId()) },
+        define: {
+          __BUILD_ID__: JSON.stringify(buildId()),
+          __RELEASE__: JSON.stringify(RELEASE),
+        },
         logLevel: "warning",
       });
     }
@@ -127,7 +136,7 @@ export async function buildAll() {
   for (const name of packs) {
     await buildPack(name);
   }
-  console.log(`[build] ${packs.join(", ")} -> dist/`);
+  console.log(`[build] ${packs.join(", ")} -> dist/${RELEASE ? " (release)" : ""}`);
 }
 
 async function watchMode() {

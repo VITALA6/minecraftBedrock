@@ -53,6 +53,7 @@ export async function loadPackData() {
         `export { CROPS } from "${s}/data/crops";`,
         `export { EFFECTS, findDish } from "${s}/data/dishes";`,
         `export { recipeMaking } from "${s}/data/recipes";`,
+        `export { ITEM_KITCHEN_TABLE } from "${s}/config";`,
       ].join("\n"),
       resolveDir: ROOT,
       loader: "ts",
@@ -563,6 +564,10 @@ function item(im, src, x, y, { size = 20, scale = 1, count, locked = false, ghos
 //
 //   [ingredient grid 3×2]  →  [result 2×]          left half: x 0..63, right half: x 64..127
 //   [station (+ flame)]       [family icon + "8 s"] (or the food shank + nutrition)
+//
+// A pot dish (D16) shows the raw ingredients of its mix, and its station row is the two steps:
+// [kitchen table] → [pot] + [flame]. The mix itself isn't drawn: what the player gathers and
+// where they go is what the poster is for.
 // ---------------------------------------------------------------------------------------------
 
 const { w: W, h: H } = POSTER_SIZE;
@@ -632,13 +637,35 @@ const ARROW = { x: 61, y: 19 };
 const RESULT = { x: 76, y: 6, size: 36 };
 const FOOTER_Y = 43;
 
-function stationRow(im, data, made) {
+/** What a poster lists for a dish: a station dish made from one mix lists the mix's recipe. */
+function posterRecipe(data, made) {
+  if (made.kind !== "station") return { ingredients: made.recipe.ingredients, viaTable: false };
+  const [only] = made.recipe.ingredients;
+  const mix =
+    made.recipe.ingredients.length === 1 && only ? data.recipeMaking(only.items[0]) : undefined;
+  if (mix?.kind === "crafting" && mix.recipe.table === "kitchen") {
+    return { ingredients: mix.recipe.ingredients, viaTable: true };
+  }
+  return { ingredients: made.recipe.ingredients, viaTable: false };
+}
+
+function stationRow(im, data, made, viaTable) {
   const station = made?.kind === "station" ? data.stationById(made.recipe.station) : undefined;
-  const src = station ? itemArt(station.icon) : art("ingredients/crafting_table");
-  icon(im, src, 8, FOOTER_Y, { bg: C.pBase });
+  const table =
+    made?.kind === "crafting" && made.recipe.table === "kitchen"
+      ? itemArt(data.ITEM_KITCHEN_TABLE)
+      : art("ingredients/crafting_table");
+  let x = 6;
+  if (viaTable) {
+    icon(im, itemArt(data.ITEM_KITCHEN_TABLE), x, FOOTER_Y, { bg: C.pBase });
+    x += 18;
+    x += text(im, "→", x, FOOTER_Y + 5, C.ink, { bg: C.pBase }) + 2;
+  }
+  icon(im, station ? itemArt(station.icon) : table, x, FOOTER_Y, { bg: C.pBase });
+  x += 18;
   if (!station?.needsHeat) return;
-  text(im, "+", 27, FOOTER_Y + 5, C.ink, { bg: C.pBase });
-  icon(im, part("flame_on"), 35, FOOTER_Y, { bg: C.pBase });
+  x += text(im, "+", x, FOOTER_Y + 5, C.ink, { bg: C.pBase }) + 2;
+  icon(im, part("flame_on"), x, FOOTER_Y, { bg: C.pBase });
 }
 
 /** The effect: family icon + duration; a dish without one shows its food (shank + value). */
@@ -662,7 +689,8 @@ function dishPoster(data, dishId) {
   const dish = data.findDish(dishId);
   const made = data.recipeMaking(dishId);
   if (!dish || !made) throw new Error(`no dish or recipe for ${dishId}`);
-  ingredientGrid(im, made.recipe.ingredients);
+  const { ingredients, viaTable } = posterRecipe(data, made);
+  ingredientGrid(im, ingredients);
   blit(im, part("arrow_ink"), ARROW.x, ARROW.y);
   nine(im, part("slot_large"), RESULT.x, RESULT.y, RESULT.size, RESULT.size, INSET.slot_large);
   icon(im, itemArt(dishId), RESULT.x + 2, RESULT.y + 2, { scale: 2, bg: C.slot });
@@ -672,7 +700,7 @@ function dishPoster(data, dishId) {
       shadow: C.countShadow,
     });
   }
-  stationRow(im, data, made);
+  stationRow(im, data, made, viaTable);
   effectRow(im, data, dish);
   return im;
 }

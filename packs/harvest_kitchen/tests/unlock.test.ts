@@ -27,10 +27,19 @@ describe("what counts as finding a crop", () => {
     assert.equal(cropOfItem("hk:sliced_cucumber"), "cucumber");
     assert.equal(cropOfItem("hk:chili_pepper_seeds"), "chili");
     assert.equal(cropOfItem("hk:strawberry"), "strawberry");
+    assert.equal(cropOfItem("hk:eggplant_seeds"), "eggplant");
+    assert.equal(cropOfItem("hk:sliced_eggplant"), "eggplant");
   });
 
   it("not dishes, stations or vanilla items", () => {
-    for (const id of ["hk:tomato_soup", "hk:recipe_poster", "hk:cooking_pot", "minecraft:carrot"]) {
+    for (const id of [
+      "hk:tomato_soup",
+      "hk:tomato_soup_mix",
+      "hk:recipe_poster",
+      "hk:cooking_pot",
+      "hk:kitchen_table",
+      "minecraft:carrot",
+    ]) {
       assert.equal(cropOfItem(id), undefined, id);
     }
   });
@@ -51,9 +60,14 @@ describe("crops a dish needs", () => {
     "hk:hearty_sandwich": ["cucumber", "tomato"],
     "hk:strawberry_cup": ["strawberry"],
     "hk:strawberry_cake": ["strawberry"],
+    "hk:stuffed_eggplant": ["eggplant", "onion", "tomato"],
+    "hk:ratatouille": ["cucumber", "eggplant", "tomato"],
+    "hk:eggplant_curry": ["chili", "eggplant", "onion"],
+    "hk:eggplant_salad": ["cucumber", "eggplant", "onion"],
+    "hk:veggie_skewer": ["eggplant", "onion", "tomato"],
   };
 
-  it("follows prepared ingredients back to their crop", () => {
+  it("follows mixes and prepared ingredients back to their crops", () => {
     for (const dish of DISHES)
       assert.deepEqual(sorted(cropsOfDish(dish.id)), needs[dish.id], dish.id);
   });
@@ -190,9 +204,10 @@ describe("the New recipe toast", () => {
 });
 
 describe("HK item ids (the debug kit)", () => {
-  it("lists every crop item, prepared ingredient, dish and station item once", () => {
+  it("lists every crop item, prepared ingredient, mix, dish and station item once", () => {
     assert.equal(new Set(HK_ITEM_IDS).size, HK_ITEM_IDS.length);
-    assert.equal(HK_ITEM_IDS.length, 5 + 4 + 3 + 13 + 3);
+    // 6 produce, 5 seeds (the onion is its own), 4 prepared, 10 mixes, 18 dishes, 4 stations
+    assert.equal(HK_ITEM_IDS.length, 6 + 5 + 4 + 10 + 18 + 4);
     assert.ok(HK_ITEM_IDS.every((id) => id.startsWith("hk:")));
   });
 });

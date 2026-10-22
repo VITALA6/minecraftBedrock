@@ -9,7 +9,7 @@ import {
   type CustomCommandRegistry,
   type RawMessage,
 } from "@minecraft/server";
-import { DEBUG_GROW_RADIUS, STATE_GROWTH, ANNOUNCE_BUILD } from "../config";
+import { DEBUG_GROW_RADIUS, STATE_GROWTH } from "../config";
 import { resetDiscovery } from "../discovery/discovery";
 import { HK_ITEM_IDS } from "../discovery/unlock";
 import { CROPS } from "../data/crops";
@@ -202,17 +202,20 @@ export function registerDebugCommand(registry: CustomCommandRegistry): void {
   );
 }
 
-/** Tells an operator on join if the data check found problems (the log file may have lost it). */
-/** Operators see the running build on join (deploy only takes effect after re-entering). */
-export function announceBuild(player: Player): void {
-  if (!ANNOUNCE_BUILD || player.commandPermissionLevel < CommandPermissionLevel.GameDirectors)
-    return;
-  player.sendMessage(t("hk.debug.build", __BUILD_ID__));
+/** Chat on join is for test sessions only: release builds (npm run build:release) send none. */
+function isTester(player: Player): boolean {
+  return !__RELEASE__ && player.commandPermissionLevel >= CommandPermissionLevel.GameDirectors;
 }
 
+/** Operators see the running build on join (deploy only takes effect after re-entering). */
+export function announceBuild(player: Player): void {
+  if (isTester(player)) player.sendMessage(t("hk.debug.build", __BUILD_ID__));
+}
+
+/** Tells an operator on join if the data check found problems (the log file may have lost it). */
 export function announceProblems(player: Player): void {
   const count = lastValidation().length;
-  if (count === 0 || player.commandPermissionLevel < CommandPermissionLevel.GameDirectors) return;
+  if (count === 0 || !isTester(player)) return;
   const message: RawMessage = t("hk.debug.problems", count);
   player.sendMessage(message);
 }

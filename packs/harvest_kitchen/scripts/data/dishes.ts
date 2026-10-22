@@ -2,17 +2,22 @@ import {
   BLOCK_STRAWBERRY_CAKE,
   ITEM_CHICKEN_SOUP,
   ITEM_CHILI_STEW,
+  ITEM_EGGPLANT_CURRY,
+  ITEM_EGGPLANT_SALAD,
   ITEM_HEARTY_SANDWICH,
   ITEM_FISH_CHOWDER,
   ITEM_GARDEN_SALAD,
   ITEM_ONION_SOUP,
+  ITEM_RATATOUILLE,
   ITEM_SALSA,
   ITEM_STRAWBERRY_CAKE,
   ITEM_STRAWBERRY_CUP,
   ITEM_STRAWBERRY_JAM,
+  ITEM_STUFFED_EGGPLANT,
   ITEM_TOMATO_SOUP,
   ITEM_VEGETABLE_STEW,
   ITEM_VEGGIE_SANDWICH,
+  ITEM_VEGGIE_SKEWER,
 } from "../config";
 import type { Liquid } from "./liquids";
 
@@ -176,6 +181,30 @@ export const DISHES: readonly Dish[] = [
     container: "minecraft:glass_bottle",
     effect: effect("speed", 60),
   },
+  // pot, eggplant dishes (plan §1.3 #16-#18)
+  {
+    id: ITEM_STUFFED_EGGPLANT,
+    liquid: "eggplant",
+    nutrition: 10,
+    canAlwaysEat: true,
+    effect: effect("health_boost", 180),
+  },
+  {
+    id: ITEM_RATATOUILLE,
+    liquid: "tomato",
+    nutrition: 8,
+    canAlwaysEat: true,
+    container: "minecraft:bowl",
+    effect: effect("slow_falling", 60),
+  },
+  {
+    id: ITEM_EGGPLANT_CURRY,
+    liquid: "curry",
+    nutrition: 8,
+    canAlwaysEat: true,
+    container: "minecraft:bowl",
+    effect: effect("haste", 120),
+  },
   // crafting table
   {
     id: ITEM_GARDEN_SALAD,
@@ -199,6 +228,20 @@ export const DISHES: readonly Dish[] = [
     canAlwaysEat: true,
     container: "minecraft:bowl",
     effect: effect("jump_boost", 60),
+  },
+  {
+    id: ITEM_EGGPLANT_SALAD,
+    nutrition: 5,
+    canAlwaysEat: true,
+    container: "minecraft:bowl",
+    effect: effect("water_breathing", 90),
+  },
+  {
+    id: ITEM_VEGGIE_SKEWER,
+    nutrition: 4,
+    canAlwaysEat: true,
+    container: "minecraft:stick",
+    effect: effect("night_vision", 90),
   },
   // placeable: 4 slices, each 3 food + Regeneration I 5 s, edible at full hunger
   {

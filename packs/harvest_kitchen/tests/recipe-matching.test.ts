@@ -1,13 +1,19 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
+  CRAFTING_RECIPES,
   canMake,
   consume,
+  consumeServings,
+  craftingJsonIds,
   findStationRecipe,
   ingredientsOf,
   missingFor,
   recipeMaking,
   recipesFor,
+  servingsOf,
+  stationInputsMadeFrom,
+  type CraftingRecipe,
   type StationRecipe,
 } from "../scripts/data/recipes";
 import { stationById, type ContainerStation } from "../scripts/data/stations";
@@ -15,15 +21,21 @@ import { closestRecipe, phaseOf, possibleRecipes } from "../scripts/stations/sta
 
 const pot = stationById("pot") as ContainerStation;
 const recipe = (id: string) => findStationRecipe(id) as StationRecipe;
+const crafting = (id: string) => CRAFTING_RECIPES.find((r) => r.id === id) as CraftingRecipe;
 const possibleIds = (items: Record<string, number>) =>
   possibleRecipes(pot, { items }).map((r) => r.id);
 
 const TOMATO = "hk:tomato";
 const ONION = "hk:onion";
 const BOWL = "minecraft:bowl";
+const SOUP_MIX = "hk:tomato_soup_mix";
+const STEW_MIX = "hk:vegetable_stew_mix";
 
-describe("canMake / missingFor", () => {
-  const soup = recipe("hk:tomato_soup").ingredients;
+// The matching helpers are generic: the Kitchen Table's mix recipes (several slots, counts,
+// "cod or salmon") exercise them; the pot's own recipes are one mix each (D16).
+
+describe("canMake / missingFor (a Kitchen Table recipe)", () => {
+  const soup = crafting(SOUP_MIX).ingredients;
 
   it("an exact match can be made and misses nothing", () => {
     assert.equal(canMake({ [TOMATO]: 2, [BOWL]: 1 }, soup), true);
@@ -51,29 +63,20 @@ describe("canMake / missingFor", () => {
   });
 });
 
-describe("fish chowder: raw cod OR salmon", () => {
+describe("fish chowder mix: raw cod OR salmon", () => {
   const base = { "minecraft:potato": 1, [ONION]: 1, [BOWL]: 1 };
-  const chowder = recipe("hk:fish_chowder");
+  const chowder = crafting("hk:fish_chowder_mix").ingredients;
 
-  it("matches with cod", () => {
-    assert.deepEqual(possibleIds({ ...base, "minecraft:cod": 1 }), ["hk:fish_chowder"]);
-  });
-
-  it("matches with salmon", () => {
-    assert.deepEqual(possibleIds({ ...base, "minecraft:salmon": 1 }), ["hk:fish_chowder"]);
-  });
-
-  it("doesn't match without either fish", () => {
-    assert.deepEqual(possibleIds(base), []);
-    const [first] = missingFor(base, chowder.ingredients);
+  it("matches with cod or with salmon, not without either", () => {
+    assert.equal(canMake({ ...base, "minecraft:cod": 1 }, chowder), true);
+    assert.equal(canMake({ ...base, "minecraft:salmon": 1 }, chowder), true);
+    assert.equal(canMake(base, chowder), false);
+    const [first] = missingFor(base, chowder);
     assert.deepEqual(first?.ingredient.items, ["minecraft:cod", "minecraft:salmon"]);
   });
 
-  it("with both, cooking takes the cod (list order) and leaves the salmon", () => {
-    const left = consume(
-      { ...base, "minecraft:cod": 1, "minecraft:salmon": 1 },
-      chowder.ingredients,
-    );
+  it("with both, it takes the cod (list order) and leaves the salmon", () => {
+    const left = consume({ ...base, "minecraft:cod": 1, "minecraft:salmon": 1 }, chowder);
     assert.deepEqual(left, { "minecraft:salmon": 1 });
   });
 
@@ -84,97 +87,102 @@ describe("fish chowder: raw cod OR salmon", () => {
       "minecraft:salmon": 2,
     });
   });
+
+  it("is two JSON recipes: the cod one keeps the id, the salmon one gets a suffix", () => {
+    assert.deepEqual(
+      craftingJsonIds(crafting("hk:fish_chowder_mix")).map((j) => [j.id, j.items[0]]),
+      [
+        ["hk:fish_chowder_mix", "minecraft:cod"],
+        ["hk:fish_chowder_mix_salmon", "minecraft:salmon"],
+      ],
+    );
+    assert.deepEqual(craftingJsonIds(crafting(SOUP_MIX)), [
+      { id: SOUP_MIX, items: [TOMATO, TOMATO, BOWL] },
+    ]);
+  });
 });
 
-describe("consume", () => {
+describe("consume / servings", () => {
+  const soup = crafting(SOUP_MIX).ingredients;
+
   it("removes one serving and drops ids that reach zero", () => {
-    const left = consume({ [TOMATO]: 3, [BOWL]: 1 }, recipe("hk:tomato_soup").ingredients);
-    assert.deepEqual(left, { [TOMATO]: 1 });
+    assert.deepEqual(consume({ [TOMATO]: 3, [BOWL]: 1 }, soup), { [TOMATO]: 1 });
   });
 
   it("doesn't change its input", () => {
     const items = { [TOMATO]: 2, [BOWL]: 1 };
-    consume(items, recipe("hk:tomato_soup").ingredients);
+    consume(items, soup);
     assert.deepEqual(items, { [TOMATO]: 2, [BOWL]: 1 });
   });
+
+  it("counts whole servings: the shortest slot decides", () => {
+    assert.equal(servingsOf({ [TOMATO]: 5, [BOWL]: 3 }, soup), 2);
+    assert.equal(servingsOf({ [TOMATO]: 1, [BOWL]: 3 }, soup), 0);
+    assert.equal(servingsOf({ [SOUP_MIX]: 3 }, recipe("hk:tomato_soup").ingredients), 3);
+    assert.equal(servingsOf({}, []), 0);
+  });
+
+  it("consumes several servings at once", () => {
+    assert.deepEqual(consumeServings({ [TOMATO]: 5, [BOWL]: 3 }, soup, 2), {
+      [TOMATO]: 1,
+      [BOWL]: 1,
+    });
+    assert.deepEqual(consumeServings({ [TOMATO]: 2, [BOWL]: 1 }, soup, 0), {
+      [TOMATO]: 2,
+      [BOWL]: 1,
+    });
+  });
 });
 
-describe("possibleRecipes / phase", () => {
-  it("an exact match is ready with that one dish", () => {
-    assert.deepEqual(possibleIds({ [TOMATO]: 2, [BOWL]: 1 }), ["hk:tomato_soup"]);
-    assert.equal(phaseOf(pot, { items: { [TOMATO]: 2, [BOWL]: 1 } }), "ready");
-  });
-
-  it("a missing item leaves it idle", () => {
-    assert.deepEqual(possibleIds({ [TOMATO]: 1, [BOWL]: 1 }), []);
-    assert.equal(phaseOf(pot, { items: { [TOMATO]: 1, [BOWL]: 1 } }), "idle");
-  });
-
-  it("several dishes can match at once, in recipe order", () => {
-    const items = {
-      [TOMATO]: 2,
-      [ONION]: 1,
-      "minecraft:carrot": 1,
-      "minecraft:potato": 1,
-      [BOWL]: 1,
-    };
-    assert.deepEqual(possibleIds(items), ["hk:tomato_soup", "hk:vegetable_stew"]);
-  });
-
-  it("every pot recipe matches its own ingredients exactly", () => {
-    assert.deepEqual(possibleIds({}), []);
+describe("the pot cooks mixes (D16)", () => {
+  it("every pot recipe is exactly one mix, made on the Kitchen Table", () => {
     for (const r of recipesFor("pot")) {
-      const items: Record<string, number> = {};
-      for (const i of r.ingredients) items[i.items[0] as string] = i.count;
-      assert.ok(possibleIds(items).includes(r.id), r.id);
-      assert.ok(
-        Object.keys(items).every((id) => ingredientsOf("pot").has(id)),
-        r.id,
-      );
+      assert.equal(r.ingredients.length, 1, r.id);
+      const [only] = r.ingredients;
+      assert.deepEqual(only?.items.length, 1, r.id);
+      assert.equal(only?.count, 1, r.id);
+      const made = recipeMaking(only?.items[0] ?? "");
+      assert.equal(made?.kind, "crafting", r.id);
+      assert.equal(made?.kind === "crafting" && made.recipe.table, "kitchen", r.id);
     }
   });
-});
 
-describe("closestRecipe (the Almost! button)", () => {
-  it("is undefined for an empty pot", () => {
+  it("a mix is ready with its one dish; raw ingredients aren't taken", () => {
+    assert.deepEqual(possibleIds({ [SOUP_MIX]: 1 }), ["hk:tomato_soup"]);
+    assert.equal(phaseOf(pot, { items: { [SOUP_MIX]: 1 } }), "ready");
+    assert.equal(ingredientsOf("pot").has(TOMATO), false);
+    assert.equal(ingredientsOf("pot").has(BOWL), false);
+  });
+
+  it("two different mixes make two dishes possible, in recipe order", () => {
+    assert.deepEqual(possibleIds({ [STEW_MIX]: 1, [SOUP_MIX]: 2 }), [
+      "hk:tomato_soup",
+      "hk:vegetable_stew",
+    ]);
+  });
+
+  it("with one-mix recipes there's never a closest recipe still missing something", () => {
     assert.equal(closestRecipe(pot, { items: {} }), undefined);
+    assert.equal(closestRecipe(pot, { items: { [SOUP_MIX]: 1 } }), undefined);
   });
 
-  it("picks the recipe with the fewest missing items", () => {
-    const closest = closestRecipe(pot, { items: { [TOMATO]: 1, [BOWL]: 1 } });
-    assert.equal(closest?.recipe.id, "hk:tomato_soup");
-    assert.deepEqual(
-      closest?.missing.map((m) => [m.ingredient.items, m.missing]),
-      [[[TOMATO], 1]],
-    );
-  });
-
-  it("counts missing items, not slots", () => {
-    // Bowl only: tomato soup misses 2 items in 1 slot; every other bowl recipe misses 3 or more.
-    const closest = closestRecipe(pot, { items: { [BOWL]: 1 } });
-    assert.equal(closest?.recipe.id, "hk:tomato_soup");
-    assert.equal(closest?.missing[0]?.missing, 2);
-  });
-
-  it("breaks ties by recipe order, and the first missing item is the first short slot", () => {
-    // Onion only: chowder, chicken soup and onion soup each miss 3; chowder comes first.
-    const closest = closestRecipe(pot, { items: { [ONION]: 1 } });
-    assert.equal(closest?.recipe.id, "hk:fish_chowder");
-    assert.deepEqual(closest?.missing[0]?.ingredient.items, ["minecraft:cod", "minecraft:salmon"]);
-  });
-
-  it("only considers recipes that use something already inside", () => {
-    const closest = closestRecipe(pot, { items: { "minecraft:sugar": 1 } });
-    assert.equal(closest?.recipe.id, "hk:strawberry_jam");
-    assert.deepEqual(closest?.missing[0]?.ingredient.items, ["hk:strawberry"]);
-    assert.equal(closest?.missing[0]?.missing, 3);
+  it("a raw ingredient names the mixes it goes into", () => {
+    assert.deepEqual(stationInputsMadeFrom("pot", "hk:strawberry"), ["hk:strawberry_jam_mix"]);
+    assert.deepEqual(stationInputsMadeFrom("pot", "minecraft:salmon"), ["hk:fish_chowder_mix"]);
+    assert.ok(stationInputsMadeFrom("pot", TOMATO).includes(SOUP_MIX));
+    assert.ok(stationInputsMadeFrom("pot", "hk:eggplant").length >= 3);
+    assert.deepEqual(stationInputsMadeFrom("pot", "minecraft:dirt"), []);
+    assert.deepEqual(stationInputsMadeFrom("pot", "hk:sliced_tomato"), []);
   });
 });
 
 describe("recipeMaking", () => {
-  it("finds pot and crafting recipes by result", () => {
+  it("finds pot, Kitchen Table and crafting recipes by result", () => {
     assert.equal(recipeMaking("hk:tomato_soup")?.kind, "station");
-    assert.equal(recipeMaking("hk:salsa")?.kind, "crafting");
+    const mix = recipeMaking(SOUP_MIX);
+    assert.equal(mix?.kind === "crafting" && mix.recipe.table, "kitchen");
+    const salsa = recipeMaking("hk:salsa");
+    assert.equal(salsa?.kind === "crafting" && salsa.recipe.table, "crafting");
     assert.equal(recipeMaking("minecraft:cake"), undefined);
   });
 });

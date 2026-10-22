@@ -11,7 +11,9 @@ import { isUnlocked } from "../discovery/unlock";
 // The poster is a 2×1 multi-block (minecraft:multi_block, 2 parts): each part shows one half of
 // a 128×64 recipe image as a 64×64 texture. Its states:
 //
-//   hk:poster              0 = the blank "find crops" poster, 1.. = POSTER_DISHES[i - 1]
+//   hk:poster, hk:poster_page   together the poster index: page × 16 + hk:poster (an int state
+//                          holds at most 16 values); index 0 = the blank "find crops" poster,
+//                          1.. = POSTER_DISHES[i - 1]
 //   hk:facing              the way the poster's front faces (out of the wall); set by script
 //   (the half a part shows comes from minecraft:multi_block_part, see halfOfPart)
 //   minecraft:cardinal_direction, minecraft:multi_block_part   from the traits (not read here)
@@ -28,10 +30,24 @@ export const POSTER_DISHES: readonly string[] = [
 /** The blank poster's state value. */
 export const POSTER_BLANK = 0;
 
-/** Number of hk:poster values: the blank plus one per dish (an int state allows at most 16). */
+/** Number of poster indices: the blank plus one per dish. */
 export const POSTER_COUNT: number = POSTER_DISHES.length + 1;
 
+/** Values one int block state can hold: hk:poster counts within a page of this many. */
 export const POSTER_MAX_STATES = 16;
+
+/** Values of hk:poster_page. */
+export const POSTER_PAGES: number = Math.ceil(POSTER_COUNT / POSTER_MAX_STATES);
+
+/** The two state values that store poster `index`. */
+export function posterStates(index: number): { readonly slot: number; readonly page: number } {
+  return { slot: index % POSTER_MAX_STATES, page: Math.floor(index / POSTER_MAX_STATES) };
+}
+
+/** The poster index stored in the two states (a missing page state counts as page 0). */
+export function posterIndexOf(slot: number, page = 0): number {
+  return page * POSTER_MAX_STATES + slot;
+}
 
 /** The dish a poster state shows, or undefined for the blank (or an out-of-range value). */
 export function posterDish(index: number): string | undefined {

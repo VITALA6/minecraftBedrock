@@ -1,11 +1,13 @@
 import { FAST_COOK_TICKS, STATION_SWEEP_TICKS } from "../config";
 import {
   canMake,
-  consume,
+  consumeServings,
   findStationRecipe,
   ingredientsOf,
   missingFor,
   recipesFor,
+  servingsOf,
+  stationInputsMadeFrom,
   type Ingredient,
   type StationRecipe,
 } from "../data/recipes";
@@ -28,6 +30,8 @@ export interface StationJob {
   readonly ticks: number;
   /** Cook time at the start, for the progress bar. */
   readonly total: number;
+  /** Servings cooking at once (every serving the station held when it started; D16). */
+  readonly servings: number;
 }
 
 /** A finished dish waiting in the station until someone collects it. */
@@ -51,7 +55,8 @@ export function isEmpty(state: StationState): boolean {
 // --- saved form ----------------------------------------------------------------------------------
 // One JSON value per station (see station-store.ts for the key):
 //   {"st":"pot","dim":"minecraft:overworld","pos":[10,64,-3],"items":{"hk:tomato":2},
-//    "job":{"recipe":"hk:tomato_soup","ticks":60,"total":100},"out":{"item":"…","count":1}}
+//    "job":{"recipe":"hk:tomato_soup","ticks":60,"total":100,"servings":2},
+//    "out":{"item":"…","count":2}}
 // st/dim/pos are repeated in the value so active stations can be found again after a reload
 // without parsing keys. Values are validated on read; anything malformed is dropped.
 
@@ -79,9 +84,11 @@ function parseItems(raw: unknown): Record<string, number> {
 
 function parseJob(raw: unknown): StationJob | undefined {
   if (!isRecord(raw)) return undefined;
-  const { recipe, ticks, total } = raw;
+  const { recipe, ticks, total, servings } = raw;
   if (typeof recipe !== "string" || typeof ticks !== "number" || !positiveInt(total)) return;
-  return { recipe, ticks: Math.max(0, Math.floor(ticks)), total };
+  // Jobs saved before batch cooking have no servings: they cooked one.
+  const n = positiveInt(servings) ? servings : 1;
+  return { recipe, ticks: Math.max(0, Math.floor(ticks)), total, servings: n };
 }
 
 function parseOut(raw: unknown): StationOutput | undefined {
@@ -158,12 +165,19 @@ export function fillLevel(station: ContainerStation, state: StationState, levels
   return Math.max(0, Math.min(levels, level));
 }
 
+/** The colour an item gives the station's liquid: that of the dish the first recipe using it makes. */
+export function itemLiquid(station: ContainerStation, itemId: string): Liquid | undefined {
+  const recipe = recipesFor(station.id).find((r) =>
+    r.ingredients.some((i) => i.items.includes(itemId)),
+  );
+  return recipe && findDish(recipe.result)?.liquid;
+}
+
 /**
  * The liquid colour the station shows, so the pot reflects what's in it:
- *   - a dish is matched (done: the finished dish; cooking: the job's dish; ready: the first
- *     possible recipe in recipe order) -> that dish's colour;
- *   - otherwise, or if that dish has no colour -> the colour there's most of among the
- *     ingredients (dominantLiquid, data/liquids.ts);
+ *   - done: the finished dish's colour; cooking: the job's dish;
+ *   - otherwise the colour there's most of among its contents, each mix counting as its dish's
+ *     colour (dominantLiquid, data/liquids.ts; ties go to the stronger colour);
  *   - nothing that colours it -> clear water.
  */
 export function liquidOf(station: ContainerStation, state: StationState): Liquid {
@@ -171,9 +185,9 @@ export function liquidOf(station: ContainerStation, state: StationState): Liquid
     ? state.out.item
     : state.job
       ? findStationRecipe(state.job.recipe)?.result
-      : possibleRecipes(station, state)[0]?.result;
+      : undefined;
   const dishLiquid = result === undefined ? undefined : findDish(result)?.liquid;
-  return dishLiquid ?? dominantLiquid(state.items);
+  return dishLiquid ?? dominantLiquid(state.items, (id) => itemLiquid(station, id));
 }
 
 /**
@@ -271,7 +285,12 @@ export function choiceOf(station: ContainerStation, state: StationState): Statio
 }
 
 export type AddResult =
-  | { readonly kind: "cooking" | "done" | "refused" | "full" | "none" }
+  | { readonly kind: "cooking" | "done" | "full" | "none" }
+  | {
+      readonly kind: "refused";
+      /** What the station takes that's made from this item (a raw ingredient's mixes), if any. */
+      readonly madeInto: readonly string[];
+    }
   | {
       readonly kind: "added";
       readonly amount: number;
@@ -292,7 +311,9 @@ export function addItems(
 ): AddResult {
   if (state.job) return { kind: "cooking" };
   if (state.out) return { kind: "done" };
-  if (!isIngredient(station, typeId)) return { kind: "refused" };
+  if (!isIngredient(station, typeId)) {
+    return { kind: "refused", madeInto: stationInputsMadeFrom(station.id, typeId) };
+  }
   const room = station.capacity - totalItems(state);
   if (room <= 0) return { kind: "full" };
   const amount = Math.min(room, count);
@@ -317,7 +338,10 @@ export type StartResult =
   | { readonly kind: "missing"; readonly first: ReturnType<typeof missingFor>[number] }
   | { readonly kind: "started"; readonly state: StationState };
 
-/** Starts `recipeId` if it's still possible and there's heat. Re-validates everything. */
+/**
+ * Starts `recipeId` if it's still possible and there's heat. Re-validates everything. Every
+ * serving the station holds cooks at once (3 tomato soup mixes -> 3 soups, one cook time).
+ */
 export function startJob(
   station: ContainerStation,
   state: StationState,
@@ -331,9 +355,10 @@ export function startJob(
   if (first) return { kind: "missing", first };
   if (!options.hot) return { kind: "no_heat" };
   const total = cookTicks(recipe, options.fast, options.ticksPerSecond);
+  const servings = servingsOf(state.items, recipe.ingredients);
   return {
     kind: "started",
-    state: { items: state.items, job: { recipe: recipe.id, ticks: total, total } },
+    state: { items: state.items, job: { recipe: recipe.id, ticks: total, total, servings } },
   };
 }
 
@@ -358,10 +383,10 @@ export type FinishResult =
   | { readonly kind: "cancelled"; readonly state: StationState; readonly problem: string };
 
 /**
- * Turns a due job into its dish: the ingredients are consumed in the same step that creates the
- * output. Cancels (keeping the ingredients) rather than consume them for a dish that can't be
- * made: a recipe removed in an update, contents that somehow changed, or a result item that
- * failed to load (`isItemLoaded`).
+ * Turns a due job into its dishes: the ingredients of every serving are consumed in the same step
+ * that creates the output (never more servings than are still inside). Cancels (keeping the
+ * ingredients) rather than consume them for a dish that can't be made: a recipe removed in an
+ * update, contents that somehow changed, or a result item that failed to load (`isItemLoaded`).
  */
 export function finishJob(
   state: StationState,
@@ -380,12 +405,13 @@ export function finishJob(
   if (!recipe || problem) {
     return { kind: "cancelled", state: { items: state.items }, problem: problem ?? "" };
   }
+  const servings = Math.min(job.servings, servingsOf(state.items, recipe.ingredients));
   return {
     kind: "finished",
     recipe,
     state: {
-      items: consume(state.items, recipe.ingredients),
-      out: { item: recipe.result, count: recipe.count },
+      items: consumeServings(state.items, recipe.ingredients, servings),
+      out: { item: recipe.result, count: recipe.count * servings },
     },
   };
 }

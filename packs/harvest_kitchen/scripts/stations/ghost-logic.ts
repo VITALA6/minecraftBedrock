@@ -23,8 +23,13 @@ import { closestRecipe, possibleRecipes, type StationState } from "./station-log
 //   cooking                  nothing: the lid, steam and the progress bar already say it
 //   done                     the finished dish, nearly solid, no sparkle: it's real now, and it
 //                            says *what* is waiting (the block only says "done")
+//   hint (D16)               for one player, for a few seconds after they used a raw ingredient
+//                            on the pot: the mix(es) it goes into, whatever the pot holds
+//
+// With mixes (D16) every pot recipe is one mix, so "missing" only shows for a station whose
+// recipes have several slots (none yet; an oven could).
 
-export type GhostMode = "none" | "missing" | "ready" | "done";
+export type GhostMode = "none" | "missing" | "ready" | "done" | "hint";
 
 export interface GhostIcon {
   /** The item the icon shows (for a "cod or salmon" slot, one of them in turn). */
@@ -73,6 +78,12 @@ export function ghostsFor(station: ContainerStation, state: StationState, cycle 
     }
   }
   return icons.length > 0 ? { mode: "missing", icons, recipe: closest.recipe.id } : NO_GHOSTS;
+}
+
+/** The "make a mix first" hint: the mixes a refused raw ingredient goes into. */
+export function hintView(items: readonly string[]): GhostView {
+  if (items.length === 0) return NO_GHOSTS;
+  return { mode: "hint", icons: items.slice(0, GHOST_MAX_ICONS).map(dishIcon) };
 }
 
 // --- how it looks ---------------------------------------------------------------------------------

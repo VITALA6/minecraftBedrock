@@ -456,3 +456,53 @@ wall` and the poster stays in your hand (or comes back).
   its texture from `minecraft:multi_block_part` + `minecraft:cardinal_direction`, and the script
   writes nothing after placing. `face` in `beforeOnPlayerPlace` is the poster's front. Still to
   check: the halves read left to right on all four walls, break/drop, sneak-cycling.
+
+## B25. Kitchen Table (D16, untested)
+
+`hk:kitchen_table` is a full block with the stable `minecraft:crafting_table` component
+(slice.md "Kitchen Table and mixes (D16)"). Checked offline: Microsoft Learn (released from
+Holiday Creator Features in 1.19.50, not marked experimental), the 1.26.52.3 binary (component
+name, `crafting_tags`, `table_name`, the "can't have both a container and a crafting_table"
+error). Not seen in game:
+
+- **What's assumed:**
+  1. The block loads at format 1.26.50 with no experiment, and using it opens the 3×3 crafting
+     screen titled with `table_name` ("Kitchen Table" from `tile.hk:kitchen_table.name`).
+  2. Recipes whose `tags` are only `["hk_kitchen"]` craft there and nowhere else (not in the
+     inventory grid, not on a vanilla crafting table); `crafting_table` recipes don't craft there.
+  3. **The recipe book on that screen lists only the table's recipes** (the mixes). Microsoft
+     Learn doesn't say; the vanilla stonecutter and smithing screens filter their own, and custom
+     tables are reported to do the same.
+  4. Each mix recipe appears in the book once its `unlock` item (its first HK crop) has been in
+     the inventory; both chowder recipes (cod and salmon) show.
+  5. The block's own item renders as a 3D cube in the hotbar and creative menu (Items), with the
+     tile name.
+- **Test:** `tests/round-4-kitchen-table.md` steps 3–8.
+- **Fallbacks:** (2) a mix crafts in the inventory grid → the tag isn't honoured; check the
+  Content Log for the recipe, keep the tag lowercase without a colon (it is). (3) the book shows
+  every recipe → nothing breaks (kitchen recipes still only craft there); posters already show
+  what each mix needs, so accept it and note it in the store text. (5) a flat icon is wanted →
+  a same-id item with `replace_block_item`, as the pot (B3).
+
+## B26. Batch cooking and the mix hint (D16, untested)
+
+- **What:** the pot holds 4 mixes and cooks every mix of the chosen dish at once (`job.servings`);
+  the result can be 4 soups (stack 1), handed out by `giveOrDrop` (hand, inventory, then dropped).
+  A raw ingredient used on the pot shows its mixes as ghosts above that pot for 3 s, for that
+  player only, also above an empty pot (which isn't in the engine's active list).
+- **Test:** `tests/round-4-kitchen-table.md` steps 9–15.
+- **Fallbacks:** if a batch feels wrong (too strong, or kids expect one soup), set `servingsOf` to
+  1 in `startJob` (one line) and keep capacity 4 as a queue. If the hint row lingers over a broken
+  pot, it ends in 3 s anyway; clear it in `spill` (it is) and on break.
+
+## B27. Recipe poster page state (D17, untested)
+
+- **What:** 19 posters don't fit one int state (16 values), so the index is `hk:poster` (0–15)
+  within `hk:poster_page` (0–1). `beforeOnPlayerPlace` sets both in `permutationToPlace`; cycling
+  sets both on each part with `setStates` (`withState`, the way that works, B24). The block JSON
+  has 151 permutations with both states in every condition.
+- **Test:** `tests/round-4-kitchen-table.md` steps 22–24: creative sneak + use walks all 18 dishes
+  across the page boundary (Strawberry Cup → Strawberry Cake → Eggplant Salad), both halves always
+  match.
+- **Fallback:** if writing two states at once makes a part vanish, write them one tick apart; if
+  the page state itself is the problem, cap the posters at 16 (drop the blank and two dishes).

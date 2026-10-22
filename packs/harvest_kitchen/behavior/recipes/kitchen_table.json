@@ -1,0 +1,41 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:kitchen_table"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "minecraft:crafting_table"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:tomato_seeds"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "hk:cucumber_seeds"
+      },
+      {
+        "item": "hk:chili_pepper_seeds"
+      },
+      {
+        "item": "hk:strawberry_seeds"
+      },
+      {
+        "item": "hk:eggplant_seeds"
+      }
+    ],
+    "result": {
+      "item": "hk:kitchen_table",
+      "count": 1
+    }
+  }
+}

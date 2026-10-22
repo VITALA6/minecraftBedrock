@@ -19,7 +19,7 @@ export interface ContainerStation {
   /** Item whose icon stands for the station in forms and on the recipe posters. */
   readonly icon: string;
   readonly nameKey: string;
-  /** Total ingredient items it holds. */
+  /** Total ingredient items it holds (for the pot: mixes, all cooked at once). */
   readonly capacity: number;
   /** Needs a heat source directly below to cook (D5). Rules in stations/heat.ts. */
   readonly needsHeat: boolean;
@@ -42,7 +42,7 @@ export const STATIONS: readonly ContainerStation[] = [
     block: BLOCK_COOKING_POT,
     icon: ITEM_COOKING_POT,
     nameKey: "hk.station.pot",
-    capacity: 8,
+    capacity: 4,
     needsHeat: true,
     states: {
       fill: { name: STATE_FILL, levels: 3 },

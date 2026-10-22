@@ -20,7 +20,7 @@ import {
   STATE_CARDINAL,
   STATE_FACING,
   STATE_POSTER,
-  DEBUG_POSTERS,
+  STATE_POSTER_PAGE,
 } from "../config";
 import { EFFECTS, familyOf, findDish } from "../data/dishes";
 import { foundCrops } from "../discovery/discovery";
@@ -30,7 +30,6 @@ import { giveOrDrop, isCreative } from "../lib/inventory";
 import { itemName, t } from "../lib/text";
 import { TickGate } from "../lib/tick-gate";
 import {
-  FACINGS,
   POSTER_BLANK,
   facingOfDirection,
   firstPoster,
@@ -38,10 +37,9 @@ import {
   isFacing,
   nextPoster,
   posterDish,
+  posterIndexOf,
+  posterStates,
   settleFacing,
-  STATE_CARDINAL_DIRECTION,
-  STATE_PART,
-  wallPosition,
   startHalf,
   type Discovery,
   type Facing,
@@ -88,19 +86,17 @@ function facingOf(block: Block): Facing | undefined {
 const isSolid = (block: Block | undefined) =>
   block !== undefined && !block.isAir && !block.isLiquid;
 
-/**
- * Test sessions only (DEBUG_POSTERS): each placement step goes to the placer's chat, because the
- * Content Log loses its last 4 KB and a vanished poster leaves nothing else to go on. Not
- * localized on purpose; off for release.
- */
-function debug(player: Player | undefined, message: string): void {
-  if (!DEBUG_POSTERS) return;
-  const where = `§7[poster] ${message}`;
-  console.warn(`[harvest_kitchen] ${where}`);
-  if (player?.isValid) player.sendMessage(where);
+/** The poster index a part shows (hk:poster within hk:poster_page). */
+function indexOf(block: Block): number {
+  const slot = getNumberState(block, STATE_POSTER) ?? POSTER_BLANK;
+  return posterIndexOf(slot, getNumberState(block, STATE_POSTER_PAGE) ?? 0);
 }
 
-const xyz = ({ x, y, z }: Vector3) => `${x} ${y} ${z}`;
+/** The state patch that makes a part show poster `index`. */
+function indexPatch(index: number): Record<string, StateValue> {
+  const { slot, page } = posterStates(index);
+  return { [STATE_POSTER]: slot, [STATE_POSTER_PAGE]: page };
+}
 
 const center = ({ x, y, z }: Vector3): Vector3 => ({ x: x + 0.5, y: y + 0.5, z: z + 0.5 });
 
@@ -122,13 +118,12 @@ function showInfo(player: Player, index: number): void {
 }
 
 function cycle(player: Player, block: Block): void {
-  const current = getNumberState(block, STATE_POSTER) ?? POSTER_BLANK;
-  const next = nextPoster(current, discoveryOf(player));
+  const next = nextPoster(indexOf(block), discoveryOf(player));
   if (next === undefined) {
     sound(block.dimension, SOUND.tap, center(block.location));
     return actionBar(player, t("hk.poster.none"));
   }
-  for (const part of partsOf(block)) setStates(part, { [STATE_POSTER]: next });
+  for (const part of partsOf(block)) setStates(part, indexPatch(next));
   sound(block.dimension, SOUND.pageTurn, center(block.location));
   showInfo(player, next);
 }
@@ -165,28 +160,20 @@ function refund(parts: readonly Block[], player: Player | undefined, reason: str
  */
 function settle(dimension: Dimension, location: Vector3, player: Player | undefined, retry = true) {
   const block = dimension.getBlock(location);
-  if (block?.typeId !== BLOCK_RECIPE_POSTER) {
-    debug(player, `settle: no poster at ${xyz(location)} (found ${block?.typeId ?? "nothing"}): the game didn't place it`); // prettier-ignore
-    return;
-  }
+  if (block?.typeId !== BLOCK_RECIPE_POSTER) return; // the game didn't place it
   const hint = facingOf(block);
   const parts = partsOf(block);
   if (parts.length < 2) {
-    debug(player, `settle: ${parts.length} part(s) at ${xyz(location)}${retry ? ", retrying" : ", giving up"}`); // prettier-ignore
-    if (retry) system.runTimeout(() => settle(dimension, location, player, false), POSTER_SYNC_RETRY_TICKS); // prettier-ignore
-    else console.warn(`[harvest_kitchen] recipe poster at ${JSON.stringify(location)}: second part never appeared`); // prettier-ignore
+    if (retry) {
+      system.runTimeout(() => settle(dimension, location, player, false), POSTER_SYNC_RETRY_TICKS);
+    } else {
+      console.warn(
+        `[harvest_kitchen] recipe poster at ${JSON.stringify(location)}: second part never appeared`,
+      );
+    }
     return;
   }
   const [a, b] = parts as [Block, Block];
-  const behind = (at: Vector3, f: Facing) => {
-    const wall = dimension.getBlock(wallPosition(at, f));
-    return `${f}:${wall?.typeId.replace("minecraft:", "") ?? "?"}`;
-  };
-  debug(
-    player,
-    `settle: parts ${xyz(a.location)} + ${xyz(b.location)}, hint ${hint ?? "-"}; behind a ` +
-      FACINGS.map((f) => behind(a.location, f)).join(" "),
-  );
   // The facing comes from the world (where the wall really is), not only from the clicked face:
   // reading `face` the wrong way round refused every poster on 2026-10-22 ("no_room").
   const facing = settleFacing([a.location, b.location], hint, (at) => {
@@ -196,7 +183,6 @@ function settle(dimension: Dimension, location: Vector3, player: Player | undefi
       return false;
     }
   });
-  debug(player, `settle: facing ${facing ?? "none (no full wall)"}`);
   if (!facing) return refund(parts, player, "hk.poster.no_room");
   if (!halvesOf(facing, a.location, b.location)) {
     console.warn(
@@ -206,17 +192,6 @@ function settle(dimension: Dimension, location: Vector3, player: Player | undefi
     );
     return refund(parts, player, "hk.poster.look");
   }
-  debug(
-    player,
-    "settle: ok, parts " +
-      parts
-        .map(
-          (p) =>
-            `${String(getState(p, STATE_PART))}/${String(getState(p, STATE_CARDINAL_DIRECTION))}`,
-        )
-        .join(" + ") + // prettier-ignore
-      (facing === hint ? "" : `, facing ${hint ?? "-"} -> ${facing}`),
-  );
   // Normally nothing to write: facing and recipe came with the placement, the half from the
   // part number. Only a facing the world disagrees with is fixed, on every part.
   if (facing !== hint) for (const part of parts) setStates(part, { [STATE_FACING]: facing });
@@ -264,11 +239,6 @@ const recipePoster: BlockCustomComponent = {
     const facing = facingOfDirection(face);
     const cardinal = event.permutationToPlace.getAllStates()[STATE_CARDINAL];
     const half = facing && isFacing(cardinal) ? startHalf(facing, cardinal) : undefined;
-    debug(
-      player,
-      `place at ${xyz(block.location)}: face ${face}, front ${facing ?? "-"}, ` +
-        `cardinal ${String(cardinal)}, half ${half ?? "-"}${!facing || !half ? " -> CANCEL" : ""}`,
-    );
     if (!facing || !half) {
       // up/down faces are refused by the placement filter; this is the player looking along
       // the wall, so the second part would go into it or stick out of it.
@@ -279,7 +249,7 @@ const recipePoster: BlockCustomComponent = {
     // Both parts get these from the placement; the half each shows comes from its part number.
     const patch: Record<string, StateValue> = {
       [STATE_FACING]: facing,
-      [STATE_POSTER]: player ? firstPoster(discoveryOf(player)) : POSTER_BLANK,
+      ...indexPatch(player ? firstPoster(discoveryOf(player)) : POSTER_BLANK),
     };
     event.permutationToPlace = BlockPermutation.resolve(BLOCK_RECIPE_POSTER, {
       ...event.permutationToPlace.getAllStates(),
@@ -294,7 +264,7 @@ const recipePoster: BlockCustomComponent = {
     // Sneak + use is handled in the before-event (registerPosterEvents), which cancels it.
     if (!player || player.isSneaking) return;
     if (!useGate.pass(player.id, system.currentTick)) return;
-    showInfo(player, getNumberState(block, STATE_POSTER) ?? POSTER_BLANK);
+    showInfo(player, indexOf(block));
   },
 
   onPlayerBreak({ block, dimension, player }) {

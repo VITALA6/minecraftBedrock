@@ -1,0 +1,35 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:eggplant_curry_mix"
+    },
+    "tags": ["hk_kitchen"],
+    "ingredients": [
+      {
+        "item": "hk:eggplant"
+      },
+      {
+        "item": "hk:chili_pepper"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "minecraft:potato"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:eggplant"
+      }
+    ],
+    "result": {
+      "item": "hk:eggplant_curry_mix",
+      "count": 1
+    }
+  }
+}

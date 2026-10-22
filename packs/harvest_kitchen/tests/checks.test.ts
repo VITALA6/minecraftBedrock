@@ -80,10 +80,10 @@ describe("data check on broken data", () => {
       check({
         stationRecipes: [
           ...STATION_RECIPES,
-          recipe({ ingredients: [ing(8, "hk:tomato"), ing(1, "minecraft:bowl")] }),
+          recipe({ ingredients: [ing(4, "hk:tomato_soup_mix"), ing(1, "hk:onion_soup_mix")] }),
         ],
       }),
-      "station recipe hk:test: needs 9 > capacity 8",
+      "station recipe hk:test: needs 5 > capacity 4",
     );
   });
 
@@ -92,7 +92,7 @@ describe("data check on broken data", () => {
       check({
         stationRecipes: [
           ...STATION_RECIPES,
-          recipe({ ingredients: [ing(7, "hk:tomato"), ing(1, "minecraft:bowl")] }),
+          recipe({ ingredients: [ing(3, "hk:tomato_soup_mix"), ing(1, "hk:onion_soup_mix")] }),
         ],
       }),
     );
@@ -146,7 +146,12 @@ describe("data check on broken data", () => {
 
   it("duplicate recipe ids, across the pot and the crafting table", () => {
     reports(
-      check({ craftingRecipes: [...CRAFTING_RECIPES, { ...soup }] }),
+      check({
+        craftingRecipes: [
+          ...CRAFTING_RECIPES,
+          { id: soup.id, table: "crafting", result: soup.result, count: 1, ingredients: [] },
+        ],
+      }),
       'recipes: duplicate id "hk:tomato_soup"',
     );
   });
@@ -155,6 +160,7 @@ describe("data check on broken data", () => {
     reports(
       check({
         stationRecipes: [],
+        craftingRecipes: CRAFTING_RECIPES.filter((r) => r.table !== "kitchen"),
         dishes: DISHES.filter((d) => !STATION_RECIPES.some((r) => r.result === d.id)),
       }),
       "station pot: no recipes",
@@ -241,7 +247,39 @@ describe("data check on broken data", () => {
       'crafting recipe hk:salsa: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
       'crafting recipe hk:veggie_sandwich: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
       'crafting recipe hk:hearty_sandwich: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
+      'crafting recipe hk:veggie_skewer: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
     );
+  });
+
+  it("a Kitchen Table recipe for something no station cooks, two alternative slots (D16)", () => {
+    const base = CRAFTING_RECIPES.find((r) => r.id === "hk:tomato_soup_mix");
+    assert.ok(base);
+    reports(
+      check({
+        craftingRecipes: [
+          ...CRAFTING_RECIPES,
+          { ...base, id: "hk:odd_mix", result: "hk:salsa" },
+          {
+            ...base,
+            id: "hk:two_alts",
+            table: "crafting",
+            ingredients: [
+              ing(1, "minecraft:cod", "minecraft:salmon"),
+              ing(1, "hk:tomato", "hk:onion"),
+            ],
+          },
+        ],
+      }),
+      "crafting recipe hk:odd_mix: makes hk:salsa, which no station recipe cooks",
+      "crafting recipe hk:two_alts: two slots with alternatives (one JSON recipe per alternative of one slot)",
+    );
+  });
+
+  it("a mix without its Kitchen Table recipe can't be obtained", () => {
+    const problems = check({
+      craftingRecipes: CRAFTING_RECIPES.filter((r) => r.id !== "hk:ratatouille_mix"),
+    });
+    assert.ok(problems.includes('recipe hk:ratatouille: "hk:ratatouille_mix" can\'t be obtained'));
   });
 
   it("a station item without an icon", () => {
@@ -265,7 +303,12 @@ describe("references for the in-game half", () => {
   it("lists every item with where it's used", () => {
     const refs = referencedItems();
     const where = (id: string) => refs.filter((r) => r.id === id).map((r) => r.where);
-    assert.deepEqual(where("minecraft:salmon"), ["station recipe hk:fish_chowder"]);
+    assert.deepEqual(where("minecraft:salmon"), ["crafting recipe hk:fish_chowder_mix"]);
+    assert.deepEqual(where("hk:tomato_soup_mix"), [
+      "station recipe hk:tomato_soup",
+      "crafting recipe hk:tomato_soup_mix",
+    ]);
+    assert.deepEqual(where("hk:kitchen_table"), ["station items"]);
     assert.ok(where("hk:tomato").includes("crop tomato"));
     assert.ok(where("hk:tomato").includes("cutting hk:tomato"));
     assert.deepEqual(where("hk:recipe_poster"), ["station items"]);
@@ -279,6 +322,8 @@ describe("references for the in-game half", () => {
     assert.deepEqual(states("hk:chili_bush"), ["hk:growth"]);
     assert.deepEqual(states("hk:strawberry_cake"), ["hk:slices"]);
     assert.deepEqual(states("minecraft:campfire"), []);
+    assert.deepEqual(states("hk:kitchen_table"), []);
+    assert.deepEqual(states("hk:recipe_poster"), ["hk:poster", "hk:poster_page", "hk:facing"]);
     assert.ok(refs.some((r) => r.id === "minecraft:short_grass"));
   });
 });

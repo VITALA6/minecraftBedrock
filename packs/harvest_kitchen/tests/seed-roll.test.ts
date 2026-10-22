@@ -21,8 +21,10 @@ describe("seed chances by biome", () => {
       cucumber: SEED_CHANCE_IN_BIOME,
       chili: SEED_CHANCE_ANY_BIOME,
       strawberry: SEED_CHANCE_ANY_BIOME,
+      eggplant: SEED_CHANCE_IN_BIOME,
     });
     assert.equal(chances("minecraft:jungle").chili, SEED_CHANCE_IN_BIOME);
+    assert.equal(chances("minecraft:savanna").eggplant, SEED_CHANCE_IN_BIOME);
     assert.equal(chances("minecraft:cherry_grove").strawberry, SEED_CHANCE_IN_BIOME);
   });
 
@@ -44,19 +46,29 @@ describe("seed chances by biome", () => {
 describe("one roll per break", () => {
   it("the roll picks one crop from consecutive ranges, in crop order", () => {
     // plains: tomato [0, .05), onion [.05, .10), cucumber [.10, .15), chili [.15, .16),
-    // strawberry [.16, .17), nothing above
+    // strawberry [.16, .17), eggplant [.17, .22), nothing above
     assert.deepEqual(
-      [0, 0.025, 0.075, 0.125, 0.155, 0.165, 0.2, 0.999].map((roll) =>
+      [0, 0.025, 0.075, 0.125, 0.155, 0.165, 0.2, 0.25, 0.999].map((roll) =>
         key("minecraft:plains", roll),
       ),
-      ["tomato", "tomato", "onion", "cucumber", "chili", "strawberry", undefined, undefined],
+      [
+        "tomato",
+        "tomato",
+        "onion",
+        "cucumber",
+        "chili",
+        "strawberry",
+        "eggplant",
+        undefined,
+        undefined,
+      ],
     );
   });
 
   it("falls back to the any-biome chances", () => {
     assert.deepEqual(
-      [0.005, 0.015, 0.045, 0.06].map((roll) => key("minecraft:desert", roll)),
-      ["tomato", "onion", "strawberry", undefined],
+      [0.005, 0.015, 0.045, 0.055, 0.07].map((roll) => key("minecraft:desert", roll)),
+      ["tomato", "onion", "strawberry", "eggplant", undefined],
     );
     assert.equal(key(undefined, 0.005), "tomato");
   });
@@ -68,13 +80,14 @@ describe("one roll per break", () => {
       const crop = rollSeed("minecraft:savanna", i / steps);
       if (crop) counts.set(crop.key, (counts.get(crop.key) ?? 0) + 1);
     }
-    // savanna: onion and chili are local
+    // savanna: onion, chili and eggplant are local
     const expected: Record<string, number> = {
       tomato: 0.01,
       onion: 0.05,
       cucumber: 0.01,
       chili: 0.05,
       strawberry: 0.01,
+      eggplant: 0.05,
     };
     for (const [k, chance] of Object.entries(expected)) {
       assert.ok(Math.abs((counts.get(k) ?? 0) - chance * steps) <= 1, `${k}: ${counts.get(k)}`);

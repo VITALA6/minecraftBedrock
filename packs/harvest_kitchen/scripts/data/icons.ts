@@ -4,9 +4,9 @@
 // - Vanilla items often don't match their id (cooked beef is textures/items/beef_cooked), so each
 //   vanilla item the recipes use is listed here. validate.ts checks every ingredient has one.
 //
-// Every vanilla path below was checked on 2026-10-21 against the 1.26.52.3 vanilla resource pack
-// (textures_list.json / contents.json). The game can't tell a script whether a texture exists,
-// so new paths must be checked the same way.
+// Every vanilla path below was checked against the 1.26.52.3 vanilla resource pack
+// (textures_list.json / contents.json): on 2026-10-21, mutton_raw and stick on 2026-10-22. The
+// game can't tell a script whether a texture exists, so new paths must be checked the same way.
 
 export const VANILLA_ITEM_ICONS: Readonly<Record<string, string>> = {
   "minecraft:bowl": "textures/items/bowl",
@@ -16,11 +16,13 @@ export const VANILLA_ITEM_ICONS: Readonly<Record<string, string>> = {
   "minecraft:cod": "textures/items/fish_raw",
   "minecraft:salmon": "textures/items/fish_salmon_raw",
   "minecraft:chicken": "textures/items/chicken_raw",
+  "minecraft:mutton": "textures/items/mutton_raw",
   "minecraft:bread": "textures/items/bread",
   "minecraft:sugar": "textures/items/sugar",
   "minecraft:glass_bottle": "textures/items/potion_bottle_empty",
   "minecraft:cooked_porkchop": "textures/items/porkchop_cooked",
   "minecraft:cake": "textures/items/cake",
+  "minecraft:stick": "textures/items/stick",
   "minecraft:campfire": "textures/items/campfire",
 };
 

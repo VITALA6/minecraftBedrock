@@ -1,4 +1,9 @@
-import { ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_RECIPE_POSTER } from "../config";
+import {
+  ITEM_COOKING_POT,
+  ITEM_CUTTING_BOARD,
+  ITEM_KITCHEN_TABLE,
+  ITEM_RECIPE_POSTER,
+} from "../config";
 import { CROPS } from "../data/crops";
 import { DISHES } from "../data/dishes";
 import { CRAFTING_RECIPES, CUTTING_RECIPES, STATION_RECIPES, recipeMaking } from "../data/recipes";
@@ -23,7 +28,7 @@ export function cropOfItem(itemId: string): string | undefined {
   return CROP_OF_ITEM.get(itemId);
 }
 
-/** Crop keys a dish needs, through prepared ingredients and dish ingredients. */
+/** Crop keys a dish needs, through prepared ingredients, mixes and dish ingredients. */
 function cropsFor(itemId: string, seen = new Set<string>()): Set<string> {
   const crops = new Set<string>();
   if (seen.has(itemId)) return crops;
@@ -56,6 +61,7 @@ export const HK_ITEM_IDS: readonly string[] = [
     ITEM_RECIPE_POSTER,
     ITEM_COOKING_POT,
     ITEM_CUTTING_BOARD,
+    ITEM_KITCHEN_TABLE,
   ]),
 ];
 

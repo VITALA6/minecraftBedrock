@@ -1,6 +1,7 @@
 import {
   BLOCK_CHILI_BUSH,
   BLOCK_CUCUMBER_CROP,
+  BLOCK_EGGPLANT_CROP,
   BLOCK_ONION_CROP,
   BLOCK_STRAWBERRY_BUSH,
   BLOCK_TOMATO_CROP,
@@ -8,6 +9,8 @@ import {
   ITEM_CHILI_SEEDS,
   ITEM_CUCUMBER,
   ITEM_CUCUMBER_SEEDS,
+  ITEM_EGGPLANT,
+  ITEM_EGGPLANT_SEEDS,
   ITEM_ONION,
   ITEM_STRAWBERRY,
   ITEM_STRAWBERRY_SEEDS,
@@ -171,6 +174,22 @@ export const CROPS: readonly Crop[] = [
     pick: { min: 2, max: 3 },
     pickResetStage: 2,
     color: { red: 0.91, green: 0.25, blue: 0.42 },
+  },
+  {
+    key: "eggplant",
+    block: BLOCK_EGGPLANT_CROP,
+    type: "crop",
+    produce: ITEM_EGGPLANT,
+    seed: ITEM_EGGPLANT_SEEDS,
+    plantOn: "farmland",
+    biomes: [
+      "minecraft:savanna",
+      "minecraft:savanna_plateau",
+      "minecraft:plains",
+      "minecraft:sunflower_plains",
+    ],
+    whereKey: "hk.crop.where.eggplant",
+    color: { red: 0.42, green: 0.22, blue: 0.55 },
   },
 ];
 

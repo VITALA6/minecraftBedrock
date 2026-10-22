@@ -8,7 +8,17 @@
         "hk:fill": { "values": { "min": 0, "max": 3 } },
         "hk:phase": ["idle", "ready", "cooking", "done"],
         "hk:hot": [false, true],
-        "hk:liquid": ["water", "tomato", "chili", "jam", "stew", "broth", "cream"]
+        "hk:liquid": [
+          "water",
+          "tomato",
+          "chili",
+          "jam",
+          "stew",
+          "broth",
+          "cream",
+          "eggplant",
+          "curry"
+        ]
       }
     },
     "components": {
@@ -337,6 +347,100 @@
             "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
             "top": { "texture": "hk_cooking_pot_top_hot", "render_method": "opaque" },
             "liquid": { "texture": "hk_cooking_pot_liquid_cream_ready", "render_method": "opaque" },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'eggplant' && q.block_state('hk:phase') != 'ready' && q.block_state('hk:phase') != 'done' && q.block_state('hk:hot') == false",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top", "render_method": "opaque" },
+            "liquid": { "texture": "hk_cooking_pot_liquid_eggplant", "render_method": "opaque" },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'eggplant' && q.block_state('hk:phase') != 'ready' && q.block_state('hk:phase') != 'done' && q.block_state('hk:hot') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top_hot", "render_method": "opaque" },
+            "liquid": { "texture": "hk_cooking_pot_liquid_eggplant", "render_method": "opaque" },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'eggplant' && (q.block_state('hk:phase') == 'ready' || q.block_state('hk:phase') == 'done') && q.block_state('hk:hot') == false",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top", "render_method": "opaque" },
+            "liquid": {
+              "texture": "hk_cooking_pot_liquid_eggplant_ready",
+              "render_method": "opaque"
+            },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'eggplant' && (q.block_state('hk:phase') == 'ready' || q.block_state('hk:phase') == 'done') && q.block_state('hk:hot') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top_hot", "render_method": "opaque" },
+            "liquid": {
+              "texture": "hk_cooking_pot_liquid_eggplant_ready",
+              "render_method": "opaque"
+            },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'curry' && q.block_state('hk:phase') != 'ready' && q.block_state('hk:phase') != 'done' && q.block_state('hk:hot') == false",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top", "render_method": "opaque" },
+            "liquid": { "texture": "hk_cooking_pot_liquid_curry", "render_method": "opaque" },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'curry' && q.block_state('hk:phase') != 'ready' && q.block_state('hk:phase') != 'done' && q.block_state('hk:hot') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top_hot", "render_method": "opaque" },
+            "liquid": { "texture": "hk_cooking_pot_liquid_curry", "render_method": "opaque" },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'curry' && (q.block_state('hk:phase') == 'ready' || q.block_state('hk:phase') == 'done') && q.block_state('hk:hot') == false",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top", "render_method": "opaque" },
+            "liquid": { "texture": "hk_cooking_pot_liquid_curry_ready", "render_method": "opaque" },
+            "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:liquid') == 'curry' && (q.block_state('hk:phase') == 'ready' || q.block_state('hk:phase') == 'done') && q.block_state('hk:hot') == true",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_cooking_pot_side", "render_method": "opaque" },
+            "top": { "texture": "hk_cooking_pot_top_hot", "render_method": "opaque" },
+            "liquid": { "texture": "hk_cooking_pot_liquid_curry_ready", "render_method": "opaque" },
             "lid": { "texture": "hk_cooking_pot_lid", "render_method": "opaque" }
           }
         }

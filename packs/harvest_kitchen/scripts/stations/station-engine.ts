@@ -21,7 +21,7 @@ import { setStates, type StateValue } from "../lib/block-states";
 import { actionBar, particle, sound } from "../lib/feedback";
 import { consumeHeldItem, dropItems, getHeldItem, giveOrDrop } from "../lib/inventory";
 import { ingredientName, itemName, t } from "../lib/text";
-import { popGhosts, startGhosts } from "./ghosts";
+import { clearMixHints, popGhosts, showMixHint, startGhosts } from "./ghosts";
 import { hasHeatBelow } from "./heat";
 import {
   addItems,
@@ -128,6 +128,7 @@ export function refreshVisuals(ref: StationRef, state = readStation(ref)): void 
 
 function save(ref: StationRef, state: StationState): void {
   writeStation(ref, state);
+  clearMixHints(ref);
   if (isEmpty(state)) tracked.delete(stationKey(ref));
   else tracked.set(stationKey(ref), ref);
   refreshVisuals(ref, state);
@@ -198,7 +199,8 @@ function returnItems(ref: StationRef, typeId: string, count: number, give: () =>
 
 /**
  * Puts up to `count` of the held `typeId` in. Refuses non-ingredients, a full station and a busy
- * one. Chimes when a new dish becomes possible.
+ * one. A raw ingredient of a pot dish is refused with "Make a mix first" and its mixes float above
+ * the pot for this player (D16). Chimes when a new dish becomes possible.
  */
 export function addFromHand(player: Player, ref: StationRef, typeId: string, count: number): void {
   if (!stationBlock(ref)) return;
@@ -215,7 +217,11 @@ export function addFromHand(player: Player, ref: StationRef, typeId: string, cou
     case "done":
       return collect(player, ref);
     case "refused":
-      return refuse(player, ref, t("hk.station.refuse", itemName(typeId)));
+      if (result.madeInto.length === 0) {
+        return refuse(player, ref, t("hk.station.refuse", itemName(typeId)));
+      }
+      showMixHint(player, ref, result.madeInto);
+      return refuse(player, ref, t("hk.station.needs_mix"));
     case "full":
       return refuse(player, ref);
     case "none":
@@ -314,6 +320,7 @@ export function takeAll(player: Player, ref: StationRef): void {
 export function spill(ref: StationRef): void {
   const state = readStation(ref);
   clearStation(ref);
+  clearMixHints(ref);
   tracked.delete(stationKey(ref));
   const center = {
     x: ref.location.x + 0.5,

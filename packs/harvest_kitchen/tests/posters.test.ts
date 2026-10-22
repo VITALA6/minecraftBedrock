@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { DISHES } from "../scripts/data/dishes";
+import { DISHES, findDish } from "../scripts/data/dishes";
 import { CRAFTING_RECIPES, STATION_RECIPES } from "../scripts/data/recipes";
 import {
   FACINGS,
@@ -8,6 +8,7 @@ import {
   POSTER_COUNT,
   POSTER_DISHES,
   POSTER_MAX_STATES,
+  POSTER_PAGES,
   discoveredPosters,
   facingOfDirection,
   firstPoster,
@@ -18,7 +19,9 @@ import {
   opposite,
   posterDish,
   posterIndex,
+  posterIndexOf,
   posterIndices,
+  posterStates,
   posterStem,
   startHalf,
   step,
@@ -33,21 +36,37 @@ import {
 const found = (...keys: string[]): Discovery => ({ found: new Set(keys), creative: false });
 const NOTHING = found();
 const CREATIVE: Discovery = { found: new Set(), creative: true };
-const ALL_CROPS = found("tomato", "onion", "cucumber", "chili", "strawberry");
+const ALL_CROPS = found("tomato", "onion", "cucumber", "chili", "strawberry", "eggplant");
 const dishAt = (index: number | undefined) => (index === undefined ? undefined : posterDish(index));
 
 describe("poster state <-> dish", () => {
-  it("one state per dish plus the blank, within the int state limit", () => {
+  it("one index per dish plus the blank, split over pages of 16 (the int state limit)", () => {
     assert.equal(POSTER_COUNT, DISHES.length + 1);
-    assert.ok(POSTER_COUNT <= POSTER_MAX_STATES);
     assert.deepEqual(posterIndices(), [...Array(POSTER_COUNT).keys()]);
+    assert.equal(POSTER_MAX_STATES, 16);
+    assert.equal(POSTER_PAGES, Math.ceil(POSTER_COUNT / 16));
+    assert.ok(POSTER_COUNT > 16, "19 posters need the page state");
   });
 
-  it("recipe order: pot recipes first, then crafting, each dish once", () => {
-    const order = [...STATION_RECIPES, ...CRAFTING_RECIPES].map((r) => r.result);
+  it("every index round-trips through hk:poster + hk:poster_page", () => {
+    for (const index of posterIndices()) {
+      const { slot, page } = posterStates(index);
+      assert.ok(slot >= 0 && slot < POSTER_MAX_STATES, `${index}`);
+      assert.ok(page >= 0 && page < POSTER_PAGES, `${index}`);
+      assert.equal(posterIndexOf(slot, page), index);
+    }
+    assert.deepEqual(posterStates(16), { slot: 0, page: 1 });
+    assert.equal(posterIndexOf(3), 3, "no page state counts as page 0");
+  });
+
+  it("recipe order: pot recipes first, then crafting, each dish once (mixes aren't dishes)", () => {
+    const order = [...STATION_RECIPES, ...CRAFTING_RECIPES]
+      .map((r) => r.result)
+      .filter((id) => findDish(id));
     assert.deepEqual(POSTER_DISHES, [...new Set(order)]);
     assert.equal(POSTER_DISHES[0], "hk:tomato_soup");
-    assert.equal(POSTER_DISHES.at(-1), "hk:strawberry_cake");
+    assert.equal(POSTER_DISHES.at(-1), "hk:veggie_skewer");
+    assert.ok(POSTER_DISHES.every((id) => !id.endsWith("_mix")));
     assert.deepEqual([...POSTER_DISHES].sort(), DISHES.map((d) => d.id).sort(), "every dish");
   });
 

@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && node tools/build.mjs",
+    "build:release": "tsc && node tools/build.mjs --release",
     "dev": "node tools/build.mjs --watch",
     "deploy": "node tools/deploy.mjs",
     "typecheck": "tsc",

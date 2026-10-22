@@ -42,6 +42,11 @@ node tools/lint-textures.mjs    # check it, and write generated/review_sheet.png
 - **Similar dishes differ by texture, not only by colour:** a smooth liquid (one flat colour with a
   highlight streak) vs. a chunky stew (pieces with their own light and shadow) vs. a heap (a
   mound that rises above the rim).
+- **Mixes (D16) are one family:** the shared bowl with raw pieces inside (no broth, so the dark
+  inside shows), one whole ingredient sticking out in a place no other mix uses, and a light
+  metal spoon top right. A shared heap above the rim made every mix the same silhouette; the
+  food hues (red, orange, golden, brown) all sit within 50° of each other after hue shifting, so
+  mixes are told apart by where their ingredient sticks out.
 - **Every seed has its own shape and its own colour.** No two seed icons share a seed sprite or a
   layout, and none looks like a vanilla seed.
 - Effect family colours (red heal, blue move, yellow work, green explore) stay reserved for the

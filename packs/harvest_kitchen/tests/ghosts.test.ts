@@ -21,7 +21,7 @@ import {
   ghostAtlasSize,
   ghostIconIndex,
 } from "../scripts/data/ghost-atlas";
-import { recipesFor } from "../scripts/data/recipes";
+import { recipesFor, stationInputsMadeFrom } from "../scripts/data/recipes";
 import { stationById, type ContainerStation } from "../scripts/data/stations";
 import {
   altCycle,
@@ -29,6 +29,7 @@ import {
   ghostPositions,
   ghostsFor,
   ghostStyle,
+  hintView,
   iconVariables,
   nearestPots,
   NO_GHOSTS,
@@ -39,64 +40,49 @@ import {
 } from "../scripts/stations/ghost-logic";
 import type { StationState } from "../scripts/stations/station-logic";
 
-// Ghost ingredients above the pot (D15): what each pot state shows, where the icons go, which pots
-// a player sees, what pops, and that the atlas and particle JSON match the script.
+// Ghost ingredients above the pot (D15, D16): what each pot state shows, the mix hint, where the
+// icons go, which pots a player sees, what pops, and that the atlas and particle JSON match.
 
 const pot = stationById("pot") as ContainerStation;
 const RP = "packs/harvest_kitchen/resource";
-const TOMATO = "hk:tomato";
-const ONION = "hk:onion";
-const BOWL = "minecraft:bowl";
+const SOUP_MIX = "hk:tomato_soup_mix";
+const ONION_MIX = "hk:onion_soup_mix";
 const items = (view: GhostView) => view.icons.map((i) => i.item);
 const ghosts = (contents: Record<string, number>, extra: Partial<StationState> = {}, cycle = 0) =>
   ghostsFor(pot, { items: contents, ...extra }, cycle);
+
+// With mixes (D16) every pot recipe is one mix, so a pot is empty, ready or busy: the "missing"
+// ghosts (and "cod or salmon" turns) only show for a station with multi-slot recipes, which the
+// pot no longer has. The Kitchen Table's recipe book answers "what goes in"; the hint answers
+// "what do I do with this tomato?".
 
 describe("what a pot shows", () => {
   it("an empty pot shows nothing", () => {
     assert.deepEqual(ghosts({}), NO_GHOSTS);
   });
 
-  it("missing items of the closest recipe, one ghost per missing item, in slot order", () => {
-    // 1 onion + bread: onion soup needs 1 more onion (of 2) and a bowl
-    const view = ghosts({ [ONION]: 1, "minecraft:bread": 1 });
-    assert.equal(view.mode, "missing");
-    assert.equal(view.recipe, "hk:onion_soup");
-    assert.deepEqual(items(view), [ONION, BOWL]);
+  it("items that make nothing (an old pot's raw items) show nothing", () => {
+    assert.deepEqual(ghosts({ "hk:tomato": 2 }), NO_GHOSTS);
   });
 
-  it("partial counts: a bowl alone needs both tomatoes", () => {
-    assert.deepEqual(items(ghosts({ [BOWL]: 1 })), [TOMATO, TOMATO]);
-    assert.deepEqual(items(ghosts({ [BOWL]: 1, [TOMATO]: 1 })), [TOMATO]);
-  });
-
-  it("a 'cod or salmon' ghost takes turns, and either fills it", () => {
-    const a = ghosts({ [ONION]: 1 }, {}, 0);
-    const b = ghosts({ [ONION]: 1 }, {}, 1);
-    assert.equal(a.recipe, "hk:fish_chowder");
-    assert.equal(a.icons[0]?.item, "minecraft:cod");
-    assert.equal(b.icons[0]?.item, "minecraft:salmon");
-    assert.deepEqual(a.icons[0]?.accepts, ["minecraft:cod", "minecraft:salmon"]);
-    assert.equal(altCycle(0), altCycle(39));
-    assert.notEqual(altCycle(39), altCycle(40));
-  });
-
-  it("ready to cook: the dish icon instead of ingredients (with a sparkle)", () => {
-    const view = ghosts({ [TOMATO]: 2, [BOWL]: 1 });
+  it("a mix inside: the dish it cooks into (with a sparkle)", () => {
+    const view = ghosts({ [SOUP_MIX]: 1 });
     assert.deepEqual(view, { mode: "ready", icons: [{ item: "hk:tomato_soup", accepts: [] }] });
     assert.equal(ghostStyle(view.mode).sparkle, true);
     assert.equal(spawnCost(view), 2);
+    assert.deepEqual(items(ghosts({ [SOUP_MIX]: 3 })), ["hk:tomato_soup"], "one icon per dish");
   });
 
   it("several dishes possible: one dish icon each", () => {
-    const view = ghosts({ [TOMATO]: 2, [ONION]: 2, "minecraft:bread": 1, [BOWL]: 1 });
+    const view = ghosts({ [SOUP_MIX]: 1, [ONION_MIX]: 2 });
     assert.equal(view.mode, "ready");
     assert.deepEqual(items(view), ["hk:tomato_soup", "hk:onion_soup"]);
   });
 
   it("cooking shows nothing; done shows the finished dish, nearly solid, no sparkle", () => {
-    const job = { recipe: "hk:tomato_soup", ticks: 10, total: 100 };
-    assert.deepEqual(ghosts({ [TOMATO]: 2, [BOWL]: 1 }, { job }), NO_GHOSTS);
-    const done = ghosts({ [ONION]: 3 }, { out: { item: "hk:tomato_soup", count: 1 } });
+    const job = { recipe: "hk:tomato_soup", ticks: 10, total: 100, servings: 1 };
+    assert.deepEqual(ghosts({ [SOUP_MIX]: 1 }, { job }), NO_GHOSTS);
+    const done = ghosts({ [ONION_MIX]: 3 }, { out: { item: "hk:tomato_soup", count: 1 } });
     assert.equal(done.mode, "done");
     assert.deepEqual(items(done), ["hk:tomato_soup"]);
     assert.deepEqual(ghostStyle("done"), { alpha: GHOST_DONE_ALPHA, sparkle: false });
@@ -104,7 +90,7 @@ describe("what a pot shows", () => {
     assert.equal(spawnCost(NO_GHOSTS), 0);
   });
 
-  it("every state of up to 4 items: ghosts unless empty, capped, and every icon has a cell", () => {
+  it("every state of up to 4 mixes: ghosts unless empty, capped, and every icon has a cell", () => {
     const ids = [...new Set(recipesFor("pot").flatMap((r) => r.ingredients.flatMap((i) => i.items)))]; // prettier-ignore
     let states = 0;
     const walk = (start: number, contents: Record<string, number>, left: number) => {
@@ -112,6 +98,7 @@ describe("what a pot shows", () => {
       const view = ghosts(contents, {}, states);
       const empty = Object.keys(contents).length === 0;
       assert.equal(view.mode === "none", empty, JSON.stringify(contents));
+      assert.notEqual(view.mode, "missing");
       assert.ok(view.icons.length <= GHOST_MAX_ICONS);
       for (const icon of view.icons) assert.ok(ghostIconIndex(icon.item) >= 0, icon.item);
       if (left === 0) return;
@@ -121,25 +108,55 @@ describe("what a pot shows", () => {
       }
     };
     walk(0, {}, 4);
-    assert.ok(states > 1000);
+    assert.ok(states > 500);
+  });
+});
+
+describe("the mix hint (D16)", () => {
+  it("shows the mixes a raw ingredient goes into, no sparkle, capped", () => {
+    const view = hintView(stationInputsMadeFrom("pot", "hk:strawberry"));
+    assert.deepEqual(view, { mode: "hint", icons: [{ item: "hk:strawberry_jam_mix", accepts: [] }] }); // prettier-ignore
+    assert.deepEqual(ghostStyle("hint"), { alpha: GHOST_ALPHA, sparkle: false });
+    assert.equal(spawnCost(view), 1);
+    const onion = hintView(stationInputsMadeFrom("pot", "hk:onion"));
+    assert.equal(onion.icons.length, GHOST_MAX_ICONS, "the onion goes into more mixes than fit");
+  });
+
+  it("nothing to suggest shows nothing", () => {
+    assert.deepEqual(hintView([]), NO_GHOSTS);
+  });
+
+  it("every mix a hint can show has an atlas cell", () => {
+    for (const id of ["hk:tomato", "hk:onion", "hk:eggplant", "minecraft:cod", "minecraft:bowl"]) {
+      for (const icon of hintView(stationInputsMadeFrom("pot", id)).icons) {
+        assert.ok(ghostIconIndex(icon.item) >= 0, icon.item);
+      }
+    }
   });
 });
 
 describe("popping a ghost", () => {
-  it("adding an item pops the first ghost it fills, only as many as went in", () => {
-    const view = ghosts({ [BOWL]: 1 }); // tomato, tomato
-    assert.deepEqual(popIndices(view, TOMATO, 1), [0]);
-    assert.deepEqual(popIndices(view, TOMATO, 5), [0, 1]);
-    assert.deepEqual(popIndices(view, "minecraft:sugar", 1), []);
+  it("only missing ghosts pop: dish icons and hints never do", () => {
+    assert.deepEqual(popIndices(ghosts({ [SOUP_MIX]: 1 }), SOUP_MIX, 1), []);
+    assert.deepEqual(popIndices(hintView([SOUP_MIX]), SOUP_MIX, 1), []);
   });
 
-  it("salmon fills a ghost that currently shows cod", () => {
-    const view = ghosts({ [ONION]: 1 }, {}, 0);
+  it("a missing ghost pops for the items that fill it, only as many as went in", () => {
+    const view: GhostView = {
+      mode: "missing",
+      icons: [
+        { item: "minecraft:cod", accepts: ["minecraft:cod", "minecraft:salmon"] },
+        { item: "hk:onion", accepts: ["hk:onion"] },
+        { item: "hk:onion", accepts: ["hk:onion"] },
+      ],
+      recipe: "x",
+    };
+    assert.deepEqual(popIndices(view, "hk:onion", 1), [1]);
+    assert.deepEqual(popIndices(view, "hk:onion", 5), [1, 2]);
     assert.deepEqual(popIndices(view, "minecraft:salmon", 1), [0]);
-  });
-
-  it("dish icons never pop", () => {
-    assert.deepEqual(popIndices(ghosts({ [TOMATO]: 2, [BOWL]: 1 }), TOMATO, 1), []);
+    assert.deepEqual(popIndices(view, "minecraft:sugar", 1), []);
+    assert.equal(altCycle(0), altCycle(39));
+    assert.notEqual(altCycle(39), altCycle(40));
   });
 });
 
@@ -214,13 +231,13 @@ describe("ghost timing", () => {
   });
 
   it("the bob phase follows world time, so a re-spawned ghost continues the wave", () => {
-    const a = iconVariables(TOMATO, 0, "missing", 100);
-    const b = iconVariables(TOMATO, 0, "missing", 100 + GHOST_UPDATE_TICKS);
+    const a = iconVariables(SOUP_MIX, 0, "missing", 100);
+    const b = iconVariables(SOUP_MIX, 0, "missing", 100 + GHOST_UPDATE_TICKS);
     assert.ok(a && b);
     assert.ok(Math.abs(b.phase - a.phase - GHOST_UPDATE_TICKS / 20) < 1e-9);
-    const neighbour = iconVariables(TOMATO, 1, "missing", 100);
+    const neighbour = iconVariables(SOUP_MIX, 1, "missing", 100);
     assert.ok(neighbour && neighbour.phase !== a.phase);
-    assert.equal(a.icon, ghostIconIndex(TOMATO));
+    assert.equal(a.icon, ghostIconIndex(SOUP_MIX));
     assert.equal(a.alpha, GHOST_ALPHA);
     assert.equal(iconVariables("minecraft:dirt", 0, "missing", 0), undefined);
   });

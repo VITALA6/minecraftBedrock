@@ -81,13 +81,16 @@ Current packs:
 - `harvest_kitchen`: the product (farming + cooking), namespace placeholder `hk` instead of
   `myteam`. Code notes in `docs/harvest-kitchen/slice.md`, plan in `docs/harvest-kitchen/plan.md`,
   open issues in `docs/harvest-kitchen/blockers.md`, test scripts in `docs/harvest-kitchen/tests/`.
-  `/hk:debug <kit|grow|fast|pot|validate|reset>` is the operator test kit.
+  `/hk:debug <kit|grow|fast|pot|validate|reset>` is the operator test kit (in every build).
+  Pot dishes are two steps (D16): raw ingredients → a mix on the Kitchen Table
+  (`minecraft:crafting_table`, tag `hk_kitchen`) → the pot cooks the mix.
 
 ## Commands
 
 | Command                    | What it does                                                             |
 | -------------------------- | ------------------------------------------------------------------------ |
 | `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`    |
+| `npm run build:release`    | `build` as a release (`__RELEASE__`): no test-session chat on join       |
 | `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)   |
 | `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders |
 | `npm run deploy -- --link` | symlink instead of copy (not picked up by the game, see below)           |

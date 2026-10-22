@@ -1,0 +1,32 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:fish_chowder_mix_salmon"
+    },
+    "tags": ["hk_kitchen"],
+    "ingredients": [
+      {
+        "item": "minecraft:salmon"
+      },
+      {
+        "item": "minecraft:potato"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:onion"
+      }
+    ],
+    "result": {
+      "item": "hk:fish_chowder_mix",
+      "count": 1
+    }
+  }
+}

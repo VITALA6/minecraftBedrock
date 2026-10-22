@@ -1,11 +1,14 @@
 import {
+  BLOCK_KITCHEN_TABLE,
   ITEM_COOKING_POT,
   ITEM_CUTTING_BOARD,
+  ITEM_KITCHEN_TABLE,
   BLOCK_RECIPE_POSTER,
   ITEM_RECIPE_POSTER,
   STATE_FACING,
   STATE_GROWTH,
   STATE_POSTER,
+  STATE_POSTER_PAGE,
   STATE_SLICES,
 } from "../config";
 import { HEAT_BLOCK_IDS } from "../stations/heat";
@@ -39,7 +42,7 @@ export interface Content {
   readonly stations: readonly ContainerStation[];
   readonly effects: Readonly<Record<string, EffectInfo>>;
   readonly families: Readonly<Record<string, FamilyInfo>>;
-  /** Items that exist outside any recipe (poster, pot, board). */
+  /** Items that exist outside any recipe (poster, pot, board, Kitchen Table). */
   readonly extraItems: readonly string[];
   /** Vanilla blocks the scripts name (grass, soils, heat). */
   readonly vanillaBlocks: readonly string[];
@@ -55,7 +58,7 @@ export const CONTENT: Content = {
   stations: STATIONS,
   effects: EFFECTS,
   families: FAMILIES,
-  extraItems: [ITEM_RECIPE_POSTER, ITEM_COOKING_POT, ITEM_CUTTING_BOARD],
+  extraItems: [ITEM_RECIPE_POSTER, ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_KITCHEN_TABLE],
   vanillaBlocks: [...SEED_DROP_BLOCKS, ...SOIL_BLOCKS, ...HEAT_BLOCK_IDS],
   icon: itemIcon,
 };
@@ -157,11 +160,21 @@ export function checkContent(content: Content = CONTENT): string[] {
       say(`${where}: dish ${recipe.result} has no liquid colour (data/dishes.ts)`);
     }
   }
+  const stationInputs = new Set(
+    content.stationRecipes.flatMap((r) => r.ingredients.flatMap((i) => i.items)),
+  );
   for (const recipe of content.craftingRecipes) {
     const where = `crafting recipe ${recipe.id}`;
     icon(recipe.result, where);
     ingredients(recipe.ingredients, where);
     if (!positiveInt(recipe.count)) say(`${where}: bad result count ${recipe.count}`);
+    if (recipe.ingredients.filter((i) => i.items.length > 1).length > 1) {
+      say(`${where}: two slots with alternatives (one JSON recipe per alternative of one slot)`);
+    }
+    // A Kitchen Table recipe makes a mix, and a mix is only good for a station (D16).
+    if (recipe.table === "kitchen" && !stationInputs.has(recipe.result)) {
+      say(`${where}: makes ${recipe.result}, which no station recipe cooks`);
+    }
   }
   const recipeIds = [...content.stationRecipes, ...content.craftingRecipes].map((r) => r.id);
   for (const id of duplicates(recipeIds)) say(`recipes: duplicate id "${id}"`);
@@ -245,10 +258,11 @@ export function referencedBlocks(
     if (dish.slices)
       refs.push({ id: dish.slices.block, where: `dish ${dish.id}`, states: [STATE_SLICES] });
   }
+  refs.push({ id: BLOCK_KITCHEN_TABLE, where: "kitchen table", states: [] });
   refs.push({
     id: BLOCK_RECIPE_POSTER,
     where: "recipe poster",
-    states: [STATE_POSTER, STATE_FACING],
+    states: [STATE_POSTER, STATE_POSTER_PAGE, STATE_FACING],
   });
   for (const id of content.vanillaBlocks)
     refs.push({ id, where: "vanilla block list", states: [] });

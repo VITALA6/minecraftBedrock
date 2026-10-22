@@ -11,15 +11,30 @@ export const ITEM_ONION = "hk:onion"; // also its own seed
 export const ITEM_CUCUMBER = "hk:cucumber";
 export const ITEM_CHILI = "hk:chili_pepper";
 export const ITEM_STRAWBERRY = "hk:strawberry";
+export const ITEM_EGGPLANT = "hk:eggplant";
 
 export const ITEM_TOMATO_SEEDS = "hk:tomato_seeds";
 export const ITEM_CUCUMBER_SEEDS = "hk:cucumber_seeds";
 export const ITEM_CHILI_SEEDS = "hk:chili_pepper_seeds";
 export const ITEM_STRAWBERRY_SEEDS = "hk:strawberry_seeds";
+export const ITEM_EGGPLANT_SEEDS = "hk:eggplant_seeds";
 
 export const ITEM_SLICED_TOMATO = "hk:sliced_tomato";
 export const ITEM_CHOPPED_ONION = "hk:chopped_onion";
 export const ITEM_SLICED_CUCUMBER = "hk:sliced_cucumber";
+export const ITEM_SLICED_EGGPLANT = "hk:sliced_eggplant";
+
+// Mixes (D16): a pot dish's raw ingredients, put together on the Kitchen Table; the pot cooks the mix.
+export const ITEM_TOMATO_SOUP_MIX = "hk:tomato_soup_mix";
+export const ITEM_VEGETABLE_STEW_MIX = "hk:vegetable_stew_mix";
+export const ITEM_CHILI_STEW_MIX = "hk:chili_stew_mix";
+export const ITEM_FISH_CHOWDER_MIX = "hk:fish_chowder_mix";
+export const ITEM_CHICKEN_SOUP_MIX = "hk:chicken_soup_mix";
+export const ITEM_ONION_SOUP_MIX = "hk:onion_soup_mix";
+export const ITEM_STRAWBERRY_JAM_MIX = "hk:strawberry_jam_mix";
+export const ITEM_STUFFED_EGGPLANT_MIX = "hk:stuffed_eggplant_mix";
+export const ITEM_RATATOUILLE_MIX = "hk:ratatouille_mix";
+export const ITEM_EGGPLANT_CURRY_MIX = "hk:eggplant_curry_mix";
 
 export const ITEM_TOMATO_SOUP = "hk:tomato_soup";
 export const ITEM_VEGETABLE_STEW = "hk:vegetable_stew";
@@ -34,10 +49,16 @@ export const ITEM_VEGGIE_SANDWICH = "hk:veggie_sandwich";
 export const ITEM_HEARTY_SANDWICH = "hk:hearty_sandwich";
 export const ITEM_STRAWBERRY_CUP = "hk:strawberry_cup";
 export const ITEM_STRAWBERRY_CAKE = "hk:strawberry_cake"; // item and block share the id
+export const ITEM_STUFFED_EGGPLANT = "hk:stuffed_eggplant";
+export const ITEM_RATATOUILLE = "hk:ratatouille";
+export const ITEM_EGGPLANT_CURRY = "hk:eggplant_curry";
+export const ITEM_EGGPLANT_SALAD = "hk:eggplant_salad";
+export const ITEM_VEGGIE_SKEWER = "hk:veggie_skewer";
 
 export const ITEM_RECIPE_POSTER = "hk:recipe_poster"; // item and block share the id
 export const ITEM_COOKING_POT = "hk:cooking_pot"; // item and block share the id
 export const ITEM_CUTTING_BOARD = "hk:cutting_board"; // item and block share the id
+export const ITEM_KITCHEN_TABLE = "hk:kitchen_table"; // the block's own item (a full cube)
 
 // --- blocks --------------------------------------------------------------------------------------
 export const BLOCK_TOMATO_CROP = "hk:tomato_crop";
@@ -45,10 +66,16 @@ export const BLOCK_ONION_CROP = "hk:onion_crop";
 export const BLOCK_CUCUMBER_CROP = "hk:cucumber_crop";
 export const BLOCK_CHILI_BUSH = "hk:chili_bush";
 export const BLOCK_STRAWBERRY_BUSH = "hk:strawberry_bush";
+export const BLOCK_EGGPLANT_CROP = "hk:eggplant_crop";
 export const BLOCK_COOKING_POT = "hk:cooking_pot";
 export const BLOCK_CUTTING_BOARD = "hk:cutting_board";
 export const BLOCK_STRAWBERRY_CAKE = "hk:strawberry_cake";
 export const BLOCK_RECIPE_POSTER = "hk:recipe_poster"; // a 2×1 wall multi-block (posters/)
+/** A minecraft:crafting_table block (D16): the vanilla crafting UI, only recipes tagged KITCHEN_TAG. */
+export const BLOCK_KITCHEN_TABLE = "hk:kitchen_table";
+
+/** The Kitchen Table's crafting tag (its crafting_tags, and the "tags" of the mix recipes). */
+export const KITCHEN_TAG = "hk_kitchen";
 
 // --- custom components (listed in JSON, registered in system.beforeEvents.startup) ---------------
 export const COMPONENT_CROP_GROWTH = "hk:crop_growth"; // block
@@ -65,7 +92,8 @@ export const STATE_PHASE = "hk:phase"; // container stations: idle | ready | coo
 export const STATE_HOT = "hk:hot"; // container stations: heat below, cached for the visual
 export const STATE_LIQUID = "hk:liquid"; // container stations: liquid colour (data/liquids.ts)
 export const STATE_SLICES = "hk:slices"; // sliced dishes: slices eaten
-export const STATE_POSTER = "hk:poster"; // recipe poster: 0 blank, 1.. dish (posters/poster-logic.ts)
+export const STATE_POSTER = "hk:poster"; // recipe poster: 0 blank, 1.. dish, 0..15 per page (posters/poster-logic.ts)
+export const STATE_POSTER_PAGE = "hk:poster_page"; // recipe poster: which 16 posters hk:poster counts in
 export const STATE_FACING = "hk:facing"; // recipe poster: north|south|east|west, out of the wall
 export const STATE_CARDINAL = "minecraft:cardinal_direction"; // placement_direction trait
 
@@ -116,6 +144,7 @@ export const GHOST_BOB_SECONDS = 3; // one slow up-and-down
 export const GHOST_BOB_HEIGHT = 0.05; // blocks, either way
 export const GHOST_WAVE_SECONDS = 0.4; // bob phase step between neighbouring icons
 export const GHOST_ALT_TICKS = 40; // a "cod or salmon" ghost shows each choice for 2 s
+export const GHOST_HINT_TICKS = 60; // a raw ingredient used on the pot shows its mix for 3 s (D16)
 export const GHOST_PARTICLE = {
   icon: "hk:ghost_icon",
   sparkle: "hk:ghost_sparkle",
@@ -155,9 +184,3 @@ export const PARTICLE = {
   hearts: "minecraft:heart_particle",
   growth: "minecraft:crop_growth_emitter",
 } as const;
-
-/** Tell operators which build is running when they join (test sessions). Off for release. */
-export const ANNOUNCE_BUILD = true;
-
-/** Report every recipe poster placement step to the placer's chat (test sessions). Off for release. */
-export const DEBUG_POSTERS = true;

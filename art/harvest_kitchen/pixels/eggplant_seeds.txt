@@ -1,28 +1,30 @@
-# eggplant_seeds: the purple stem end of an eggplant (drooping green calyx) above scattered flat tan seeds.
+# eggplant_seeds: the long eggplant (same teardrop on the diagonal and skin colours as eggplant.txt)
+# cut in half lengthwise: cream flesh with a band of seeds down its middle, skin rim lit top left and
+# shadowed bottom right, green cap top right; two loose 2×2 seeds spilled bottom right.
 palette
-p eggplant.4
-P eggplant.3
-Q eggplant.2
-d eggplant.0
-g leaf.4
-G leaf.2
-W #f3e3b4
-m #d2b170
-s #91703f
+K #1f1036   # deepest skin, indigo (eggplant.txt)
+D #3a1c5e   # skin shadow
+M #5a2a82   # skin
+L #8240a6   # lit skin
+F #f3e3b4   # flesh, lit
+f #d2b170   # flesh shadow, seed light side
+s #91703f   # seed
+g leaf.1    # dark leaf
+G leaf.4    # light leaf
 grid
-........gG......
-.......gG.......
-.....gGGGGGg....
-....gGpPGGPGGg..
-.....GppPPPGQG..
-.....pPPPPPQQd..
-.....PPPPPQQQd..
-......QPPQQQdd..
-.......Qdddd....
-...Wm........Wm.
-...mms..Wm...mms
-........mms.....
-.Wm.............
-.mms...Wm..Wm...
-.......mms.mms..
+................
+............g...
+...........GgG..
+.........GGgGg..
+........LGgGgK..
+.......LFFgMK...
+......LFFsfDK...
+.....LFFsFfDK...
+....LFFsFFfDK...
+...LFFsFFffDK...
+..LFFsFFffDK.Ff.
+..LFsFFffDDK.fs.
+..MFFFffDDK.....
+...MffDDDK..Ff..
+....DDKK....fs..
 ................

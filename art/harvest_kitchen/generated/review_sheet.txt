@@ -23,7 +23,7 @@ Per icon: colours, bounding box, grayscale range.
   cucumber_seeds: 6 colours, 13x13, grey 170
   chili_pepper_seeds: 8 colours, 14x13, grey 170
   strawberry_seeds: 9 colours, 14x13, grey 185
-  eggplant_seeds: 9 colours, 15x15, grey 180
+  eggplant_seeds: 9 colours, 13x14, grey 202
   sliced_tomato: 8 colours, 14x13, grey 187
   sliced_cucumber: 6 colours, 14x14, grey 170
   sliced_eggplant: 7 colours, 14x14, grey 190

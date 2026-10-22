@@ -7,6 +7,8 @@ prepared: sliced_tomato, sliced_cucumber, chopped_onion
 dishes: tomato_soup, onion_soup, salsa, garden_salad, strawberry_cup, vegetable_stew, chili_stew, fish_chowder, chicken_soup, strawberry_jam, veggie_sandwich, hearty_sandwich, strawberry_cake
 stations: cooking_pot, cutting_board, recipe_book
 ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops, chapter_what_can_i_make, needs_heat
+ingredients: bowl, carrot, potato, bread, beef, chicken, cod, salmon, sugar, glass_bottle, cake, cooked_porkchop, book, short_grass, crafting_table, campfire, farmland
+biomes: biome_plains, biome_forest, biome_cherry_grove, biome_taiga, biome_savanna, biome_jungle, biome_badlands, biome_swamp, biome_river, biome_meadow
 
 Per icon: colours, bounding box, grayscale range.
   tomato: 7 colours, 14x14, grey 154
@@ -45,5 +47,32 @@ Per icon: colours, bounding box, grayscale range.
   chapter_crops: 9 colours, 14x14, grey 166
   chapter_what_can_i_make: 10 colours, 14x14, grey 184
   needs_heat: 5 colours, 14x14, grey 181
+  bowl: 4 colours, 12x8, grey 216
+  carrot: 7 colours, 13x14, grey 130
+  potato: 5 colours, 14x10, grey 162
+  bread: 4 colours, 13x12, grey 101
+  beef: 6 colours, 14x10, grey 187
+  chicken: 6 colours, 14x12, grey 130
+  cod: 7 colours, 14x13, grey 192
+  salmon: 7 colours, 14x13, grey 160
+  sugar: 5 colours, 12x8, grey 159
+  glass_bottle: 4 colours, 11x14, grey 114
+  cake: 7 colours, 12x9, grey 184
+  cooked_porkchop: 6 colours, 14x12, grey 162
+  book: 4 colours, 12x12, grey 218
+  short_grass: 4 colours, 13x12, grey 81
+  crafting_table: 9 colours, 13x14, grey 177
+  campfire: 6 colours, 13x13, grey 206
+  farmland: 6 colours, 14x14, grey 112
+  biome_plains: 8 colours, 14x9, grey 133
+  biome_forest: 7 colours, 14x13, grey 97
+  biome_cherry_grove: 7 colours, 12x14, grey 188
+  biome_taiga: 6 colours, 15x13, grey 193
+  biome_savanna: 6 colours, 14x12, grey 134
+  biome_jungle: 6 colours, 14x13, grey 111
+  biome_badlands: 6 colours, 14x11, grey 123
+  biome_swamp: 6 colours, 14x12, grey 91
+  biome_river: 5 colours, 14x8, grey 155
+  biome_meadow: 9 colours, 14x10, grey 148
 
 Problems: none

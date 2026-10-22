@@ -67,9 +67,6 @@
     "hk_eggplant_crop_stage_1": { "textures": "textures/hk/blocks/eggplant_crop_stage_1" },
     "hk_eggplant_crop_stage_2": { "textures": "textures/hk/blocks/eggplant_crop_stage_2" },
     "hk_eggplant_crop_stage_3": { "textures": "textures/hk/blocks/eggplant_crop_stage_3" },
-    "hk_kitchen_table_top": { "textures": "textures/hk/blocks/kitchen_table_top" },
-    "hk_kitchen_table_side": { "textures": "textures/hk/blocks/kitchen_table_side" },
-    "hk_kitchen_table_bottom": { "textures": "textures/hk/blocks/kitchen_table_bottom" },
     "hk_cooking_pot_liquid_eggplant": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_eggplant"
     },
@@ -80,8 +77,8 @@
     "hk_cooking_pot_liquid_curry_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_curry_ready"
     },
-    "hk_poster_blank_left": { "textures": "textures/hk/poster/blank_left" },
-    "hk_poster_blank_right": { "textures": "textures/hk/poster/blank_right" },
+    "hk_poster_how_to_start_left": { "textures": "textures/hk/poster/how_to_start_left" },
+    "hk_poster_how_to_start_right": { "textures": "textures/hk/poster/how_to_start_right" },
     "hk_poster_tomato_soup_left": { "textures": "textures/hk/poster/tomato_soup_left" },
     "hk_poster_tomato_soup_right": { "textures": "textures/hk/poster/tomato_soup_right" },
     "hk_poster_vegetable_stew_left": { "textures": "textures/hk/poster/vegetable_stew_left" },

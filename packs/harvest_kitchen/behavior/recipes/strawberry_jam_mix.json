@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hk:strawberry_jam_mix"
     },
-    "tags": ["hk_kitchen"],
+    "tags": ["crafting_table"],
     "ingredients": [
       {
         "item": "hk:strawberry"

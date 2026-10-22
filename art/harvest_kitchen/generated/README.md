@@ -23,13 +23,12 @@ node tools/gen-textures.mjs --palette   # re-sample palette.json from the instal
 `contact_sheet.png` shows every texture at 4x on a grey checker. `contact_sheet.txt` says which
 file is where.
 
-| Folder    | Files                                                                                                                                              |
-| --------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `blocks/` | `<crop>_stage_0..3` for `tomato_crop`, `onion_crop`, `cucumber_crop`, `eggplant_crop`, `chili_bush`, `strawberry_bush` (cross model, transparent)  |
-| `blocks/` | `kitchen_table_top`, `_side`, `_bottom` (opaque faces of a full cube)                                                                              |
-| `blocks/` | `cooking_pot_liquid_<colour>` and `_<colour>_ready` for each pot liquid colour (`POT_LIQUIDS`), `cooking_pot_top_hot` (S8 variants)                |
-| `items/`  | produce, seeds, prepared ingredients, the 18 dishes, the 10 mixes (`<dish>_mix`), `cooking_pot`, `cutting_board`, `kitchen_table`, `recipe_poster` |
-| `ui/`     | `family_heal`, `family_move`, `family_work`, `family_explore`, `locked`, `chapter_crops`, `chapter_what_can_i_make`, `needs_heat`                  |
+| Folder    | Files                                                                                                                                             |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `blocks/` | `<crop>_stage_0..3` for `tomato_crop`, `onion_crop`, `cucumber_crop`, `eggplant_crop`, `chili_bush`, `strawberry_bush` (cross model, transparent) |
+| `blocks/` | `cooking_pot_liquid_<colour>` and `_<colour>_ready` for each pot liquid colour (`POT_LIQUIDS`), `cooking_pot_top_hot` (S8 variants)               |
+| `items/`  | produce, seeds, prepared ingredients, the 18 dishes, the 10 mixes (`<dish>_mix`), `cooking_pot`, `cutting_board`, `recipe_poster`                 |
+| `ui/`     | `family_heal`, `family_move`, `family_work`, `family_explore`, `locked`, `chapter_crops`, `chapter_what_can_i_make`, `needs_heat`                 |
 
 All textures are 16×16 with no baked-in words; `locked` uses a single `?` glyph.
 

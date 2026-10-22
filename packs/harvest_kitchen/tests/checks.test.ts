@@ -149,7 +149,7 @@ describe("data check on broken data", () => {
       check({
         craftingRecipes: [
           ...CRAFTING_RECIPES,
-          { id: soup.id, table: "crafting", result: soup.result, count: 1, ingredients: [] },
+          { id: soup.id, result: soup.result, count: 1, ingredients: [] },
         ],
       }),
       'recipes: duplicate id "hk:tomato_soup"',
@@ -160,7 +160,7 @@ describe("data check on broken data", () => {
     reports(
       check({
         stationRecipes: [],
-        craftingRecipes: CRAFTING_RECIPES.filter((r) => r.table !== "kitchen"),
+        craftingRecipes: CRAFTING_RECIPES.filter((r) => !r.result.endsWith("_mix")),
         dishes: DISHES.filter((d) => !STATION_RECIPES.some((r) => r.result === d.id)),
       }),
       "station pot: no recipes",
@@ -251,18 +251,16 @@ describe("data check on broken data", () => {
     );
   });
 
-  it("a Kitchen Table recipe for something no station cooks, two alternative slots (D16)", () => {
+  it("a crafting recipe with two alternative slots", () => {
     const base = CRAFTING_RECIPES.find((r) => r.id === "hk:tomato_soup_mix");
     assert.ok(base);
     reports(
       check({
         craftingRecipes: [
           ...CRAFTING_RECIPES,
-          { ...base, id: "hk:odd_mix", result: "hk:salsa" },
           {
             ...base,
             id: "hk:two_alts",
-            table: "crafting",
             ingredients: [
               ing(1, "minecraft:cod", "minecraft:salmon"),
               ing(1, "hk:tomato", "hk:onion"),
@@ -270,12 +268,11 @@ describe("data check on broken data", () => {
           },
         ],
       }),
-      "crafting recipe hk:odd_mix: makes hk:salsa, which no station recipe cooks",
       "crafting recipe hk:two_alts: two slots with alternatives (one JSON recipe per alternative of one slot)",
     );
   });
 
-  it("a mix without its Kitchen Table recipe can't be obtained", () => {
+  it("a mix without its crafting recipe can't be obtained", () => {
     const problems = check({
       craftingRecipes: CRAFTING_RECIPES.filter((r) => r.id !== "hk:ratatouille_mix"),
     });
@@ -308,7 +305,6 @@ describe("references for the in-game half", () => {
       "station recipe hk:tomato_soup",
       "crafting recipe hk:tomato_soup_mix",
     ]);
-    assert.deepEqual(where("hk:kitchen_table"), ["station items"]);
     assert.ok(where("hk:tomato").includes("crop tomato"));
     assert.ok(where("hk:tomato").includes("cutting hk:tomato"));
     assert.deepEqual(where("hk:recipe_poster"), ["station items"]);
@@ -322,7 +318,6 @@ describe("references for the in-game half", () => {
     assert.deepEqual(states("hk:chili_bush"), ["hk:growth"]);
     assert.deepEqual(states("hk:strawberry_cake"), ["hk:slices"]);
     assert.deepEqual(states("minecraft:campfire"), []);
-    assert.deepEqual(states("hk:kitchen_table"), []);
     assert.deepEqual(states("hk:recipe_poster"), ["hk:poster", "hk:poster_page", "hk:facing"]);
     assert.ok(refs.some((r) => r.id === "minecraft:short_grass"));
   });

@@ -31,10 +31,10 @@ const BOWL = "minecraft:bowl";
 const SOUP_MIX = "hk:tomato_soup_mix";
 const STEW_MIX = "hk:vegetable_stew_mix";
 
-// The matching helpers are generic: the Kitchen Table's mix recipes (several slots, counts,
+// The matching helpers are generic: the mix recipes (several slots, counts,
 // "cod or salmon") exercise them; the pot's own recipes are one mix each (D16).
 
-describe("canMake / missingFor (a Kitchen Table recipe)", () => {
+describe("canMake / missingFor (a mix recipe)", () => {
   const soup = crafting(SOUP_MIX).ingredients;
 
   it("an exact match can be made and misses nothing", () => {
@@ -135,7 +135,7 @@ describe("consume / servings", () => {
 });
 
 describe("the pot cooks mixes (D16)", () => {
-  it("every pot recipe is exactly one mix, made on the Kitchen Table", () => {
+  it("every pot recipe is exactly one mix, made on the crafting table", () => {
     for (const r of recipesFor("pot")) {
       assert.equal(r.ingredients.length, 1, r.id);
       const [only] = r.ingredients;
@@ -143,7 +143,6 @@ describe("the pot cooks mixes (D16)", () => {
       assert.equal(only?.count, 1, r.id);
       const made = recipeMaking(only?.items[0] ?? "");
       assert.equal(made?.kind, "crafting", r.id);
-      assert.equal(made?.kind === "crafting" && made.recipe.table, "kitchen", r.id);
     }
   });
 
@@ -177,12 +176,10 @@ describe("the pot cooks mixes (D16)", () => {
 });
 
 describe("recipeMaking", () => {
-  it("finds pot, Kitchen Table and crafting recipes by result", () => {
+  it("finds pot and crafting recipes by result", () => {
     assert.equal(recipeMaking("hk:tomato_soup")?.kind, "station");
-    const mix = recipeMaking(SOUP_MIX);
-    assert.equal(mix?.kind === "crafting" && mix.recipe.table, "kitchen");
-    const salsa = recipeMaking("hk:salsa");
-    assert.equal(salsa?.kind === "crafting" && salsa.recipe.table, "crafting");
+    assert.equal(recipeMaking(SOUP_MIX)?.kind, "crafting");
+    assert.equal(recipeMaking("hk:salsa")?.kind, "crafting");
     assert.equal(recipeMaking("minecraft:cake"), undefined);
   });
 });

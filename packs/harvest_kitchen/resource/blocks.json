@@ -29,8 +29,5 @@
   },
   "hk:eggplant_crop": {
     "sound": "grass"
-  },
-  "hk:kitchen_table": {
-    "sound": "wood"
   }
 }

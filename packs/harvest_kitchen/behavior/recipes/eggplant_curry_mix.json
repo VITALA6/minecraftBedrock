@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hk:eggplant_curry_mix"
     },
-    "tags": ["hk_kitchen"],
+    "tags": ["crafting_table"],
     "ingredients": [
       {
         "item": "hk:eggplant"

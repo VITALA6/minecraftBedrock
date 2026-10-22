@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hk:fish_chowder_mix"
     },
-    "tags": ["hk_kitchen"],
+    "tags": ["crafting_table"],
     "ingredients": [
       {
         "item": "minecraft:cod"

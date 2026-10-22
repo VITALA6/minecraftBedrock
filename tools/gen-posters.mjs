@@ -1,5 +1,6 @@
-// Renders the Harvest Kitchen recipe posters (D15): one 2×1 wall poster per dish plus a blank
-// "find crops" poster, each written as two 64×64 block textures (left and right half).
+// Renders the Harvest Kitchen recipe posters (D15): one 2×1 wall poster per dish plus the "How to
+// Start" guide (the whole loop, seeds to dish), each written as two 64×64 block textures (left and
+// right half).
 //
 //   node tools/gen-posters.mjs          render every poster, delete stale ones, write the preview
 //
@@ -53,7 +54,7 @@ export async function loadPackData() {
         `export { CROPS } from "${s}/data/crops";`,
         `export { EFFECTS, findDish } from "${s}/data/dishes";`,
         `export { recipeMaking } from "${s}/data/recipes";`,
-        `export { ITEM_KITCHEN_TABLE } from "${s}/config";`,
+        `export { ITEM_CUTTING_BOARD } from "${s}/config";`,
       ].join("\n"),
       resolveDir: ROOT,
       loader: "ts",
@@ -566,7 +567,7 @@ function item(im, src, x, y, { size = 20, scale = 1, count, locked = false, ghos
 //   [station (+ flame)]       [family icon + "8 s"] (or the food shank + nutrition)
 //
 // A pot dish (D16) shows the raw ingredients of its mix, and its station row is the two steps:
-// [kitchen table] → [pot] + [flame]. The mix itself isn't drawn: what the player gathers and
+// [crafting table] → [pot] + [flame]. The mix itself isn't drawn: what the player gathers and
 // where they go is what the poster is for.
 // ---------------------------------------------------------------------------------------------
 
@@ -643,7 +644,7 @@ function posterRecipe(data, made) {
   const [only] = made.recipe.ingredients;
   const mix =
     made.recipe.ingredients.length === 1 && only ? data.recipeMaking(only.items[0]) : undefined;
-  if (mix?.kind === "crafting" && mix.recipe.table === "kitchen") {
+  if (mix?.kind === "crafting") {
     return { ingredients: mix.recipe.ingredients, viaTable: true };
   }
   return { ingredients: made.recipe.ingredients, viaTable: false };
@@ -651,13 +652,10 @@ function posterRecipe(data, made) {
 
 function stationRow(im, data, made, viaTable) {
   const station = made?.kind === "station" ? data.stationById(made.recipe.station) : undefined;
-  const table =
-    made?.kind === "crafting" && made.recipe.table === "kitchen"
-      ? itemArt(data.ITEM_KITCHEN_TABLE)
-      : art("ingredients/crafting_table");
+  const table = art("ingredients/crafting_table");
   let x = 6;
   if (viaTable) {
-    icon(im, itemArt(data.ITEM_KITCHEN_TABLE), x, FOOTER_Y, { bg: C.pBase });
+    icon(im, table, x, FOOTER_Y, { bg: C.pBase });
     x += 18;
     x += text(im, "→", x, FOOTER_Y + 5, C.ink, { bg: C.pBase }) + 2;
   }
@@ -705,21 +703,54 @@ function dishPoster(data, dishId) {
   return im;
 }
 
-/** Nothing discovered yet: break grass → seeds → a recipe (?). */
-function blankPoster(data) {
+const GUIDE_ROWS = [
+  { x: 18, y: 12 }, // grass → seeds → farmland → cutting board
+  { x: 16, y: 40 }, // crafting table → mix → pot over a fire → dish
+];
+
+/**
+ * How to Start (index 0; a player's first poster): the whole loop in two rows, with the first crop
+ * and the first pot dish (tomato → tomato soup):
+ *
+ *   grass → seeds → farmland (crop growing) → cutting board
+ *   crafting table → mix → pot over a fire → [dish]
+ */
+function guidePoster(data) {
   const im = board();
-  icon(im, art("ingredients/short_grass"), 9, 14, { scale: 2, bg: C.pBase });
-  blit(im, part("arrow_ink"), 43, 25);
-  nine(im, part("slot_large"), 59, 12, 34, 34, INSET.slot_large);
-  icon(im, itemArt(data.CROPS[0].seed), 60, 13, { scale: 2, bg: C.slot });
-  blit(im, part("arrow_ink"), 96, 25);
-  textCentered(im, "?", 116, 23, C.ink, { scale: 2, bg: C.pBase });
+  const crop = data.CROPS[0];
+  const dishId = data.posterDish(1);
+  const mixId = data.recipeMaking(dishId)?.recipe.ingredients[0]?.items[0];
+  if (!mixId) throw new Error(`no mix for ${dishId}`);
+  const bg = C.pBase;
+  const arrow = (x, y) => x + 2 + text(im, "→", x + 2, y + 5, C.ink, { bg }) + 1;
+
+  let { x, y } = GUIDE_ROWS[0];
+  icon(im, art("ingredients/short_grass"), x, y, { bg });
+  x = arrow(x + 16, y);
+  icon(im, itemArt(crop.seed), x, y, { bg });
+  x = arrow(x + 16, y);
+  // planted: the crop's last stage standing on farmland
+  icon(im, art("ingredients/farmland"), x, y + 3, { bg });
+  icon(im, art(`blocks/${crop.block.split(":")[1]}_stage_3`), x, y - 7, { bg });
+  x = arrow(x + 16, y);
+  icon(im, itemArt(data.ITEM_CUTTING_BOARD), x, y, { bg });
+
+  ({ x, y } = GUIDE_ROWS[1]);
+  icon(im, art("ingredients/crafting_table"), x, y, { bg });
+  x = arrow(x + 16, y);
+  icon(im, itemArt(mixId), x, y, { bg });
+  x = arrow(x + 16, y);
+  // on the fire: the pot over a campfire
+  icon(im, art("ingredients/campfire"), x, y + 5, { bg });
+  icon(im, itemArt(data.stationById("pot").icon), x, y - 4, { bg });
+  x = arrow(x + 16, y);
+  item(im, itemArt(dishId), x, y - 2);
   return im;
 }
 
 function renderPoster(data, index) {
   const dishId = data.posterDish(index);
-  return dishId ? dishPoster(data, dishId) : blankPoster(data);
+  return dishId ? dishPoster(data, dishId) : guidePoster(data);
 }
 
 function crop(src, x0, y0, w, h) {

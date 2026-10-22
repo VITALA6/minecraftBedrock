@@ -3,7 +3,8 @@ import { CRAFTING_RECIPES, STATION_RECIPES } from "../data/recipes";
 import { isUnlocked } from "../discovery/unlock";
 
 // Recipe posters (D15) as pure functions: which dish each poster state shows, the texture of each
-// half, the sneak + use cycle through the dishes a player has discovered, and the wall geometry
+// half, the sneak + use cycle (the How to Start guide, then the dishes a player has discovered),
+// and the wall geometry
 // (which half a part shows, where its wall is). No @minecraft import, so the unit tests and the
 // tools (gen-posters.mjs, gen-poster-block.mjs) share it with the game; posters/poster.ts reads
 // and writes the blocks.
@@ -12,7 +13,8 @@ import { isUnlocked } from "../discovery/unlock";
 // a 128×64 recipe image as a 64×64 texture. Its states:
 //
 //   hk:poster, hk:poster_page   together the poster index: page × 16 + hk:poster (an int state
-//                          holds at most 16 values); index 0 = the blank "find crops" poster,
+//                          holds at most 16 values); index 0 = the "How to Start" guide (it was
+//                          the blank "find crops" poster, so placed blanks became guides),
 //                          1.. = POSTER_DISHES[i - 1]
 //   hk:facing              the way the poster's front faces (out of the wall); set by script
 //   (the half a part shows comes from minecraft:multi_block_part, see halfOfPart)
@@ -27,10 +29,10 @@ export const POSTER_DISHES: readonly string[] = [
   ),
 ];
 
-/** The blank poster's state value. */
-export const POSTER_BLANK = 0;
+/** The "How to Start" guide's state value: the whole loop, seeds to dish. */
+export const POSTER_GUIDE = 0;
 
-/** Number of poster indices: the blank plus one per dish. */
+/** Number of poster indices: the guide plus one per dish. */
 export const POSTER_COUNT: number = POSTER_DISHES.length + 1;
 
 /** Values one int block state can hold: hk:poster counts within a page of this many. */
@@ -49,14 +51,14 @@ export function posterIndexOf(slot: number, page = 0): number {
   return page * POSTER_MAX_STATES + slot;
 }
 
-/** The dish a poster state shows, or undefined for the blank (or an out-of-range value). */
+/** The dish a poster state shows, or undefined for the guide (or an out-of-range value). */
 export function posterDish(index: number): string | undefined {
   return index > 0 ? POSTER_DISHES[index - 1] : undefined;
 }
 
-/** The state value for a dish; the blank for anything that isn't on a poster. */
+/** The state value for a dish; the guide for anything that isn't on a poster. */
 export function posterIndex(dishId: string): number {
-  return POSTER_DISHES.indexOf(dishId) + 1; // -1 + 1 = POSTER_BLANK
+  return POSTER_DISHES.indexOf(dishId) + 1; // -1 + 1 = POSTER_GUIDE
 }
 
 // --- textures --------------------------------------------------------------------------------------
@@ -68,10 +70,10 @@ export const POSTER_TEXTURE_DIR = "textures/hk/poster";
 
 const shortName = (id: string) => id.slice(id.indexOf(":") + 1);
 
-/** "blank" or "tomato_soup": the image a poster state shows (both halves). */
+/** "how_to_start" or "tomato_soup": the image a poster state shows (both halves). */
 export function posterStem(index: number): string {
   const dish = posterDish(index);
-  return dish ? shortName(dish) : "blank";
+  return dish ? shortName(dish) : "how_to_start";
 }
 
 /** File stem of one half: "tomato_soup_left". */
@@ -85,7 +87,7 @@ export function halfTexture(index: number, half: Half): { path: string; shortnam
   return { path: `${POSTER_TEXTURE_DIR}/${stem}`, shortname: `hk_poster_${stem}` };
 }
 
-/** Every poster state, blank first. */
+/** Every poster state, the guide first. */
 export function posterIndices(): number[] {
   return Array.from({ length: POSTER_COUNT }, (_, i) => i);
 }
@@ -106,19 +108,23 @@ export function discoveredPosters(discovery: Discovery): number[] {
 }
 
 /**
- * The state sneak + use turns a poster to: the next discovered dish after `current`, wrapping
- * around; from the blank (or an undiscovered dish) the next discovered one after it in order.
- * Undefined when the player has discovered nothing (the caller shows a hint and changes nothing).
+ * The state sneak + use turns a poster to: the guide, then the discovered dishes in order, then
+ * the guide again; from an undiscovered dish, the next discovered one after it. Undefined when the
+ * player has discovered nothing (the guide is all there is; the caller shows a hint).
  */
 export function nextPoster(current: number, discovery: Discovery): number | undefined {
   const shown = discoveredPosters(discovery);
   if (shown.length === 0) return undefined;
-  return shown.find((index) => index > current) ?? shown[0];
+  return shown.find((index) => index > current) ?? POSTER_GUIDE;
 }
 
-/** What a freshly placed poster shows: the player's first discovered dish, else the blank. */
-export function firstPoster(discovery: Discovery): number {
-  return discoveredPosters(discovery)[0] ?? POSTER_BLANK;
+/**
+ * What a freshly placed poster shows: the guide on a player's first poster (`guidePlaced` false)
+ * or before they've discovered anything, else their first discovered dish.
+ */
+export function firstPoster(discovery: Discovery, guidePlaced = true): number {
+  if (!guidePlaced) return POSTER_GUIDE;
+  return discoveredPosters(discovery)[0] ?? POSTER_GUIDE;
 }
 
 // --- wall geometry ---------------------------------------------------------------------------------

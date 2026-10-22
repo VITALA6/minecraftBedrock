@@ -4,7 +4,7 @@ import { DISHES, findDish } from "../scripts/data/dishes";
 import { CRAFTING_RECIPES, STATION_RECIPES } from "../scripts/data/recipes";
 import {
   FACINGS,
-  POSTER_BLANK,
+  POSTER_GUIDE,
   POSTER_COUNT,
   POSTER_DISHES,
   POSTER_MAX_STATES,
@@ -40,7 +40,7 @@ const ALL_CROPS = found("tomato", "onion", "cucumber", "chili", "strawberry", "e
 const dishAt = (index: number | undefined) => (index === undefined ? undefined : posterDish(index));
 
 describe("poster state <-> dish", () => {
-  it("one index per dish plus the blank, split over pages of 16 (the int state limit)", () => {
+  it("one index per dish plus the guide, split over pages of 16 (the int state limit)", () => {
     assert.equal(POSTER_COUNT, DISHES.length + 1);
     assert.deepEqual(posterIndices(), [...Array(POSTER_COUNT).keys()]);
     assert.equal(POSTER_MAX_STATES, 16);
@@ -70,17 +70,17 @@ describe("poster state <-> dish", () => {
     assert.deepEqual([...POSTER_DISHES].sort(), DISHES.map((d) => d.id).sort(), "every dish");
   });
 
-  it("round-trips every dish; 0 and unknowns are the blank", () => {
+  it("round-trips every dish; 0 and unknowns are the guide", () => {
     for (const id of POSTER_DISHES) assert.equal(posterDish(posterIndex(id)), id);
-    assert.equal(posterDish(POSTER_BLANK), undefined);
+    assert.equal(posterDish(POSTER_GUIDE), undefined);
     assert.equal(posterDish(POSTER_COUNT), undefined, "past the end");
     assert.equal(posterDish(-1), undefined);
-    assert.equal(posterIndex("hk:recipe_poster"), POSTER_BLANK);
-    assert.equal(posterIndex("minecraft:bread"), POSTER_BLANK);
+    assert.equal(posterIndex("hk:recipe_poster"), POSTER_GUIDE);
+    assert.equal(posterIndex("minecraft:bread"), POSTER_GUIDE);
   });
 
   it("names the textures after the dish, one per half", () => {
-    assert.equal(posterStem(POSTER_BLANK), "blank");
+    assert.equal(posterStem(POSTER_GUIDE), "how_to_start");
     assert.equal(posterStem(1), "tomato_soup");
     assert.equal(halfStem(1, "left"), "tomato_soup_left");
     assert.deepEqual(halfTexture(1, "right"), {
@@ -94,59 +94,65 @@ describe("poster state <-> dish", () => {
 
 describe("sneak + use cycle", () => {
   it("nothing discovered: no next poster (the caller shows the hint)", () => {
-    assert.equal(nextPoster(POSTER_BLANK, NOTHING), undefined);
+    assert.equal(nextPoster(POSTER_GUIDE, NOTHING), undefined);
     assert.equal(nextPoster(3, NOTHING), undefined, "even on a poster someone else set");
     assert.deepEqual(discoveredPosters(NOTHING), []);
   });
 
-  it("skips undiscovered dishes and wraps around", () => {
-    // tomato alone unlocks only Tomato Soup
+  it("skips undiscovered dishes; after the last one comes the guide, then the first again", () => {
+    // tomato alone unlocks only Tomato Soup: guide <-> Tomato Soup
     const tomato = found("tomato");
     assert.deepEqual(discoveredPosters(tomato).map(dishAt), ["hk:tomato_soup"]);
-    assert.equal(dishAt(nextPoster(POSTER_BLANK, tomato)), "hk:tomato_soup");
-    assert.equal(dishAt(nextPoster(posterIndex("hk:tomato_soup"), tomato)), "hk:tomato_soup");
+    assert.equal(dishAt(nextPoster(POSTER_GUIDE, tomato)), "hk:tomato_soup");
+    assert.equal(nextPoster(posterIndex("hk:tomato_soup"), tomato), POSTER_GUIDE);
 
-    // onion: the three onion-only soups, in recipe order, then back to the first
+    // onion: the three onion-only soups in recipe order, the guide, then the first soup again
     const onion = found("onion");
-    const shown = discoveredPosters(onion).map(dishAt);
-    assert.deepEqual(shown, ["hk:fish_chowder", "hk:chicken_soup", "hk:onion_soup"]);
-    let at = nextPoster(POSTER_BLANK, onion);
-    const seen: (string | undefined)[] = [];
-    for (let i = 0; i < 4; i++) {
-      seen.push(dishAt(at));
-      at = nextPoster(at ?? POSTER_BLANK, onion);
+    const shown = discoveredPosters(onion);
+    assert.deepEqual(shown.map(dishAt), ["hk:fish_chowder", "hk:chicken_soup", "hk:onion_soup"]);
+    let at = POSTER_GUIDE;
+    const seen: number[] = [];
+    for (let i = 0; i < 5; i++) {
+      const next = nextPoster(at, onion);
+      assert.ok(next !== undefined);
+      seen.push((at = next));
     }
-    assert.deepEqual(seen, [...shown, "hk:fish_chowder"]);
+    assert.deepEqual(seen, [...shown, POSTER_GUIDE, shown[0]]);
   });
 
   it("from an undiscovered dish, goes on to the next discovered one after it", () => {
     const onion = found("onion");
     // Vegetable Stew (needs tomato too) sits between Tomato Soup and Fish Chowder
     assert.equal(dishAt(nextPoster(posterIndex("hk:vegetable_stew"), onion)), "hk:fish_chowder");
-    // past the last discovered one, wraps to the first
-    assert.equal(dishAt(nextPoster(posterIndex("hk:salsa"), onion)), "hk:fish_chowder");
+    // past the last discovered one: the guide
+    assert.equal(nextPoster(posterIndex("hk:salsa"), onion), POSTER_GUIDE);
   });
 
-  it("creative cycles through every dish, then back to the first (never the blank)", () => {
-    let at = POSTER_BLANK;
-    const seen: string[] = [];
-    for (let i = 0; i < POSTER_DISHES.length + 1; i++) {
+  it("creative cycles through every dish, then the guide, then the first dish", () => {
+    let at = POSTER_GUIDE;
+    const seen: (string | undefined)[] = [];
+    for (let i = 0; i < POSTER_DISHES.length + 2; i++) {
       const next = nextPoster(at, CREATIVE);
-      assert.ok(next !== undefined && next !== POSTER_BLANK);
-      seen.push(posterDish(next) ?? "");
-      at = next;
+      assert.ok(next !== undefined);
+      seen.push(posterDish((at = next)));
     }
-    assert.deepEqual(seen, [...POSTER_DISHES, POSTER_DISHES[0]]);
+    assert.deepEqual(seen, [...POSTER_DISHES, undefined, POSTER_DISHES[0]]);
   });
 
   it("all crops found shows the same set as creative", () => {
     assert.deepEqual(discoveredPosters(ALL_CROPS), discoveredPosters(CREATIVE));
   });
 
-  it("a new poster shows the first discovered dish, or the blank", () => {
-    assert.equal(firstPoster(NOTHING), POSTER_BLANK);
+  it("a player's first poster shows the guide, whatever they've found", () => {
+    assert.equal(firstPoster(NOTHING, false), POSTER_GUIDE);
+    assert.equal(firstPoster(found("strawberry"), false), POSTER_GUIDE);
+    assert.equal(firstPoster(CREATIVE, false), POSTER_GUIDE);
+  });
+
+  it("later posters show the first discovered dish, or the guide", () => {
+    assert.equal(firstPoster(NOTHING), POSTER_GUIDE);
     assert.equal(dishAt(firstPoster(found("strawberry"))), "hk:strawberry_jam");
-    assert.equal(dishAt(firstPoster(CREATIVE)), "hk:tomato_soup");
+    assert.equal(dishAt(firstPoster(CREATIVE, true)), "hk:tomato_soup");
   });
 });
 

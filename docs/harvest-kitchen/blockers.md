@@ -462,6 +462,9 @@ wall` and the poster stays in your hand (or comes back).
 
 ## B25. Kitchen Table (D16, untested)
 
+**Closed 2026-10-23: the Kitchen Table was removed; the mix recipes moved to the vanilla crafting
+table (`"tags": ["crafting_table"]`).** The notes below are kept for history.
+
 `hk:kitchen_table` is a full block with the stable `minecraft:crafting_table` component
 (slice.md "Kitchen Table and mixes (D16)"). Checked offline: Microsoft Learn (released from
 Holiday Creator Features in 1.19.50, not marked experimental), the 1.26.52.3 binary (component

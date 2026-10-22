@@ -33,7 +33,7 @@
       "minecraft:loot": "loot_tables/hk/blocks/nothing.json",
       "minecraft:map_color": "#eedcb0",
       "minecraft:material_instances": {
-        "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+        "*": { "texture": "hk_poster_how_to_start_left", "render_method": "opaque" }
       },
       "minecraft:transformation": { "rotation": [0, 0, 0] },
       "minecraft:movable": { "movement_type": "popped" }
@@ -205,7 +205,7 @@
         "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_right", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 0, 0] }
         }
@@ -376,7 +376,7 @@
         "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_left", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 180, 0] }
         }
@@ -547,7 +547,7 @@
         "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_right", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 180, 0] }
         }
@@ -718,7 +718,7 @@
         "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_left", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 270, 0] }
         }
@@ -889,7 +889,7 @@
         "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_right", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 270, 0] }
         }
@@ -1060,7 +1060,7 @@
         "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_left", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 90, 0] }
         }
@@ -1231,7 +1231,7 @@
         "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:poster') == 0 && q.block_state('hk:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
         "components": {
           "minecraft:material_instances": {
-            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+            "*": { "texture": "hk_poster_how_to_start_right", "render_method": "opaque" }
           },
           "minecraft:transformation": { "rotation": [0, 90, 0] }
         }

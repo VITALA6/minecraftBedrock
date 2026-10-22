@@ -2,7 +2,9 @@ import { system, world, type Player } from "@minecraft/server";
 import {
   ITEM_RECIPE_POSTER,
   PLAYER_FOUND_CROPS,
+  PLAYER_GUIDE_PLACED,
   PLAYER_POSTER_GIVEN,
+  PLAYER_WELCOMED,
   SOUND,
   UNLOCK_TOAST_COOLDOWN_TICKS,
 } from "../config";
@@ -24,9 +26,9 @@ import {
 // updated from the stable playerInventoryItemChange event, so it works in existing worlds.
 // Creative unlocks all.
 //
-// The same event hands out one Recipe Poster the first time any Harvest Kitchen item enters a
-// player's inventory (D15; it replaced the recipe book hand-out). The rules (crops of a dish,
-// unlocking, the saved form) are in unlock.ts.
+// A player's first join (catchUpDiscovery, on the initial spawn) hands out one Recipe Poster, whose
+// first placement shows the How to Start guide, and a two-line welcome in chat; each once per
+// player. The rules (crops of a dish, unlocking, the saved form) are in unlock.ts.
 
 export function foundCrops(player: Player): Set<string> {
   return parseFound(player.getDynamicProperty(PLAYER_FOUND_CROPS));
@@ -48,10 +50,16 @@ export function markFound(player: Player, keys: readonly string[]): string[] {
   return result.unlocked;
 }
 
-/** Forgets what the player found and that they got the starter poster (for tests). */
+/** Forgets what the player found, the starter poster, the welcome and the guide (for tests). */
 export function resetDiscovery(player: Player): void {
-  player.setDynamicProperty(PLAYER_FOUND_CROPS, undefined);
-  player.setDynamicProperty(PLAYER_POSTER_GIVEN, undefined);
+  for (const key of [
+    PLAYER_FOUND_CROPS,
+    PLAYER_POSTER_GIVEN,
+    PLAYER_WELCOMED,
+    PLAYER_GUIDE_PLACED,
+  ]) {
+    player.setDynamicProperty(key, undefined);
+  }
 }
 
 const lastToast = new Map<string, number>();
@@ -70,24 +78,32 @@ function toastNewRecipe(player: Player): void {
   player.playSound(SOUND.pageTurn);
 }
 
-function givePosterOnce(player: Player, arrivedId: string): void {
+/** The starter poster, once per player; one already carried counts. */
+function givePosterOnce(player: Player, hasPoster: boolean): void {
   if (player.getDynamicProperty(PLAYER_POSTER_GIVEN) === true) return;
-  // Set first, so the poster's own arrival below is a no-op; a crafted or /give poster counts.
   player.setDynamicProperty(PLAYER_POSTER_GIVEN, true);
-  if (arrivedId === ITEM_RECIPE_POSTER) return;
-  giveOrDrop(player, ITEM_RECIPE_POSTER, 1, player.dimension, player.location);
-  player.sendMessage(t("hk.poster.given"));
+  if (!hasPoster) giveOrDrop(player, ITEM_RECIPE_POSTER, 1, player.dimension, player.location);
+}
+
+/** The welcome lines, once per player (players from before the welcome get it once too). */
+function welcomeOnce(player: Player): void {
+  if (player.getDynamicProperty(PLAYER_WELCOMED) === true) return;
+  player.setDynamicProperty(PLAYER_WELCOMED, true);
+  player.sendMessage(t("hk.welcome.title"));
+  player.sendMessage(t("hk.welcome.poster"));
 }
 
 /**
- * Catches up on what the player already carries. The inventory event only reports slots whose
- * item changes (quantity changes are ignored), so HK items held from before (a missing or reset
- * property, an older version of the pack) would never count. Call on the initial spawn.
+ * First join: the welcome and the starter poster. Then catches up on what the player already
+ * carries: the inventory event only reports slots whose item changes (quantity changes are
+ * ignored), so HK items held from before (a missing or reset property, an older version of the
+ * pack) would never count. Call on the initial spawn.
  */
 export function catchUpDiscovery(player: Player): void {
   try {
     const seen = inventoryDiscovery(Object.keys(countInventory(player)));
-    if (seen.anyHk) givePosterOnce(player, seen.hasPoster ? ITEM_RECIPE_POSTER : "");
+    welcomeOnce(player);
+    givePosterOnce(player, seen.hasPoster);
     if (markFound(player, seen.crops).length > 0 && !isCreative(player)) toastNewRecipe(player);
   } catch (error) {
     console.warn(`[harvest_kitchen] discovery catch-up for ${player.name}: ${String(error)}`);
@@ -101,7 +117,6 @@ export function registerDiscovery(): void {
       // before item types exist, so a name filter there is an unproven risk.
       if (!itemStack?.typeId.startsWith("hk:") || !player.isValid) return;
       try {
-        givePosterOnce(player, itemStack.typeId);
         const key = cropOfItem(itemStack.typeId);
         if (key && markFound(player, [key]).length > 0 && !isCreative(player)) {
           toastNewRecipe(player);

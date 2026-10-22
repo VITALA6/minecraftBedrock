@@ -44,8 +44,9 @@ import type { StationId } from "./stations";
 // (plus the result item's JSON). The pot's choice form, the ghost ingredients and the recipe
 // posters are all derived from these lists. data/validate.ts checks every id at world load.
 //
-// A pot dish takes two steps (D16): its raw ingredients become a mix on the Kitchen Table (a
-// crafting recipe with table "kitchen"), and the pot cooks the mix into the dish.
+// A pot dish takes two steps (D16): its raw ingredients become a mix on the crafting table, and
+// the pot cooks the mix into the dish. (The mixes had their own Kitchen Table block until
+// 2026-10-23.)
 
 /** One ingredient slot: `count` items, any mix of `items` (e.g. raw cod or raw salmon). */
 export interface Ingredient {
@@ -136,30 +137,24 @@ export function ingredientsOf(station: StationId): ReadonlySet<string> {
   return set;
 }
 
-// --- crafting: the vanilla crafting table and the Kitchen Table ----------------------------------
+// --- crafting: the vanilla crafting table ------------------------------------------------------
 // The real recipes are JSON in behavior/recipes/ (shapeless, so they also show in the vanilla
 // recipe book). These entries mirror them for the recipe posters; keep both in sync
 // (tests/pack-files.test.ts compares them).
 //
-// "kitchen" recipes carry the Kitchen Table's crafting tag (KITCHEN_TAG) instead of
-// "crafting_table", so they're crafted only there and its recipe book shows only them. A slot
-// with alternatives ("cod or salmon") is one JSON recipe per alternative: the first keeps the
+// A slot with alternatives ("cod or salmon") is one JSON recipe per alternative: the first keeps the
 // id, the others get "_<alternative>" appended (hk:fish_chowder_mix_salmon), see craftingJsonIds.
-
-export type CraftingTable = "crafting" | "kitchen";
 
 export interface CraftingRecipe {
   readonly id: string;
-  readonly table: CraftingTable;
   readonly result: string;
   readonly count: number;
   readonly ingredients: readonly Ingredient[];
 }
 
-/** A Kitchen Table recipe: the raw ingredients of a pot dish become its mix. */
+/** A mix recipe: the raw ingredients of a pot dish become its mix. */
 const mix = (result: string, ingredients: readonly Ingredient[]): CraftingRecipe => ({
   id: result,
-  table: "kitchen",
   result,
   count: 1,
   ingredients,
@@ -167,14 +162,13 @@ const mix = (result: string, ingredients: readonly Ingredient[]): CraftingRecipe
 
 const craft = (result: string, ingredients: readonly Ingredient[]): CraftingRecipe => ({
   id: result,
-  table: "crafting",
   result,
   count: 1,
   ingredients,
 });
 
 export const CRAFTING_RECIPES: readonly CraftingRecipe[] = [
-  // Kitchen Table: one mix per pot dish
+  // mixes: one per pot dish
   mix(ITEM_TOMATO_SOUP_MIX, [ing(2, ITEM_TOMATO), ing(1, BOWL)]),
   mix(ITEM_VEGETABLE_STEW_MIX, [
     ing(1, ITEM_TOMATO),
@@ -341,7 +335,7 @@ export function recipeMaking(
 }
 
 /**
- * The items `station` takes that are made from `typeId` (on the Kitchen Table): the mixes a raw
+ * The items `station` takes that are made from `typeId` (crafted): the mixes a raw
  * ingredient goes into, for the "make a mix first" hint when it's used on the pot.
  */
 export function stationInputsMadeFrom(station: StationId, typeId: string): string[] {

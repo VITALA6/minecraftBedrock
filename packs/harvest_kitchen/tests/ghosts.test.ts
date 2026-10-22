@@ -53,7 +53,7 @@ const ghosts = (contents: Record<string, number>, extra: Partial<StationState> =
 
 // With mixes (D16) every pot recipe is one mix, so a pot is empty, ready or busy: the "missing"
 // ghosts (and "cod or salmon" turns) only show for a station with multi-slot recipes, which the
-// pot no longer has. The Kitchen Table's recipe book answers "what goes in"; the hint answers
+// pot no longer has. The crafting table's recipe book answers "what goes in"; the hint answers
 // "what do I do with this tomato?".
 
 describe("what a pot shows", () => {

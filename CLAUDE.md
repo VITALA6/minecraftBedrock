@@ -46,11 +46,15 @@ packs/<name>/
   behavior/        BP source: manifest.json, pack_icon.png, later entities/, items/, ...
   resource/        RP source: manifest.json, pack_icon.png, later textures/, texts/, ...
   scripts/main.ts  Script API entry; bundled into the BP as scripts/main.js
+  docs/*.md        player docs prose for the docs site (tools/docs-export.mjs; not in the pack)
 types/             ambient globals the game provides (console); no DOM lib on purpose
 tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
   package.mjs      release build of harvest_kitchen -> dist/HarvestKitchen-<hash>.mcaddon
+  docs-export.mjs  each mod's docs as data for the docs site -> dist/docs/<modId>/ (data.json,
+                   schema.d.ts, 8× icons, pages/*.md); one adapter per mod in tools/docs/
+                   (format: tools/docs/schema.d.ts), prose in packs/<name>/docs/*.md
   paths.mjs        shared paths (repo, dist, game dir)
   test.mjs         bundles packs/*/tests with esbuild, runs node --test (no @minecraft imports)
   gen-textures.mjs Harvest Kitchen 16×16 textures -> art/harvest_kitchen/generated/: the
@@ -85,8 +89,8 @@ Current packs:
   `myteam`. Code notes in `docs/harvest-kitchen/slice.md`, plan in `docs/harvest-kitchen/plan.md`,
   open issues in `docs/harvest-kitchen/blockers.md`, test scripts in `docs/harvest-kitchen/tests/`.
   `/hk:debug <kit|grow|fast|pot|validate|reset>` is the operator test kit (in every build).
-  Pot dishes are two steps (D16): raw ingredients → a mix on the Kitchen Table
-  (`minecraft:crafting_table`, tag `hk_kitchen`) → the pot cooks the mix.
+  Pot dishes are two steps (D16): raw ingredients → a mix on the vanilla crafting table → the pot
+  cooks the mix. (The Kitchen Table block was removed on 2026-10-23.)
 
 ## Commands
 
@@ -95,6 +99,7 @@ Current packs:
 | `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`    |
 | `npm run build:release`    | `build` as a release (`__RELEASE__`): no test-session chat on join       |
 | `npm run package`          | harvest_kitchen release as `dist/HarvestKitchen-<hash>.mcaddon`          |
+| `npm run docs:export`      | mod docs data for the docs site: `dist/docs/<modId>/` (not HTML)         |
 | `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)   |
 | `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders |
 | `npm run deploy -- --link` | symlink instead of copy (not picked up by the game, see below)           |

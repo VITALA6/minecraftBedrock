@@ -14,6 +14,7 @@ import {
   BLOCK_RECIPE_POSTER,
   COMPONENT_RECIPE_POSTER,
   ITEM_RECIPE_POSTER,
+  PLAYER_GUIDE_PLACED,
   POSTER_SYNC_RETRY_TICKS,
   POSTER_USE_GAP_TICKS,
   SOUND,
@@ -30,7 +31,7 @@ import { giveOrDrop, isCreative } from "../lib/inventory";
 import { itemName, t } from "../lib/text";
 import { TickGate } from "../lib/tick-gate";
 import {
-  POSTER_BLANK,
+  POSTER_GUIDE,
   facingOfDirection,
   firstPoster,
   halvesOf,
@@ -46,7 +47,8 @@ import {
 } from "./poster-logic";
 
 // hk:recipe_poster (D15): a 2×1 wall poster showing one recipe; sneak + use cycles through the
-// recipes the using player has discovered, plain use names the dish and its effect.
+// How to Start guide and the recipes the using player has discovered, plain use names the dish
+// and its effect. A player's first poster shows the guide (hk:guide_placed).
 //
 // The two blocks are one minecraft:multi_block (2 parts, horizontal, stable at block format
 // 1.26.50): the game places both parts together and breaks them together. The multi-block trait
@@ -88,7 +90,7 @@ const isSolid = (block: Block | undefined) =>
 
 /** The poster index a part shows (hk:poster within hk:poster_page). */
 function indexOf(block: Block): number {
-  const slot = getNumberState(block, STATE_POSTER) ?? POSTER_BLANK;
+  const slot = getNumberState(block, STATE_POSTER) ?? POSTER_GUIDE;
   return posterIndexOf(slot, getNumberState(block, STATE_POSTER_PAGE) ?? 0);
 }
 
@@ -105,7 +107,7 @@ const center = ({ x, y, z }: Vector3): Vector3 => ({ x: x + 0.5, y: y + 0.5, z: 
 function showInfo(player: Player, index: number): void {
   const dishId = posterDish(index);
   const dish = dishId ? findDish(dishId) : undefined;
-  if (!dishId || !dish) return actionBar(player, t("hk.poster.blank"));
+  if (!dishId || !dish) return actionBar(player, t("hk.poster.guide"));
   const effect = dish.effect;
   const info = effect && EFFECTS[effect.effect];
   const family = familyOf(dish);
@@ -247,17 +249,28 @@ const recipePoster: BlockCustomComponent = {
       return;
     }
     // Both parts get these from the placement; the half each shows comes from its part number.
+    const guidePlaced = player?.getDynamicProperty(PLAYER_GUIDE_PLACED) === true;
     const patch: Record<string, StateValue> = {
       [STATE_FACING]: facing,
-      ...indexPatch(player ? firstPoster(discoveryOf(player)) : POSTER_BLANK),
+      ...indexPatch(player ? firstPoster(discoveryOf(player), guidePlaced) : POSTER_GUIDE),
     };
     event.permutationToPlace = BlockPermutation.resolve(BLOCK_RECIPE_POSTER, {
       ...event.permutationToPlace.getAllStates(),
       ...patch,
     });
     const { dimension, location } = block;
-    // Before-events run in restricted mode: fix up the parts next tick.
-    system.run(() => settle(dimension, location, player));
+    // Before-events run in restricted mode: fix up the parts next tick (and only then count the
+    // guide as placed: a poster the game didn't place leaves it for the next one).
+    system.run(() => {
+      settle(dimension, location, player);
+      if (
+        player?.isValid &&
+        !guidePlaced &&
+        dimension.getBlock(location)?.typeId === BLOCK_RECIPE_POSTER
+      ) {
+        player.setDynamicProperty(PLAYER_GUIDE_PLACED, true);
+      }
+    });
   },
 
   onPlayerInteract({ block, player }) {

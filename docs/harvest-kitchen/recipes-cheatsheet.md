@@ -1,6 +1,6 @@
 # Harvest Kitchen: crafting cheat sheet (tools and blocks)
 
-Every crafting recipe whose result isn't food. All four are made on the **vanilla crafting table**
+Every crafting recipe whose result isn't food. All three are made on the **vanilla crafting table**
 (recipe tag `crafting_table`). Source: `packs/harvest_kitchen/behavior/recipes/`.
 `tests/pack-files.test.ts` ("station recipes unlock in the recipe book") keeps the unlock lists in
 step with the crops.
@@ -8,7 +8,8 @@ step with the crops.
 Not here:
 
 - Dishes and the Strawberry Cake: see `slice.md`.
-- The 10 mixes: crafted only on the Kitchen Table, with their own recipe book there (D16).
+- The 10 mixes: food steps, also crafted on the vanilla crafting table (D16; they had their own
+  Kitchen Table block until 2026-10-23).
 - Sliced and chopped ingredients: made on the Cutting Board, not crafted.
 - The Recipe Book: replaced by the Recipe Poster (D15).
 
@@ -16,7 +17,6 @@ Not here:
 | ------------- | ------------------ | ----------- | ------------------------------------------------------------------------------- |
 | Cooking Pot   | shaped, 3 × 2      | 3 × 3 table | an iron ingot, a bowl, any Harvest Kitchen seed, or an onion                    |
 | Cutting Board | shaped, 3 × 1      | 3 × 3 table | any Harvest Kitchen seed, or an onion                                           |
-| Kitchen Table | shapeless, 2 items | 2 × 2 too   | a bowl, any Harvest Kitchen seed, or an onion                                   |
 | Recipe Poster | shapeless, 2 items | 2 × 2 too   | any Harvest Kitchen crop (tomato, onion, cucumber, chili, strawberry, eggplant) |
 
 "Any Harvest Kitchen seed" is tomato, cucumber, chili pepper, strawberry or eggplant seeds. The
@@ -55,16 +55,6 @@ mirrors shaped recipes unless `assume_symmetry` is false).
 
 `S` = `minecraft:stick`, `#` = any planks (tag `minecraft:planks`; types can be mixed).
 
-## Kitchen Table
-
-Shapeless: any slots, also the 2 × 2 grid in the inventory.
-
-```
-Crafting Table + Bowl
-```
-
-`minecraft:crafting_table` + `minecraft:bowl`.
-
 ## Recipe Poster
 
 Shapeless: any slots, also the 2 × 2 grid in the inventory.
@@ -85,10 +75,9 @@ Harvest Kitchen item.
   use `items`.
 - Unlock rule: a station unlocks with the first Harvest Kitchen seed, because that is what a
   survival player finds first, from grass. The pot also unlocks on its key ingredients (iron, bowl),
-  like vanilla's cauldron unlocks on a water bucket. The Kitchen Table makes the pot's mixes, so it
-  unlocks on the bowl too. Planks and sticks don't unlock the board: every player has them in the
-  first minute, and the board is useless before the first crop.
+  like vanilla's cauldron unlocks on a water bucket. Planks and sticks don't unlock the board:
+  every player has them in the first minute, and the board is useless before the first crop.
 - **In-game check (not yet done):** in a new Survival world, open the recipe book before picking
-  anything up: none of the four is listed. Pick up a bowl: the Pot and the Kitchen Table appear.
-  Break grass until a seed drops: the Cutting Board appears. Harvest a crop: the Recipe Poster
-  appears. In Creative, the Items tab shows the Pot, Board, Poster and Cake once each.
+  anything up: none of the three is listed. Pick up a bowl: the Pot appears. Break grass until a
+  seed drops: the Cutting Board appears. Harvest a crop: the Recipe Poster and that crop's mixes
+  appear. In Creative, the Items tab shows the Pot, Board, Poster and Cake once each.

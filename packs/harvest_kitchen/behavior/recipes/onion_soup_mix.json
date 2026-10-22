@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hk:onion_soup_mix"
     },
-    "tags": ["hk_kitchen"],
+    "tags": ["crafting_table"],
     "ingredients": [
       {
         "item": "hk:onion"

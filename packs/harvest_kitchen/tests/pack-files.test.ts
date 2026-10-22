@@ -8,7 +8,6 @@ import { CROPS } from "../scripts/data/crops";
 import { DISHES, FAMILIES } from "../scripts/data/dishes";
 import { EFFECT_ICONS, UI_ICONS, itemIcon } from "../scripts/data/icons";
 import { LIQUIDS } from "../scripts/data/liquids";
-import { KITCHEN_TAG } from "../scripts/config";
 import { CRAFTING_RECIPES, STATION_RECIPES, craftingJsonIds } from "../scripts/data/recipes";
 import { STATIONS, stationById } from "../scripts/data/stations";
 import {
@@ -87,8 +86,8 @@ const blocks = new Map(
 );
 
 /**
- * HK items without an item JSON: blocks whose own block item is the item (the Kitchen Table, a
- * full cube, needs no flat icon). Their name is the block's tile key.
+ * HK items without an item JSON: blocks whose own block item is the item. None since the Kitchen
+ * Table went (2026-10-23); a full cube added later would be one, named by its tile key.
  */
 const blockItems = new Set([...blocks.keys()].filter((id) => !items.has(id)));
 
@@ -160,7 +159,7 @@ describe("icons", () => {
     );
     assert.deepEqual(
       [...blockItems].filter((id) => HK_ITEM_IDS.includes(id)),
-      ["hk:kitchen_table"],
+      [],
     );
   });
 
@@ -201,8 +200,8 @@ describe("crafting JSON against CRAFTING_RECIPES (the posters' copy)", () => {
   );
 
   for (const recipe of CRAFTING_RECIPES) {
-    it(`${recipe.id}: same result, ingredients and table (one JSON per alternative)`, () => {
-      const tags = recipe.table === "kitchen" ? [KITCHEN_TAG] : ["crafting_table"];
+    it(`${recipe.id}: same result and ingredients, crafting table (one JSON per alternative)`, () => {
+      const tags = ["crafting_table"];
       for (const variant of craftingJsonIds(recipe)) {
         const json = shapeless.get(variant.id);
         assert.ok(json, `behavior/recipes has no shapeless ${variant.id}`);
@@ -215,50 +214,23 @@ describe("crafting JSON against CRAFTING_RECIPES (the posters' copy)", () => {
     });
   }
 
-  it("every Kitchen Table recipe in the JSON is in the data (none crafts elsewhere)", () => {
+  it("every shapeless recipe in the JSON is in the data, and every recipe uses the vanilla table", () => {
     const known = new Set(CRAFTING_RECIPES.flatMap((r) => craftingJsonIds(r).map((v) => v.id)));
-    const kitchen = [...shapeless.values()].filter((r) => r.tags.includes(KITCHEN_TAG));
-    assert.ok(kitchen.length >= STATION_RECIPES.length);
-    for (const r of kitchen) {
-      assert.ok(known.has(r.description.identifier), r.description.identifier);
-      assert.deepEqual(
-        r.tags,
-        [KITCHEN_TAG],
-        `${r.description.identifier}: only the Kitchen Table`,
-      );
+    const tools = ["hk:cooking_pot", "hk:cutting_board", "hk:recipe_poster"]; // not food
+    for (const r of shapeless.values()) {
+      const id = r.description.identifier;
+      assert.ok(known.has(id) || tools.includes(id), `${id}: not in CRAFTING_RECIPES`);
     }
+    for (const { file, json } of jsonFiles(`${BP}/recipes`)) {
+      const recipe = json as Record<string, { tags?: string[] } | undefined>;
+      const body = recipe["minecraft:recipe_shaped"] ?? recipe["minecraft:recipe_shapeless"];
+      assert.deepEqual(body?.tags, ["crafting_table"], file);
+    }
+    assert.equal(blocks.has("hk:kitchen_table"), false, "the Kitchen Table is gone (2026-10-23)");
   });
 });
 
-describe("Kitchen Table and mixes (D16)", () => {
-  it("is a stable minecraft:crafting_table block with only our tag, named by its tile key", () => {
-    const table = blocks.get("hk:kitchen_table");
-    assert.ok(table);
-    assert.deepEqual(table.components["minecraft:crafting_table"], {
-      crafting_tags: [KITCHEN_TAG],
-      table_name: "tile.hk:kitchen_table.name",
-    });
-    assert.ok(langKeys.has("tile.hk:kitchen_table.name"));
-    // no container in minecraft:block_entity (the binary refuses it with a crafting table)
-    assert.equal(table.components["minecraft:block_entity"], undefined);
-    assert.deepEqual(table.components["minecraft:geometry"], {
-      identifier: "minecraft:geometry.full_block",
-    });
-  });
-
-  it("is crafted on the vanilla table from a crafting table and a bowl", () => {
-    const recipe = (JSON.parse(read(`${BP}/recipes/kitchen_table.json`)) as ShapelessJson)[
-      "minecraft:recipe_shapeless"
-    ];
-    assert.ok(recipe);
-    assert.deepEqual(recipe.tags, ["crafting_table"]);
-    assert.deepEqual(recipe.ingredients, [
-      { item: "minecraft:crafting_table" },
-      { item: "minecraft:bowl" },
-    ]);
-    assert.deepEqual(recipe.result, { item: "hk:kitchen_table", count: 1 });
-  });
-
+describe("mixes (D16)", () => {
   it("every mix is an item that isn't food, has a name and an icon", () => {
     const mixes = STATION_RECIPES.flatMap((r) => r.ingredients.flatMap((i) => i.items));
     assert.equal(mixes.length, STATION_RECIPES.length);
@@ -396,24 +368,23 @@ describe("station recipes unlock in the recipe book (recipes-cheatsheet.md)", ()
   const unlockItems = (name: string) => recipe(name).unlock.map((u) => u.item);
   const seeds = CROPS.map((crop) => crop.seed);
 
-  for (const name of ["cooking_pot", "cutting_board", "kitchen_table", "recipe_poster"]) {
+  for (const name of ["cooking_pot", "cutting_board", "recipe_poster"]) {
     it(`${name}: crafted on the vanilla table, makes hk:${name}`, () => {
       assert.deepEqual(recipe(name).tags, ["crafting_table"]);
       assert.equal(recipe(name).result.item, `hk:${name}`);
     });
   }
 
-  for (const name of ["cooking_pot", "cutting_board", "kitchen_table"]) {
+  for (const name of ["cooking_pot", "cutting_board"]) {
     it(`${name}: unlocks on every crop's seed (the first HK item a player gets)`, () => {
       const unlock = unlockItems(name);
       for (const seed of seeds) assert.ok(unlock.includes(seed), `${name} misses ${seed}`);
     });
   }
 
-  it("the pot also unlocks on its key ingredients, the table on the bowl (it opens the pot's mixes)", () => {
+  it("the pot also unlocks on its key ingredients (iron, bowl)", () => {
     assert.ok(unlockItems("cooking_pot").includes("minecraft:iron_ingot"));
     assert.ok(unlockItems("cooking_pot").includes("minecraft:bowl"));
-    assert.ok(unlockItems("kitchen_table").includes("minecraft:bowl"));
   });
 
   it("the poster unlocks on every crop's produce (its hk:crops ingredient)", () => {
@@ -589,7 +560,7 @@ describe("recipe poster (D15)", () => {
     );
   });
 
-  it("states: hk:poster (16 per page) and hk:poster_page cover every recipe + the blank", () => {
+  it("states: hk:poster (16 per page) and hk:poster_page cover every recipe + the guide", () => {
     assert.ok(poster);
     const states = poster.description.states ?? {};
     assert.deepEqual(states["hk:poster"], { values: { min: 0, max: POSTER_MAX_STATES - 1 } });

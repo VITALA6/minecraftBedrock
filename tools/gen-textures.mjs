@@ -1709,7 +1709,7 @@ def(
   "dishes",
 );
 
-// --- Mixes (D16): a pot dish's raw ingredients, put together on the Kitchen Table ---------------
+// --- Mixes (D16): a pot dish's raw ingredients, put together on the crafting table -------------
 // Every mix is the shared bowl with raw pieces in it (no broth: the dark inside shows between
 // them), one whole ingredient sticking out, each in its own place, and a spoon leaning
 // out top right, so all mixes read as one family ("still to be cooked") that no cooked dish
@@ -2077,47 +2077,6 @@ def(
       ),
     );
   },
-  "stations",
-);
-
-// The Kitchen Table (D16): a wooden worktable in 3/4 view with a red-and-cream checked cloth on
-// top and a drawer in front, so it never reads as the vanilla crafting table (grid top, tools).
-def(
-  "items",
-  "kitchen_table",
-  () =>
-    rows(
-      `
-      ................
-      ................
-      ..RRWWRRWWRRWW..
-      ..WWRRWWRRWWRR..
-      ..RRWWRRWWRRWW..
-      ..rrwwrrwwrrww..
-      ..444444444444..
-      ..122222222221..
-      ..1k2kkkkkk2k1..
-      ..1k2kHHkkk2k1..
-      ..1k2kkkkkk2k1..
-      ..122222222221..
-      ..11........11..
-      ..11........11..
-      ..00........00..
-      ................`,
-      {
-        R: c("tomato", 2),
-        r: c("tomato", 1),
-        W: c("cream", -1),
-        w: c("cream", 0),
-        4: c("wood", 4),
-        2: c("wood", 2),
-        1: c("wood", 1),
-        0: c("wood", 0),
-        k: c("bark", 1),
-        H: c("iron", -1),
-      },
-      "kitchen_table",
-    ),
   "stations",
 );
 
@@ -3530,111 +3489,6 @@ def(
     });
   },
   "pot",
-);
-
-// --- Kitchen Table faces (D16): a full cube, opaque, light from the top left ------------------
-
-const TABLE_LEGEND = () => ({
-  4: c("wood", 4),
-  3: c("wood", 3),
-  2: c("wood", 2),
-  1: c("wood", 1),
-  0: c("wood", 0),
-  k: c("bark", 1),
-  K: c("bark", 0),
-  R: c("tomato", 2),
-  r: c("tomato", 1),
-  W: c("cream", -1),
-  w: c("cream", 0),
-  H: c("iron", -1),
-  h: c("iron", 1),
-});
-
-// Top: oak boards with a checked cloth across the middle.
-def(
-  "blocks",
-  "kitchen_table_top",
-  () =>
-    rows(
-      `
-      4444444444444444
-      3333333333k33333
-      3333k33333333333
-      2222222222222222
-      kkkkkkkkkkkkkkkk
-      RRWWRRWWRRWWRRWW
-      RRWWRRWWRRWWRRWW
-      WWRRWWRRWWRRWWRR
-      WWRRWWRRWWRRWWRR
-      RRWWRRWWRRWWRRWW
-      rrwwrrwwrrwwrrww
-      kkkkkkkkkkkkkkkk
-      4444444444444444
-      33333k3333333333
-      333333333333k333
-      2222222222222222`,
-      TABLE_LEGEND(),
-      "kitchen_table_top",
-    ),
-  "table",
-);
-
-// Sides: the cloth hanging over the edge, two drawers with metal knobs, legs and a shelf.
-def(
-  "blocks",
-  "kitchen_table_side",
-  () =>
-    rows(
-      `
-      RRWWRRWWRRWWRRWW
-      rrwwrrwwrrwwrrww
-      4444444444444444
-      2222222222222222
-      1333333k3333333k
-      13kkkk3k3kkkk31k
-      13kHHk3k3kHHk31k
-      13kkkk3k3kkkk31k
-      1111111K1111111K
-      22KKKKKKKKKKKK2K
-      21KKKKKKKKKKKK1K
-      2144444444444410
-      21222222222222K0
-      21KKKKKKKKKKKK10
-      21KKKKKKKKKKKK10
-      10KKKKKKKKKKKK00`,
-      TABLE_LEGEND(),
-      "kitchen_table_side",
-    ),
-  "table",
-);
-
-// Bottom: plain boards.
-def(
-  "blocks",
-  "kitchen_table_bottom",
-  () =>
-    rows(
-      `
-      2222222222222222
-      2222222k22222222
-      1111111111111111
-      kkkkkkkkkkkkkkkk
-      3333333333333333
-      22222k2222222222
-      1111111111111111
-      kkkkkkkkkkkkkkkk
-      2222222222222222
-      222222222222k222
-      1111111111111111
-      kkkkkkkkkkkkkkkk
-      3333333333333333
-      2222222k22222222
-      1111111111111111
-      kkkkkkkkkkkkkkkk`,
-      TABLE_LEGEND(),
-      "kitchen_table_bottom",
-    ),
-  "table",
 );
 
 // --- Crops (cross "#" model, transparent, plant grows up from the bottom row) ------------------

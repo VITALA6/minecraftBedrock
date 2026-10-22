@@ -24,7 +24,7 @@ export const ITEM_CHOPPED_ONION = "hk:chopped_onion";
 export const ITEM_SLICED_CUCUMBER = "hk:sliced_cucumber";
 export const ITEM_SLICED_EGGPLANT = "hk:sliced_eggplant";
 
-// Mixes (D16): a pot dish's raw ingredients, put together on the Kitchen Table; the pot cooks the mix.
+// Mixes (D16): a pot dish's raw ingredients, put together on the crafting table; the pot cooks the mix.
 export const ITEM_TOMATO_SOUP_MIX = "hk:tomato_soup_mix";
 export const ITEM_VEGETABLE_STEW_MIX = "hk:vegetable_stew_mix";
 export const ITEM_CHILI_STEW_MIX = "hk:chili_stew_mix";
@@ -58,7 +58,6 @@ export const ITEM_VEGGIE_SKEWER = "hk:veggie_skewer";
 export const ITEM_RECIPE_POSTER = "hk:recipe_poster"; // item and block share the id
 export const ITEM_COOKING_POT = "hk:cooking_pot"; // item and block share the id
 export const ITEM_CUTTING_BOARD = "hk:cutting_board"; // item and block share the id
-export const ITEM_KITCHEN_TABLE = "hk:kitchen_table"; // the block's own item (a full cube)
 
 // --- blocks --------------------------------------------------------------------------------------
 export const BLOCK_TOMATO_CROP = "hk:tomato_crop";
@@ -71,11 +70,6 @@ export const BLOCK_COOKING_POT = "hk:cooking_pot";
 export const BLOCK_CUTTING_BOARD = "hk:cutting_board";
 export const BLOCK_STRAWBERRY_CAKE = "hk:strawberry_cake";
 export const BLOCK_RECIPE_POSTER = "hk:recipe_poster"; // a 2×1 wall multi-block (posters/)
-/** A minecraft:crafting_table block (D16): the vanilla crafting UI, only recipes tagged KITCHEN_TAG. */
-export const BLOCK_KITCHEN_TABLE = "hk:kitchen_table";
-
-/** The Kitchen Table's crafting tag (its crafting_tags, and the "tags" of the mix recipes). */
-export const KITCHEN_TAG = "hk_kitchen";
 
 // --- custom components (listed in JSON, registered in system.beforeEvents.startup) ---------------
 export const COMPONENT_CROP_GROWTH = "hk:crop_growth"; // block
@@ -104,6 +98,10 @@ export const STATION_PROPERTY_PREFIX = "hk:st:";
 export const PLAYER_FOUND_CROPS = "hk:found";
 /** Player property: true once the starter Recipe Poster was handed out (or the player had one). */
 export const PLAYER_POSTER_GIVEN = "hk:poster_given";
+/** Player property: true once the welcome lines were shown in chat (first join). */
+export const PLAYER_WELCOMED = "hk:welcomed";
+/** Player property: true once the player placed a poster (their first one shows the guide). */
+export const PLAYER_GUIDE_PLACED = "hk:guide_placed";
 /** World property: debug "fast cooking" toggle (/hk:debug fast). */
 export const WORLD_DEBUG_FAST = "hk:debug_fast";
 

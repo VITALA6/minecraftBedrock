@@ -28,7 +28,7 @@ import {
 } from "../scripts/stations/station-logic";
 
 // The pot cooks mixes (D16): each recipe is one mix in, one dish out, and every serving in the
-// pot cooks at once. The raw ingredients go into the mix on the Kitchen Table, not into the pot.
+// pot cooks at once. The raw ingredients go into the mix on the crafting table, not into the pot.
 
 const pot = stationById("pot") as ContainerStation;
 const TPS = 20;

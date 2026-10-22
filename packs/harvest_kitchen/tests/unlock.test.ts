@@ -37,7 +37,6 @@ describe("what counts as finding a crop", () => {
       "hk:tomato_soup_mix",
       "hk:recipe_poster",
       "hk:cooking_pot",
-      "hk:kitchen_table",
       "minecraft:carrot",
     ]) {
       assert.equal(cropOfItem(id), undefined, id);
@@ -206,8 +205,9 @@ describe("the New recipe toast", () => {
 describe("HK item ids (the debug kit)", () => {
   it("lists every crop item, prepared ingredient, mix, dish and station item once", () => {
     assert.equal(new Set(HK_ITEM_IDS).size, HK_ITEM_IDS.length);
-    // 6 produce, 5 seeds (the onion is its own), 4 prepared, 10 mixes, 18 dishes, 4 stations
-    assert.equal(HK_ITEM_IDS.length, 6 + 5 + 4 + 10 + 18 + 4);
+    // 6 produce, 5 seeds (the onion is its own), 4 prepared, 10 mixes, 18 dishes, 3 station
+    // items (pot, board, poster)
+    assert.equal(HK_ITEM_IDS.length, 6 + 5 + 4 + 10 + 18 + 3);
     assert.ok(HK_ITEM_IDS.every((id) => id.startsWith("hk:")));
   });
 });

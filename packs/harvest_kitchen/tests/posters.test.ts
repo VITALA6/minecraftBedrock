@@ -25,6 +25,7 @@ import {
   viewerRight,
   wallPosition,
   posterPosition,
+  settleFacing,
   type Discovery,
 } from "../scripts/posters/poster-logic";
 
@@ -225,5 +226,61 @@ describe("poster support by facing (the wall is behind the poster, never below i
       const b = wallPosition(right, facing);
       assert.deepEqual({ x: b.x - a.x, z: b.z - a.z }, r, `${facing}: walls side by side`);
     }
+  });
+});
+
+describe("settleFacing: the facing comes from where the wall really is", () => {
+  type P = { x: number; y: number; z: number };
+  const key = (p: P) => `${p.x},${p.y},${p.z}`;
+  const world = (...solid: P[]) => {
+    const set = new Set(solid.map(key));
+    return (at: P) => set.has(key(at));
+  };
+  // the in-game case from 2026-10-22: parts along z at x=85, wall at x=84 -> front faces east
+  const parts = [
+    { x: 85, y: 73, z: -118 },
+    { x: 85, y: 73, z: -119 },
+  ];
+  const wallWest = world({ x: 84, y: 73, z: -118 }, { x: 84, y: 73, z: -119 });
+  const wallEast = world({ x: 86, y: 73, z: -118 }, { x: 86, y: 73, z: -119 });
+
+  it("wall at x-1 -> faces east, whatever the hint says", () => {
+    assert.equal(settleFacing(parts, "west", wallWest), "east");
+    assert.equal(settleFacing(parts, "east", wallWest), "east");
+    assert.equal(settleFacing(parts, undefined, wallWest), "east");
+  });
+
+  it("wall at x+1 -> faces west", () => {
+    assert.equal(settleFacing(parts, "east", wallEast), "west");
+  });
+
+  it("parts along x -> north or south only", () => {
+    const along = [
+      { x: 0, y: 64, z: 5 },
+      { x: 1, y: 64, z: 5 },
+    ];
+    assert.equal(settleFacing(along, undefined, world({ x: 0, y: 64, z: 6 }, { x: 1, y: 64, z: 6 })), "north"); // prettier-ignore
+    assert.equal(settleFacing(along, undefined, world({ x: 0, y: 64, z: 4 }, { x: 1, y: 64, z: 4 })), "south"); // prettier-ignore
+  });
+
+  it("walls on both sides -> the hint decides", () => {
+    const both = (at: P) => wallWest(at) || wallEast(at);
+    assert.equal(settleFacing(parts, "west", both), "west");
+    assert.equal(settleFacing(parts, "east", both), "east");
+  });
+
+  it("only one part has a wall behind it -> refused (needs a 2-block wall)", () => {
+    assert.equal(settleFacing(parts, "east", world({ x: 84, y: 73, z: -118 })), undefined);
+  });
+
+  it("no wall, or parts not neighbours -> refused", () => {
+    assert.equal(settleFacing(parts, "east", world()), undefined);
+    const apart = [parts[0]!, { x: 85, y: 73, z: -120 }];
+    assert.equal(settleFacing(apart, "east", wallWest), undefined);
+  });
+
+  it("one part only -> just the hint is checked", () => {
+    assert.equal(settleFacing([parts[0]!], "east", wallWest), "east");
+    assert.equal(settleFacing([parts[0]!], "west", wallWest), undefined);
   });
 });

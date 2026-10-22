@@ -162,6 +162,34 @@ export function posterPosition(wall: XYZ, facing: Facing): XYZ {
   return { x: wall.x + front.x, y: wall.y, z: wall.z + front.z };
 }
 
+/**
+ * Which way a placed poster really faces, read from the world: its parts lie side by side, so
+ * the wall is on one of the two sides across that line, and it's the side where every part has a
+ * solid block behind it. `hint` (from the clicked face) decides only when both sides qualify (a
+ * poster squeezed between two walls). Undefined when no side has a full wall, or the parts aren't
+ * neighbours. With one part (the other not loaded yet) only `hint` is checked.
+ */
+export function settleFacing(
+  parts: readonly XYZ[],
+  hint: Facing | undefined,
+  solidAt: (at: XYZ) => boolean,
+): Facing | undefined {
+  let candidates: Facing[];
+  const [a, b] = parts;
+  if (!a) return undefined;
+  if (!b) candidates = hint ? [hint] : [];
+  else {
+    const dx = Math.abs(b.x - a.x);
+    const dz = Math.abs(b.z - a.z);
+    if (b.y !== a.y || dx + dz !== 1) return undefined;
+    // parts along x: the wall runs along x, so the poster faces north or south (and vice versa)
+    candidates = dx === 1 ? ["north", "south"] : ["east", "west"];
+    if (hint && candidates.includes(hint))
+      candidates = [hint, ...candidates.filter((f) => f !== hint)];
+  }
+  return candidates.find((facing) => parts.every((part) => solidAt(wallPosition(part, facing))));
+}
+
 /** "Down" etc. (the Script API Direction values) as a horizontal facing; undefined for up/down. */
 export function facingOfDirection(direction: string): Facing | undefined {
   const lower = direction.toLowerCase();

@@ -36,9 +36,10 @@ import {
   halvesOf,
   isFacing,
   nextPoster,
+  opposite,
   posterDish,
+  settleFacing,
   startHalf,
-  wallPosition,
   type Discovery,
   type Facing,
 } from "./poster-logic";
@@ -83,15 +84,6 @@ function facingOf(block: Block): Facing | undefined {
 
 const isSolid = (block: Block | undefined) =>
   block !== undefined && !block.isAir && !block.isLiquid;
-
-/** The block a part hangs on: one block behind its front. */
-function wallOf(block: Block, facing: Facing): Block | undefined {
-  try {
-    return block.dimension.getBlock(wallPosition(block.location, facing));
-  } catch {
-    return undefined;
-  }
-}
 
 const center = ({ x, y, z }: Vector3): Vector3 => ({ x: x + 0.5, y: y + 0.5, z: z + 0.5 });
 
@@ -157,14 +149,24 @@ function refund(parts: readonly Block[], player: Player | undefined, reason: str
 function settle(dimension: Dimension, location: Vector3, player: Player | undefined, retry = true) {
   const block = dimension.getBlock(location);
   if (block?.typeId !== BLOCK_RECIPE_POSTER) return;
-  const facing = facingOf(block);
+  const hint = facingOf(block);
   const parts = partsOf(block);
-  if (!facing) return;
   if (parts.length < 2) {
     if (retry) system.runTimeout(() => settle(dimension, location, player, false), POSTER_SYNC_RETRY_TICKS); // prettier-ignore
+    else console.warn(`[harvest_kitchen] recipe poster at ${JSON.stringify(location)}: second part never appeared`); // prettier-ignore
     return;
   }
   const [a, b] = parts as [Block, Block];
+  // The facing comes from the world (where the wall really is), not only from the clicked face:
+  // reading `face` the wrong way round refused every poster on 2026-10-22 ("no_room").
+  const facing = settleFacing([a.location, b.location], hint, (at) => {
+    try {
+      return isSolid(dimension.getBlock(at));
+    } catch {
+      return false;
+    }
+  });
+  if (!facing) return refund(parts, player, "hk.poster.no_room");
   const halves = halvesOf(facing, a.location, b.location);
   if (!halves) {
     console.warn(
@@ -173,9 +175,6 @@ function settle(dimension: Dimension, location: Vector3, player: Player | undefi
         `y_rotation_offset in tools/gen-poster-block.mjs`,
     );
     return refund(parts, player, "hk.poster.look");
-  }
-  if (!parts.every((part) => isSolid(wallOf(part, facing)))) {
-    return refund(parts, player, "hk.poster.no_room");
   }
   const index = getNumberState(block, STATE_POSTER) ?? POSTER_BLANK;
   parts.forEach((part, i) => {
@@ -224,7 +223,11 @@ function dropOnce(dimension: Dimension, location: Vector3, drop: boolean): void 
 const recipePoster: BlockCustomComponent = {
   beforeOnPlayerPlace(event) {
     const { block, face, player } = event;
-    const facing = facingOfDirection(face);
+    // `face` is the poster's own face against the wall (seen in game 2026-10-22: reading it as
+    // the front refused every poster), so the front is the other way. settle() re-checks it
+    // against the world either way.
+    const against = facingOfDirection(face);
+    const facing = against && opposite(against);
     const cardinal = event.permutationToPlace.getAllStates()[STATE_CARDINAL];
     const half = facing && isFacing(cardinal) ? startHalf(facing, cardinal) : undefined;
     if (!facing || !half) {

@@ -6,32 +6,28 @@ import {
   type BlockCustomComponent,
   type Player,
 } from "@minecraft/server";
-import { COMPONENT_CONTAINER_STATION, SOUND } from "../config";
+import { COMPONENT_CONTAINER_STATION } from "../config";
 import { stationByBlock } from "../data/stations";
-import { actionBar, sound } from "../lib/feedback";
 import { getHeldItem } from "../lib/inventory";
-import { t } from "../lib/text";
 import { openPotScreen } from "../ui/pot-screen";
 import { HEAT_BLOCK_IDS } from "./heat";
 import {
   addFromHand,
+  addHint,
   collect,
-  isIngredient,
-  phaseOf,
-  possibleRecipes,
   refAt,
   refreshVisuals,
   resetPlaced,
   showProgress,
   spill,
   startCooking,
-  stationTop,
   takeAll,
-  totalItems,
 } from "./station-engine";
+import { routeUse, sneakHandles } from "./station-logic";
 import { readStation, type StationRef } from "./station-store";
 
-// Interaction routing for container stations (plan §2.3); the rules are in station-engine.ts.
+// Interaction routing for container stations (plan §2.3); the routing decision is routeUse in
+// station-logic.ts, the actions are in station-engine.ts.
 //
 //   phase cooking         any hand    -> progress "♨ ■■■□□" (or "Needs fire below")
 //   phase done            any hand    -> the dish goes to your hand / inventory
@@ -47,49 +43,34 @@ import { readStation, type StationRef } from "./station-store";
 // before-event cancels the vanilla action and handles it in the next tick. The component skips
 // the same cases, so nothing runs twice.
 
-function sneakHandles(ref: StationRef, heldTypeId: string | undefined): boolean {
-  return heldTypeId === undefined || isIngredient(ref.station, heldTypeId);
-}
-
-function handleUse(player: Player, ref: StationRef): void {
+function handleUse(player: Player, ref: StationRef, sneaking: boolean): void {
   const state = readStation(ref);
-  const phase = phaseOf(ref.station, state);
-  if (phase === "cooking") return showProgress(player, ref, state);
-  if (phase === "done") return collect(player, ref);
-
-  const held = getHeldItem(player);
-  if (held) return addFromHand(player, ref, held.typeId, 1);
-
-  if (totalItems(state) === 0) {
-    sound(ref.dimension, SOUND.tap, stationTop(ref));
-    actionBar(player, t("hk.station.add_hint"));
-    return;
+  const action = routeUse(ref.station, state, getHeldItem(player), sneaking);
+  switch (action.kind) {
+    case "progress":
+      return showProgress(player, ref, state);
+    case "collect":
+      return collect(player, ref);
+    case "add":
+      return addFromHand(player, ref, action.typeId, action.count);
+    case "hint":
+      return addHint(player, ref);
+    case "cook":
+      startCooking(player, ref, action.recipe);
+      return;
+    case "screen":
+      return openPotScreen(player, ref);
+    case "take_all":
+      return takeAll(player, ref);
   }
-  const possible = possibleRecipes(ref.station, state);
-  const [only] = possible;
-  if (only && possible.length === 1) {
-    startCooking(player, ref, only.id);
-    return;
-  }
-  openPotScreen(player, ref);
-}
-
-function handleSneakUse(player: Player, ref: StationRef): void {
-  const state = readStation(ref);
-  const phase = phaseOf(ref.station, state);
-  if (phase === "cooking") return showProgress(player, ref, state);
-  if (phase === "done") return collect(player, ref);
-  const held = getHeldItem(player);
-  if (held) return addFromHand(player, ref, held.typeId, held.amount);
-  takeAll(player, ref);
 }
 
 const containerStation: BlockCustomComponent = {
   onPlayerInteract({ block, player }) {
     const ref = refAt(block);
     if (!player || !ref) return;
-    if (player.isSneaking && sneakHandles(ref, getHeldItem(player)?.typeId)) return;
-    handleUse(player, ref);
+    if (player.isSneaking && sneakHandles(ref.station, getHeldItem(player)?.typeId)) return;
+    handleUse(player, ref, false);
   },
 
   // A station placed where old data survived (the previous one was removed by /setblock or /fill,
@@ -140,13 +121,13 @@ export function registerStationEvents(): void {
   world.beforeEvents.playerInteractWithBlock.subscribe((event) => {
     const { block, player, itemStack, isFirstEvent } = event;
     const ref = refAt(block);
-    if (!ref || !player.isSneaking || !sneakHandles(ref, itemStack?.typeId)) return;
+    if (!ref || !player.isSneaking || !sneakHandles(ref.station, itemStack?.typeId)) return;
     event.cancel = true;
     if (!isFirstEvent) return;
     // Before-events run in restricted mode: change the world on the next tick.
     system.run(() => {
       const now = player.isValid ? refAt(block) : undefined;
-      if (now) handleSneakUse(player, now);
+      if (now) handleUse(player, now, true);
     });
   });
 

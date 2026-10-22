@@ -1,6 +1,7 @@
 import type { Player, RawMessage } from "@minecraft/server";
 import { EFFECT_BUTTON_ICON, SOUND } from "../config";
-import { cropOfItem, cropsOfDish, foundCrops, isDishUnlocked } from "../book/discovery";
+import { foundCrops, isDishUnlocked } from "../book/discovery";
+import { cropOfItem, cropsOfDish } from "../book/unlock";
 import { CROPS, cropByKey, type Crop } from "../data/crops";
 import { DISHES, EFFECTS, familyOf, findDish, type Dish } from "../data/dishes";
 import { EFFECT_ICONS, UI_ICONS, itemIcon } from "../data/icons";

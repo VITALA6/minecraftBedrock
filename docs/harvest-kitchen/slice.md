@@ -84,22 +84,28 @@ scripts/
     dishes.ts                food values, effects, effect families, slices
     stations.ts              container station configs (the pot)
     icons.ts                 vanilla item/effect icon paths, our UI icons
-    validate.ts              worldLoad check of everything above
+    checks.ts                the game-independent data check (pure, unit-tested)
+    validate.ts              worldLoad check: checks.ts + items, blocks, states, biomes, food JSON
   crops/
-    crop-growth.ts           hk:crop_growth: random-tick growth, bone meal, bush picking
-    seed-drops.ts            grass -> seeds, weighted by biome
+    crop-growth.ts           hk:crop_growth: reads the block, applies growth-logic.ts
+    growth-logic.ts          params, random-tick growth, bone meal, bush picking (pure)
+    seed-drops.ts            grass break -> seed-roll.ts -> spawn the seed
+    seed-roll.ts             per-biome chances, one roll per break (pure)
   stations/
-    station-engine.ts        the generic container station: rules, visuals, the one sweep
+    station-logic.ts         container station rules and saved form (pure): phase, fill, routing,
+                             add/take/start/countdown/finish/collect/spill
+    station-engine.ts        reads/saves the state, heat, visuals, feedback, the one sweep
     station-store.ts         station persistence (world dynamic properties)
-    container-station.ts     hk:container_station: interaction routing, sneak router, heat watch
-    heat.ts                  what counts as heat below
+    container-station.ts     hk:container_station: component and before-event entry points
+    heat.ts                  what counts as heat below (pure; a Block fits HeatBlock)
     cutting-board.ts         hk:cutting_station + sneak-chop
   food/
     dish.ts                  hk:dish: effect on eat
     sliced-dish.ts           hk:sliced_dish: eat a slice of a placed dish
     feed.ts                  hunger/saturation/effect helpers
   book/
-    discovery.ts             found crops, unlocks, toast, first-item book hand-out
+    unlock.ts                crops of each item/dish, unlock rule, hk:found format, toast timing (pure)
+    discovery.ts             player property, first-item book hand-out, toast
     book-item.ts             hk:recipe_book: open the book
   ui/
     menu.ts                  ActionFormData with one action per button
@@ -107,6 +113,7 @@ scripts/
     recipe-book.ts           every book page, generated from data/
   debug/debug-command.ts     /hk:debug
   lib/                       block states, inventory, text (lang keys), feedback (sound/particle)
+tests/                       node:test unit tests for the pure modules (see "Tests")
 ```
 
 ## How to add content
@@ -132,7 +139,7 @@ scripts/
   an item with `minecraft:block_placer` + `replace_block_item`, and a `DISHES` entry with
   `slices: { block, count, nutrition, saturation }`.
 - **A tall crop (SHOULD):** not implemented. The extension point is `GrowthType` in
-  `crops/crop-growth.ts` (comment there says what it needs).
+  `crops/growth-logic.ts` (the comment in `crops/crop-growth.ts` says what it needs).
 
 ## Technical decisions
 
@@ -192,6 +199,35 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
 - **Text:** every player-visible string is a lang key in `resource/texts/en_US.lang` (offline
   check: every key the scripts use exists, no unused `hk.` keys). Effect names use vanilla keys
   (`potion.regeneration`, …). `/hk:debug pot` prints raw data lines (developer output).
+
+## Tests
+
+`npm test` runs the unit tests in `packs/harvest_kitchen/tests/*.test.ts` with Node's built-in
+`node:test` (Node 26, no new dependencies). `npm test -- pot` runs only files whose path contains
+`pot`; flags after a second `--` go to `node --test` (`npm test -- -- --test-name-pattern=chowder`).
+
+- **Runner (`tools/test.mjs`):** Node's own TypeScript stripping needs `.ts` extensions in imports,
+  which the scripts don't use. So the runner bundles each test file with esbuild (as the game build
+  does) into a temp dir, keeps `node:*` external, and runs `node --test` on the output from the
+  repo root (tests read pack files by repo-relative path). Any `@minecraft/*` import reachable from
+  a test fails the bundle and names the importing file, so a pure module can't silently start
+  depending on the game. Type-only imports are erased and allowed.
+- **Pure modules:** `stations/station-logic.ts`, `stations/heat.ts`, `crops/growth-logic.ts`,
+  `crops/seed-roll.ts`, `book/unlock.ts`, `data/checks.ts`, plus `config.ts` and `data/*.ts` except
+  `validate.ts`. Random numbers and "is this item loaded" come in as parameters.
+- **Types:** `tests/node.d.ts` declares the few Node APIs the tests use (there's no `@types/node`,
+  and the scripts must not see Node globals). `tsc` and eslint (type-aware) cover `tests/`.
+  `tools/build.mjs` copies only `behavior/`, `resource/` and the `scripts/main.ts` bundle, so tests
+  never ship.
+- **Coverage:** recipe matching (`recipe-matching`), the station rules and saved form
+  (`station-logic`), heat (`heat`), crop growth and bush picking (`growth-logic`), seed weighting
+  (`seed-roll`), discovery and unlocks (`unlock`), the data check on good and deliberately broken
+  data (`checks`), and pack files against the data (`pack-files`: lang keys both ways, display
+  names, `textures/hk/` icon PNGs, food values in item JSON, crafting JSON vs `CRAFTING_RECIPES`,
+  crop block params/states/loot, pot and cake states).
+- What stays game-only (needs the in-game test): everything in `station-engine.ts`,
+  `container-station.ts` and the other `@minecraft/server` modules (block reads, heat lookups,
+  hand-outs, forms, events), and `validate.ts`'s item/block/biome/effect/food checks.
 
 ## Verified offline (2026-10-21/22)
 

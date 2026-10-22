@@ -9,94 +9,50 @@ import { cropByBlock } from "../data/crops";
 import { getNumberState, setState } from "../lib/block-states";
 import { particle, sound } from "../lib/feedback";
 import { consumeHeldItem, getHeldItem, isCreative } from "../lib/inventory";
+import {
+  BONE_MEAL,
+  grownStage,
+  isDryFarmland,
+  pickResult,
+  randomTickStage,
+  readParams,
+  useAction,
+} from "./growth-logic";
 
 // Shared by every crop and bush block. The block JSON declares the "hk:growth" state and lists
 //   "hk:crop_growth": { "type": "crop", "max_stage": 3, "growth_chance": 0.5,
 //                       "dry_multiplier": 0.5, "min_light": 9 }
 // Params stay flat (plan §5.1). Stage textures, loot and placement rules are plain block JSON;
-// what a bush gives when picked is in data/crops.ts.
+// what a bush gives when picked is in data/crops.ts. The rules are pure functions in
+// growth-logic.ts; this module reads the block and applies them.
 //
 // Types:
 //   crop  break to harvest (loot table per stage).
 //   bush  use when mature to pick: drops fruit, falls back to the crop's pickResetStage, regrows.
-//   tall  (SHOULD, not implemented) a two-block crop. Extension point: add "tall" to GrowthType,
-//         grow the top half in onRandomTick, and break both halves together.
+//   tall  (SHOULD, not implemented) a two-block crop. Extension point: add "tall" to GrowthType
+//         (growth-logic.ts), grow the top half in onRandomTick, and break both halves together.
 
-const BONE_MEAL = "minecraft:bone_meal";
-
-type GrowthType = "crop" | "bush";
-
-interface GrowthParams {
-  readonly type: GrowthType;
-  readonly maxStage: number;
-  /** Chance to advance one stage per random tick, on hydrated farmland (or any soil for bushes). */
-  readonly growthChance: number;
-  /** Multiplier on growthChance when the farmland below is dry. Bushes use 1. */
-  readonly dryMultiplier: number;
-  readonly minLight: number;
-}
-
-function num(
-  raw: Record<string, unknown>,
-  key: string,
-  fallback: number,
-  min: number,
-  max: number,
-) {
-  const value = raw[key];
-  return typeof value === "number" && value >= min && value <= max ? value : fallback;
-}
-
-const warned = new Set<string>();
-
-function readParams(params: unknown, blockId: string): GrowthParams {
-  const raw =
-    typeof params === "object" && params !== null ? (params as Record<string, unknown>) : {};
-  let type: GrowthType = "crop";
-  if (raw.type === "bush") type = "bush";
-  else if (raw.type !== undefined && raw.type !== "crop" && !warned.has(blockId)) {
-    warned.add(blockId);
-    console.warn(
-      `[harvest_kitchen] ${blockId}: crop type ${JSON.stringify(raw.type)} not supported`,
-    );
-  }
-  return {
-    type,
-    maxStage: Math.floor(num(raw, "max_stage", 3, 1, 15)),
-    growthChance: num(raw, "growth_chance", 0.5, 0, 1),
-    dryMultiplier: num(raw, "dry_multiplier", type === "bush" ? 1 : 0.5, 0, 1),
-    minLight: num(raw, "min_light", 9, 0, 15),
-  };
-}
-
-function isDryFarmland(block: Block): boolean {
+function isOnDryFarmland(block: Block): boolean {
   const below = block.below();
-  if (below?.typeId !== "minecraft:farmland") return false;
-  const moisture = below.permutation.getAllStates().moisturized_amount;
-  return !(typeof moisture === "number" && moisture > 0);
+  return isDryFarmland(below?.typeId, below?.permutation.getAllStates().moisturized_amount);
 }
 
-// Like vanilla crops: block light or sky light (unaffected by time of day) must reach minLight.
-function hasEnoughLight(block: Block, minLight: number): boolean {
-  return Math.max(block.getLightLevel(), block.getSkyLightLevel()) >= minLight;
-}
-
-/** Advances one stage; returns false if already mature. Used by bone meal and /hk:debug grow. */
+/** Advances one stage; returns false if already mature. Used by bone meal. */
 export function growStage(block: Block, maxStage: number, steps = 1): boolean {
   const stage = getNumberState(block, STATE_GROWTH);
-  if (stage === undefined || stage >= maxStage) return false;
-  setState(block, STATE_GROWTH, Math.min(maxStage, stage + steps));
+  const next = stage === undefined ? undefined : grownStage(stage, maxStage, steps);
+  if (next === undefined) return false;
+  setState(block, STATE_GROWTH, next);
   return true;
 }
 
 function pickBush(block: Block): boolean {
   const crop = cropByBlock(block.typeId);
-  if (!crop?.pick) return false;
-  const { min, max } = crop.pick;
-  const count = min + Math.floor(Math.random() * (max - min + 1));
-  setState(block, STATE_GROWTH, crop.pickResetStage ?? 0);
+  const pick = crop && pickResult(crop, Math.random());
+  if (!crop || !pick) return false;
+  setState(block, STATE_GROWTH, pick.stage);
   const center = block.center();
-  block.dimension.spawnItem(new ItemStack(crop.produce, count), center);
+  block.dimension.spawnItem(new ItemStack(crop.produce, pick.count), center);
   sound(block.dimension, SOUND.berryPick, center);
   particle(block.dimension, PARTICLE.bits, center, 4, 0.3, crop.color);
   return true;
@@ -107,10 +63,17 @@ const cropGrowth: BlockCustomComponent = {
     const growth = readParams(params, block.typeId);
     const stage = getNumberState(block, STATE_GROWTH);
     if (stage === undefined || stage >= growth.maxStage) return;
-    if (!hasEnoughLight(block, growth.minLight)) return;
-
-    const chance = growth.growthChance * (isDryFarmland(block) ? growth.dryMultiplier : 1);
-    if (Math.random() < chance) setState(block, STATE_GROWTH, stage + 1);
+    const next = randomTickStage(
+      growth,
+      stage,
+      {
+        blockLight: block.getLightLevel(),
+        skyLight: block.getSkyLightLevel(),
+        dryFarmland: isOnDryFarmland(block),
+      },
+      Math.random(),
+    );
+    if (next !== undefined) setState(block, STATE_GROWTH, next);
   },
 
   // Bone meal does nothing to custom blocks by itself, so the crop handles it. A mature bush is
@@ -121,11 +84,12 @@ const cropGrowth: BlockCustomComponent = {
     const stage = getNumberState(block, STATE_GROWTH);
     if (stage === undefined) return;
 
-    if (growth.type === "bush" && stage >= growth.maxStage) {
+    const action = useAction(growth, stage, getHeldItem(player)?.typeId);
+    if (action === "pick") {
       pickBush(block);
       return;
     }
-    if (getHeldItem(player)?.typeId !== BONE_MEAL || stage >= growth.maxStage) return;
+    if (action !== "bone_meal") return;
     if (!isCreative(player) && !consumeHeldItem(player, BONE_MEAL)) return;
 
     growStage(block, growth.maxStage);

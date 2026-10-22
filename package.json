@@ -7,6 +7,7 @@
     "dev": "node tools/build.mjs --watch",
     "deploy": "node tools/deploy.mjs",
     "typecheck": "tsc",
+    "test": "node tools/test.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

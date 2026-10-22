@@ -10,14 +10,16 @@ import {
   type RawMessage,
 } from "@minecraft/server";
 import { DEBUG_GROW_RADIUS, STATE_GROWTH } from "../config";
-import { HK_ITEM_IDS, resetDiscovery } from "../book/discovery";
+import { resetDiscovery } from "../book/discovery";
+import { HK_ITEM_IDS } from "../book/unlock";
 import { CROPS } from "../data/crops";
 import { CRAFTING_RECIPES, STATION_RECIPES } from "../data/recipes";
 import { lastValidation, validateData } from "../data/validate";
 import { getState, setState } from "../lib/block-states";
 import { giveOrDrop } from "../lib/inventory";
 import { raw, t } from "../lib/text";
-import { isFast, phaseOf, refAt, setFast, trackedCount } from "../stations/station-engine";
+import { isFast, refAt, setFast, trackedCount } from "../stations/station-engine";
+import { phaseOf } from "../stations/station-logic";
 import { readStation, storedSize } from "../stations/station-store";
 
 // /hk:debug <kit|grow|fast|pot|validate|reset> — operator-only test helpers (plan §6):

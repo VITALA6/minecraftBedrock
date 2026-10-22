@@ -17,5 +17,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["packs/*/scripts/**/*.ts", "types/*.d.ts"]
+  // packs/*/tests: unit tests (tools/test.mjs bundles and runs them in Node; never shipped).
+  "include": ["packs/*/scripts/**/*.ts", "packs/*/tests/**/*.ts", "types/*.d.ts"]
 }

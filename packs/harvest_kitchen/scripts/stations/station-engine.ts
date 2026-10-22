@@ -9,41 +9,47 @@ import {
 } from "@minecraft/server";
 import {
   DONE_NOTIFY_RADIUS,
-  FAST_COOK_TICKS,
   PARTICLE,
   SOUND,
   STATION_SPARKLE_EVERY,
   STATION_SWEEP_TICKS,
   WORLD_DEBUG_FAST,
 } from "../config";
-import {
-  canMake,
-  consume,
-  findStationRecipe,
-  ingredientsOf,
-  missingFor,
-  recipesFor,
-  type StationRecipe,
-} from "../data/recipes";
-import { stationByBlock, type ContainerStation } from "../data/stations";
+import type { StationRecipe } from "../data/recipes";
+import { stationByBlock } from "../data/stations";
 import { setStates, type StateValue } from "../lib/block-states";
 import { actionBar, particle, sound } from "../lib/feedback";
 import { consumeHeldItem, dropItems, getHeldItem, giveOrDrop } from "../lib/inventory";
 import { ingredientName, itemName, t } from "../lib/text";
 import { hasHeatBelow } from "./heat";
 import {
+  addItems,
+  collectOutput,
+  fillLevel,
+  finishJob,
+  isEmpty,
+  phaseOf,
+  progressCells,
+  spillContents,
+  startJob,
+  sweepStep,
+  takeAllItems,
+  takeOutItems,
+  type StationState,
+} from "./station-logic";
+import {
   clearStation,
   findSavedStations,
-  isEmpty,
   readStation,
   stationKey,
   writeStation,
   type StationRef,
-  type StationState,
 } from "./station-store";
 
 // The generic container station (plan §5.2). Everything here works from a ContainerStation config
-// (data/stations.ts) and that station's recipes (data/recipes.ts); nothing names the pot.
+// (data/stations.ts) and that station's recipes (data/recipes.ts); nothing names the pot. The
+// rules themselves are pure functions in station-logic.ts; this module reads and saves the state,
+// checks heat, and does the sounds, particles and hand-outs.
 //
 // Rules that keep items safe:
 // - Every change is a synchronous read-modify-write of the saved state, so two players acting in
@@ -55,8 +61,6 @@ import {
 //
 // One runInterval drives every station with contents (no per-block onTick). The active list is
 // rebuilt from saved data at world load, so /reload or reopening the world resumes cooking.
-
-export type Phase = "idle" | "ready" | "cooking" | "done";
 
 const tracked = new Map<string, StationRef>();
 let sweepCount = 0;
@@ -76,44 +80,6 @@ export function stationBlock(ref: StationRef): Block | undefined {
   } catch {
     return undefined; // unloaded chunk
   }
-}
-
-export function totalItems(state: StationState): number {
-  return Object.values(state.items).reduce((sum, n) => sum + n, 0);
-}
-
-export function possibleRecipes(station: ContainerStation, state: StationState): StationRecipe[] {
-  return recipesFor(station.id).filter((recipe) => canMake(state.items, recipe.ingredients));
-}
-
-export function phaseOf(station: ContainerStation, state: StationState): Phase {
-  if (state.job) return "cooking";
-  if (state.out) return "done";
-  return possibleRecipes(station, state).length > 0 ? "ready" : "idle";
-}
-
-/**
- * The recipe closest to what's in the station, for the "Almost!" button: fewest missing items
- * among recipes that use at least one item already inside.
- */
-export function closestRecipe(
-  station: ContainerStation,
-  state: StationState,
-): { recipe: StationRecipe; missing: ReturnType<typeof missingFor> } | undefined {
-  let best:
-    { recipe: StationRecipe; missing: ReturnType<typeof missingFor>; n: number } | undefined;
-  for (const recipe of recipesFor(station.id)) {
-    const uses = recipe.ingredients.some((i) => i.items.some((id) => (state.items[id] ?? 0) > 0));
-    if (!uses) continue;
-    const missing = missingFor(state.items, recipe.ingredients);
-    const n = missing.reduce((sum, m) => sum + m.missing, 0);
-    if (n > 0 && (!best || n < best.n)) best = { recipe, missing, n };
-  }
-  return best && { recipe: best.recipe, missing: best.missing };
-}
-
-export function isIngredient(station: ContainerStation, typeId: string): boolean {
-  return ingredientsOf(station.id).has(typeId);
 }
 
 export function isFast(): boolean {
@@ -141,11 +107,7 @@ export function refreshVisuals(ref: StationRef, state = readStation(ref)): void 
   if (!block) return;
   const { fill, phase, hot } = ref.station.states;
   const patch: Record<string, StateValue> = {};
-  if (fill) {
-    const amount = totalItems(state) + (state.out?.count ?? 0);
-    const level = amount === 0 ? 0 : Math.ceil((amount / ref.station.capacity) * fill.levels);
-    patch[fill.name] = Math.max(0, Math.min(fill.levels, level));
-  }
+  if (fill) patch[fill.name] = fillLevel(ref.station, state, fill.levels);
   if (phase) patch[phase] = phaseOf(ref.station, state);
   if (hot) patch[hot] = isHot(ref, block);
   try {
@@ -206,7 +168,7 @@ export function showProgress(player: Player, ref: StationRef, state = readStatio
     actionBar(player, t("hk.station.no_heat"));
     return;
   }
-  const done = Math.max(0, Math.min(5, Math.floor(((job.total - job.ticks) / job.total) * 5)));
+  const done = progressCells(job);
   actionBar(player, t("hk.station.progress", "■".repeat(done) + "□".repeat(5 - done)));
 }
 
@@ -219,57 +181,63 @@ export function showProgress(player: Player, ref: StationRef, state = readStatio
 export function addFromHand(player: Player, ref: StationRef, typeId: string, count: number): void {
   if (!stationBlock(ref)) return;
   const state = readStation(ref);
-  if (state.job) return showProgress(player, ref, state);
-  if (state.out) return collect(player, ref);
-  if (!isIngredient(ref.station, typeId)) {
-    return refuse(player, ref, t("hk.station.refuse", itemName(typeId)));
+  const result = addItems(
+    ref.station,
+    state,
+    typeId,
+    Math.min(count, getHeldItem(player)?.amount ?? 0),
+  );
+  switch (result.kind) {
+    case "cooking":
+      return showProgress(player, ref, state);
+    case "done":
+      return collect(player, ref);
+    case "refused":
+      return refuse(player, ref, t("hk.station.refuse", itemName(typeId)));
+    case "full":
+      return refuse(player, ref);
+    case "none":
+      return;
   }
-  const room = ref.station.capacity - totalItems(state);
-  if (room <= 0) return refuse(player, ref);
-
-  const amount = Math.min(room, count, getHeldItem(player)?.amount ?? 0);
-  if (amount <= 0 || !consumeHeldItem(player, typeId, amount)) return;
-
-  const before = new Set(possibleRecipes(ref.station, state).map((r) => r.id));
-  const next: StationState = {
-    items: { ...state.items, [typeId]: (state.items[typeId] ?? 0) + amount },
-  };
-  save(ref, next);
+  if (!consumeHeldItem(player, typeId, result.amount)) return;
+  save(ref, result.state);
 
   const top = stationTop(ref);
   sound(ref.dimension, SOUND.potAccept, top);
   particle(ref.dimension, PARTICLE.splash, top, 2, 0.2);
-  const added = possibleRecipes(ref.station, next).filter((r) => !before.has(r.id));
-  if (added.length > 0) announceReady(player, ref, possibleRecipes(ref.station, next));
+  announceReady(player, ref, result.ready);
 }
 
 /** Starts `recipeId` if it's still possible; checks heat. Re-validates everything. */
 export function startCooking(player: Player, ref: StationRef, recipeId: string): boolean {
-  if (!stationBlock(ref)) {
+  const block = stationBlock(ref);
+  if (!block) {
     actionBar(player, t("hk.station.gone"));
     return false;
   }
-  const state = readStation(ref);
-  if (state.job || state.out) {
-    actionBar(player, t("hk.station.changed"));
-    return false;
+  const result = startJob(ref.station, readStation(ref), recipeId, {
+    hot: isHot(ref, block),
+    fast,
+    ticksPerSecond: TicksPerSecond,
+  });
+  switch (result.kind) {
+    case "changed":
+      actionBar(player, t("hk.station.changed"));
+      return false;
+    case "unknown":
+      return false;
+    case "missing":
+      refuse(
+        player,
+        ref,
+        t("hk.station.needs", result.first.missing, ingredientName(result.first.ingredient)),
+      );
+      return false;
+    case "no_heat":
+      noHeat(player, ref);
+      return false;
   }
-  const recipe = findStationRecipe(recipeId);
-  if (!recipe || recipe.station !== ref.station.id) return false;
-  const missing = missingFor(state.items, recipe.ingredients);
-  const [first] = missing;
-  if (first) {
-    refuse(player, ref, t("hk.station.needs", first.missing, ingredientName(first.ingredient)));
-    return false;
-  }
-  const block = stationBlock(ref);
-  if (!block || !isHot(ref, block)) {
-    noHeat(player, ref);
-    return false;
-  }
-
-  const total = fast ? FAST_COOK_TICKS : Math.max(1, Math.round(recipe.seconds * TicksPerSecond));
-  save(ref, { items: state.items, job: { recipe: recipe.id, ticks: total, total } });
+  save(ref, result.state);
   const top = stationTop(ref);
   sound(ref.dimension, SOUND.lid, top);
   sound(ref.dimension, SOUND.bubble, top);
@@ -279,10 +247,10 @@ export function startCooking(player: Player, ref: StationRef, recipeId: string):
 
 /** Hands the finished dish to `player` (hand first, then inventory). Anyone can collect. */
 export function collect(player: Player, ref: StationRef): void {
-  const state = readStation(ref);
-  const out = state.out;
-  if (!out) return;
-  save(ref, { items: state.items });
+  const result = collectOutput(readStation(ref));
+  if (!result) return;
+  const { out } = result;
+  save(ref, result.state);
   giveOrDrop(player, out.item, out.count, ref.dimension, stationTop(ref), true);
   sound(ref.dimension, SOUND.pop, stationTop(ref));
 }
@@ -293,18 +261,21 @@ export function takeOut(player: Player, ref: StationRef, typeId: string): boolea
     actionBar(player, t("hk.station.gone"));
     return false;
   }
-  const state = readStation(ref);
-  const count = state.items[typeId] ?? 0;
-  if (state.job || count === 0) {
+  const result = takeOutItems(readStation(ref), typeId);
+  if (!result) {
     actionBar(player, t("hk.station.changed"));
     return false;
   }
-  const items = { ...state.items };
-  delete items[typeId];
-  save(ref, { ...state, items });
-  giveOrDrop(player, typeId, count, ref.dimension, stationTop(ref));
+  save(ref, result.state);
+  giveOrDrop(player, typeId, result.count, ref.dimension, stationTop(ref));
   sound(ref.dimension, SOUND.pop, stationTop(ref));
   return true;
+}
+
+/** Empty hand on an empty station: "Add ingredients". */
+export function addHint(player: Player, ref: StationRef): void {
+  sound(ref.dimension, SOUND.tap, stationTop(ref));
+  actionBar(player, t("hk.station.add_hint"));
 }
 
 /** Sneak + empty hand: everything comes out (idle or ready). */
@@ -312,15 +283,10 @@ export function takeAll(player: Player, ref: StationRef): void {
   const state = readStation(ref);
   if (state.job) return showProgress(player, ref, state);
   if (state.out) return collect(player, ref);
-  if (totalItems(state) === 0) {
-    sound(ref.dimension, SOUND.tap, stationTop(ref));
-    actionBar(player, t("hk.station.add_hint"));
-    return;
-  }
-  save(ref, { items: {} });
-  for (const [id, n] of Object.entries(state.items)) {
-    giveOrDrop(player, id, n, ref.dimension, stationTop(ref));
-  }
+  const result = takeAllItems(state);
+  if (!result) return addHint(player, ref);
+  save(ref, result.state);
+  for (const [id, n] of result.items) giveOrDrop(player, id, n, ref.dimension, stationTop(ref));
   sound(ref.dimension, SOUND.pop, stationTop(ref));
 }
 
@@ -334,8 +300,7 @@ export function spill(ref: StationRef): void {
     y: ref.location.y + 0.5,
     z: ref.location.z + 0.5,
   };
-  for (const [id, n] of Object.entries(state.items)) dropItems(ref.dimension, center, id, n);
-  if (state.out) dropItems(ref.dimension, center, state.out.item, state.out.count);
+  for (const [id, n] of spillContents(state)) dropItems(ref.dimension, center, id, n);
 }
 
 /** A station placed where stale data survived (e.g. /setblock fires no break) starts empty. */
@@ -349,28 +314,12 @@ export function resetPlaced(ref: StationRef): void {
 // --- the sweep ------------------------------------------------------------------------------------
 
 function finish(ref: StationRef, state: StationState): StationState {
-  const job = state.job;
-  if (!job) return state;
-  // Cancel (keeping the ingredients) rather than consume them for a dish that can't be made:
-  // a recipe removed in an update, contents that somehow changed, or a result item that failed
-  // to load.
-  const recipe = findStationRecipe(job.recipe);
-  const problem = !recipe
-    ? `unknown recipe "${job.recipe}"`
-    : !canMake(state.items, recipe.ingredients)
-      ? `ingredients missing for ${recipe.id}`
-      : !ItemTypes.get(recipe.result)
-        ? `result item ${recipe.result} isn't loaded (check the Content Log for item errors)`
-        : undefined;
-  if (!recipe || problem) {
-    console.warn(`[harvest_kitchen] ${stationKey(ref)}: ${problem}; cooking cancelled`);
-    return { items: state.items };
+  const result = finishJob(state, (id) => ItemTypes.get(id) !== undefined);
+  if (!result) return state;
+  if (result.kind === "cancelled") {
+    console.warn(`[harvest_kitchen] ${stationKey(ref)}: ${result.problem}; cooking cancelled`);
+    return result.state;
   }
-
-  const next: StationState = {
-    items: consume(state.items, recipe.ingredients),
-    out: { item: recipe.result, count: recipe.count },
-  };
   const top = stationTop(ref);
   sound(ref.dimension, SOUND.done, top);
   sound(ref.dimension, SOUND.pop, top);
@@ -379,9 +328,9 @@ function finish(ref: StationRef, state: StationState): StationState {
     location: top,
     maxDistance: DONE_NOTIFY_RADIUS,
   })) {
-    actionBar(player, t("hk.station.done", itemName(recipe.result)));
+    actionBar(player, t("hk.station.done", itemName(result.recipe.result)));
   }
-  return next;
+  return result.state;
 }
 
 function sweepOne(ref: StationRef): void {
@@ -400,11 +349,10 @@ function sweepOne(ref: StationRef): void {
   }
 
   const job = state.job;
-  if (job && isHot(ref, block)) {
-    const ticks = (fast ? Math.min(job.ticks, FAST_COOK_TICKS) : job.ticks) - STATION_SWEEP_TICKS;
-    const next = ticks <= 0 ? finish(ref, state) : { ...state, job: { ...job, ticks } };
-    if (ticks > 0) particle(ref.dimension, PARTICLE.steam, stationTop(ref));
-    save(ref, next);
+  const step = job && sweepStep(job, isHot(ref, block), fast);
+  if (step && step.kind !== "paused") {
+    if (step.kind === "cooking") particle(ref.dimension, PARTICLE.steam, stationTop(ref));
+    save(ref, step.kind === "due" ? finish(ref, state) : { ...state, job: step.job });
     return;
   }
   if (!job && sweepCount % STATION_SPARKLE_EVERY === 0 && phaseOf(ref.station, state) === "ready") {

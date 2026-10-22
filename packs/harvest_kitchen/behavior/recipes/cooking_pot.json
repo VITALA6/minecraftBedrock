@@ -16,6 +16,12 @@
     },
     "unlock": [
       {
+        "item": "minecraft:iron_ingot"
+      },
+      {
+        "item": "minecraft:bowl"
+      },
+      {
         "item": "hk:tomato_seeds"
       },
       {

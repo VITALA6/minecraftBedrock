@@ -15,6 +15,9 @@
     ],
     "unlock": [
       {
+        "item": "minecraft:bowl"
+      },
+      {
         "item": "hk:tomato_seeds"
       },
       {

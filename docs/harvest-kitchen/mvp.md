@@ -18,7 +18,7 @@ Stable `@minecraft/server` 2.10.0 and `@minecraft/server-ui` 2.2.0 only, no expe
 | Cooking pot     | Use with an item to add it (max 8 items, recipe ingredients only). Empty hand opens a form: contents, recipes you can cook now, other recipes with what's missing, "take out ingredients". |
 | Cooking         | 3–8 s. Pot top switches to a "cooking" texture and gives off light 3 and steam. The dish goes to the cook if they're within 8 blocks, otherwise it drops on the pot.                       |
 | Dishes          | Tomato Soup (6 food, Regeneration I 8 s), Garden Salad (5, Speed I 60 s), Stuffed Tomato ×2 (8, Absorption I 60 s). Soup and salad return the bowl. All three can be eaten when full.      |
-| Crafting        | Cutting Board: stick + 2 planks in a row. Cooking Pot: `IBI` / `III` (iron, bowl). Both unlock in the recipe book on first tomato.                                                         |
+| Crafting        | Cutting Board: stick + 2 planks in a row. Cooking Pot: `IBI` / `III` (iron, bowl). Unlock rules: `recipes-cheatsheet.md`.                                                                  |
 | Placeholder art | 16×16 textures and three hand-written block models (`#` crop, board, pot). Generated, meant to be replaced.                                                                                |
 
 Recipes:

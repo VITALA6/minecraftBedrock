@@ -64,8 +64,11 @@ why, the fallback taken, and what you need to decide or test.
 - **Applied 2026-10-22 (CR review, phase 2):** the three placer items now use
   `menu_category: none` like vanilla. Their blocks keep `items`, so the creative menu gets one
   entry per block, not two. `tests/pack-files.test.ts` ("same-id placer items") keeps it that way.
-- **Test:** check the hotbar icon and name of all three, and that the creative menu (Items tab)
-  shows each exactly once.
+- **Seen in game 2026-10-22:** with `none`, all four placer items (pot, board, cake, poster) were
+  **missing** from the creative menu, and with them their recipes from the recipe book. The items
+  are back to `items` (the first "if something's wrong" step below); the test asserts that now.
+- **Test:** check the hotbar icon and name of all four, and that the creative menu (Items tab)
+  shows each exactly once. If one now shows twice, set its **block** to `none` instead.
 - **If something's wrong:**
   - If an entry is **missing** from the creative menu, set the item's category back to `items`
     (one line in each of `behavior/items/{cooking_pot,cutting_board,strawberry_cake}.json`) and

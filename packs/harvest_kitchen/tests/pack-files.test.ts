@@ -368,14 +368,58 @@ describe("same-id placer items (B3)", () => {
 
   for (const placer of placers) {
     const id = placer.description.identifier;
-    it(`${id}: same id as its block; the block carries the creative category (vanilla red_shrub)`, () => {
+    // Vanilla's red_shrub item uses category none (its block carries nature). Copied here, that hid
+    // all four from the creative menu and the recipe book (seen in game 2026-10-22), so the item
+    // carries the category itself.
+    it(`${id}: same id as its block; the item is in the creative menu`, () => {
       assert.equal(placer.components["minecraft:block_placer"]?.block, id);
-      assert.equal(placer.description.menu_category?.category, "none");
+      assert.equal(placer.description.menu_category?.category, "items");
       const block = blocks.get(id) as unknown as CategoryJson | undefined;
       assert.ok(block, "block JSON");
       assert.notEqual(block.description.menu_category?.category ?? "none", "none");
     });
   }
+});
+
+describe("station recipes unlock in the recipe book (recipes-cheatsheet.md)", () => {
+  interface UnlockJson {
+    tags: string[];
+    unlock: { item?: string; tag?: string }[];
+    result: { item: string };
+  }
+  const recipe = (name: string) => {
+    const json = JSON.parse(read(`${BP}/recipes/${name}.json`)) as Record<string, UnlockJson>;
+    const body = json["minecraft:recipe_shaped"] ?? json["minecraft:recipe_shapeless"];
+    assert.ok(body, name);
+    return body;
+  };
+  const unlockItems = (name: string) => recipe(name).unlock.map((u) => u.item);
+  const seeds = CROPS.map((crop) => crop.seed);
+
+  for (const name of ["cooking_pot", "cutting_board", "kitchen_table", "recipe_poster"]) {
+    it(`${name}: crafted on the vanilla table, makes hk:${name}`, () => {
+      assert.deepEqual(recipe(name).tags, ["crafting_table"]);
+      assert.equal(recipe(name).result.item, `hk:${name}`);
+    });
+  }
+
+  for (const name of ["cooking_pot", "cutting_board", "kitchen_table"]) {
+    it(`${name}: unlocks on every crop's seed (the first HK item a player gets)`, () => {
+      const unlock = unlockItems(name);
+      for (const seed of seeds) assert.ok(unlock.includes(seed), `${name} misses ${seed}`);
+    });
+  }
+
+  it("the pot also unlocks on its key ingredients, the table on the bowl (it opens the pot's mixes)", () => {
+    assert.ok(unlockItems("cooking_pot").includes("minecraft:iron_ingot"));
+    assert.ok(unlockItems("cooking_pot").includes("minecraft:bowl"));
+    assert.ok(unlockItems("kitchen_table").includes("minecraft:bowl"));
+  });
+
+  it("the poster unlocks on every crop's produce (its hk:crops ingredient)", () => {
+    const unlock = unlockItems("recipe_poster");
+    for (const crop of CROPS) assert.ok(unlock.includes(crop.produce), crop.produce);
+  });
 });
 
 describe("cooking pot looks (tools/gen-pot-block.mjs)", () => {

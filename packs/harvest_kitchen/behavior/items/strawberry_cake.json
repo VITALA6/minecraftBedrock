@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hk:strawberry_cake",
       "menu_category": {
-        "category": "none"
+        "category": "items"
       }
     },
     "components": {

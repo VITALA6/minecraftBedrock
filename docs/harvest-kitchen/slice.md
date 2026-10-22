@@ -22,28 +22,28 @@ Written 2026-10-21/22 without an in-game run. Everything not yet seen working in
 | Pot screen (§2.4) | `ActionFormData`: Cook (one button per possible dish), Almost! (only when nothing is possible: closest recipe's first missing item → its book page), In the pot (one button per type → take it out, screen reopens), Recipe Book (→ the pot chapter). Every choice re-validated after the form.                                                                                                                                           |
 | Recipe book (§3)  | `hk:recipe_book` item (`onUse`). Home → What can I make? / Pot / Board / Crafting / Crops. Dish pages: effect line in the body, effect button, ingredient buttons that chain to the crop page, the Board, the dish page, or a "Vanilla item" hint; the station button. Crops page with biome hints. Back is the last button on every page but Home.                                                                                       |
 | Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; locked entries are `???` with the locked icon. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. Book handed out the first time any HK item enters the inventory; craftable from Book + any HK seed (tag `hk:seeds`, onion included).                           |
-| Dishes            | All 13 MUST dishes. Pot: tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam. Crafting (shapeless): garden salad, salsa, veggie sandwich, farmer's sandwich, strawberry cup, strawberry cake. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                        |
+| Dishes            | All 13 MUST dishes. Pot: tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam. Crafting (shapeless): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                          |
 | Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Generic `hk:sliced_dish` component.                                                                                                                  |
 | Validation        | `data/validate.ts` at `worldLoad`; results in the Content Log, via `/hk:debug validate`, and announced to operators on join if there are problems.                                                                                                                                                                                                                                                                                        |
 | `/hk:debug`       | Operator-only custom command (see below).                                                                                                                                                                                                                                                                                                                                                                                                 |
 
 Dish table (food values are in the item JSON **and** `data/dishes.ts`; validation compares them):
 
-| Dish              | Station  | Ingredients                                            | Food  | Effect                 | Always eat | Cook |
-| ----------------- | -------- | ------------------------------------------------------ | ----- | ---------------------- | ---------- | ---- |
-| Tomato Soup       | Pot      | 2 Tomato, Bowl                                         | 6     | Regeneration 8 s       | yes        | 5 s  |
-| Vegetable Stew    | Pot      | Tomato, Onion, Carrot, Potato, Bowl                    | 10    | Regeneration 15 s      | yes        | 10 s |
-| Chili Stew        | Pot      | Chili, Raw Beef, Tomato, Onion, Bowl                   | 10    | Fire Resistance 120 s  | yes        | 10 s |
-| Fish Chowder      | Pot      | Raw Cod or Salmon, Potato, Onion, Bowl                 | 8     | Water Breathing 120 s  | yes        | 8 s  |
-| Chicken Soup      | Pot      | Raw Chicken, Onion, Carrot, Bowl                       | 8     | Absorption 60 s        | yes        | 8 s  |
-| Onion Soup        | Pot      | 2 Onion, Bread, Bowl                                   | 7     | Night Vision 120 s     | yes        | 6 s  |
-| Strawberry Jam    | Pot      | 3 Strawberry, Sugar, Glass Bottle                      | 4     | Speed 60 s             | yes        | 6 s  |
-| Garden Salad      | Crafting | 2 Sliced Tomato, Sliced Cucumber, Carrot, Bowl         | 6     | Speed 90 s             | yes        |      |
-| Salsa             | Crafting | Sliced Tomato, Chopped Onion, Chili, Bowl              | 4     | Haste 90 s             | yes        |      |
-| Veggie Sandwich   | Crafting | Bread, Sliced Tomato, Sliced Cucumber                  | 7     | none                   | no         |      |
-| Farmer's Sandwich | Crafting | Bread, Cooked Porkchop, Sliced Tomato, Sliced Cucumber | 10    | none                   | no         |      |
-| Strawberry Cup    | Crafting | 3 Strawberry, Sugar, Bowl                              | 5     | Jump Boost 60 s        | yes        |      |
-| Strawberry Cake   | Crafting | Cake, 2 Strawberry                                     | 3 × 4 | Regeneration 5 s/slice | yes        |      |
+| Dish            | Station  | Ingredients                                            | Food  | Effect                 | Always eat | Cook |
+| --------------- | -------- | ------------------------------------------------------ | ----- | ---------------------- | ---------- | ---- |
+| Tomato Soup     | Pot      | 2 Tomato, Bowl                                         | 6     | Regeneration 8 s       | yes        | 5 s  |
+| Vegetable Stew  | Pot      | Tomato, Onion, Carrot, Potato, Bowl                    | 10    | Regeneration 15 s      | yes        | 10 s |
+| Chili Stew      | Pot      | Chili, Raw Beef, Tomato, Onion, Bowl                   | 10    | Fire Resistance 120 s  | yes        | 10 s |
+| Fish Chowder    | Pot      | Raw Cod or Salmon, Potato, Onion, Bowl                 | 8     | Water Breathing 120 s  | yes        | 8 s  |
+| Chicken Soup    | Pot      | Raw Chicken, Onion, Carrot, Bowl                       | 8     | Absorption 60 s        | yes        | 8 s  |
+| Onion Soup      | Pot      | 2 Onion, Bread, Bowl                                   | 7     | Night Vision 120 s     | yes        | 6 s  |
+| Strawberry Jam  | Pot      | 3 Strawberry, Sugar, Glass Bottle                      | 4     | Speed 60 s             | yes        | 6 s  |
+| Garden Salad    | Crafting | 2 Sliced Tomato, Sliced Cucumber, Carrot, Bowl         | 6     | Speed 90 s             | yes        |      |
+| Salsa           | Crafting | Sliced Tomato, Chopped Onion, Chili, Bowl              | 4     | Haste 90 s             | yes        |      |
+| Veggie Sandwich | Crafting | Bread, Sliced Tomato, Sliced Cucumber                  | 7     | none                   | no         |      |
+| Hearty Sandwich | Crafting | Bread, Cooked Porkchop, Sliced Tomato, Sliced Cucumber | 10    | none                   | no         |      |
+| Strawberry Cup  | Crafting | 3 Strawberry, Sugar, Bowl                              | 5     | Jump Boost 60 s        | yes        |      |
+| Strawberry Cake | Crafting | Cake, 2 Strawberry                                     | 3 × 4 | Regeneration 5 s/slice | yes        |      |
 
 All effects are level I. Station items: Cooking Pot (`IBI`/`III`, iron + bowl), Cutting Board
 (stick + 2 planks in a row), Recipe Book (Book + any HK seed, shapeless).
@@ -55,7 +55,7 @@ All effects are level I. Station items: Cooking Pot (`IBI`/`III`, iron + bowl), 
   prepared `hk:sliced_tomato`, `hk:chopped_onion`, `hk:sliced_cucumber`; dishes
   `hk:tomato_soup`, `hk:vegetable_stew`, `hk:chili_stew`, `hk:fish_chowder`, `hk:chicken_soup`,
   `hk:onion_soup`, `hk:strawberry_jam`, `hk:garden_salad`, `hk:salsa`, `hk:veggie_sandwich`,
-  `hk:farmers_sandwich`, `hk:strawberry_cup`, `hk:strawberry_cake`; `hk:recipe_book`,
+  `hk:hearty_sandwich`, `hk:strawberry_cup`, `hk:strawberry_cake`; `hk:recipe_book`,
   `hk:cooking_pot`, `hk:cutting_board`.
 - **Blocks:** `hk:tomato_crop`, `hk:onion_crop`, `hk:cucumber_crop`, `hk:chili_bush`,
   `hk:strawberry_bush`, `hk:cooking_pot`, `hk:cutting_board`, `hk:strawberry_cake`.

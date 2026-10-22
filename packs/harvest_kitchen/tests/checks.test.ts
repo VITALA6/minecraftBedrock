@@ -229,7 +229,7 @@ describe("data check on broken data", () => {
       'crafting recipe hk:garden_salad: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
       'crafting recipe hk:salsa: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
       'crafting recipe hk:veggie_sandwich: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
-      'crafting recipe hk:farmers_sandwich: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
+      'crafting recipe hk:hearty_sandwich: no icon for "hk:sliced_tomato" (add it to data/icons.ts)',
     );
   });
 

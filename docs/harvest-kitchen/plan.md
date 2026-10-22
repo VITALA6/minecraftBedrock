@@ -1,9 +1,9 @@
 # Harvest Kitchen: project plan
 
-Status on 2026-10-21:
+Status on 2026-10-22:
 
 - The MVP vertical slice (`mvp.md`) works in game on 1.26.52.3.
-- Decisions D1–D11 are recorded in [§8](#8-decisions).
+- Decisions D1–D12 are recorded in [§8](#8-decisions).
 - **M0 is closed (2026-10-21).** S1–S3 ran in game and are recorded in [§5.3](#53-spikes). The S8
   model half is done; its texture half moves into PS-1. The forms decision (D11) is made:
   `ActionFormData` for the pot screen and the recipe book. `packs/hk_spikes` is deleted.
@@ -12,6 +12,19 @@ Status on 2026-10-21:
   models. None of it has been tested in game yet: the test script is
   [`tests/portfolio-slice.md`](tests/portfolio-slice.md), code notes are in [`slice.md`](slice.md),
   open issues in [`blockers.md`](blockers.md). Hand touch-up of the textures hasn't started.
+- Since then (2026-10-22, still untested in game):
+  - **All 13 MUST dishes are built** (§1.3), not only the 8 first planned for the slice: code,
+    recipes, item JSON and icons. The 5 extra dishes moved from M1b into the slice (§6).
+  - Art v2: icon rules in [`art-style.md`](art-style.md), checked by `tools/lint-textures.mjs`
+    (all 58 textures pass) and reviewed on `art/harvest_kitchen/generated/review_sheet.png`.
+  - Unit tests for the game-independent logic (`npm test`, 198 tests) and an independent code
+    review ([`code-review.md`](code-review.md)); its clear fixes are applied, the rest is in
+    blockers.md (B10–B15).
+  - Marketing drafts in [`marketing/`](marketing/README.md) (store text, Waypoint pitch, portfolio
+    blocks, trailer plan).
+  - Localization: every player-visible string is a lang key, but **only English (`en_US`) exists
+    for now**.
+  - Dish 11 is renamed "Hearty Sandwich" (`hk:hearty_sandwich`, D12).
 
 This plan takes the MVP to a Marketplace-quality add-on for a Waypoint Studios application. It
 assumes part-time development at 4 evenings a week. Art comes from a palette-driven texture
@@ -50,7 +63,7 @@ One line per audience:
 - **Kids:** grow funny vegetables, chop them, drop them in a pot, get food that gives you powers.
 - **Adults:** a compact farming and cooking loop that fits survival worlds. It has 5–7 crops,
   ~16 dishes with useful effects, and a recipe book. No experiments, and it works in existing worlds.
-- **Publisher:** it's stable-API-only, has data-driven content, is fully localized, conflict-free
+- **Publisher:** it's stable-API-only, has data-driven content, is localization-ready (every string is a lang key; English only for now), conflict-free
   (it overrides no vanilla files), and stays polished with a small asset list.
 
 Design pillars, used to settle every UX argument:
@@ -127,31 +140,33 @@ Balance rules:
 - Numbers are a first pass and get tuned in M4 against vanilla (bread 5, cooked beef 8,
   rabbit stew 10).
 
-| #   | Dish                    | Station  | Ingredients                                            | Food | Effect (family)                  | Priority     |
-| --- | ----------------------- | -------- | ------------------------------------------------------ | ---- | -------------------------------- | ------------ |
-| 1   | Tomato Soup             | Pot      | 2 Tomato, Bowl                                         | 6    | Regeneration I, 8 s (Heal)       | MUST [slice] |
-| 2   | Vegetable Stew          | Pot      | Tomato, Onion, Carrot, Potato, Bowl                    | 10   | Regeneration I, 15 s (Heal)      | MUST         |
-| 3   | Chili Stew              | Pot      | Chili, Raw Beef, Tomato, Onion, Bowl                   | 10   | Fire Resistance, 120 s (Explore) | MUST [slice] |
-| 4   | Fish Chowder            | Pot      | Raw Cod or Salmon, Potato, Onion, Bowl                 | 8    | Water Breathing, 120 s (Explore) | MUST         |
-| 5   | Chicken Soup            | Pot      | Raw Chicken, Onion, Carrot, Bowl                       | 8    | Absorption I, 60 s (Heal)        | MUST         |
-| 6   | Onion Soup              | Pot      | 2 Onion, Bread, Bowl                                   | 7    | Night Vision, 120 s (Explore)    | MUST [slice] |
-| 7   | Strawberry Jam          | Pot      | 3 Strawberry, Sugar, Glass Bottle                      | 4    | Speed I, 60 s (Move)             | MUST [slice] |
-| 8   | Garden Salad            | Crafting | 2 Sliced Tomato, Sliced Cucumber, Carrot, Bowl         | 6    | Speed I, 90 s (Move)             | MUST [slice] |
-| 9   | Salsa                   | Crafting | Sliced Tomato, Chopped Onion, Chili, Bowl              | 4    | Haste I, 90 s (Work)             | MUST [slice] |
-| 10  | Veggie Sandwich         | Crafting | Bread, Sliced Tomato, Sliced Cucumber                  | 7    | none (cheap filler)              | MUST [slice] |
-| 11  | Farmer's Sandwich       | Crafting | Bread, Cooked Porkchop, Sliced Tomato, Sliced Cucumber | 10   | none (best plain food)           | MUST         |
-| 12  | Strawberry Cup          | Crafting | 3 Strawberry, Sugar, Bowl                              | 5    | Jump Boost I, 60 s (Move)        | MUST         |
-| 13  | Strawberry Cake (block) | Crafting | Cake, 2 Strawberry                                     | 4×3  | Regeneration I, 5 s/slice (Heal) | MUST [slice] |
-| 14  | Corn Chowder            | Pot      | Corn, Potato, Onion, Bowl                              | 8    | Slow Falling, 60 s (Move)        | SHOULD       |
-| 15  | Popcorn ×4              | Pot      | 2 Corn                                                 | 2    | none (fast snack)                | SHOULD       |
-| 16  | Stuffed Eggplant        | Pot      | Eggplant, Raw Mutton, Onion, Tomato                    | 10   | Health Boost I, 180 s (Heal)     | SHOULD       |
+| #   | Dish                    | Station  | Ingredients                                            | Food        | Effect (family)                  | Priority     |
+| --- | ----------------------- | -------- | ------------------------------------------------------ | ----------- | -------------------------------- | ------------ |
+| 1   | Tomato Soup             | Pot      | 2 Tomato, Bowl                                         | 6           | Regeneration I, 8 s (Heal)       | MUST [slice] |
+| 2   | Vegetable Stew          | Pot      | Tomato, Onion, Carrot, Potato, Bowl                    | 10          | Regeneration I, 15 s (Heal)      | MUST [slice] |
+| 3   | Chili Stew              | Pot      | Chili, Raw Beef, Tomato, Onion, Bowl                   | 10          | Fire Resistance, 120 s (Explore) | MUST [slice] |
+| 4   | Fish Chowder            | Pot      | Raw Cod or Salmon, Potato, Onion, Bowl                 | 8           | Water Breathing, 120 s (Explore) | MUST [slice] |
+| 5   | Chicken Soup            | Pot      | Raw Chicken, Onion, Carrot, Bowl                       | 8           | Absorption I, 60 s (Heal)        | MUST [slice] |
+| 6   | Onion Soup              | Pot      | 2 Onion, Bread, Bowl                                   | 7           | Night Vision, 120 s (Explore)    | MUST [slice] |
+| 7   | Strawberry Jam          | Pot      | 3 Strawberry, Sugar, Glass Bottle                      | 4           | Speed I, 60 s (Move)             | MUST [slice] |
+| 8   | Garden Salad            | Crafting | 2 Sliced Tomato, Sliced Cucumber, Carrot, Bowl         | 6           | Speed I, 90 s (Move)             | MUST [slice] |
+| 9   | Salsa                   | Crafting | Sliced Tomato, Chopped Onion, Chili, Bowl              | 4           | Haste I, 90 s (Work)             | MUST [slice] |
+| 10  | Veggie Sandwich         | Crafting | Bread, Sliced Tomato, Sliced Cucumber                  | 7           | none (cheap filler)              | MUST [slice] |
+| 11  | Hearty Sandwich         | Crafting | Bread, Cooked Porkchop, Sliced Tomato, Sliced Cucumber | 10          | none (best plain food)           | MUST [slice] |
+| 12  | Strawberry Cup          | Crafting | 3 Strawberry, Sugar, Bowl                              | 5           | Jump Boost I, 60 s (Move)        | MUST [slice] |
+| 13  | Strawberry Cake (block) | Crafting | Cake, 2 Strawberry                                     | 3 ×4 slices | Regeneration I, 5 s/slice (Heal) | MUST [slice] |
+| 14  | Corn Chowder            | Pot      | Corn, Potato, Onion, Bowl                              | 8           | Slow Falling, 60 s (Move)        | SHOULD       |
+| 15  | Popcorn ×4              | Pot      | 2 Corn                                                 | 2           | none (fast snack)                | SHOULD       |
+| 16  | Stuffed Eggplant        | Pot      | Eggplant, Raw Mutton, Onion, Tomato                    | 10          | Health Boost I, 180 s (Heal)     | SHOULD       |
 
 LATER, with the oven: Stuffed Tomato, Tomato Pizza (placeable), Strawberry Pie (placeable),
 Shepherd's Pie, Corn Bread.
 
 The MVP's Stuffed Tomato and its recipe id are dropped. The MVP is throwaway (D9).
 
-The slice's 8 dishes cover the pot, crafting, a placeable dish and all four effect families.
+The slice has all 13 MUST dishes (built 2026-10-22). The 8 first planned for it cover the pot,
+crafting, a placeable dish and all four effect families; dishes 2, 4, 5, 11 and 12 moved up from
+M1b. The Strawberry Cake has 4 slices of 3 food each (`hk:slices` 0–3, §2.6).
 
 ### 1.4 Effect families (shared by dishes, book and icons)
 
@@ -444,9 +459,8 @@ Priority meaning: **P1** = in the portfolio slice, needed first. **P2** = the re
 | Produce                       | tomato, onion, cucumber, chili, strawberry                | 5     | P1  |
 | Seeds                         | tomato, cucumber, chili, strawberry (onion plants itself) | 4     | P1  |
 | Prepared ingredients          | sliced tomato, chopped onion, sliced cucumber             | 3     | P1  |
-| Dishes in the slice           | 1, 3, 6, 7, 8, 9, 10, 13 (cake item icon)                 | 8     | P1  |
+| Dishes in the slice           | all 13 MUST dishes (cake item icon included)              | 13    | P1  |
 | Recipe book                   | item icon                                                 | 1     | P1  |
-| Remaining MUST dishes         | 2, 4, 5, 11, 12                                           | 5     | P2  |
 | SHOULD produce, seeds, dishes | corn, eggplant (+ seeds), dishes 14–16                    | 7     | P3  |
 
 Bowl dishes share one bowl base, so only the contents are drawn per dish.
@@ -637,15 +651,15 @@ one round.
 
 ### PS: Portfolio slice (≈ 17 evenings)
 
-| Batch            | Contents                                                                                                                                                                                                                             | Build | Test        | Fixes / handwork | Total    |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ----------- | ---------------- | -------- |
-| PS-1 Content     | station engine + heat rule; `bush` crop type; onion, cucumber, chili, strawberry; biome seed drops; 3 prepared ingredients; 8 slice dishes; Strawberry Cake; debug kit; generated textures for every new item                        | 0.5   | 1           | 0.5              | 2        |
-| PS-2 UX          | pot states with the S8 model; auto-cook, collect, sneak shortcuts; pot screen with "Almost!"; board feedback and sneak-chop; recipe book (chapters, dish pages, crops page); discovery and unlock; "What can I make?"; feedback pass | 1     | 1           | 0.5              | 2.5      |
-| PS-3 Art         | generator v2 for all P1 textures; board and cake models through the MCP; touch-up of about 60 textures; in-game art review                                                                                                           | 0.5   | 1 (review)  | 4 (touch-up)     | 5.5      |
-| PS-4 Playtest    | child + adult playtest (§2.7), one fix round, re-check                                                                                                                                                                               | n/a   | 1           | 1                | 2        |
-| PS-5 Application | capture gameplay and 5–6 screenshots; edit a 60–90 s video; review the pitch Claude drafts                                                                                                                                           | n/a   | 1 (capture) | 1.5              | 2.5      |
-| Buffer           | S1 fallback, art redo, surprises                                                                                                                                                                                                     |       |             |                  | 2.5      |
-| **Total**        |                                                                                                                                                                                                                                      |       |             |                  | **≈ 17** |
+| Batch            | Contents                                                                                                                                                                                                                                         | Build | Test        | Fixes / handwork | Total    |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- | ----------- | ---------------- | -------- |
+| PS-1 Content     | station engine + heat rule; `bush` crop type; onion, cucumber, chili, strawberry; biome seed drops; 3 prepared ingredients; all 13 MUST dishes incl. the Strawberry Cake (5 moved up from M1b); debug kit; generated textures for every new item | 0.5   | 1           | 0.5              | 2        |
+| PS-2 UX          | pot states with the S8 model; auto-cook, collect, sneak shortcuts; pot screen with "Almost!"; board feedback and sneak-chop; recipe book (chapters, dish pages, crops page); discovery and unlock; "What can I make?"; feedback pass             | 1     | 1           | 0.5              | 2.5      |
+| PS-3 Art         | generator v2 for all P1 textures; board and cake models through the MCP; touch-up of about 60 textures; in-game art review                                                                                                                       | 0.5   | 1 (review)  | 4 (touch-up)     | 5.5      |
+| PS-4 Playtest    | child + adult playtest (§2.7), one fix round, re-check                                                                                                                                                                                           | n/a   | 1           | 1                | 2        |
+| PS-5 Application | capture gameplay and 5–6 screenshots; edit a 60–90 s video; review the pitch Claude drafts                                                                                                                                                       | n/a   | 1 (capture) | 1.5              | 2.5      |
+| Buffer           | S1 fallback, art redo, surprises                                                                                                                                                                                                                 |       |             |                  | 2.5      |
+| **Total**        |                                                                                                                                                                                                                                                  |       |             |                  | **≈ 17** |
 
 With M0 that's about 18 evenings, or **about 4½ weeks at 4 evenings a week**, inside the original
 6-week target.
@@ -656,11 +670,14 @@ crop set in PS-1 measures it. If it's slower, PS-3 grows and the date moves; the
 Exit: the §2.7 playtest passes, there's no placeholder art in the slice, and the application
 package is sent.
 
+The 5 dishes that moved from M1b into PS-1 (2026-10-22) cost almost no build time; their 5 icons
+add to the PS-3 touch-up and come off M1b's. The evening totals are not re-estimated for that.
+
 ### After the application (≈ 15 evenings)
 
 | Batch        | Contents                                                                                                                                                                                                                                                                                                                                        | Evenings                                      |
 | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| M1b Content  | 5 remaining MUST dishes; corn (tall crop), eggplant, dishes 14–16; wild patches (S5); content generator (D6); biome icons, chop particles; touch-up of about 35 textures                                                                                                                                                                        | 1 build + 1 test + 0.5 fix + 2.5 touch-up = 5 |
+| M1b Content  | corn (tall crop), eggplant, dishes 14–16; wild patches (S5); content generator (D6); biome icons, chop particles; touch-up of about 35 textures                                                                                                                                                                                                 | 1 build + 1 test + 0.5 fix + 2.5 touch-up = 5 |
 | M4 QA        | three test sessions: (1) multiplayer with 2–4 players: concurrent pots, collect races, cake sharing, per-player book; (2) existing worlds (add mid-game, remove, re-add) + performance (the debug kit places 200 pots and 2,000 crops); (3) controller and touch, balance, conflict test with popular add-ons, clean Content Log; one fix round | 3 + 1.5 = 4.5                                 |
 | M5 Marketing | showcase world 1; screenshots 0.5; trailer 2; key art (in-game or Blockbench render + paint-over) 1.5; store text review 0.5                                                                                                                                                                                                                    | 5.5                                           |
 
@@ -703,7 +720,7 @@ No conflicts:
 Localization:
 
 - [ ] Every player-visible string is a lang key, including forms, action bar, book and item names.
-- [ ] `en_US` complete; extra languages per publisher.
+- [ ] `en_US` complete (the only language for now); extra languages per publisher.
 - [ ] No text baked into textures.
 
 Performance:
@@ -732,7 +749,7 @@ Naming and originality:
 
 ## 8. Decisions
 
-Recorded on 2026-10-21.
+Recorded on 2026-10-21 (D12 on 2026-10-22).
 
 | #   | Decision                              | Outcome                                                                                                                                                                                                                                                                                                         |
 | --- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -749,3 +766,4 @@ Recorded on 2026-10-21.
 | D9  | MVP pots                              | Throwaway, no migration.                                                                                                                                                                                                                                                                                        |
 | D10 | Slice scope and art source            | No cuts. No PixelLab: textures come from a palette-driven generator script, models and model textures from Blockbench MCP, and the developer touches up (§4.5). Estimates are calibrated on the 2026-10-21 velocity and count developer time only, with one test session per batch (§6). Pace: 4 evenings/week. |
 | D11 | Forms for the pot screen and the book | `ActionFormData` everywhere (icon buttons, vanilla icons work, one style). `CustomForm` not used in v1: no icons on buttons, no vanilla textures in `image()`, images can't form rows (S1, §2.1).                                                                                                               |
+| D12 | Dish 11 name                          | "Farmer's Sandwich" renamed **Hearty Sandwich** (`hk:hearty_sandwich`) on 2026-10-22, so no dish name echoes another mod (§5.4). No saved data used the old id.                                                                                                                                                 |

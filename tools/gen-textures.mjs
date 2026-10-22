@@ -1357,7 +1357,7 @@ def(
 );
 
 // Sandwiches: the top bread slice shows its crumb face. Veggie is low and green-red;
-// the farmer's is tall with a thick brown meat layer.
+// the hearty one is tall with a thick brown meat layer.
 const SANDWICH_LEGEND = () => ({
   c: c("bread", 3),
   d: c("bread", 1),
@@ -1401,7 +1401,7 @@ def(
 
 def(
   "items",
-  "farmers_sandwich",
+  "hearty_sandwich",
   () =>
     rows(
       `
@@ -1422,7 +1422,7 @@ def(
       ................
       ................`,
       { ...SANDWICH_LEGEND(), k: c("cream", -1) },
-      "farmers_sandwich",
+      "hearty_sandwich",
     ),
   "dishes",
 );

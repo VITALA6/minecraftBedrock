@@ -4,7 +4,7 @@ grayscale and 4x silhouette. Red frame = flagged by the linter.
 produce: tomato, onion, cucumber, chili_pepper, strawberry
 seeds: tomato_seeds, cucumber_seeds, chili_pepper_seeds, strawberry_seeds
 prepared: sliced_tomato, sliced_cucumber, chopped_onion
-dishes: tomato_soup, onion_soup, salsa, garden_salad, strawberry_cup, vegetable_stew, chili_stew, fish_chowder, chicken_soup, strawberry_jam, veggie_sandwich, farmers_sandwich, strawberry_cake
+dishes: tomato_soup, onion_soup, salsa, garden_salad, strawberry_cup, vegetable_stew, chili_stew, fish_chowder, chicken_soup, strawberry_jam, veggie_sandwich, hearty_sandwich, strawberry_cake
 stations: cooking_pot, cutting_board, recipe_book
 ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops, chapter_what_can_i_make, needs_heat
 
@@ -32,7 +32,7 @@ Per icon: colours, bounding box, grayscale range.
   chicken_soup: 10 colours, 12x13, grey 228
   strawberry_jam: 7 colours, 10x13, grey 185
   veggie_sandwich: 7 colours, 15x15, grey 101
-  farmers_sandwich: 10 colours, 12x14, grey 194
+  hearty_sandwich: 10 colours, 12x14, grey 194
   strawberry_cake: 10 colours, 14x12, grey 133
   cooking_pot: 8 colours, 14x14, grey 142
   cutting_board: 8 colours, 15x12, grey 157

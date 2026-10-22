@@ -4,7 +4,7 @@ import {
   ITEM_CHILI_STEW,
   ITEM_CHOPPED_ONION,
   ITEM_CUCUMBER,
-  ITEM_FARMERS_SANDWICH,
+  ITEM_HEARTY_SANDWICH,
   ITEM_FISH_CHOWDER,
   ITEM_GARDEN_SALAD,
   ITEM_ONION,
@@ -221,8 +221,8 @@ export const CRAFTING_RECIPES: readonly CraftingRecipe[] = [
     ],
   },
   {
-    id: "hk:farmers_sandwich",
-    result: ITEM_FARMERS_SANDWICH,
+    id: "hk:hearty_sandwich",
+    result: ITEM_HEARTY_SANDWICH,
     count: 1,
     ingredients: [
       ing(1, "minecraft:bread"),

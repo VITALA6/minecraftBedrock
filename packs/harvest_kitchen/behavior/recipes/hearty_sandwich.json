@@ -2,7 +2,7 @@
   "format_version": "1.26.50",
   "minecraft:recipe_shapeless": {
     "description": {
-      "identifier": "hk:farmers_sandwich"
+      "identifier": "hk:hearty_sandwich"
     },
     "tags": ["crafting_table"],
     "ingredients": [
@@ -25,7 +25,7 @@
       }
     ],
     "result": {
-      "item": "hk:farmers_sandwich",
+      "item": "hk:hearty_sandwich",
       "count": 1
     }
   }

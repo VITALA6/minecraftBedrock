@@ -31,7 +31,7 @@ export const ITEM_STRAWBERRY_JAM = "hk:strawberry_jam";
 export const ITEM_GARDEN_SALAD = "hk:garden_salad";
 export const ITEM_SALSA = "hk:salsa";
 export const ITEM_VEGGIE_SANDWICH = "hk:veggie_sandwich";
-export const ITEM_FARMERS_SANDWICH = "hk:farmers_sandwich";
+export const ITEM_HEARTY_SANDWICH = "hk:hearty_sandwich";
 export const ITEM_STRAWBERRY_CUP = "hk:strawberry_cup";
 export const ITEM_STRAWBERRY_CAKE = "hk:strawberry_cake"; // item and block share the id
 

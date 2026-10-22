@@ -2,7 +2,7 @@ import {
   BLOCK_STRAWBERRY_CAKE,
   ITEM_CHICKEN_SOUP,
   ITEM_CHILI_STEW,
-  ITEM_FARMERS_SANDWICH,
+  ITEM_HEARTY_SANDWICH,
   ITEM_FISH_CHOWDER,
   ITEM_GARDEN_SALAD,
   ITEM_ONION_SOUP,
@@ -179,7 +179,7 @@ export const DISHES: readonly Dish[] = [
     effect: effect("haste", 90),
   },
   { id: ITEM_VEGGIE_SANDWICH, nutrition: 7, canAlwaysEat: false },
-  { id: ITEM_FARMERS_SANDWICH, nutrition: 10, canAlwaysEat: false },
+  { id: ITEM_HEARTY_SANDWICH, nutrition: 10, canAlwaysEat: false },
   {
     id: ITEM_STRAWBERRY_CUP,
     nutrition: 5,

@@ -2,18 +2,18 @@
   "format_version": "1.26.30",
   "minecraft:item": {
     "description": {
-      "identifier": "hk:farmers_sandwich",
+      "identifier": "hk:hearty_sandwich",
       "menu_category": {
         "category": "items"
       }
     },
     "components": {
       "minecraft:display_name": {
-        "value": "item.hk:farmers_sandwich.name"
+        "value": "item.hk:hearty_sandwich.name"
       },
       "minecraft:icon": {
         "textures": {
-          "default": "hk_farmers_sandwich"
+          "default": "hk_hearty_sandwich"
         }
       },
       "minecraft:max_stack_size": 64,

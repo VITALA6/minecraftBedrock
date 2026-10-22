@@ -204,7 +204,7 @@ Use the pot over a lit campfire from here on.
 
 61. Crafting table, shapeless: Garden Salad (2 sliced tomato, sliced cucumber, carrot, bowl), Salsa
     (sliced tomato, chopped onion, chili, bowl), Veggie Sandwich (bread, sliced tomato, sliced
-    cucumber), Farmer's Sandwich (bread, cooked porkchop, sliced tomato, sliced cucumber),
+    cucumber), Hearty Sandwich (bread, cooked porkchop, sliced tomato, sliced cucumber),
     Strawberry Cup (3 strawberry, sugar, bowl), Strawberry Cake (cake, 2 strawberry), Recipe Book
     (book + any HK seed, or book + onion).
     → each crafts, and appears in the vanilla recipe book. The sandwiches give no effect and

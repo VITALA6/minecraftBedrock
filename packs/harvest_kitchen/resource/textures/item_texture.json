@@ -29,8 +29,8 @@
     "hk_cutting_board": {
       "textures": "textures/hk/items/cutting_board"
     },
-    "hk_farmers_sandwich": {
-      "textures": "textures/hk/items/farmers_sandwich"
+    "hk_hearty_sandwich": {
+      "textures": "textures/hk/items/hearty_sandwich"
     },
     "hk_fish_chowder": {
       "textures": "textures/hk/items/fish_chowder"

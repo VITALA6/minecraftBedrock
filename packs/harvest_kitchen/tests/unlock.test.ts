@@ -48,7 +48,7 @@ describe("crops a dish needs", () => {
     "hk:garden_salad": ["cucumber", "tomato"],
     "hk:salsa": ["chili", "onion", "tomato"],
     "hk:veggie_sandwich": ["cucumber", "tomato"],
-    "hk:farmers_sandwich": ["cucumber", "tomato"],
+    "hk:hearty_sandwich": ["cucumber", "tomato"],
     "hk:strawberry_cup": ["strawberry"],
     "hk:strawberry_cake": ["strawberry"],
   };

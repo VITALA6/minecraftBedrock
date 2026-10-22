@@ -77,9 +77,8 @@ until they ship:
    the Marketplace and in trademarks (§7).
 2. **Dish and crop counts.** 5 crops and 13 dishes are the v1 MUST counts. If SHOULD items ship in
    v1 (plan §6, M1b), update the counts and the bullets. If anything is cut, update them too.
-3. **Dish names.** "Farmer's Sandwich" (dish 11) is in the MUST list. Consider renaming it before
-   release, because plan §5.4 says not to name anything after Farmer's Delight. The store text
-   above doesn't mention it.
+3. **Dish names.** Dish 11 was renamed to "Hearty Sandwich" on 2026-10-22 (plan §5.4: no names
+   that echo another mod). Re-check every dish name against that rule before release.
 4. **"Works in the worlds you already have"** needs the M4 existing-worlds test (§7: seeds drop from
    grass and the book is delivered on first item in a mid-game world).
 5. **"No experimental settings"** needs the §7 check: a fresh world with every experiment off loads

@@ -37,7 +37,9 @@
       },
       "minecraft:transformation": { "rotation": [0, 0, 0] },
       "minecraft:movable": { "movement_type": "popped" },
-      "minecraft:placement_filter": { "conditions": [{ "allowed_faces": ["side"] }] }
+      "minecraft:placement_filter": {
+        "conditions": [{ "allowed_faces": ["north", "south", "east", "west"] }]
+      }
     },
     "permutations": [
       {

@@ -506,7 +506,7 @@ describe("recipe poster (D15)", () => {
     assert.ok(poster);
     const c = poster.components;
     assert.deepEqual(c["minecraft:placement_filter"], {
-      conditions: [{ allowed_faces: ["side"] }],
+      conditions: [{ allowed_faces: ["north", "south", "east", "west"] }],
     });
     assert.deepEqual(c["minecraft:movable"], { movement_type: "popped" });
     assert.equal(c["minecraft:loot"], "loot_tables/hk/blocks/nothing.json");
@@ -591,5 +591,20 @@ describe("recipe poster (D15)", () => {
       .map(([id]) => id)
       .sort();
     assert.deepEqual(tagged, CROPS.map((crop) => crop.produce).sort());
+  });
+});
+
+describe("placement filters", () => {
+  // 1.26.50 binds allowed_faces to Facing: only the six face names load ("side" fails the block).
+  const FACES = new Set(["up", "down", "north", "south", "east", "west"]);
+  it("every block uses only real face names in allowed_faces", () => {
+    for (const file of readdirSync(`${BP}/blocks`)) {
+      const text = read(`${BP}/blocks/${file}`);
+      for (const match of text.matchAll(/"allowed_faces"\s*:\s*\[([^\]]*)\]/g)) {
+        const faces = [...(match[1] ?? "").matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+        for (const face of faces)
+          assert.ok(FACES.has(face ?? ""), `${file}: allowed_faces "${face}"`);
+      }
+    }
   });
 });

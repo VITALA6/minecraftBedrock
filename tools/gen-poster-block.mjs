@@ -120,7 +120,10 @@ function blockJson(d) {
         "minecraft:map_color": "#eedcb0",
         ...look(d.FACINGS[0], d.HALVES[0], 0),
         "minecraft:movable": { movement_type: "popped" },
-        "minecraft:placement_filter": { conditions: [{ allowed_faces: ["side"] }] },
+        // Faces of the wall block it may hang on; 1.26.50 rejects the old "side" shorthand.
+        "minecraft:placement_filter": {
+          conditions: [{ allowed_faces: ["north", "south", "east", "west"] }],
+        },
       },
       permutations,
     },

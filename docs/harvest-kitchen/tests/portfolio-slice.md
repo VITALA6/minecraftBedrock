@@ -1,5 +1,9 @@
 # Test script: portfolio slice (PS-1 + PS-2 code, PS-3 art v2)
 
+> **Ran 2026-10-22.** Everything passed except the recipe book, the pot screen, the pot liquid
+> colour and B15. Those were reworked; tonight's follow-up is [`round-2-book.md`](round-2-book.md).
+> Steps 5–12 and 53–57 test the old button-list book and pot screen, which no longer exist.
+
 One session, top to bottom. Each step has an expected result. Report back as a numbered list using
 these step numbers: `ok`, or what you saw instead (a screenshot helps for visuals). Quoted messages
 come from the code; small wording differences are fine, but text longer than 5 words isn't.

@@ -9,7 +9,7 @@ import {
   type CustomCommandRegistry,
   type RawMessage,
 } from "@minecraft/server";
-import { DEBUG_GROW_RADIUS, STATE_GROWTH } from "../config";
+import { DEBUG_GROW_RADIUS, STATE_GROWTH, ANNOUNCE_BUILD } from "../config";
 import { resetDiscovery } from "../discovery/discovery";
 import { HK_ITEM_IDS } from "../discovery/unlock";
 import { CROPS } from "../data/crops";
@@ -167,6 +167,7 @@ function run(player: Player, action: Action): void {
     case "pot":
       return pot(player);
     case "validate":
+      player.sendMessage(t("hk.debug.build", __BUILD_ID__));
       return validate(player);
     case "reset":
       resetDiscovery(player);
@@ -202,6 +203,13 @@ export function registerDebugCommand(registry: CustomCommandRegistry): void {
 }
 
 /** Tells an operator on join if the data check found problems (the log file may have lost it). */
+/** Operators see the running build on join (deploy only takes effect after re-entering). */
+export function announceBuild(player: Player): void {
+  if (!ANNOUNCE_BUILD || player.commandPermissionLevel < CommandPermissionLevel.GameDirectors)
+    return;
+  player.sendMessage(t("hk.debug.build", __BUILD_ID__));
+}
+
 export function announceProblems(player: Player): void {
   const count = lastValidation().length;
   if (count === 0 || player.commandPermissionLevel < CommandPermissionLevel.GameDirectors) return;

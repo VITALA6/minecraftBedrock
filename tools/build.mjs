@@ -11,6 +11,7 @@
 import { existsSync, readdirSync, readFileSync, watch } from "node:fs";
 import { cp, mkdir, rm } from "node:fs/promises";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { build } from "esbuild";
 import { refreshCopies } from "./deploy.mjs";
 import { DIST_DIR, PACKS_DIR, ROOT } from "./paths.mjs";
@@ -65,6 +66,23 @@ function checkJsonFiles(dir) {
   }
 }
 
+// Shown in game (chat on join, Content Log, /hk:debug validate) so a test session can tell
+// which build is running: deploy only copies files, a world keeps its scripts until re-entered
+// or /reload. "<git short hash>[+ if uncommitted changes] <local time>".
+function buildId() {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const time = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  try {
+    const hash = execFileSync("git", ["rev-parse", "--short", "HEAD"], { encoding: "utf8" }).trim();
+    const dirty =
+      execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim() !== "";
+    return `${hash}${dirty ? "+" : ""} ${time}`;
+  } catch {
+    return `dev ${time}`;
+  }
+}
+
 async function buildPack(name) {
   const src = path.join(PACKS_DIR, name);
   const bpOut = path.join(DIST_DIR, `${name}_BP`);
@@ -90,6 +108,7 @@ async function buildPack(name) {
         target: "es2022",
         // Game-provided modules stay as imports; everything else is bundled in.
         external,
+        define: { __BUILD_ID__: JSON.stringify(buildId()) },
         logLevel: "warning",
       });
     }

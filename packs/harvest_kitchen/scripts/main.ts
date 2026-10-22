@@ -8,7 +8,7 @@ import { catchUpDiscovery, registerDiscovery } from "./discovery/discovery";
 import { registerCropGrowth } from "./crops/crop-growth";
 import { registerSeedDrops } from "./crops/seed-drops";
 import { validateData } from "./data/validate";
-import { announceProblems, registerDebugCommand } from "./debug/debug-command";
+import { announceBuild, announceProblems, registerDebugCommand } from "./debug/debug-command";
 import { registerDish } from "./food/dish";
 import { registerDishSupport } from "./food/dish-support";
 import { registerSlicedDish } from "./food/sliced-dish";
@@ -32,6 +32,7 @@ system.beforeEvents.startup.subscribe(
 );
 
 world.afterEvents.worldLoad.subscribe(() => {
+  console.log(`[harvest_kitchen] build ${__BUILD_ID__}`);
   validateData();
   startStationSweep();
 });
@@ -40,6 +41,7 @@ world.afterEvents.playerSpawn.subscribe(({ player, initialSpawn }) => {
   if (!initialSpawn) return;
   system.runTimeout(() => {
     if (!player.isValid) return;
+    announceBuild(player);
     announceProblems(player);
     catchUpDiscovery(player);
   }, 40);

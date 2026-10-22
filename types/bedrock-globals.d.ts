@@ -6,3 +6,6 @@ declare const console: {
   warn(...data: unknown[]): void;
   error(...data: unknown[]): void;
 };
+
+// Injected by tools/build.mjs (esbuild define): "<git short hash>[+] <time>" of the build.
+declare const __BUILD_ID__: string;

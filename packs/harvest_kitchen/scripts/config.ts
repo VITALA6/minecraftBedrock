@@ -156,3 +156,6 @@ export const PARTICLE = {
   hearts: "minecraft:heart_particle",
   growth: "minecraft:crop_growth_emitter",
 } as const;
+
+/** Tell operators which build is running when they join (test sessions). Off for release. */
+export const ANNOUNCE_BUILD = true;

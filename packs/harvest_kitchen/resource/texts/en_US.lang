@@ -100,6 +100,7 @@ hk.crop.where.strawberry=Meadow, flower forest, cherry
 
 ## /hk:debug (operator test helper)
 hk.debug.kit=Kit: %1$s item types given.
+hk.debug.build=§7Harvest Kitchen build %1$s
 hk.debug.grow=Grew %1$s crops.
 hk.debug.pot_none=Look at a cooking pot.
 hk.debug.validate=Data check: %1$s problem(s).

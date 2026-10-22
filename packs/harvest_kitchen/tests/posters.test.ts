@@ -1,0 +1,179 @@
+import assert from "node:assert/strict";
+import { describe, it } from "node:test";
+import { DISHES } from "../scripts/data/dishes";
+import { CRAFTING_RECIPES, STATION_RECIPES } from "../scripts/data/recipes";
+import {
+  FACINGS,
+  POSTER_BLANK,
+  POSTER_COUNT,
+  POSTER_DISHES,
+  POSTER_MAX_STATES,
+  discoveredPosters,
+  facingOfDirection,
+  firstPoster,
+  halfStem,
+  halfTexture,
+  halvesOf,
+  nextPoster,
+  opposite,
+  posterDish,
+  posterIndex,
+  posterIndices,
+  posterStem,
+  startHalf,
+  step,
+  viewerRight,
+  type Discovery,
+} from "../scripts/posters/poster-logic";
+
+const found = (...keys: string[]): Discovery => ({ found: new Set(keys), creative: false });
+const NOTHING = found();
+const CREATIVE: Discovery = { found: new Set(), creative: true };
+const ALL_CROPS = found("tomato", "onion", "cucumber", "chili", "strawberry");
+const dishAt = (index: number | undefined) => (index === undefined ? undefined : posterDish(index));
+
+describe("poster state <-> dish", () => {
+  it("one state per dish plus the blank, within the int state limit", () => {
+    assert.equal(POSTER_COUNT, DISHES.length + 1);
+    assert.ok(POSTER_COUNT <= POSTER_MAX_STATES);
+    assert.deepEqual(posterIndices(), [...Array(POSTER_COUNT).keys()]);
+  });
+
+  it("recipe order: pot recipes first, then crafting, each dish once", () => {
+    const order = [...STATION_RECIPES, ...CRAFTING_RECIPES].map((r) => r.result);
+    assert.deepEqual(POSTER_DISHES, [...new Set(order)]);
+    assert.equal(POSTER_DISHES[0], "hk:tomato_soup");
+    assert.equal(POSTER_DISHES.at(-1), "hk:strawberry_cake");
+    assert.deepEqual([...POSTER_DISHES].sort(), DISHES.map((d) => d.id).sort(), "every dish");
+  });
+
+  it("round-trips every dish; 0 and unknowns are the blank", () => {
+    for (const id of POSTER_DISHES) assert.equal(posterDish(posterIndex(id)), id);
+    assert.equal(posterDish(POSTER_BLANK), undefined);
+    assert.equal(posterDish(POSTER_COUNT), undefined, "past the end");
+    assert.equal(posterDish(-1), undefined);
+    assert.equal(posterIndex("hk:recipe_poster"), POSTER_BLANK);
+    assert.equal(posterIndex("minecraft:bread"), POSTER_BLANK);
+  });
+
+  it("names the textures after the dish, one per half", () => {
+    assert.equal(posterStem(POSTER_BLANK), "blank");
+    assert.equal(posterStem(1), "tomato_soup");
+    assert.equal(halfStem(1, "left"), "tomato_soup_left");
+    assert.deepEqual(halfTexture(1, "right"), {
+      path: "textures/hk/poster/tomato_soup_right",
+      shortname: "hk_poster_tomato_soup_right",
+    });
+    const stems = posterIndices().flatMap((i) => [halfStem(i, "left"), halfStem(i, "right")]);
+    assert.equal(new Set(stems).size, stems.length, "no two states share a texture");
+  });
+});
+
+describe("sneak + use cycle", () => {
+  it("nothing discovered: no next poster (the caller shows the hint)", () => {
+    assert.equal(nextPoster(POSTER_BLANK, NOTHING), undefined);
+    assert.equal(nextPoster(3, NOTHING), undefined, "even on a poster someone else set");
+    assert.deepEqual(discoveredPosters(NOTHING), []);
+  });
+
+  it("skips undiscovered dishes and wraps around", () => {
+    // tomato alone unlocks only Tomato Soup
+    const tomato = found("tomato");
+    assert.deepEqual(discoveredPosters(tomato).map(dishAt), ["hk:tomato_soup"]);
+    assert.equal(dishAt(nextPoster(POSTER_BLANK, tomato)), "hk:tomato_soup");
+    assert.equal(dishAt(nextPoster(posterIndex("hk:tomato_soup"), tomato)), "hk:tomato_soup");
+
+    // onion: the three onion-only soups, in recipe order, then back to the first
+    const onion = found("onion");
+    const shown = discoveredPosters(onion).map(dishAt);
+    assert.deepEqual(shown, ["hk:fish_chowder", "hk:chicken_soup", "hk:onion_soup"]);
+    let at = nextPoster(POSTER_BLANK, onion);
+    const seen: (string | undefined)[] = [];
+    for (let i = 0; i < 4; i++) {
+      seen.push(dishAt(at));
+      at = nextPoster(at ?? POSTER_BLANK, onion);
+    }
+    assert.deepEqual(seen, [...shown, "hk:fish_chowder"]);
+  });
+
+  it("from an undiscovered dish, goes on to the next discovered one after it", () => {
+    const onion = found("onion");
+    // Vegetable Stew (needs tomato too) sits between Tomato Soup and Fish Chowder
+    assert.equal(dishAt(nextPoster(posterIndex("hk:vegetable_stew"), onion)), "hk:fish_chowder");
+    // past the last discovered one, wraps to the first
+    assert.equal(dishAt(nextPoster(posterIndex("hk:salsa"), onion)), "hk:fish_chowder");
+  });
+
+  it("creative cycles through every dish, then back to the first (never the blank)", () => {
+    let at = POSTER_BLANK;
+    const seen: string[] = [];
+    for (let i = 0; i < POSTER_DISHES.length + 1; i++) {
+      const next = nextPoster(at, CREATIVE);
+      assert.ok(next !== undefined && next !== POSTER_BLANK);
+      seen.push(posterDish(next) ?? "");
+      at = next;
+    }
+    assert.deepEqual(seen, [...POSTER_DISHES, POSTER_DISHES[0]]);
+  });
+
+  it("all crops found shows the same set as creative", () => {
+    assert.deepEqual(discoveredPosters(ALL_CROPS), discoveredPosters(CREATIVE));
+  });
+
+  it("a new poster shows the first discovered dish, or the blank", () => {
+    assert.equal(firstPoster(NOTHING), POSTER_BLANK);
+    assert.equal(dishAt(firstPoster(found("strawberry"))), "hk:strawberry_jam");
+    assert.equal(dishAt(firstPoster(CREATIVE)), "hk:tomato_soup");
+  });
+});
+
+describe("wall geometry", () => {
+  it("Script API directions map to horizontal facings only", () => {
+    assert.equal(facingOfDirection("North"), "north");
+    assert.equal(facingOfDirection("West"), "west");
+    assert.equal(facingOfDirection("Up"), undefined);
+    assert.equal(facingOfDirection("Down"), undefined);
+  });
+
+  it("the viewer's right: reading a south-facing poster you look north, east is right", () => {
+    assert.equal(viewerRight("south"), "east");
+    assert.equal(viewerRight("north"), "west");
+    assert.equal(viewerRight("east"), "north");
+    assert.equal(viewerRight("west"), "south");
+    for (const f of FACINGS) {
+      const r = step(viewerRight(f));
+      const out = step(f);
+      assert.equal(Math.abs(r.x * out.x + r.z * out.z), 0, `${f}: right runs along the wall`);
+      assert.equal(opposite(opposite(f)), f);
+    }
+  });
+
+  it("halves come from where the parts really are", () => {
+    // facing south: right is +x
+    assert.deepEqual(halvesOf("south", { x: 0, z: 0 }, { x: 1, z: 0 }), ["left", "right"]);
+    assert.deepEqual(halvesOf("south", { x: 1, z: 0 }, { x: 0, z: 0 }), ["right", "left"]);
+    // facing north: right is -x
+    assert.deepEqual(halvesOf("north", { x: 5, z: 2 }, { x: 4, z: 2 }), ["left", "right"]);
+    // facing east: you look west, right is north (-z)
+    assert.deepEqual(halvesOf("east", { x: 0, z: 1 }, { x: 0, z: 0 }), ["left", "right"]);
+  });
+
+  it("parts that aren't side by side along the wall are refused", () => {
+    assert.equal(halvesOf("south", { x: 0, z: 0 }, { x: 0, z: 1 }), undefined, "out of the wall");
+    assert.equal(halvesOf("south", { x: 0, z: 0 }, { x: 0, z: -1 }), undefined, "into the wall");
+    assert.equal(halvesOf("south", { x: 0, z: 0 }, { x: 2, z: 0 }), undefined, "not neighbours");
+    assert.equal(halvesOf("south", { x: 0, z: 0 }, { x: 0, z: 0 }), undefined);
+  });
+
+  it("the starting half guess follows the cardinal direction; along the facing is refused", () => {
+    assert.equal(startHalf("south", "east"), "left", "second part to the viewer's right");
+    assert.equal(startHalf("south", "west"), "right");
+    assert.equal(startHalf("south", "south"), undefined);
+    assert.equal(startHalf("south", "north"), undefined);
+    for (const f of FACINGS) {
+      assert.equal(startHalf(f, viewerRight(f)), "left");
+      assert.equal(startHalf(f, opposite(viewerRight(f))), "right");
+      assert.equal(startHalf(f, f), undefined);
+    }
+  });
+});

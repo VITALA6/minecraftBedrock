@@ -4,8 +4,7 @@
 // here. Touch the world from worldLoad or later.
 
 import { system, world } from "@minecraft/server";
-import { registerRecipeBook } from "./book/book-item";
-import { catchUpDiscovery, registerDiscovery } from "./book/discovery";
+import { catchUpDiscovery, registerDiscovery } from "./discovery/discovery";
 import { registerCropGrowth } from "./crops/crop-growth";
 import { registerSeedDrops } from "./crops/seed-drops";
 import { validateData } from "./data/validate";
@@ -13,6 +12,8 @@ import { announceProblems, registerDebugCommand } from "./debug/debug-command";
 import { registerDish } from "./food/dish";
 import { registerDishSupport } from "./food/dish-support";
 import { registerSlicedDish } from "./food/sliced-dish";
+import { registerPosterEvents, registerRecipePoster } from "./posters/poster";
+import { registerPosterSupport } from "./posters/poster-support";
 import { registerContainerStation, registerStationEvents } from "./stations/container-station";
 import { registerCuttingBoard, registerCuttingBoardEvents } from "./stations/cutting-board";
 import { startStationSweep } from "./stations/station-engine";
@@ -24,8 +25,8 @@ system.beforeEvents.startup.subscribe(
     registerCuttingBoard(blockComponentRegistry);
     registerContainerStation(blockComponentRegistry);
     registerSlicedDish(blockComponentRegistry);
+    registerRecipePoster(blockComponentRegistry);
     registerDish(itemComponentRegistry);
-    registerRecipeBook(itemComponentRegistry);
     registerDebugCommand(customCommandRegistry);
   },
 );
@@ -49,3 +50,5 @@ registerStationEvents();
 registerCuttingBoardEvents();
 registerDiscovery();
 registerDishSupport();
+registerPosterEvents();
+registerPosterSupport();

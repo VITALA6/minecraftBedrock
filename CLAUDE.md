@@ -56,6 +56,12 @@ tools/
                    (--palette re-samples vanilla) -> art/harvest_kitchen/generated/
   lint-textures.mjs checks generated/ against docs/harvest-kitchen/art-style.md, writes
                    generated/review_sheet.png
+  gen-pot-block.mjs  writes the cooking pot block JSON (liquid colour permutations)
+  gen-posters.mjs    renders recipe poster textures (64 px per block, 2 blocks wide)
+  gen-poster-block.mjs writes the recipe poster block JSON (permutations per poster/facing/half)
+  lint-posters.mjs   checks the poster textures (alpha, size, icon scale, contrast)
+  gen-ghost-atlas.mjs writes the ghost-ingredient particle atlas and particle JSON
+                   (all generators take --check, which the tests run)
 docs/              learning notes (00-setup, 01-custom-content, ...)
 art/<pack>/        art sources: models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
                    Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
@@ -90,6 +96,8 @@ Current packs:
 | `npm run format`           | prettier write (`format:check` to verify)                                |
 | `npm test`                 | unit tests (`packs/*/tests/*.test.ts`, node:test; pure logic only)       |
 | `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet   |
+| `npm run posters`          | render recipe posters, regenerate the poster block, lint the posters     |
+| `npm run ghosts`           | regenerate the ghost-ingredient particle atlas and particle JSON         |
 | `npm run uuid`             | print 5 fresh UUIDs (one new BP+RP+script pack needs exactly 5)          |
 
 Deploy once, then keep `npm run dev` running. It re-copies the deployed packs into the game after

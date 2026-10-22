@@ -4,140 +4,92 @@
   "padding": 8,
   "num_mip_levels": 4,
   "texture_data": {
-    "hk_chili_bush_stage_0": {
-      "textures": "textures/hk/blocks/chili_bush_stage_0"
-    },
-    "hk_chili_bush_stage_1": {
-      "textures": "textures/hk/blocks/chili_bush_stage_1"
-    },
-    "hk_chili_bush_stage_2": {
-      "textures": "textures/hk/blocks/chili_bush_stage_2"
-    },
-    "hk_chili_bush_stage_3": {
-      "textures": "textures/hk/blocks/chili_bush_stage_3"
-    },
-    "hk_cooking_pot_lid": {
-      "textures": "textures/hk/blocks/cooking_pot_lid"
-    },
-    "hk_cooking_pot_liquid_broth": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_broth"
-    },
+    "hk_chili_bush_stage_0": { "textures": "textures/hk/blocks/chili_bush_stage_0" },
+    "hk_chili_bush_stage_1": { "textures": "textures/hk/blocks/chili_bush_stage_1" },
+    "hk_chili_bush_stage_2": { "textures": "textures/hk/blocks/chili_bush_stage_2" },
+    "hk_chili_bush_stage_3": { "textures": "textures/hk/blocks/chili_bush_stage_3" },
+    "hk_cooking_pot_lid": { "textures": "textures/hk/blocks/cooking_pot_lid" },
+    "hk_cooking_pot_liquid_broth": { "textures": "textures/hk/blocks/cooking_pot_liquid_broth" },
     "hk_cooking_pot_liquid_broth_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_broth_ready"
     },
-    "hk_cooking_pot_liquid_chili": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_chili"
-    },
+    "hk_cooking_pot_liquid_chili": { "textures": "textures/hk/blocks/cooking_pot_liquid_chili" },
     "hk_cooking_pot_liquid_chili_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_chili_ready"
     },
-    "hk_cooking_pot_liquid_cream": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_cream"
-    },
+    "hk_cooking_pot_liquid_cream": { "textures": "textures/hk/blocks/cooking_pot_liquid_cream" },
     "hk_cooking_pot_liquid_cream_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_cream_ready"
     },
-    "hk_cooking_pot_liquid_jam": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_jam"
-    },
+    "hk_cooking_pot_liquid_jam": { "textures": "textures/hk/blocks/cooking_pot_liquid_jam" },
     "hk_cooking_pot_liquid_jam_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_jam_ready"
     },
-    "hk_cooking_pot_liquid_stew": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_stew"
-    },
+    "hk_cooking_pot_liquid_stew": { "textures": "textures/hk/blocks/cooking_pot_liquid_stew" },
     "hk_cooking_pot_liquid_stew_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_stew_ready"
     },
-    "hk_cooking_pot_liquid_tomato": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_tomato"
-    },
+    "hk_cooking_pot_liquid_tomato": { "textures": "textures/hk/blocks/cooking_pot_liquid_tomato" },
     "hk_cooking_pot_liquid_tomato_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_tomato_ready"
     },
-    "hk_cooking_pot_liquid_water": {
-      "textures": "textures/hk/blocks/cooking_pot_liquid_water"
-    },
+    "hk_cooking_pot_liquid_water": { "textures": "textures/hk/blocks/cooking_pot_liquid_water" },
     "hk_cooking_pot_liquid_water_ready": {
       "textures": "textures/hk/blocks/cooking_pot_liquid_water_ready"
     },
-    "hk_cooking_pot_side": {
-      "textures": "textures/hk/blocks/cooking_pot_side"
-    },
-    "hk_cooking_pot_top": {
-      "textures": "textures/hk/blocks/cooking_pot_top"
-    },
-    "hk_cooking_pot_top_hot": {
-      "textures": "textures/hk/blocks/cooking_pot_top_hot"
-    },
-    "hk_cucumber_crop_stage_0": {
-      "textures": "textures/hk/blocks/cucumber_crop_stage_0"
-    },
-    "hk_cucumber_crop_stage_1": {
-      "textures": "textures/hk/blocks/cucumber_crop_stage_1"
-    },
-    "hk_cucumber_crop_stage_2": {
-      "textures": "textures/hk/blocks/cucumber_crop_stage_2"
-    },
-    "hk_cucumber_crop_stage_3": {
-      "textures": "textures/hk/blocks/cucumber_crop_stage_3"
-    },
-    "hk_cutting_board_knife": {
-      "textures": "textures/hk/blocks/cutting_board_knife"
-    },
-    "hk_cutting_board_side": {
-      "textures": "textures/hk/blocks/cutting_board_side"
-    },
-    "hk_cutting_board_top": {
-      "textures": "textures/hk/blocks/cutting_board_top"
-    },
-    "hk_onion_crop_stage_0": {
-      "textures": "textures/hk/blocks/onion_crop_stage_0"
-    },
-    "hk_onion_crop_stage_1": {
-      "textures": "textures/hk/blocks/onion_crop_stage_1"
-    },
-    "hk_onion_crop_stage_2": {
-      "textures": "textures/hk/blocks/onion_crop_stage_2"
-    },
-    "hk_onion_crop_stage_3": {
-      "textures": "textures/hk/blocks/onion_crop_stage_3"
-    },
-    "hk_strawberry_bush_stage_0": {
-      "textures": "textures/hk/blocks/strawberry_bush_stage_0"
-    },
-    "hk_strawberry_bush_stage_1": {
-      "textures": "textures/hk/blocks/strawberry_bush_stage_1"
-    },
-    "hk_strawberry_bush_stage_2": {
-      "textures": "textures/hk/blocks/strawberry_bush_stage_2"
-    },
-    "hk_strawberry_bush_stage_3": {
-      "textures": "textures/hk/blocks/strawberry_bush_stage_3"
-    },
-    "hk_strawberry_cake_berry": {
-      "textures": "textures/hk/blocks/strawberry_cake_berry"
-    },
-    "hk_strawberry_cake_inner": {
-      "textures": "textures/hk/blocks/strawberry_cake_inner"
-    },
-    "hk_strawberry_cake_side": {
-      "textures": "textures/hk/blocks/strawberry_cake_side"
-    },
-    "hk_strawberry_cake_top": {
-      "textures": "textures/hk/blocks/strawberry_cake_top"
-    },
-    "hk_tomato_crop_stage_0": {
-      "textures": "textures/hk/blocks/tomato_crop_stage_0"
-    },
-    "hk_tomato_crop_stage_1": {
-      "textures": "textures/hk/blocks/tomato_crop_stage_1"
-    },
-    "hk_tomato_crop_stage_2": {
-      "textures": "textures/hk/blocks/tomato_crop_stage_2"
-    },
-    "hk_tomato_crop_stage_3": {
-      "textures": "textures/hk/blocks/tomato_crop_stage_3"
-    }
+    "hk_cooking_pot_side": { "textures": "textures/hk/blocks/cooking_pot_side" },
+    "hk_cooking_pot_top": { "textures": "textures/hk/blocks/cooking_pot_top" },
+    "hk_cooking_pot_top_hot": { "textures": "textures/hk/blocks/cooking_pot_top_hot" },
+    "hk_cucumber_crop_stage_0": { "textures": "textures/hk/blocks/cucumber_crop_stage_0" },
+    "hk_cucumber_crop_stage_1": { "textures": "textures/hk/blocks/cucumber_crop_stage_1" },
+    "hk_cucumber_crop_stage_2": { "textures": "textures/hk/blocks/cucumber_crop_stage_2" },
+    "hk_cucumber_crop_stage_3": { "textures": "textures/hk/blocks/cucumber_crop_stage_3" },
+    "hk_cutting_board_knife": { "textures": "textures/hk/blocks/cutting_board_knife" },
+    "hk_cutting_board_side": { "textures": "textures/hk/blocks/cutting_board_side" },
+    "hk_cutting_board_top": { "textures": "textures/hk/blocks/cutting_board_top" },
+    "hk_onion_crop_stage_0": { "textures": "textures/hk/blocks/onion_crop_stage_0" },
+    "hk_onion_crop_stage_1": { "textures": "textures/hk/blocks/onion_crop_stage_1" },
+    "hk_onion_crop_stage_2": { "textures": "textures/hk/blocks/onion_crop_stage_2" },
+    "hk_onion_crop_stage_3": { "textures": "textures/hk/blocks/onion_crop_stage_3" },
+    "hk_strawberry_bush_stage_0": { "textures": "textures/hk/blocks/strawberry_bush_stage_0" },
+    "hk_strawberry_bush_stage_1": { "textures": "textures/hk/blocks/strawberry_bush_stage_1" },
+    "hk_strawberry_bush_stage_2": { "textures": "textures/hk/blocks/strawberry_bush_stage_2" },
+    "hk_strawberry_bush_stage_3": { "textures": "textures/hk/blocks/strawberry_bush_stage_3" },
+    "hk_strawberry_cake_berry": { "textures": "textures/hk/blocks/strawberry_cake_berry" },
+    "hk_strawberry_cake_inner": { "textures": "textures/hk/blocks/strawberry_cake_inner" },
+    "hk_strawberry_cake_side": { "textures": "textures/hk/blocks/strawberry_cake_side" },
+    "hk_strawberry_cake_top": { "textures": "textures/hk/blocks/strawberry_cake_top" },
+    "hk_tomato_crop_stage_0": { "textures": "textures/hk/blocks/tomato_crop_stage_0" },
+    "hk_tomato_crop_stage_1": { "textures": "textures/hk/blocks/tomato_crop_stage_1" },
+    "hk_tomato_crop_stage_2": { "textures": "textures/hk/blocks/tomato_crop_stage_2" },
+    "hk_tomato_crop_stage_3": { "textures": "textures/hk/blocks/tomato_crop_stage_3" },
+    "hk_poster_blank_left": { "textures": "textures/hk/poster/blank_left" },
+    "hk_poster_blank_right": { "textures": "textures/hk/poster/blank_right" },
+    "hk_poster_tomato_soup_left": { "textures": "textures/hk/poster/tomato_soup_left" },
+    "hk_poster_tomato_soup_right": { "textures": "textures/hk/poster/tomato_soup_right" },
+    "hk_poster_vegetable_stew_left": { "textures": "textures/hk/poster/vegetable_stew_left" },
+    "hk_poster_vegetable_stew_right": { "textures": "textures/hk/poster/vegetable_stew_right" },
+    "hk_poster_chili_stew_left": { "textures": "textures/hk/poster/chili_stew_left" },
+    "hk_poster_chili_stew_right": { "textures": "textures/hk/poster/chili_stew_right" },
+    "hk_poster_fish_chowder_left": { "textures": "textures/hk/poster/fish_chowder_left" },
+    "hk_poster_fish_chowder_right": { "textures": "textures/hk/poster/fish_chowder_right" },
+    "hk_poster_chicken_soup_left": { "textures": "textures/hk/poster/chicken_soup_left" },
+    "hk_poster_chicken_soup_right": { "textures": "textures/hk/poster/chicken_soup_right" },
+    "hk_poster_onion_soup_left": { "textures": "textures/hk/poster/onion_soup_left" },
+    "hk_poster_onion_soup_right": { "textures": "textures/hk/poster/onion_soup_right" },
+    "hk_poster_strawberry_jam_left": { "textures": "textures/hk/poster/strawberry_jam_left" },
+    "hk_poster_strawberry_jam_right": { "textures": "textures/hk/poster/strawberry_jam_right" },
+    "hk_poster_garden_salad_left": { "textures": "textures/hk/poster/garden_salad_left" },
+    "hk_poster_garden_salad_right": { "textures": "textures/hk/poster/garden_salad_right" },
+    "hk_poster_salsa_left": { "textures": "textures/hk/poster/salsa_left" },
+    "hk_poster_salsa_right": { "textures": "textures/hk/poster/salsa_right" },
+    "hk_poster_veggie_sandwich_left": { "textures": "textures/hk/poster/veggie_sandwich_left" },
+    "hk_poster_veggie_sandwich_right": { "textures": "textures/hk/poster/veggie_sandwich_right" },
+    "hk_poster_hearty_sandwich_left": { "textures": "textures/hk/poster/hearty_sandwich_left" },
+    "hk_poster_hearty_sandwich_right": { "textures": "textures/hk/poster/hearty_sandwich_right" },
+    "hk_poster_strawberry_cup_left": { "textures": "textures/hk/poster/strawberry_cup_left" },
+    "hk_poster_strawberry_cup_right": { "textures": "textures/hk/poster/strawberry_cup_right" },
+    "hk_poster_strawberry_cake_left": { "textures": "textures/hk/poster/strawberry_cake_left" },
+    "hk_poster_strawberry_cake_right": { "textures": "textures/hk/poster/strawberry_cake_right" }
   }
 }

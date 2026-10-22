@@ -6,6 +6,7 @@ import {
   ingredientsOf,
   missingFor,
   recipesFor,
+  type Ingredient,
   type StationRecipe,
 } from "../data/recipes";
 import { findDish } from "../data/dishes";
@@ -176,8 +177,9 @@ export function liquidOf(station: ContainerStation, state: StationState): Liquid
 }
 
 /**
- * The recipe closest to what's in the station, for the "Almost!" button: fewest missing items
- * among recipes that use at least one item already inside (ties: the first in recipe order).
+ * The recipe closest to what's in the station, for the ghosts and the "Add <item>" hint: fewest
+ * missing items among recipes that use at least one item already inside (ties: the first in
+ * recipe order).
  */
 export function closestRecipe(
   station: ContainerStation,
@@ -206,14 +208,21 @@ export function progressCells(job: StationJob): number {
 
 // --- using the station ---------------------------------------------------------------------------
 
-/** What one use of the station does (plan §2.3). */
+/** The first missing slot of the closest recipe: what the "Add Onion" hint names. */
+export interface NextIngredient {
+  readonly ingredient: Ingredient;
+  readonly missing: number;
+}
+
+/** What one use of the station does (plan §2.3, D15). */
 export type UseAction =
   | { readonly kind: "progress" }
   | { readonly kind: "collect" }
   | { readonly kind: "add"; readonly typeId: string; readonly count: number }
   | { readonly kind: "hint" }
+  | ({ readonly kind: "next" } & NextIngredient)
   | { readonly kind: "cook"; readonly recipe: string }
-  | { readonly kind: "screen" }
+  | { readonly kind: "choose"; readonly recipes: readonly string[] }
   | { readonly kind: "take_all" };
 
 /** Sneak + use goes through the before-event when the hand is empty or holds an ingredient. */
@@ -225,7 +234,9 @@ export function sneakHandles(station: ContainerStation, heldTypeId: string | und
  * Routes one use:
  *   cooking -> progress, done -> collect (any hand, sneaking or not)
  *   holding an item -> add one (sneak: the whole stack)
- *   empty hand: idle and empty -> hint, one dish possible -> cook it, else the pot screen;
+ *   empty hand: empty -> "Add ingredients"; items but no dish -> "Add <first missing>" (no form:
+ *   the ghosts above the pot show the rest); one dish possible -> cook it; several -> the choice
+ *   form (the only form the pot has, D15);
  *   sneak + empty hand -> everything comes out.
  */
 export function routeUse(
@@ -243,17 +254,20 @@ export function routeUse(
   if (viaSneak) return { kind: "take_all" };
   const possible = possibleRecipes(station, state);
   const [only] = possible;
-  return only && possible.length === 1 ? { kind: "cook", recipe: only.id } : { kind: "screen" };
+  if (only && possible.length === 1) return { kind: "cook", recipe: only.id };
+  if (possible.length > 1) return { kind: "choose", recipes: possible.map((r) => r.id) };
+  const first = closestRecipe(station, state)?.missing[0];
+  return first ? { kind: "next", ...first } : { kind: "hint" };
 }
 
 /**
- * Whether the pot screen has anything to offer: only while idle or ready with something inside.
- * An empty station gets the "Add ingredients" hint instead (plan §2.3), also when the screen
- * would reopen after its last ingredient was taken out.
+ * The dishes the choice form offers: only while two or more are possible right now (a single one
+ * cooks without a form). Re-checked before the form opens and after every tap.
  */
-export function showsScreen(station: ContainerStation, state: StationState): boolean {
-  const phase = phaseOf(station, state);
-  return (phase === "idle" || phase === "ready") && totalItems(state) > 0;
+export function choiceOf(station: ContainerStation, state: StationState): StationRecipe[] {
+  if (state.job || state.out) return [];
+  const possible = possibleRecipes(station, state);
+  return possible.length > 1 ? possible : [];
 }
 
 export type AddResult =
@@ -381,18 +395,6 @@ export function collectOutput(
   state: StationState,
 ): { readonly out: StationOutput; readonly state: StationState } | undefined {
   return state.out && { out: state.out, state: { items: state.items } };
-}
-
-/** Takes every item of one type out (pot screen); undefined while cooking or if there's none. */
-export function takeOutItems(
-  state: StationState,
-  typeId: string,
-): { readonly count: number; readonly state: StationState } | undefined {
-  const count = state.items[typeId] ?? 0;
-  if (state.job || count === 0) return undefined;
-  const items = { ...state.items };
-  delete items[typeId];
-  return { count, state: { ...state, items } };
 }
 
 /** Sneak + empty hand: every ingredient comes out; undefined while busy or when empty. */

@@ -1,13 +1,11 @@
 import assert from "node:assert/strict";
-import { existsSync, readdirSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { describe, it } from "node:test";
 import { stationById, type ContainerStation } from "../scripts/data/stations";
-import { findStationRecipe, type StationRecipe } from "../scripts/data/recipes";
 import type { StationState } from "../scripts/stations/station-logic";
-import { potImagePath, potImageSpecs, potScreenView, slotMissing } from "../scripts/ui/pot-status";
+import { potChoices } from "../scripts/ui/pot-status";
 
-// Which status image and buttons the pot screen shows (D14), and that every image it can ask
-// for exists in the resource pack.
+// The pot's choice form (D15): only when two or more dishes are possible, one button per dish.
 
 const RP = "packs/harvest_kitchen/resource";
 const pot = stationById("pot") as ContainerStation;
@@ -15,100 +13,56 @@ const state = (items: Record<string, number>, extra: Partial<StationState> = {})
   items,
   ...extra,
 });
-const recipe = (id: string) => findStationRecipe(id) as StationRecipe;
+const soupAndOnionSoup = { "hk:tomato": 2, "hk:onion": 2, "minecraft:bread": 1, "minecraft:bowl": 1 }; // prettier-ignore
 
-describe("pot status image", () => {
-  it("no screen when empty, cooking or done", () => {
-    assert.equal(potScreenView(pot, state({}), true), undefined);
+describe("pot choice form", () => {
+  it("no form when empty, idle with items, or one dish possible", () => {
+    assert.deepEqual(potChoices(pot, state({})), []);
+    assert.deepEqual(potChoices(pot, state({ "hk:onion": 1 })), []);
+    assert.deepEqual(potChoices(pot, state({ "hk:tomato": 2, "minecraft:bowl": 1 })), []);
+  });
+
+  it("no form while cooking or done, whatever is inside", () => {
     const job = { recipe: "hk:tomato_soup", ticks: 10, total: 100 };
-    assert.equal(potScreenView(pot, state({ "hk:tomato": 2, "minecraft:bowl": 1 }, { job }), true), undefined); // prettier-ignore
+    assert.deepEqual(potChoices(pot, state(soupAndOnionSoup, { job })), []);
     const out = { item: "hk:tomato_soup", count: 1 };
-    assert.equal(potScreenView(pot, state({ "hk:onion": 1 }, { out }), true), undefined);
+    assert.deepEqual(potChoices(pot, state(soupAndOnionSoup, { out })), []);
   });
 
-  it("one dish possible: that recipe, nothing missing, by heat", () => {
-    const s = state({ "hk:tomato": 2, "minecraft:bowl": 1 });
-    assert.equal(potScreenView(pot, s, true)?.image, "pot_tomato_soup_00_lit");
-    assert.equal(potScreenView(pot, s, false)?.image, "pot_tomato_soup_00_cold");
-    // extras don't change the image; they show as Take-out buttons
-    const extra = potScreenView(pot, state({ "hk:tomato": 3, "minecraft:bowl": 1, "minecraft:sugar": 1 }), true); // prettier-ignore
-    assert.equal(extra?.image, "pot_tomato_soup_00_lit");
-    assert.deepEqual(extra?.contents.map(([id]) => id), ["hk:tomato", "minecraft:bowl", "minecraft:sugar"]); // prettier-ignore
+  it("several possible: one button per dish, in recipe order, with the dish icon", () => {
+    assert.deepEqual(potChoices(pot, state(soupAndOnionSoup)), [
+      { recipe: "hk:tomato_soup", result: "hk:tomato_soup", icon: "textures/hk/items/tomato_soup" },
+      { recipe: "hk:onion_soup", result: "hk:onion_soup", icon: "textures/hk/items/onion_soup" },
+    ]);
   });
 
-  it("several possible: the generic choose image and one Cook button each", () => {
-    const s = state({ "hk:tomato": 2, "hk:onion": 2, "minecraft:bread": 1, "minecraft:bowl": 1 });
-    const view = potScreenView(pot, s, true);
-    assert.equal(view?.image, "pot_choose_lit");
-    assert.deepEqual(
-      view?.cook.map((r) => r.id),
-      ["hk:tomato_soup", "hk:onion_soup"],
-    );
-    assert.equal(view?.almost, undefined);
-  });
-
-  it("almost: the closest recipe with how many are missing per slot", () => {
-    const s = state({ "hk:onion": 1, "minecraft:bread": 1 });
-    assert.deepEqual(slotMissing(recipe("hk:onion_soup"), s.items), [1, 0, 1]);
-    const view = potScreenView(pot, s, true);
-    assert.equal(view?.image, "pot_onion_soup_101_lit");
-    assert.equal(view?.almost?.id, "hk:onion_soup");
-    assert.deepEqual(view?.cook, []);
-  });
-
-  it("cod or salmon fill the same slot", () => {
-    const s = state({ "minecraft:salmon": 1, "hk:onion": 1 });
-    assert.deepEqual(slotMissing(recipe("hk:fish_chowder"), s.items), [0, 1, 0, 1]);
-  });
-
-  it("the layout changes with the buttons and the heat, not with counts", () => {
-    const a = potScreenView(pot, state({ "hk:strawberry": 1 }), true);
-    const b = potScreenView(pot, state({ "hk:strawberry": 2 }), true);
-    const c = potScreenView(pot, state({ "hk:strawberry": 2 }), false);
-    const d = potScreenView(pot, state({ "hk:strawberry": 2, "minecraft:sugar": 1 }), true);
-    assert.equal(a?.layout, b?.layout);
-    assert.notEqual(a?.image, b?.image, "the image still follows the counts");
-    assert.notEqual(b?.layout, c?.layout);
-    assert.notEqual(b?.layout, d?.layout);
-  });
-});
-
-describe("pot images the script can show", () => {
-  const specs = potImageSpecs(pot);
-  const stems = new Set(specs.map((s) => s.stem));
-
-  it("every reachable state picks an image that has a spec", () => {
-    // every multiset of up to 4 items over the pot's ingredients, plus a few full pots
-    const ids = [...new Set(specs.flatMap((s) => s.recipe?.ingredients.flatMap((i) => i.items) ?? []))]; // prettier-ignore
-    const seen = new Set<string>();
+  // A pot holds 8 items, so few dishes fit at once. 4 is the most (vegetable stew, tomato soup,
+  // chicken soup and fish chowder share a bowl, an onion, a carrot and a potato). Pinned so a new
+  // recipe that makes the form longer shows up here (blockers.md: 4 buttons must fit unscrolled).
+  it("a full pot (8 items) offers at most 4 dishes", () => {
+    const ids = [
+      ...new Set(
+        ["hk:tomato", "hk:onion", "minecraft:carrot", "minecraft:potato", "minecraft:bowl"].concat(
+          ["minecraft:bread", "minecraft:chicken", "minecraft:beef", "hk:chili_pepper"],
+          ["minecraft:cod", "hk:strawberry", "minecraft:sugar", "minecraft:glass_bottle"],
+        ),
+      ),
+    ];
+    let most = 0;
     const walk = (start: number, items: Record<string, number>, left: number) => {
-      for (const hot of [true, false]) {
-        const view = potScreenView(pot, state(items), hot);
-        if (view) {
-          assert.ok(stems.has(view.image), `${view.image} for ${JSON.stringify(items)}`);
-          seen.add(view.image);
-        }
-      }
+      most = Math.max(most, potChoices(pot, state(items)).length);
       if (left === 0) return;
       for (let i = start; i < ids.length; i++) {
         const id = ids[i] as string;
         walk(i, { ...items, [id]: (items[id] ?? 0) + 1 }, left - 1);
       }
     };
-    walk(0, {}, 4);
-    assert.ok(seen.size > 100, `${seen.size} images reached`);
+    walk(0, {}, pot.capacity);
+    assert.equal(most, 4);
   });
 
-  it("every spec exists as a PNG, and every PNG is a spec", () => {
-    assert.equal(stems.size, specs.length);
-    assert.deepEqual(
-      [...stems].filter((stem) => !existsSync(`${RP}/${potImagePath(stem)}`)),
-      [],
-    );
-    const files = readdirSync(`${RP}/textures/hk/pot`).filter((f) => f.endsWith(".png"));
-    assert.deepEqual(
-      files.filter((f) => !stems.has(f.slice(0, -4))),
-      [],
-    );
+  it("every dish button icon exists as a PNG in the resource pack", () => {
+    const icons = potChoices(pot, state(soupAndOnionSoup)).map((c) => c.icon);
+    for (const icon of icons) assert.ok(icon && existsSync(`${RP}/${icon}.png`), icon);
   });
 });

@@ -10,8 +10,8 @@ import {
   type RawMessage,
 } from "@minecraft/server";
 import { DEBUG_GROW_RADIUS, STATE_GROWTH } from "../config";
-import { resetDiscovery } from "../book/discovery";
-import { HK_ITEM_IDS } from "../book/unlock";
+import { resetDiscovery } from "../discovery/discovery";
+import { HK_ITEM_IDS } from "../discovery/unlock";
 import { CROPS } from "../data/crops";
 import { CRAFTING_RECIPES, STATION_RECIPES } from "../data/recipes";
 import { lastValidation, validateData } from "../data/validate";
@@ -19,6 +19,7 @@ import { getState, setState } from "../lib/block-states";
 import { giveOrDrop } from "../lib/inventory";
 import { raw, t } from "../lib/text";
 import { isFast, refAt, setFast, trackedCount } from "../stations/station-engine";
+import { ghostsFor, type GhostView } from "../stations/ghost-logic";
 import { phaseOf } from "../stations/station-logic";
 import { readStation, storedSize } from "../stations/station-store";
 
@@ -28,7 +29,7 @@ import { readStation, storedSize } from "../stations/station-store";
 //   fast      toggles near-instant cooking (saved in the world)
 //   pot       prints the state of the station you're looking at
 //   validate  re-runs the data check and prints it to chat (the Content Log loses its tail)
-//   reset     forgets your discovered crops and that you got the book
+//   reset     forgets your discovered crops and that you got the starter poster
 //
 // Custom commands register only in system.beforeEvents.startup, and their callbacks run in
 // restricted mode (@privilege no-restricted-execution on world changes), so every action is
@@ -48,7 +49,7 @@ const KIT_EXTRAS: readonly [string, number][] = [
   ["minecraft:bone_meal", 32],
   ["minecraft:wooden_hoe", 1],
   ["minecraft:water_bucket", 1],
-  ["minecraft:book", 1],
+  ["minecraft:paper", 2], // + any crop: a Recipe Poster
 ];
 
 function kit(player: Player): void {
@@ -120,6 +121,12 @@ function grow(player: Player): void {
   player.sendMessage(t("hk.debug.grow", grown));
 }
 
+/** "missing hk:onion minecraft:bowl (hk:onion_soup)" — what the D15 ghosts above it show. */
+function ghostLine(view: GhostView): string {
+  const recipe = view.recipe ? ` (${view.recipe})` : "";
+  return `${view.mode} ${view.icons.map((i) => i.item).join(" ")}${recipe}`;
+}
+
 function pot(player: Player): void {
   const hit = player.getBlockFromViewDirection({ maxDistance: 8 });
   const ref = hit && refAt(hit.block);
@@ -136,6 +143,7 @@ function pot(player: Player): void {
     `items ${JSON.stringify(state.items)}`,
     `job ${state.job ? `${state.job.recipe} ${state.job.ticks}/${state.job.total} ticks` : "-"}`,
     `out ${state.out ? `${state.out.count}x ${state.out.item}` : "-"}`,
+    `ghosts ${ghostLine(ghostsFor(ref.station, state))}`,
     `saved ${storedSize(ref)} chars, active stations ${trackedCount()}, fast ${isFast()}`,
   ];
   for (const line of lines) player.sendMessage(raw(line));

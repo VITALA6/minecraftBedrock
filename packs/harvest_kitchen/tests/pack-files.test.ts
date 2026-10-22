@@ -2,8 +2,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { describe, it } from "node:test";
-import { HK_ITEM_IDS } from "../scripts/book/unlock";
-import { RP_UUID } from "../scripts/config";
+import { HK_ITEM_IDS } from "../scripts/discovery/unlock";
 import { readParams } from "../scripts/crops/growth-logic";
 import { CROPS } from "../scripts/data/crops";
 import { DISHES, FAMILIES } from "../scripts/data/dishes";
@@ -11,6 +10,15 @@ import { EFFECT_ICONS, UI_ICONS, itemIcon } from "../scripts/data/icons";
 import { LIQUIDS } from "../scripts/data/liquids";
 import { CRAFTING_RECIPES } from "../scripts/data/recipes";
 import { STATIONS, stationById } from "../scripts/data/stations";
+import {
+  FACINGS,
+  HALVES,
+  POSTER_COUNT,
+  POSTER_MAX_STATES,
+  POSTER_TEXTURE_DIR,
+  halfTexture,
+  posterIndices,
+} from "../scripts/posters/poster-logic";
 import { evalCondition, type MolangValue } from "./molang";
 
 // What validate.ts can't check in game (texture files, lang keys, and the food values in the item
@@ -154,13 +162,6 @@ describe("icons", () => {
   });
 });
 
-describe("resource pack UUID (CustomForm.image, S1a)", () => {
-  it("config.ts RP_UUID is the resource pack's header uuid", () => {
-    const manifest = JSON.parse(read(`${RP}/manifest.json`)) as { header: { uuid: string } };
-    assert.equal(RP_UUID, manifest.header.uuid);
-  });
-});
-
 describe("item JSON against data/dishes.ts", () => {
   for (const dish of DISHES) {
     if (dish.slices) continue; // eaten from the placed block, not as an item
@@ -285,10 +286,11 @@ describe("same-id placer items (B3)", () => {
     .map((item) => item as unknown as PlacerJson)
     .filter((item) => item.components["minecraft:block_placer"]?.replace_block_item === true);
 
-  it("the pot, the board and the cake replace their block's item", () => {
+  it("the pot, the board, the cake and the poster replace their block's item", () => {
     assert.deepEqual(placers.map((p) => p.description.identifier).sort(), [
       "hk:cooking_pot",
       "hk:cutting_board",
+      "hk:recipe_poster",
       "hk:strawberry_cake",
     ]);
   });
@@ -422,5 +424,172 @@ describe("strawberry cake support (B15)", () => {
       (loot.pools ?? []).flatMap((p) => p.entries ?? []),
       [],
     );
+  });
+});
+
+describe("recipe poster (D15)", () => {
+  const poster = blocks.get("hk:recipe_poster");
+  const terrain = (
+    JSON.parse(read(`${RP}/textures/terrain_texture.json`)) as {
+      texture_data: Record<string, { textures: string }>;
+    }
+  ).texture_data;
+  type Materials = Record<string, { texture: string; render_method?: string }>;
+  interface PosterDescription {
+    traits?: Record<string, Record<string, unknown>>;
+  }
+
+  it("the block JSON is what the generator writes", () => {
+    const run = spawnSync("node", ["tools/gen-poster-block.mjs", "--check"], { encoding: "utf8" });
+    assert.equal(run.status, 0, run.stderr || run.stdout);
+  });
+
+  it("every poster state has both halves: a 64×64 PNG with an hk_poster_ shortname", () => {
+    const pngs = new Set(readdirSync(`${RP}/${POSTER_TEXTURE_DIR}`));
+    const wanted = new Set<string>();
+    for (const index of posterIndices()) {
+      for (const half of HALVES) {
+        const { path, shortname } = halfTexture(index, half);
+        assert.equal(terrain[shortname]?.textures, path, shortname);
+        const file = `${RP}/${path}.png`;
+        assert.ok(existsSync(file), file);
+        const png = readFileSync(file, "latin1"); // one char per byte
+        const u32 = (at: number) =>
+          [0, 1, 2, 3].reduce((n, k) => n * 256 + png.charCodeAt(at + k), 0);
+        assert.deepEqual([u32(16), u32(20)], [64, 64], `${file}: width × height`);
+        wanted.add(path.slice(path.lastIndexOf("/") + 1) + ".png");
+      }
+    }
+    assert.deepEqual(
+      [...pngs].filter((f) => !wanted.has(f)),
+      [],
+      "orphan poster PNGs",
+    );
+    assert.deepEqual(
+      Object.keys(terrain).filter(
+        (k) => k.startsWith("hk_poster_") && !k.endsWith("_left") && !k.endsWith("_right"),
+      ),
+      [],
+    );
+  });
+
+  it("states: one hk:poster value per recipe + the blank, within the int state limit", () => {
+    assert.ok(poster);
+    const states = poster.description.states ?? {};
+    assert.deepEqual(states["hk:poster"], { values: { min: 0, max: POSTER_COUNT - 1 } });
+    assert.ok(POSTER_COUNT <= POSTER_MAX_STATES, `${POSTER_COUNT} values`);
+    assert.deepEqual(states["hk:facing"], [...FACINGS]);
+    assert.deepEqual(states["hk:right"], [false, true]);
+  });
+
+  it("a stable horizontal 2-part multi-block with only the cardinal_direction trait", () => {
+    assert.ok(poster);
+    const traits = (poster.description as PosterDescription).traits ?? {};
+    assert.deepEqual(Object.keys(traits).sort(), [
+      "minecraft:multi_block",
+      "minecraft:placement_direction",
+    ]);
+    assert.deepEqual(traits["minecraft:multi_block"]?.["enabled_states"], [
+      "minecraft:multi_block_part",
+    ]);
+    assert.equal(traits["minecraft:multi_block"]?.["parts"], 2);
+    assert.ok(FACINGS.includes(traits["minecraft:multi_block"]?.["direction"] as never));
+    assert.deepEqual(traits["minecraft:placement_direction"]?.["enabled_states"], [
+      "minecraft:cardinal_direction",
+    ]);
+    // Microsoft Learn: horizontal multi-blocks need block format 1.26.50 without the experiment.
+    const json = JSON.parse(read(`${BP}/blocks/recipe_poster.json`)) as { format_version: string };
+    assert.equal(json.format_version, "1.26.50");
+  });
+
+  it("hangs on side faces, pops, drops nothing by itself, lets light through, thin boxes", () => {
+    assert.ok(poster);
+    const c = poster.components;
+    assert.deepEqual(c["minecraft:placement_filter"], {
+      conditions: [{ allowed_faces: ["side"] }],
+    });
+    assert.deepEqual(c["minecraft:movable"], { movement_type: "popped" });
+    assert.equal(c["minecraft:loot"], "loot_tables/hk/blocks/nothing.json");
+    assert.equal(c["minecraft:light_dampening"], 0);
+    for (const box of ["minecraft:collision_box", "minecraft:selection_box"]) {
+      const { origin, size } = c[box] as { origin: number[]; size: number[] };
+      assert.ok((size[2] ?? 16) <= 2, `${box} depth`);
+      assert.equal((origin[2] ?? 0) + (size[2] ?? 0), 8, `${box} sits against the wall`);
+    }
+    for (const p of poster.permutations ?? []) {
+      for (const banned of ["minecraft:placement_filter", "minecraft:movable", "minecraft:loot"]) {
+        assert.equal(p.components[banned], undefined, `${banned} in a permutation`);
+      }
+    }
+  });
+
+  it("the geometry is one 1 px deep panel with the front facing north", () => {
+    const geo = JSON.parse(read(`${RP}/models/blocks/hk/recipe_poster.geo.json`)) as {
+      "minecraft:geometry": { bones: { cubes: { origin: number[]; size: number[] }[] }[] }[];
+    };
+    const cubes = geo["minecraft:geometry"].flatMap((g) => g.bones.flatMap((b) => b.cubes));
+    assert.deepEqual(
+      cubes.map((cube) => [cube.origin, cube.size]),
+      [
+        [
+          [-8, 0, 7],
+          [16, 16, 1],
+        ],
+      ],
+    );
+  });
+
+  it("every state combination shows its half of its recipe, rotated to its facing, all opaque", () => {
+    assert.ok(poster);
+    const base: Record<string, unknown> = poster.components;
+    const permutations: { condition: string; components: Record<string, unknown> }[] =
+      poster.permutations ?? [];
+    const rotation = { north: 0, west: 90, south: 180, east: 270 } as const;
+    let combinations = 0;
+    for (const facing of FACINGS) {
+      for (const half of HALVES) {
+        for (const index of posterIndices()) {
+          combinations++;
+          const states: Record<string, MolangValue> = {
+            "hk:facing": facing,
+            "hk:right": half === "right",
+            "hk:poster": index,
+          };
+          const applied = permutations.filter((p) => evalCondition(p.condition, states));
+          const where = JSON.stringify(states);
+          assert.ok(applied.length <= 1, `${where}: ${applied.length} permutations`);
+          const components: Record<string, unknown> = applied[0]?.components ?? base;
+          const materials = components["minecraft:material_instances"] as Materials;
+          assert.deepEqual(Object.keys(materials), ["*"], where);
+          assert.equal(materials["*"]?.texture, halfTexture(index, half).shortname, where);
+          assert.equal(materials["*"]?.render_method, "opaque", where);
+          assert.deepEqual(
+            components["minecraft:transformation"],
+            { rotation: [0, rotation[facing], 0] },
+            where,
+          );
+        }
+      }
+    }
+    assert.equal(combinations, FACINGS.length * HALVES.length * POSTER_COUNT);
+  });
+
+  it("is crafted shapeless from paper + any HK crop (tag hk:crops on exactly the produce)", () => {
+    const recipe = (JSON.parse(read(`${BP}/recipes/recipe_poster.json`)) as ShapelessJson)[
+      "minecraft:recipe_shapeless"
+    ];
+    assert.ok(recipe);
+    assert.deepEqual(recipe.ingredients, [{ item: "minecraft:paper" }, { tag: "hk:crops" }]);
+    assert.deepEqual(recipe.result, { item: "hk:recipe_poster", count: 1 });
+    interface TaggedItem {
+      components: { "minecraft:tags"?: { tags: string[] } };
+    }
+    const tagged = [...items.entries()]
+      .filter(([, item]) =>
+        (item as unknown as TaggedItem).components["minecraft:tags"]?.tags.includes("hk:crops"),
+      )
+      .map(([id]) => id)
+      .sort();
+    assert.deepEqual(tagged, CROPS.map((crop) => crop.produce).sort());
   });
 });

@@ -44,8 +44,8 @@
     "hk_onion_soup": {
       "textures": "textures/hk/items/onion_soup"
     },
-    "hk_recipe_book": {
-      "textures": "textures/hk/items/recipe_book"
+    "hk_recipe_poster": {
+      "textures": "textures/hk/items/recipe_poster"
     },
     "hk_salsa": {
       "textures": "textures/hk/items/salsa"

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.26.50",
+  "particle_effect": {
+    "description": {
+      "identifier": "hk:ghost_sparkle",
+      "basic_render_parameters": {
+        "material": "particles_blend",
+        "texture": "textures/hk/particle/ghost_atlas"
+      }
+    },
+    "components": {
+      "minecraft:emitter_rate_instant": { "num_particles": 2 },
+      "minecraft:emitter_lifetime_once": { "active_time": 0.8 },
+      "minecraft:emitter_shape_box": {
+        "half_dimensions": [0.28, 0.18, 0.28],
+        "surface_only": false,
+        "direction": [0, 1, 0]
+      },
+      "minecraft:particle_lifetime_expression": { "max_lifetime": "math.random(0.5, 0.8)" },
+      "minecraft:particle_initial_speed": 0.15,
+      "minecraft:particle_motion_dynamic": { "linear_drag_coefficient": 1 },
+      "minecraft:particle_appearance_billboard": {
+        "size": [
+          "0.07 * math.sin(v.particle_age / v.particle_lifetime * 180)",
+          "0.07 * math.sin(v.particle_age / v.particle_lifetime * 180)"
+        ],
+        "facing_camera_mode": "lookat_xyz",
+        "uv": { "texture_width": 160, "texture_height": 60, "uv": [1, 1], "uv_size": [18, 18] }
+      },
+      "minecraft:particle_appearance_tinting": { "color": [1, 0.87, 0.4, 1] }
+    }
+  }
+}

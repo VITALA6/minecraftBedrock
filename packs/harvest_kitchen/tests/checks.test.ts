@@ -246,8 +246,8 @@ describe("data check on broken data", () => {
 
   it("a station item without an icon", () => {
     reports(
-      check({ icon: (id) => (id === "hk:recipe_book" ? undefined : CONTENT.icon(id)) }),
-      'station items: no icon for "hk:recipe_book" (add it to data/icons.ts)',
+      check({ icon: (id) => (id === "hk:recipe_poster" ? undefined : CONTENT.icon(id)) }),
+      'station items: no icon for "hk:recipe_poster" (add it to data/icons.ts)',
     );
   });
 
@@ -268,7 +268,7 @@ describe("references for the in-game half", () => {
     assert.deepEqual(where("minecraft:salmon"), ["station recipe hk:fish_chowder"]);
     assert.ok(where("hk:tomato").includes("crop tomato"));
     assert.ok(where("hk:tomato").includes("cutting hk:tomato"));
-    assert.deepEqual(where("hk:recipe_book"), ["station items"]);
+    assert.deepEqual(where("hk:recipe_poster"), ["station items"]);
     assert.ok(refs.every((r) => r.id.includes(":")));
   });
 

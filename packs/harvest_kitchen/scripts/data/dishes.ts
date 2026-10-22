@@ -17,7 +17,7 @@ import {
 import type { Liquid } from "./liquids";
 
 // Every dish (plan §1.3). Nutrition, saturation and "can always eat" also live in each item's
-// JSON (minecraft:food); they are repeated here so the book can show them, and
+// JSON (minecraft:food); they are repeated here so the posters can show them, and
 // tests/pack-files.test.ts catches the two drifting apart. The effect lives only here: the 1.26.30 item format has no
 // food effects, and custom component params can't hold a list of objects (plan §5.1), so the
 // "hk:dish" item component applies it on eat.

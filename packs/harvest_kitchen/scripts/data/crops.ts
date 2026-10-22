@@ -17,7 +17,7 @@ import {
 
 // Every crop as data. Growth tuning lives in each block's JSON ("hk:crop_growth" params, which
 // must stay flat, see plan §5.1); everything the scripts need to know about a crop is here:
-// seeds from grass, bush harvests, discovery and the recipe book's crops page.
+// seeds from grass, bush harvests, discovery and the recipe posters.
 
 /**
  * - crop: break to harvest (loot table per stage).
@@ -40,13 +40,13 @@ export interface Crop {
   readonly plantOn: PlantOn;
   /** Biomes where grass drops this seed at SEED_CHANCE_IN_BIOME. Vanilla ids. */
   readonly biomes: readonly string[];
-  /** Lang key for the book's short "where to find it" hint. */
+  /** Lang key for a short "where to find it" hint (biomes). */
   readonly whereKey: string;
   /** Bushes only: how many fruit a pick gives. */
   readonly pick?: { readonly min: number; readonly max: number };
   /** Bushes only: the stage a picked bush drops back to. */
   readonly pickResetStage?: number;
-  /** Chop-bits colour on the board and the book's accent, 0..1 per channel. */
+  /** Chop-bits colour on the board, 0..1 per channel. */
   readonly color: { readonly red: number; readonly green: number; readonly blue: number };
 }
 

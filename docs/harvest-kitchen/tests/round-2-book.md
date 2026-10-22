@@ -1,5 +1,8 @@
 # Test script, round 2: page-image book, pot screen, liquid colour, cake (2026-10-22)
 
+> **Superseded by [`round-3-d15.md`](round-3-d15.md) (D15: no recipe book).** Its book and pot-screen
+> steps are obsolete; the liquid-colour, cake and Content Log checks moved to round 3.
+
 The first round ([`portfolio-slice.md`](portfolio-slice.md)) passed except the book, the pot
 screen, the pot liquid colour and B15. This round tests only what changed since then:
 

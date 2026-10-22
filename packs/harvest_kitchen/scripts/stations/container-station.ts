@@ -15,6 +15,7 @@ import {
   addFromHand,
   addHint,
   collect,
+  nextHint,
   refAt,
   refreshVisuals,
   resetPlaced,
@@ -33,8 +34,8 @@ import { readStation, type StationRef } from "./station-store";
 //   phase done            any hand    -> the dish goes to your hand / inventory
 //   holding an item                   -> add one (sneak: the whole stack)
 //   empty hand, ready, one dish       -> start cooking, no form
-//   empty hand, ready, several dishes -> pot screen
-//   empty hand, idle with items       -> pot screen ("Almost!")
+//   empty hand, ready, several dishes -> the choice form (one button per dish; cold: fizz)
+//   empty hand, idle with items       -> "Add <first missing>", no form (the ghosts show it all)
 //   empty hand, idle and empty        -> "Add ingredients"
 //   sneak + empty hand                -> everything comes out
 //
@@ -58,7 +59,9 @@ function handleUse(player: Player, ref: StationRef, sneaking: boolean): void {
     case "cook":
       startCooking(player, ref, action.recipe);
       return;
-    case "screen":
+    case "next":
+      return nextHint(player, ref, action);
+    case "choose":
       return openPotScreen(player, ref);
     case "take_all":
       return takeAll(player, ref);

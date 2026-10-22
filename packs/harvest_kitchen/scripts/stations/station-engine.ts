@@ -21,6 +21,7 @@ import { setStates, type StateValue } from "../lib/block-states";
 import { actionBar, particle, sound } from "../lib/feedback";
 import { consumeHeldItem, dropItems, getHeldItem, giveOrDrop } from "../lib/inventory";
 import { ingredientName, itemName, t } from "../lib/text";
+import { popGhosts, startGhosts } from "./ghosts";
 import { hasHeatBelow } from "./heat";
 import {
   addItems,
@@ -35,7 +36,7 @@ import {
   startJob,
   sweepStep,
   takeAllItems,
-  takeOutItems,
+  type NextIngredient,
   type StationState,
 } from "./station-logic";
 import {
@@ -145,7 +146,8 @@ function refuse(player: Player, ref: StationRef, message = t("hk.station.full", 
   actionBar(player, message);
 }
 
-function noHeat(player: Player, ref: StationRef): void {
+/** Fizz, smoke and "♨ Needs fire below". */
+export function noHeat(player: Player, ref: StationRef): void {
   const top = stationTop(ref);
   sound(ref.dimension, SOUND.fizz, top);
   particle(ref.dimension, PARTICLE.puff, top, 3, 0.25);
@@ -221,6 +223,7 @@ export function addFromHand(player: Player, ref: StationRef, typeId: string, cou
   }
   if (!consumeHeldItem(player, typeId, result.amount)) return;
   save(ref, result.state);
+  popGhosts(ref, typeId, result.amount);
 
   const top = stationTop(ref);
   sound(ref.dimension, SOUND.potAccept, top);
@@ -277,29 +280,20 @@ export function collect(player: Player, ref: StationRef): void {
   sound(ref.dimension, SOUND.pop, stationTop(ref));
 }
 
-/** Takes out every ingredient of one type (pot screen "In the pot" button). */
-export function takeOut(player: Player, ref: StationRef, typeId: string): boolean {
-  if (!stationBlock(ref)) {
-    actionBar(player, t("hk.station.gone"));
-    return false;
-  }
-  const result = takeOutItems(readStation(ref), typeId);
-  if (!result) {
-    actionBar(player, t("hk.station.changed"));
-    return false;
-  }
-  save(ref, result.state);
-  returnItems(ref, typeId, result.count, () =>
-    giveOrDrop(player, typeId, result.count, ref.dimension, stationTop(ref)),
-  );
-  sound(ref.dimension, SOUND.pop, stationTop(ref));
-  return true;
-}
-
 /** Empty hand on an empty station: "Add ingredients". */
 export function addHint(player: Player, ref: StationRef): void {
   sound(ref.dimension, SOUND.tap, stationTop(ref));
   actionBar(player, t("hk.station.add_hint"));
+}
+
+/**
+ * Empty hand on a station with items but no dish yet: no form (D15). The ghosts above it show
+ * everything that's missing; the action bar names the first one ("Add Onion", "Add 2 × Tomato").
+ */
+export function nextHint(player: Player, ref: StationRef, next: NextIngredient): void {
+  sound(ref.dimension, SOUND.tap, stationTop(ref));
+  const name = ingredientName(next.ingredient);
+  actionBar(player, t("hk.station.next", next.missing > 1 ? t("hk.ui.item_count", next.missing, name) : name)); // prettier-ignore
 }
 
 /** Sneak + empty hand: everything comes out (idle or ready). */
@@ -405,6 +399,7 @@ export function startStationSweep(): void {
   fast = world.getDynamicProperty(WORLD_DEBUG_FAST) === true;
   for (const ref of findSavedStations()) tracked.set(stationKey(ref), ref);
   system.runInterval(sweep, STATION_SWEEP_TICKS);
+  startGhosts(() => tracked.values());
 }
 
 export function trackedCount(): number {

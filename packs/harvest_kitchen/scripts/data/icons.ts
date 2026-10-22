@@ -21,7 +21,6 @@ export const VANILLA_ITEM_ICONS: Readonly<Record<string, string>> = {
   "minecraft:glass_bottle": "textures/items/potion_bottle_empty",
   "minecraft:cooked_porkchop": "textures/items/porkchop_cooked",
   "minecraft:cake": "textures/items/cake",
-  "minecraft:book": "textures/items/book_normal",
   "minecraft:campfire": "textures/items/campfire",
 };
 
@@ -47,7 +46,6 @@ export const UI_ICONS = {
   needsHeat: "textures/hk/ui/needs_heat",
   pot: "textures/hk/items/cooking_pot",
   board: "textures/hk/items/cutting_board",
-  book: "textures/hk/items/recipe_book",
   crafting: "textures/blocks/crafting_table_front",
   back: "textures/ui/arrow_left",
 } as const;

@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { BOOK_OPEN_GAP_TICKS, SLICE_BITE_GAP_TICKS } from "../scripts/config";
+import { POSTER_USE_GAP_TICKS, SLICE_BITE_GAP_TICKS } from "../scripts/config";
 import { TickGate } from "../scripts/lib/tick-gate";
 
-describe("tick gate (book open CR2, cake bites CR7)", () => {
+describe("tick gate (poster use, cake bites CR7)", () => {
   it("lets the first action through", () => {
     assert.equal(new TickGate(10).pass("a", 0), true);
   });
@@ -11,7 +11,7 @@ describe("tick gate (book open CR2, cake bites CR7)", () => {
   it("refuses the same key within the gap, then lets it through again", () => {
     const gate = new TickGate(10);
     assert.equal(gate.pass("a", 100), true);
-    assert.equal(gate.pass("a", 100), false, "same tick: onUse + onUseOn of one click");
+    assert.equal(gate.pass("a", 100), false, "same tick: both poster parts report one click");
     assert.equal(gate.pass("a", 109), false);
     assert.equal(gate.pass("a", 110), true);
   });
@@ -40,7 +40,7 @@ describe("tick gate (book open CR2, cake bites CR7)", () => {
     assert.ok([0, 10, 20, 30].every((tick) => taps.pass("p", tick)));
   });
 
-  it("the book gap is short enough never to block a deliberate second open", () => {
-    assert.ok(BOOK_OPEN_GAP_TICKS >= 1 && BOOK_OPEN_GAP_TICKS <= 10);
+  it("the poster gap is short enough never to block a deliberate second sneak + use", () => {
+    assert.ok(POSTER_USE_GAP_TICKS >= 1 && POSTER_USE_GAP_TICKS <= 10);
   });
 });

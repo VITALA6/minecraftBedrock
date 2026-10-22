@@ -30,7 +30,7 @@
         "movement_modifier": 0.35
       },
       "minecraft:tags": {
-        "tags": ["minecraft:is_food"]
+        "tags": ["minecraft:is_food", "hk:crops"]
       }
     }
   }

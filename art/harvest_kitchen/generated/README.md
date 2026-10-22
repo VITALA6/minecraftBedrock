@@ -27,7 +27,7 @@ file is where.
 | --------- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | `blocks/` | `<crop>_stage_0..3` for `tomato_crop`, `onion_crop`, `cucumber_crop`, `chili_bush`, `strawberry_bush` (cross model, transparent)    |
 | `blocks/` | `cooking_pot_liquid_<colour>` and `_<colour>_ready` for each pot liquid colour (`POT_LIQUIDS`), `cooking_pot_top_hot` (S8 variants) |
-| `items/`  | produce, seeds, prepared ingredients, the 13 MUST dishes, `cooking_pot`, `cutting_board`, `recipe_book`                             |
+| `items/`  | produce, seeds, prepared ingredients, the 13 MUST dishes, `cooking_pot`, `cutting_board`, `recipe_poster`                           |
 | `ui/`     | `family_heal`, `family_move`, `family_work`, `family_explore`, `locked`, `chapter_crops`, `chapter_what_can_i_make`, `needs_heat`   |
 
 All textures are 16×16 with no baked-in words; `locked` uses a single `?` glyph.

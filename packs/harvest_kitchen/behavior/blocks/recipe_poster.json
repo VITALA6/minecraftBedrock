@@ -1,0 +1,1044 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:block": {
+    "description": {
+      "identifier": "hk:recipe_poster",
+      "menu_category": { "category": "items" },
+      "states": {
+        "hk:poster": { "values": { "min": 0, "max": 13 } },
+        "hk:facing": ["north", "south", "east", "west"],
+        "hk:right": [false, true]
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": ["minecraft:cardinal_direction"],
+          "y_rotation_offset": 90
+        },
+        "minecraft:multi_block": {
+          "enabled_states": ["minecraft:multi_block_part"],
+          "parts": 2,
+          "direction": "north"
+        }
+      }
+    },
+    "components": {
+      "hk:recipe_poster": {},
+      "minecraft:collision_box": { "origin": [-8, 0, 7], "size": [16, 16, 1] },
+      "minecraft:selection_box": { "origin": [-8, 0, 7], "size": [16, 16, 1] },
+      "minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
+      "minecraft:destructible_by_explosion": { "explosion_resistance": 0.5 },
+      "minecraft:flammable": { "catch_chance_modifier": 30, "destroy_chance_modifier": 60 },
+      "minecraft:geometry": { "identifier": "geometry.hk.recipe_poster" },
+      "minecraft:light_dampening": 0,
+      "minecraft:loot": "loot_tables/hk/blocks/nothing.json",
+      "minecraft:map_color": "#eedcb0",
+      "minecraft:material_instances": {
+        "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+      },
+      "minecraft:transformation": { "rotation": [0, 0, 0] },
+      "minecraft:movable": { "movement_type": "popped" },
+      "minecraft:placement_filter": { "conditions": [{ "allowed_faces": ["side"] }] }
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'north' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'south' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'east' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == false && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 0",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_blank_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 1",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 2",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 3",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 4",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 5",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 6",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 7",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 8",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 9",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 10",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 11",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 12",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:facing') == 'west' && q.block_state('hk:right') == true && q.block_state('hk:poster') == 13",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "hk_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      }
+    ]
+  }
+}

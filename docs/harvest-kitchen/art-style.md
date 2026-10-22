@@ -60,7 +60,7 @@ node tools/lint-textures.mjs    # check it, and write generated/review_sheet.png
 | contrast     | icons, crop stages | grayscale (0.299 R + 0.587 G + 0.114 B) max − min is under 80                                                                                                                                 |
 | similar pair | icon pairs         | silhouette overlap (IoU) ≥ 0.8 **and** dominant hues within 20°. The hue is taken from the pixels where the two icons differ, so a shared base (the bowl) doesn't make every bowl dish match. |
 
-"Icons" are `items/`, `ui/` and `ingredients/` (our own versions of vanilla ingredients for the book). "Crop stages" are `blocks/*_stage_*`; early stages are small on
+"Icons" are `items/`, `ui/` and `ingredients/` (our own versions of vanilla ingredients for the posters). "Crop stages" are `blocks/*_stage_*`; early stages are small on
 purpose, so they skip the bounding-box check. The pot face textures are opaque block faces and only
 get the alpha check.
 
@@ -82,30 +82,31 @@ wheat seeds, mushroom stew, bread), then shows each icon:
 Flagged icons get a red frame in the 4× row. The vanilla references need the game installed (see
 CLAUDE.md "Versions"); without it the sheet is drawn without them.
 
-## Book pages
+## Recipe posters
 
-The recipe book and the pot screen show pre-rendered images (D14, `slice.md` "Book and pot
-screen"). `tools/gen-book-pages.mjs` draws them; `tools/lint-pages.mjs` checks them.
+The recipe posters (D15, `slice.md` "Recipe posters (D15)") are 2×1 wall blocks. Each poster is a
+128×64 image drawn 1:1 at **64 texels per block** and shipped as two 64×64 block textures.
+`tools/gen-posters.mjs` draws them; `tools/lint-posters.mjs` checks them.
 
 ```sh
-npm run book    # render, then lint
+npm run posters    # render, regenerate the block JSON, lint
 ```
 
-| Rule                                                                                                                                                                          | Lint                                                                       |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| **Our own art only:** icons from `generated/{items,ui,ingredients,blocks}`, frames from `mockups/parts/`. No vanilla or Mojang textures, not even as a fallback.              | no (the renderer can't load vanilla files)                                 |
-| **No words in images.** Numbers, ×N counts and symbols (`? ! + → ×`, `s` for seconds) only; names and hints are lang keys in the form's title, label and buttons.             | no (the page font has no capitals)                                         |
-| **Fixed size:** book pages 256×160 art px, pot images 256×96, both scaled ×4 (1024×640, 1024×384).                                                                            | size per kind                                                              |
-| **Hard pixels:** integer ×4 scale, no smoothing, alpha 0 or 255.                                                                                                              | every 4×4 block one colour; no 0 < alpha < 255                             |
-| **Icons at least 1× (16 art px = 64 PNG px)**, big hero icons 3×. At an assumed form image width of 280 UI px that's ≥ 16 UI px, inventory-icon size.                         | every icon ≥ 16 UI px at 280 UI px width                                   |
-| **Text at least the 7 px font at 1×** (≥ 7 UI px at that width, the game font's cap height).                                                                                  | every glyph run ≥ 7 UI px tall                                             |
-| **Text contrast ≥ 4.5:1** (WCAG) against what's behind it; white counts get a dark shadow, family badge text is darkened until it passes.                                     | contrast of the drawn text colour vs its background, both found in the PNG |
-| **Icons stand out:** the most contrasting pixel of an icon or silhouette vs its slot/page ≥ 2:1. Ghosts (missing pot items, uncookable results) are exempt; their "+N" isn't. | per icon, measured in the PNG                                              |
-| **Locked = silhouette + "?"**, same layout as the unlocked page, so a locked page still teaches the structure.                                                                | no                                                                         |
-| **Pages are neutral where they can't be per player:** chapter indexes show dish silhouettes with family gems; names live in the buttons.                                      | no                                                                         |
-| **Every image the script can show exists, and nothing else.** The list comes from the pack's `bookImageSpecs()` / `potImageSpecs()`.                                          | missing files, orphan PNGs; also unit-tested                               |
-| **Up to date:** each PNG equals the current render.                                                                                                                           | pixel diff vs an in-memory render                                          |
+| Rule                                                                                                                                                              | Lint                                                        |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Our own art only:** icons from `generated/{items,ui,ingredients,blocks}`, slots and arrows from `mockups/parts/`, frame and pins drawn from the palette.        | no (the renderer can't load vanilla files)                  |
+| **No words in images.** Numbers and symbols only (`? + →`, `s` for seconds); the dish name and effect come from lang keys (use the poster).                       | no (the font has no capitals)                               |
+| **Fixed size:** 64×64 per half, two halves per poster.                                                                                                            | size per file                                               |
+| **Fully opaque:** the block face is `opaque`, so every pixel has alpha 255 (no transparent or semi-transparent pixels).                                           | alpha 255 everywhere                                        |
+| **Icons at least a quarter block** (16 texels). From 4 blocks on a 1080p screen that's ~48 px, an inventory icon at GUI scale 3. The result is 2× (half a block). | every recorded icon ≥ 16 texels                             |
+| **Text at least the 7 px font at 1×** (~1.75 world px; ~21 screen px tall from 4 blocks).                                                                         | every glyph run ≥ 7 texels tall                             |
+| **Text contrast ≥ 4.5:1** (WCAG) against what's behind it; counts are white with a dark shadow, the duration is the family colour darkened until it passes.       | contrast of the drawn text colour vs its background, in PNG |
+| **Icons stand out:** the most contrasting pixel of an icon vs its slot or paper ≥ 2:1.                                                                            | per icon, measured in the PNG                               |
+| **Every poster state has both halves, and nothing else.** The list comes from `posters/poster-logic.ts`, as does the block JSON.                                  | missing files, orphan PNGs, `terrain_texture.json` entries  |
+| **Up to date:** each PNG equals the current render.                                                                                                               | pixel diff vs an in-memory render                           |
+| **Frame in our style:** wooden frame (palette `wood`/`bark`, light from the top left), cream paper with a 1 px shadow, two red pins.                              | no                                                          |
 
 The renderer records every icon and text run it draws (position, scale, colours), and the lint
-measures those in the decoded PNG, so the readability checks follow the layout automatically.
-The 280 UI px form width is an assumption until it's measured in game (blockers.md B18).
+measures those in the decoded PNGs (both halves stitched back together), so the readability
+checks follow the layout automatically. Why 64 texels per block and 2×1: `slice.md` "Texture
+resolution".

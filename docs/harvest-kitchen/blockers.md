@@ -176,6 +176,8 @@ why, the fallback taken, and what you need to decide or test.
 
 ## B12. Recipe book use: in the air and at a block (CR2)
 
+> **Obsolete (D15, 2026-10-22):** the recipe book is gone (recipe posters replace it), so there's nothing left to test here.
+
 - **What:** the book opened only through `onUse`. Whether `onUse` fires for an item with no use
   component, and whether it fires while the player looks at a block, was unproven. A child looking
   at the ground would get no book.
@@ -282,6 +284,8 @@ why, the fallback taken, and what you need to decide or test.
 
 ## B18. Book page images: size on screen and flipping in place (untested)
 
+> **Obsolete (D15, 2026-10-22):** the recipe book is gone (recipe posters replace it), so there's nothing left to test here.
+
 - **What:** the book and pot screen are `CustomForm`s with one pre-rendered image at `width: 1`
   (D14). S1 proved a static `image()` with our RP UUID and a `.png` path, live label updates and
   a self-toggling `disabled` button. Not proven: (a) setting an `ObservableString` `src` after
@@ -299,12 +303,16 @@ why, the fallback taken, and what you need to decide or test.
 
 ## B19. `◀` in button labels (untested)
 
+> **Obsolete (D15, 2026-10-22):** the recipe book is gone (recipe posters replace it), so there's nothing left to test here.
+
 - **What:** the Prev button is `◀ Prev` (lang `hk.book.prev`). S2 checked `▶` on the vanilla glyph
   pages but not `◀`.
 - **Test:** the book's first button shows a left triangle, not a box or nothing.
 - **Fallback:** change the lang line to `< Prev` (no code change).
 
 ## B20. Long button lists in a CustomForm (untested)
+
+> **Obsolete (D15, 2026-10-22):** the recipe book is gone (recipe posters replace it), so there's nothing left to test here.
 
 - **What:** "What can I make?" lists every dish you can make right now (up to 13), and a full pot
   screen can have up to 7 Cook or 8 Take-out buttons. Under a large image, the buttons may need
@@ -315,6 +323,8 @@ why, the fallback taken, and what you need to decide or test.
 
 ## B21. Page textures loaded only by path (untested)
 
+> **Obsolete (D15, 2026-10-22):** the recipe book is gone (recipe posters replace it), so there's nothing left to test here.
+
 - **What:** `textures/hk/book/*.png` and `textures/hk/pot/*.png` (310 files, 1 MiB) aren't listed
   in any texture JSON. `image()` loads them by path from our RP, which is how S1 loaded
   `textures/hk/items/tomato.png`. That file is also in `item_texture.json`, though.
@@ -322,3 +332,110 @@ why, the fallback taken, and what you need to decide or test.
   path isn't the cause; check the Content Log for a texture error.
 - **Fallback:** none needed if it shows. If a load-time or memory cost shows up with 310 images,
   drop the cold pot variants (the label already says "Needs fire below"): 124 fewer images.
+
+## B22. Ghost ingredient particles (D15, untested)
+
+- **What:** the ghosts above the pot are custom particles (`resource/particles/hk/ghost_*.json`,
+  written by `tools/gen-ghost-atlas.mjs`) spawned per player every 0.5 s with
+  `Player.spawnParticle`. Offline only: the JSON follows the 1.26.52.3 vanilla particle files
+  and every API is in the pinned `.d.ts`. Not seen in game:
+  (a) `format_version` `1.26.50` with plain-string Molang (vanilla's 1.26.50 particles wrap
+  expressions as `{ "expression", "version": 12 }`; its 1.26.10 ones use plain strings);
+  (b) particle files load from the `particles/hk/` subfolder;
+  (c) `variable.hk_icon/hk_alpha/hk_phase` from `MolangVariableMap.setFloat` reach the
+  billboard UV, tint and parametric motion, and the `v.x = v.x ?? 0` defaults log nothing;
+  (d) `particles_blend` + tint alpha 0.65 looks see-through, and the billboard `size` is a
+  half-size (icons ≈ 0.36 blocks wide);
+  (e) the 0.6 s lifetime re-spawned every 0.5 s looks continuous (no flicker, no doubled
+  brightness), and the bob doesn't jump at re-spawn;
+  (f) cost on a phone with 2 pots × 4 ghosts.
+- **Test:** slice.md "In-game checks for D15", steps 2–4 and 9.
+- **Fallbacks:** (a) set `FORMAT_VERSION` in the generator to `"1.10.0"` (the long-standing
+  format, still shipped by vanilla); (b) move the files to `particles/` with `hk_` prefixes;
+  (c) a Content Log `unknown variable` line → check the name in `GHOST_ICON_VARIABLES`;
+  (d) tune `GHOST_ALPHA` / `GHOST_ICON_SIZE` in `config.ts` and run `npm run ghosts`;
+  (e) flicker → raise `GHOST_FADE_SECONDS` (overlap) or `GHOST_UPDATE_TICKS`; doubling → lower
+  the fade; (f) lower `GHOST_MAX_SPAWNS_PER_UPDATE` or `GHOST_MAX_POTS_PER_PLAYER`. If particles
+  can't be made to look right, the alternative is a billboard entity per ghost with the texture
+  picked by an entity property (slice.md "Implementation: particles, not entities").
+
+## B23. Pot choice form length (D15, untested)
+
+- **What:** the choice form opens only when two or more dishes are possible: one `ActionFormData`
+  button per dish, no body, no Close button. A full pot (8 items) allows at most 4 dishes
+  (vegetable stew, tomato soup, chicken soup, fish chowder; `tests/pot-status.test.ts` pins it).
+- **Test:** put 2 tomatoes, onion, carrot, potato, raw chicken, raw cod and a bowl in a lit pot,
+  use with an empty hand: do 4 buttons show without scrolling on PC and phone?
+- **Fallback:** if it scrolls, nothing breaks (the list is short); a later recipe that raises the
+  count fails the pinned test, which is the moment to decide.
+
+## B24. Recipe posters (D15, untested)
+
+`hk:recipe_poster` is a 2×1 wall multi-block (slice.md "Recipe posters (D15)"). Written offline;
+nothing below has been seen in game.
+
+- **What's assumed:**
+  1. The stable `minecraft:multi_block` trait with a horizontal `direction` loads at block format
+     1.26.50 without an experiment, places both parts and breaks both (Microsoft Learn says so;
+     no vanilla block uses it).
+  2. With `placement_direction` (`cardinal_direction`, `y_rotation_offset` 90) the second part
+     goes **along the wall**. If it goes into or out of the wall, every placement is refused with
+     `Look straight at the wall` and the Content Log has `recipe poster parts … aren't side by
+side`. Which side it goes to doesn't matter: the script sets `hk:right` from the real
+     positions (`Block.getParts()`).
+  3. `beforeOnPlayerPlace` runs for a `block_placer` item, `face` is the clicked face (the poster
+     faces that way), and a replaced `permutationToPlace` (with `hk:facing`, `hk:right`,
+     `hk:poster`) is what gets placed, and is copied to the second part. If it isn't copied, the
+     second half shows the wrong picture for one tick, until the script syncs it.
+  4. Transformation rotation per facing (north 0°, west 90°, south 180°, east 270°, as the cutting
+     board) turns the north-facing model to face out of the wall, and the transformation also turns
+     the collision and selection boxes.
+  5. `material_instances`, `transformation` and per-part states are allowed in multi-block
+     permutations (`Component '{}' is not valid in multi block permutations` exists in the binary
+     for some components; Microsoft Learn names only movable, placement_filter, replaceable,
+     random_offset, precipitation_interactions).
+  6. A 64×64 block texture shows at full resolution (vanilla's 64×64 `straw_bed` suggests it) and
+     is readable from a few blocks away on PC and phone.
+  7. `onBreak` fires once for a multi-block break (Microsoft Learn: "only a single event … for the
+     part that was first broken"), also for a pop and for `/setblock … destroy`, and its
+     `entitySource` is the player for a player break (so creative breaks drop nothing). If `onBreak`
+     doesn't fire for a pop, a poster whose wall goes may be lost; if it fires without
+     `entitySource` for player breaks, a creative break drops a poster.
+  8. `placement_filter` `allowed_faces: ["side"]` refuses floors and ceilings for both parts and
+     pops the poster when its wall goes; the script net (`posters/poster-support.ts`) covers player
+     breaks, explosions and pistons otherwise.
+  9. Sneak + use reaches `beforeEvents.playerInteractWithBlock` (as on the pot, B2), and plain use
+     reaches `onPlayerInteract` once per click.
+  10. The `hk:crops` tag works as a shapeless ingredient (the old `hk:seeds` book recipe was the
+      precedent and was itself untested).
+- **Test** (re-enter the world after deploying; Content Log file on):
+  1. Content Log: no errors for `hk:recipe_poster`, its recipe or textures.
+  2. `/hk:debug reset`, empty inventory, pick up a tomato → `★ You got a Recipe Poster!` and one
+     poster; a second HK item gives no second poster.
+  3. Look straight at a stone wall, place it: two blocks wide, the Tomato Soup recipe reads left
+     to right, front out of the wall, the frame edges flush. Repeat on north, south, east and west
+     walls. Place it standing at a steep angle along the wall: refused with `Look straight at the
+wall` and the poster stays in your hand (or comes back).
+  4. Place it where only one block of wall is free (the other side air or a door): refused with
+     `Needs a 2-block wall`; the poster comes back.
+  5. Try a floor and a ceiling: nothing is placed.
+  6. Use: `Tomato Soup · ❤ Regeneration 8 s`. With only tomato found, sneak + use: stays Tomato
+     Soup with a page-turn sound. Get an onion: sneak + use goes Fish Chowder → Chicken Soup →
+     Onion Soup → Vegetable Stew… (only unlocked dishes, in recipe order) and wraps around.
+     Sneak + use while holding a block doesn't place the block.
+  7. `/hk:debug reset` (nothing found), sneak + use: `Break grass to find seeds`, the poster
+     doesn't change. A new poster placed now is the blank one (grass → seeds → ?); use on it says
+     `Sneak + use: next recipe`.
+  8. Creative: sneak + use walks all 13 dishes and wraps to Tomato Soup.
+  9. Survival: break the right half → both halves go, exactly one poster drops. Break the left
+     half → same. Break the wall block behind one half → both go, one poster drops. Blow it up
+     with TNT, push the wall with a piston: no poster half stays on the wall, at most one drops.
+     Creative break: nothing drops.
+  10. Crafting table: paper + tomato / onion / cucumber / chili pepper / strawberry → 1 poster each.
+  11. From 4–5 blocks away the icons and the "8 s" are readable on PC and on a phone.
+- **Fallbacks:** (2) wrong direction → change `Y_ROTATION_OFFSET` in `tools/gen-poster-block.mjs`
+  (90 ↔ 270), run `npm run posters`. (4) mirrored or backwards on east/west only → swap 90/270 in
+  `ROTATION` there and in `pack-files.test.ts`. (5) a component refused in permutations → move it
+  to the base and split the permutations. (7) drops wrong → set the base loot to a poster loot
+  table on part 0 only and drop the script drop. (6) blurry/too small → the layout is already at
+  1/4-block icons; a 3×1 poster is the next step.

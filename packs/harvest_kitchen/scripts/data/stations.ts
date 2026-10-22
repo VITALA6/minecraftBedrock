@@ -16,7 +16,7 @@ export type StationId = "pot";
 export interface ContainerStation {
   readonly id: StationId;
   readonly block: string;
-  /** Item whose icon stands for the station in forms and the book. */
+  /** Item whose icon stands for the station in forms and on the recipe posters. */
   readonly icon: string;
   readonly nameKey: string;
   /** Total ingredient items it holds. */

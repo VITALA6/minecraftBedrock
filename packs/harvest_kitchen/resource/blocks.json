@@ -23,5 +23,8 @@
   },
   "hk:strawberry_cake": {
     "sound": "cloth"
+  },
+  "hk:recipe_poster": {
+    "sound": "wood"
   }
 }

@@ -5,6 +5,7 @@ import { stationById, type ContainerStation, type StationId } from "../scripts/d
 import {
   EMPTY,
   addItems,
+  choiceOf,
   collectOutput,
   cookTicks,
   fillLevel,
@@ -16,13 +17,11 @@ import {
   progressCells,
   routeUse,
   serializeSaved,
-  showsScreen,
   sneakHandles,
   spillContents,
   startJob,
   sweepStep,
   takeAllItems,
-  takeOutItems,
   type StationJob,
   type StationState,
 } from "../scripts/stations/station-logic";
@@ -141,17 +140,7 @@ describe("add", () => {
   });
 });
 
-describe("take out / take all", () => {
-  it("takes out every item of one type", () => {
-    const result = takeOutItems({ items: { [TOMATO]: 2, [BOWL]: 1 } }, TOMATO);
-    assert.deepEqual(result, { count: 2, state: { items: { [BOWL]: 1 } } });
-  });
-
-  it("refuses an item that isn't there, or while cooking", () => {
-    assert.equal(takeOutItems(soupReady, "hk:onion"), undefined);
-    assert.equal(takeOutItems(cooking(50), TOMATO), undefined);
-  });
-
+describe("take all", () => {
   it("takes everything out, leaving it empty", () => {
     const result = takeAllItems(soupReady);
     assert.deepEqual(result?.items, [
@@ -178,12 +167,24 @@ describe("use routing (plan §2.3)", () => {
     assert.deepEqual(routeUse(pot, soupReady, undefined, false), { kind: "cook", recipe: SOUP });
   });
 
-  it("empty hand: several possible dishes open the pot screen", () => {
-    assert.deepEqual(routeUse(pot, both, undefined, false), { kind: "screen" });
+  it("empty hand: several possible dishes open the choice form, listing them", () => {
+    assert.deepEqual(routeUse(pot, both, undefined, false), {
+      kind: "choose",
+      recipes: [SOUP, "hk:vegetable_stew"],
+    });
   });
 
-  it("empty hand: idle with items opens the pot screen (Almost!)", () => {
-    assert.deepEqual(routeUse(pot, onion, undefined, false), { kind: "screen" });
+  it("empty hand: idle with items opens no form; it names the first missing item (D15)", () => {
+    const action = routeUse(pot, onion, undefined, false);
+    assert.equal(action.kind, "next");
+    assert.ok(action.kind === "next");
+    // closest to 1 onion: fish chowder (3 missing), whose first missing slot is cod or salmon
+    assert.deepEqual(action.ingredient.items, ["minecraft:cod", "minecraft:salmon"]);
+    assert.equal(action.missing, 1);
+    const twoTomatoesShort = routeUse(pot, { items: { [BOWL]: 1 } }, undefined, false);
+    assert.ok(twoTomatoesShort.kind === "next");
+    assert.deepEqual(twoTomatoesShort.ingredient.items, [TOMATO]);
+    assert.equal(twoTomatoesShort.missing, 2);
   });
 
   it("empty hand on an empty pot: the hint, sneaking or not", () => {
@@ -228,33 +229,33 @@ describe("use routing (plan §2.3)", () => {
   });
 });
 
-describe("the pot screen (CR3)", () => {
+describe("the choice form (D15: only when there's a real choice)", () => {
   const onion = { items: { "hk:onion": 1 } };
+  const both: StationState = {
+    items: { [TOMATO]: 2, "hk:onion": 2, "minecraft:bread": 1, [BOWL]: 1 },
+  };
 
-  it("shows while idle or ready with something inside", () => {
-    assert.equal(showsScreen(pot, onion), true);
-    assert.equal(showsScreen(pot, soupReady), true);
+  it("offers dishes only while two or more are possible", () => {
+    assert.deepEqual(
+      choiceOf(pot, both).map((r) => r.id),
+      [SOUP, "hk:onion_soup"],
+    );
+    assert.deepEqual(choiceOf(pot, soupReady), []);
+    assert.deepEqual(choiceOf(pot, onion), []);
+    assert.deepEqual(choiceOf(pot, EMPTY), []);
   });
 
-  it("doesn't reopen once the last ingredient is out: an empty pot gets the hint", () => {
-    const last = takeOutItems(onion, "hk:onion");
-    assert.ok(last);
-    assert.equal(showsScreen(pot, last.state), false);
-    assert.equal(showsScreen(pot, EMPTY), false);
+  it("offers nothing once someone else started cooking or the dish is done", () => {
+    assert.deepEqual(choiceOf(pot, { ...both, job: { recipe: SOUP, ticks: 5, total: 10 } }), []);
+    assert.deepEqual(choiceOf(pot, { ...both, out: { item: SOUP, count: 1 } }), []);
   });
 
-  it("closes when someone else started cooking or the dish is done", () => {
-    assert.equal(showsScreen(pot, cooking(50)), false);
-    assert.equal(showsScreen(pot, done), false);
-  });
-
-  it("whenever routing opens the screen, it has something to show", () => {
-    const states: StationState[] = [EMPTY, onion, soupReady, cooking(50), done];
+  it("routing opens the form exactly when there's a choice", () => {
+    const states: StationState[] = [EMPTY, onion, soupReady, both, cooking(50), done];
     for (const state of states) {
       for (const sneaking of [false, true]) {
-        if (routeUse(pot, state, undefined, sneaking).kind === "screen") {
-          assert.equal(showsScreen(pot, state), true);
-        }
+        const action = routeUse(pot, state, undefined, sneaking);
+        assert.equal(action.kind === "choose", choiceOf(pot, state).length > 0 && !sneaking);
       }
     }
   });
@@ -604,9 +605,8 @@ describe("liquid colour (what the pot shows)", () => {
     assert.equal(liquidOf(pot, state), "broth");
     add(TOMATO, 2);
     assert.equal(liquidOf(pot, state), "tomato"); // 2 tomatoes outweigh 1 onion
-    const out = takeOutItems(state, TOMATO);
-    assert.ok(out);
-    state = out.state;
+    // the tomatoes come out again (sneak + empty hand takes all; the onion goes back in)
+    state = { items: Object.fromEntries(Object.entries(state.items).filter(([id]) => id !== TOMATO)) }; // prettier-ignore
     assert.equal(liquidOf(pot, state), "broth");
     add(TOMATO, 2);
     add(BOWL);

@@ -1,0 +1,38 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "hk:recipe_poster"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "minecraft:paper"
+      },
+      {
+        "tag": "hk:crops"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "hk:tomato"
+      },
+      {
+        "item": "hk:onion"
+      },
+      {
+        "item": "hk:cucumber"
+      },
+      {
+        "item": "hk:chili_pepper"
+      },
+      {
+        "item": "hk:strawberry"
+      }
+    ],
+    "result": {
+      "item": "hk:recipe_poster",
+      "count": 1
+    }
+  }
+}

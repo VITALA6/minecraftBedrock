@@ -1,8 +1,12 @@
 import {
   ITEM_COOKING_POT,
   ITEM_CUTTING_BOARD,
-  ITEM_RECIPE_BOOK,
+  BLOCK_RECIPE_POSTER,
+  ITEM_RECIPE_POSTER,
+  STATE_FACING,
   STATE_GROWTH,
+  STATE_POSTER,
+  STATE_RIGHT,
   STATE_SLICES,
 } from "../config";
 import { HEAT_BLOCK_IDS } from "../stations/heat";
@@ -36,7 +40,7 @@ export interface Content {
   readonly stations: readonly ContainerStation[];
   readonly effects: Readonly<Record<string, EffectInfo>>;
   readonly families: Readonly<Record<string, FamilyInfo>>;
-  /** Items that exist outside any recipe (book, pot, board). */
+  /** Items that exist outside any recipe (poster, pot, board). */
   readonly extraItems: readonly string[];
   /** Vanilla blocks the scripts name (grass, soils, heat). */
   readonly vanillaBlocks: readonly string[];
@@ -52,7 +56,7 @@ export const CONTENT: Content = {
   stations: STATIONS,
   effects: EFFECTS,
   families: FAMILIES,
-  extraItems: [ITEM_RECIPE_BOOK, ITEM_COOKING_POT, ITEM_CUTTING_BOARD],
+  extraItems: [ITEM_RECIPE_POSTER, ITEM_COOKING_POT, ITEM_CUTTING_BOARD],
   vanillaBlocks: [...SEED_DROP_BLOCKS, ...SOIL_BLOCKS, ...HEAT_BLOCK_IDS],
   icon: itemIcon,
 };
@@ -242,6 +246,11 @@ export function referencedBlocks(
     if (dish.slices)
       refs.push({ id: dish.slices.block, where: `dish ${dish.id}`, states: [STATE_SLICES] });
   }
+  refs.push({
+    id: BLOCK_RECIPE_POSTER,
+    where: "recipe poster",
+    states: [STATE_POSTER, STATE_FACING, STATE_RIGHT],
+  });
   for (const id of content.vanillaBlocks)
     refs.push({ id, where: "vanilla block list", states: [] });
   return refs;

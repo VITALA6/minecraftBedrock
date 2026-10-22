@@ -34,7 +34,7 @@
         "use_on": ["minecraft:farmland"]
       },
       "minecraft:tags": {
-        "tags": ["minecraft:is_food", "hk:seeds"]
+        "tags": ["minecraft:is_food", "hk:seeds", "hk:crops"]
       }
     }
   }

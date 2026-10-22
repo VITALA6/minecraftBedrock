@@ -24,8 +24,8 @@ import {
 import type { StationId } from "./stations";
 
 // Recipes as plain data. Station code never names an item: adding a recipe is one entry here
-// (plus the result item's JSON). The recipe book, the pot screen and "Almost!" are all derived
-// from these lists. data/validate.ts checks every id at world load.
+// (plus the result item's JSON). The pot's choice form, the ghost ingredients and the recipe
+// posters are all derived from these lists. data/validate.ts checks every id at world load.
 
 /** One ingredient slot: `count` items, any mix of `items` (e.g. raw cod or raw salmon). */
 export interface Ingredient {
@@ -178,7 +178,7 @@ export function ingredientsOf(station: StationId): ReadonlySet<string> {
 
 // --- crafting table ------------------------------------------------------------------------------
 // The real recipes are JSON in behavior/recipes/ (shapeless, so they also show in the vanilla
-// recipe book). These entries mirror them for our book and "What can I make?"; keep both in sync.
+// recipe book). These entries mirror them for the recipe posters; keep both in sync.
 
 export interface CraftingRecipe {
   readonly id: string;

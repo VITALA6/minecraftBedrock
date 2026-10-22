@@ -13,7 +13,7 @@ import {
   parseFound,
   serializeFound,
   toastDue,
-} from "../scripts/book/unlock";
+} from "../scripts/discovery/unlock";
 
 const sorted = (set: ReadonlySet<string>) => [...set].sort();
 
@@ -30,7 +30,7 @@ describe("what counts as finding a crop", () => {
   });
 
   it("not dishes, stations or vanilla items", () => {
-    for (const id of ["hk:tomato_soup", "hk:recipe_book", "hk:cooking_pot", "minecraft:carrot"]) {
+    for (const id of ["hk:tomato_soup", "hk:recipe_poster", "hk:cooking_pot", "minecraft:carrot"]) {
       assert.equal(cropOfItem(id), undefined, id);
     }
   });
@@ -148,26 +148,26 @@ describe("catching up on items already carried (CR4)", () => {
     ]);
     assert.deepEqual(seen.crops.sort(), ["cucumber", "tomato"]);
     assert.equal(seen.anyHk, true);
-    assert.equal(seen.hasBook, false);
+    assert.equal(seen.hasPoster, false);
   });
 
-  it("an HK item that isn't a crop still makes the book due, but finds nothing", () => {
+  it("an HK item that isn't a crop still makes the starter poster due, but finds nothing", () => {
     const seen = inventoryDiscovery(["hk:tomato_soup", "hk:cooking_pot"]);
     assert.deepEqual(seen.crops, []);
     assert.equal(seen.anyHk, true);
   });
 
-  it("notices the book itself, so it isn't handed out twice", () => {
-    assert.equal(inventoryDiscovery(["hk:recipe_book"]).hasBook, true);
+  it("notices a poster itself, so it isn't handed out twice", () => {
+    assert.equal(inventoryDiscovery(["hk:recipe_poster"]).hasPoster, true);
   });
 
   it("a vanilla-only or empty inventory changes nothing", () => {
     assert.deepEqual(inventoryDiscovery(["minecraft:bread", "minecraft:bowl"]), {
       crops: [],
       anyHk: false,
-      hasBook: false,
+      hasPoster: false,
     });
-    assert.deepEqual(inventoryDiscovery([]), { crops: [], anyHk: false, hasBook: false });
+    assert.deepEqual(inventoryDiscovery([]), { crops: [], anyHk: false, hasPoster: false });
   });
 
   it("each crop's seed, produce and prepared ingredient count", () => {

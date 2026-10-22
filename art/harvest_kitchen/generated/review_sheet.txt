@@ -5,7 +5,7 @@ produce: tomato, onion, cucumber, chili_pepper, strawberry
 seeds: tomato_seeds, cucumber_seeds, chili_pepper_seeds, strawberry_seeds
 prepared: sliced_tomato, sliced_cucumber, chopped_onion
 dishes: tomato_soup, onion_soup, salsa, garden_salad, strawberry_cup, vegetable_stew, chili_stew, fish_chowder, chicken_soup, strawberry_jam, veggie_sandwich, hearty_sandwich, strawberry_cake
-stations: cooking_pot, cutting_board, recipe_book
+stations: cooking_pot, cutting_board, recipe_poster
 ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops, chapter_what_can_i_make, needs_heat
 ingredients: bowl, carrot, potato, bread, beef, chicken, cod, salmon, sugar, glass_bottle, cake, cooked_porkchop, book, short_grass, crafting_table, campfire, farmland
 biomes: biome_plains, biome_forest, biome_cherry_grove, biome_taiga, biome_savanna, biome_jungle, biome_badlands, biome_swamp, biome_river, biome_meadow
@@ -38,7 +38,7 @@ Per icon: colours, bounding box, grayscale range.
   strawberry_cake: 10 colours, 14x12, grey 133
   cooking_pot: 8 colours, 14x14, grey 142
   cutting_board: 8 colours, 15x12, grey 157
-  recipe_book: 10 colours, 14x13, grey 193
+  recipe_poster: 9 colours, 14x10, grey 186
   family_heal: 5 colours, 14x11, grey 170
   family_move: 5 colours, 12x12, grey 94
   family_work: 8 colours, 14x14, grey 173

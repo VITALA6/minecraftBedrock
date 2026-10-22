@@ -1565,38 +1565,43 @@ def(
   "stations",
 );
 
+// The Recipe Poster (D15): a landscape paper sheet in a wooden frame, two red pins, and a tiny
+// recipe on it (tomato → bowl of soup), the same shape as the 2×1 poster on the wall.
 def(
   "items",
-  "recipe_book",
+  "recipe_poster",
   () =>
     rows(
       `
       ................
-      ...11111111111..
-      ..1b33333333331.
-      ..1b22222222220p
-      ..1b2MMMMMMMM20p
-      ..1b2MMMMdcMM20p
-      ..1b2MMrRrrMM20p
-      ..1b2MMrrrrMM20p
-      ..1b2MMMrrMMM20p
-      ..1b2MMMMMMMM20p
-      ..1b22222222220p
-      ..1b22222222220p
-      ..1b11111111110p
-      ...0000000000000
+      ................
+      .oooooooooooooo.
+      .ohhhhhhhhhhhdo.
+      .ohrpppppppprdo.
+      .ohppppppppppdo.
+      .ohptTpapssspdo.
+      .ohpttpaabbbpdo.
+      .ohppppappbppdo.
+      .ohppppppppppdo.
+      .ohdddddddddddo.
+      .oooooooooooooo.
+      ................
+      ................
       ................
       ................`,
       {
-        ...L("copper", "0123"),
-        b: c("copper", 1),
-        p: c("paper", -1),
-        M: c("cream", 1),
-        ...L("tomato", "  rR"),
-        d: c("leaf", 3),
-        c: c("leaf", 1),
+        o: c("wood", 0),
+        h: c("wood", 4),
+        d: c("wood", 1),
+        p: c("cream", 2),
+        r: c("tomato", 2),
+        t: c("tomato", 2),
+        T: c("tomato", 4),
+        a: c("bark", 1),
+        s: c("tomato", 3),
+        b: c("bowl", 3),
       },
-      "recipe_book",
+      "recipe_poster",
     ),
   "stations",
 );

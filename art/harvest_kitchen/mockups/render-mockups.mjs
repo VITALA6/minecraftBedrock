@@ -346,7 +346,7 @@ const ICON = {
   strawberry_cake: ours("items/strawberry_cake"),
   pot: ours("items/cooking_pot"),
   board: ours("items/cutting_board"),
-  book: ours("items/recipe_book"),
+  book: ours("items/recipe_poster"), // the book icon is gone (D15); keeps this D13 script running
   heal: ours("ui/family_heal"),
   move: ours("ui/family_move"),
   work: ours("ui/family_work"),

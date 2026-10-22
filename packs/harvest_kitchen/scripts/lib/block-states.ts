@@ -18,9 +18,21 @@ export function setState(block: Block, state: string, value: StateValue): void {
   setStates(block, { [state]: value });
 }
 
-/** Sets several states in one permutation change; does nothing if they already match. */
+/** withState typed for any state name (the d.ts only lists vanilla names). */
+type AnyStatePermutation = { withState(name: string, value: StateValue): BlockPermutation };
+
+/**
+ * Sets several states in one permutation change; does nothing if they already match. Builds on
+ * the block's own permutation with withState (as Microsoft's multi-block sample does), so states
+ * getAllStates() may not list, such as minecraft:multi_block_part, are kept: re-resolving from
+ * getAllStates() is the suspected reason a recipe poster vanished after its states were set.
+ */
 export function setStates(block: Block, patch: Readonly<Record<string, StateValue>>): void {
   const current = block.permutation.getAllStates();
   if (Object.entries(patch).every(([name, value]) => current[name] === value)) return;
-  block.setPermutation(BlockPermutation.resolve(block.typeId, { ...current, ...patch }));
+  let permutation = block.permutation;
+  for (const [name, value] of Object.entries(patch)) {
+    permutation = (permutation as unknown as AnyStatePermutation).withState(name, value);
+  }
+  block.setPermutation(permutation);
 }

@@ -8,13 +8,13 @@
 // Why generated: a permutation's minecraft:material_instances replaces the whole component, and
 // whether a material permutation and a transformation permutation combine isn't proven (blockers
 // B16 relies on it for the pot), so every permutation carries both: 4 facings (hk:facing) × 2
-// halves (hk:right) × the recipes (hk:poster) = one full copy each, the first being the base.
+// halves (from the part number and cardinal direction) × the recipes (hk:poster) = one full copy each, the first being the base.
 //
 // The poster is a minecraft:multi_block with 2 parts (horizontal multi-blocks are stable from
 // block format 1.26.50, Microsoft Learn "Create a Multi-Block"). That trait allows only one more
 // trait, placement_direction with cardinal_direction, which also decides the direction the parts
 // go in. y_rotation_offset turns it 90° so the parts run along the wall instead of into it
-// (posters/poster.ts checks where they really land and sets hk:right per part).
+// (posters/poster.ts checks they land along a wall; halfOfPart picks each part's half).
 //
 // The recipe list and the texture names come from the pack's own posters/poster-logic.ts, bundled
 // with esbuild, so the block can't drift from what the scripts set.
@@ -38,7 +38,7 @@ async function loadData() {
     stdin: {
       contents: [
         'export * from "./packs/harvest_kitchen/scripts/posters/poster-logic";',
-        'export { BLOCK_RECIPE_POSTER, COMPONENT_RECIPE_POSTER, STATE_POSTER, STATE_FACING, STATE_RIGHT } from "./packs/harvest_kitchen/scripts/config";',
+        'export { BLOCK_RECIPE_POSTER, COMPONENT_RECIPE_POSTER, STATE_POSTER, STATE_FACING } from "./packs/harvest_kitchen/scripts/config";',
       ].join("\n"),
       resolveDir: ROOT,
       loader: "ts",
@@ -65,6 +65,17 @@ function blockJson(d) {
     "minecraft:transformation": { rotation: [0, ROTATION[facing], 0] },
   });
 
+  // Which half a part shows comes from its own states (halfOfPart): the trait's part number and
+  // the placement's cardinal direction, both along the wall. No script writes a per-part state.
+  const halfCondition = (facing, half) =>
+    d.FACINGS.flatMap((cardinal) =>
+      [0, 1]
+        .filter((part) => d.halfOfPart(facing, cardinal, part) === half)
+        .map(
+          (part) =>
+            `(${q(d.STATE_PART)} == ${part} && ${q(d.STATE_CARDINAL_DIRECTION)} == '${cardinal}')`,
+        ),
+    ).join(" || ");
   const permutations = [];
   for (const facing of d.FACINGS) {
     for (const half of d.HALVES) {
@@ -73,8 +84,8 @@ function blockJson(d) {
         permutations.push({
           condition: [
             `${q(d.STATE_FACING)} == '${facing}'`,
-            `${q(d.STATE_RIGHT)} == ${half === "right"}`,
             `${q(d.STATE_POSTER)} == ${index}`,
+            `(${halfCondition(facing, half)})`,
           ].join(" && "),
           components: look(facing, half, index),
         });
@@ -92,7 +103,6 @@ function blockJson(d) {
         states: {
           [d.STATE_POSTER]: { values: { min: 0, max: d.POSTER_COUNT - 1 } },
           [d.STATE_FACING]: [...d.FACINGS],
-          [d.STATE_RIGHT]: [false, true],
         },
         traits: {
           "minecraft:placement_direction": {

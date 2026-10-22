@@ -26,6 +26,7 @@ import {
   wallPosition,
   posterPosition,
   settleFacing,
+  halfOfPart,
   type Discovery,
 } from "../scripts/posters/poster-logic";
 
@@ -282,5 +283,50 @@ describe("settleFacing: the facing comes from where the wall really is", () => {
   it("one part only -> just the hint is checked", () => {
     assert.equal(settleFacing([parts[0]!], "east", wallWest), "east");
     assert.equal(settleFacing([parts[0]!], "west", wallWest), undefined);
+  });
+});
+
+describe("halfOfPart: each part's half from its part number and the placement direction", () => {
+  // in game 2026-10-22: front east (wall at x-1), cardinal south, part 1 at z+1. Reading an
+  // east-facing poster you look west, so north (z-1) is on your right: part 1 (south) is the left.
+  it("the in-game case: facing east, cardinal south -> part 0 right, part 1 left", () => {
+    assert.equal(halfOfPart("east", "south", 0), "right");
+    assert.equal(halfOfPart("east", "south", 1), "left");
+  });
+
+  it("part 1 toward the viewer's right -> part 0 left, part 1 right", () => {
+    for (const facing of FACINGS) {
+      const right = viewerRight(facing);
+      assert.equal(halfOfPart(facing, right, 0), "left");
+      assert.equal(halfOfPart(facing, right, 1), "right");
+      assert.equal(halfOfPart(facing, opposite(right), 0), "right");
+      assert.equal(halfOfPart(facing, opposite(right), 1), "left");
+    }
+  });
+
+  it("the two parts always show different halves", () => {
+    for (const facing of FACINGS)
+      for (const cardinal of [viewerRight(facing), opposite(viewerRight(facing))])
+        assert.notEqual(halfOfPart(facing, cardinal, 0), halfOfPart(facing, cardinal, 1));
+  });
+
+  it("cardinal into or out of the wall -> no half (refused on place)", () => {
+    for (const facing of FACINGS) {
+      assert.equal(halfOfPart(facing, facing, 0), undefined);
+      assert.equal(halfOfPart(facing, opposite(facing), 1), undefined);
+    }
+  });
+
+  it("agrees with halvesOf on the real part positions", () => {
+    for (const facing of FACINGS)
+      for (const cardinal of [viewerRight(facing), opposite(viewerRight(facing))]) {
+        const a = { x: 0, z: 0 };
+        const s = step(cardinal);
+        const b = { x: s.x, z: s.z }; // part 1 lies one block toward cardinal
+        assert.deepEqual(halvesOf(facing, a, b), [
+          halfOfPart(facing, cardinal, 0),
+          halfOfPart(facing, cardinal, 1),
+        ]);
+      }
   });
 });

@@ -13,7 +13,7 @@ import { isUnlocked } from "../discovery/unlock";
 //
 //   hk:poster              0 = the blank "find crops" poster, 1.. = POSTER_DISHES[i - 1]
 //   hk:facing              the way the poster's front faces (out of the wall); set by script
-//   hk:right               this part shows the right half; set by script from where the parts are
+//   (the half a part shows comes from minecraft:multi_block_part, see halfOfPart)
 //   minecraft:cardinal_direction, minecraft:multi_block_part   from the traits (not read here)
 
 /** Dishes in recipe order (pot recipes, then crafting), each once: the cycle order. */
@@ -160,6 +160,23 @@ export function wallPosition(at: XYZ, facing: Facing): XYZ {
 export function posterPosition(wall: XYZ, facing: Facing): XYZ {
   const front = step(facing);
   return { x: wall.x + front.x, y: wall.y, z: wall.z + front.z };
+}
+
+/** The trait's state names (minecraft:multi_block, minecraft:placement_direction). */
+export const STATE_PART = "minecraft:multi_block_part";
+export const STATE_CARDINAL_DIRECTION = "minecraft:cardinal_direction";
+
+/**
+ * Which half of the image a part shows, from block states only, so no script has to write a
+ * per-part state (rewriting a part's permutation made the game drop the whole poster, 2026-10-22).
+ * The trait puts part 1 one block in the `cardinal` direction from part 0 (seen in game: cardinal
+ * south, part 1 at z+1). Undefined when `cardinal` runs into or out of the wall (refused on place).
+ */
+export function halfOfPart(facing: Facing, cardinal: Facing, part: number): Half | undefined {
+  const right = viewerRight(facing);
+  if (cardinal === right) return part === 0 ? "left" : "right";
+  if (cardinal === opposite(right)) return part === 0 ? "right" : "left";
+  return undefined;
 }
 
 /**

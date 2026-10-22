@@ -16,6 +16,7 @@ import {
   POSTER_COUNT,
   POSTER_MAX_STATES,
   POSTER_TEXTURE_DIR,
+  halfOfPart,
   halfTexture,
   posterIndices,
 } from "../scripts/posters/poster-logic";
@@ -479,7 +480,7 @@ describe("recipe poster (D15)", () => {
     assert.deepEqual(states["hk:poster"], { values: { min: 0, max: POSTER_COUNT - 1 } });
     assert.ok(POSTER_COUNT <= POSTER_MAX_STATES, `${POSTER_COUNT} values`);
     assert.deepEqual(states["hk:facing"], [...FACINGS]);
-    assert.deepEqual(states["hk:right"], [false, true]);
+    assert.equal(states["hk:right"], undefined, "the half comes from the part number, not a state");
   });
 
   it("a stable horizontal 2-part multi-block with only the cardinal_direction trait", () => {
@@ -539,7 +540,7 @@ describe("recipe poster (D15)", () => {
     );
   });
 
-  it("every state combination shows its half of its recipe, rotated to its facing, all opaque", () => {
+  it("every part shows its half of its recipe (from part number + cardinal), rotated, opaque", () => {
     assert.ok(poster);
     const base: Record<string, unknown> = poster.components;
     const permutations: { condition: string; components: Record<string, unknown> }[] =
@@ -547,31 +548,37 @@ describe("recipe poster (D15)", () => {
     const rotation = { north: 0, west: 90, south: 180, east: 270 } as const;
     let combinations = 0;
     for (const facing of FACINGS) {
-      for (const half of HALVES) {
-        for (const index of posterIndices()) {
-          combinations++;
-          const states: Record<string, MolangValue> = {
-            "hk:facing": facing,
-            "hk:right": half === "right",
-            "hk:poster": index,
-          };
-          const applied = permutations.filter((p) => evalCondition(p.condition, states));
-          const where = JSON.stringify(states);
-          assert.ok(applied.length <= 1, `${where}: ${applied.length} permutations`);
-          const components: Record<string, unknown> = applied[0]?.components ?? base;
-          const materials = components["minecraft:material_instances"] as Materials;
-          assert.deepEqual(Object.keys(materials), ["*"], where);
-          assert.equal(materials["*"]?.texture, halfTexture(index, half).shortname, where);
-          assert.equal(materials["*"]?.render_method, "opaque", where);
-          assert.deepEqual(
-            components["minecraft:transformation"],
-            { rotation: [0, rotation[facing], 0] },
-            where,
-          );
+      for (const cardinal of FACINGS) {
+        for (const part of [0, 1]) {
+          const half = halfOfPart(facing, cardinal, part);
+          if (!half) continue; // cardinal into/out of the wall: refused on place
+          for (const index of posterIndices()) {
+            combinations++;
+            const states: Record<string, MolangValue> = {
+              "hk:facing": facing,
+              "hk:poster": index,
+              "minecraft:cardinal_direction": cardinal,
+              "minecraft:multi_block_part": part,
+            };
+            const applied = permutations.filter((p) => evalCondition(p.condition, states));
+            const where = JSON.stringify(states);
+            assert.ok(applied.length <= 1, `${where}: ${applied.length} permutations`);
+            const components: Record<string, unknown> = applied[0]?.components ?? base;
+            const materials = components["minecraft:material_instances"] as Materials;
+            assert.deepEqual(Object.keys(materials), ["*"], where);
+            assert.equal(materials["*"]?.texture, halfTexture(index, half).shortname, where);
+            assert.equal(materials["*"]?.render_method, "opaque", where);
+            assert.deepEqual(
+              components["minecraft:transformation"],
+              { rotation: [0, rotation[facing], 0] },
+              where,
+            );
+          }
         }
       }
     }
-    assert.equal(combinations, FACINGS.length * HALVES.length * POSTER_COUNT);
+    // 4 facings x 2 along-the-wall cardinals x 2 parts x every poster
+    assert.equal(combinations, FACINGS.length * 2 * 2 * POSTER_COUNT);
   });
 
   it("is crafted shapeless from paper + any HK crop (tag hk:crops on exactly the produce)", () => {

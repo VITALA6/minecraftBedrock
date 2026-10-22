@@ -6,7 +6,6 @@ import {
   STATE_FACING,
   STATE_GROWTH,
   STATE_POSTER,
-  STATE_RIGHT,
   STATE_SLICES,
 } from "../config";
 import { HEAT_BLOCK_IDS } from "../stations/heat";
@@ -249,7 +248,7 @@ export function referencedBlocks(
   refs.push({
     id: BLOCK_RECIPE_POSTER,
     where: "recipe poster",
-    states: [STATE_POSTER, STATE_FACING, STATE_RIGHT],
+    states: [STATE_POSTER, STATE_FACING],
   });
   for (const id of content.vanillaBlocks)
     refs.push({ id, where: "vanilla block list", states: [] });

@@ -67,7 +67,6 @@ export const STATE_LIQUID = "hk:liquid"; // container stations: liquid colour (d
 export const STATE_SLICES = "hk:slices"; // sliced dishes: slices eaten
 export const STATE_POSTER = "hk:poster"; // recipe poster: 0 blank, 1.. dish (posters/poster-logic.ts)
 export const STATE_FACING = "hk:facing"; // recipe poster: north|south|east|west, out of the wall
-export const STATE_RIGHT = "hk:right"; // recipe poster part: shows the right half of the image
 export const STATE_CARDINAL = "minecraft:cardinal_direction"; // placement_direction trait
 
 // --- dynamic properties --------------------------------------------------------------------------

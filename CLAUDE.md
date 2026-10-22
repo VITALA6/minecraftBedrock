@@ -126,6 +126,9 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
   - Hide the noise with `grep -v '\[verbose\]' <file> | grep -v '^$'`.
   - A broken definition usually causes follow-on errors, such as recipe or `blocks.json` errors
     for the missing block. Fix the first one.
+- **Check which build is running:** operators see `Harvest Kitchen build <hash> <time>` in chat
+  on join (also in the Content Log and `/hk:debug validate`). Deploy only copies files; a world
+  keeps its scripts until you leave and re-enter (or `/reload`, scripts only).
 - Override with the `MC_GAME_DIR` env var.
 - **Copy, not symlink (verified 2026-10-21, game 1.26.52.3):** the game didn't pick up symlinked
   packs, even with Flatpak read access to `dist/` and links that resolve inside the sandbox. Copied
@@ -177,6 +180,12 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
     - `@privilege no-restricted-execution` marks calls that throw inside before-events and custom
       command callbacks. Defer those with `system.run`.
     - Custom components and custom commands register only in `system.beforeEvents.startup`.
+  - **Multi-blocks** (`minecraft:multi_block`, learned on the recipe poster, 2026-10-22): vary parts
+    in permutations on `minecraft:multi_block_part` (and `minecraft:cardinal_direction`), not with
+    a per-part custom state. Change a part's states with `permutation.withState()`, never by
+    re-resolving from `getAllStates()` (the poster vanished). `allowed_faces` takes only
+    `up/down/north/south/east/west` in 1.26.50, and a side-face `placement_filter` broke the
+    poster on its re-check. `face` in `beforeOnPlayerPlace` is the clicked face, i.e. the front.
   - **Module layout** (see `packs/scripting/scripts`):
     - `main.ts` only wires things together, and `config.ts` holds IDs and numbers.
     - Each feature is a module exporting `register*()`, in `events/`, `components/` or `ui/`.

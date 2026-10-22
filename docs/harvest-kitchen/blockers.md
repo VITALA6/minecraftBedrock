@@ -449,3 +449,10 @@ wall` and the poster stays in your hand (or comes back).
   all four facings). A refused poster now logs `recipe poster removed (<reason>) at …`.
   **Not covered without the filter:** a wall removed by `/setblock`, `/fill`, fire or an enderman
   leaves the poster hanging.
+- **Works in game 2026-10-22 (build `6a6b370`).** Three causes, fixed one by one with chat
+  diagnostics (`DEBUG_POSTERS`): `allowed_faces: ["side"]` doesn't load in 1.26.50; the side-face
+  placement filter removed the poster on its re-check; and rewriting a part's permutation with
+  `BlockPermutation.resolve(getAllStates())` made the whole multi-block vanish. Each half now picks
+  its texture from `minecraft:multi_block_part` + `minecraft:cardinal_direction`, and the script
+  writes nothing after placing. `face` in `beforeOnPlayerPlace` is the poster's front. Still to
+  check: the halves read left to right on all four walls, break/drop, sneak-cycling.

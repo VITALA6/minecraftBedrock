@@ -23,6 +23,8 @@ import {
   startHalf,
   step,
   viewerRight,
+  wallPosition,
+  posterPosition,
   type Discovery,
 } from "../scripts/posters/poster-logic";
 
@@ -174,6 +176,54 @@ describe("wall geometry", () => {
       assert.equal(startHalf(f, viewerRight(f)), "left");
       assert.equal(startHalf(f, opposite(viewerRight(f))), "right");
       assert.equal(startHalf(f, f), undefined);
+    }
+  });
+});
+
+describe("poster support by facing (the wall is behind the poster, never below it)", () => {
+  const at = { x: 10, y: 64, z: -3 };
+  // facing = where the poster's front points; the wall is one block the other way, same y.
+  const expected = {
+    north: { x: 10, y: 64, z: -2 },
+    south: { x: 10, y: 64, z: -4 },
+    east: { x: 9, y: 64, z: -3 },
+    west: { x: 11, y: 64, z: -3 },
+  } as const;
+
+  for (const facing of FACINGS) {
+    it(`facing ${facing}: the wall is ${opposite(facing)} of the poster, at the same height`, () => {
+      const wall = wallPosition(at, facing);
+      assert.deepEqual(wall, expected[facing]);
+      assert.equal(wall.y, at.y, "support is never the block below");
+    });
+
+    it(`facing ${facing}: posterPosition is the inverse of wallPosition`, () => {
+      assert.deepEqual(posterPosition(wallPosition(at, facing), facing), at);
+    });
+  }
+
+  it("removing a wall only concerns the poster in front of it with that facing", () => {
+    const wall = { x: 0, y: 70, z: 0 };
+    const hanging = FACINGS.map((facing) => ({ facing, at: posterPosition(wall, facing) }));
+    for (const { facing, at: pos } of hanging) {
+      assert.deepEqual(wallPosition(pos, facing), wall);
+      for (const other of FACINGS.filter((f) => f !== facing)) {
+        assert.ok(
+          JSON.stringify(wallPosition(pos, other)) !== JSON.stringify(wall),
+          `${facing} poster checked as ${other}`,
+        );
+      }
+    }
+  });
+
+  it("both halves of a poster on a 2-wide wall have their own wall block behind them", () => {
+    for (const facing of FACINGS) {
+      const left = { x: 0, y: 64, z: 0 };
+      const r = step(viewerRight(facing));
+      const right = { x: left.x + r.x, y: 64, z: left.z + r.z };
+      const a = wallPosition(left, facing);
+      const b = wallPosition(right, facing);
+      assert.deepEqual({ x: b.x - a.x, z: b.z - a.z }, r, `${facing}: walls side by side`);
     }
   });
 });

@@ -144,6 +144,24 @@ export function viewerRight(facing: Facing): Facing {
   return clockwise(opposite(facing));
 }
 
+interface XYZ {
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+}
+
+/** The wall block a poster part at `at` hangs on: one block behind its front (`facing`). */
+export function wallPosition(at: XYZ, facing: Facing): XYZ {
+  const back = step(opposite(facing));
+  return { x: at.x + back.x, y: at.y, z: at.z + back.z };
+}
+
+/** Where a poster part hanging on `wall` with front `facing` sits: one block in front of it. */
+export function posterPosition(wall: XYZ, facing: Facing): XYZ {
+  const front = step(facing);
+  return { x: wall.x + front.x, y: wall.y, z: wall.z + front.z };
+}
+
 /** "Down" etc. (the Script API Direction values) as a horizontal facing; undefined for up/down. */
 export function facingOfDirection(direction: string): Facing | undefined {
   const lower = direction.toLowerCase();

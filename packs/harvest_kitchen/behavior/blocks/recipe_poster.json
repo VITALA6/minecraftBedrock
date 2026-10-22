@@ -36,10 +36,7 @@
         "*": { "texture": "hk_poster_blank_left", "render_method": "opaque" }
       },
       "minecraft:transformation": { "rotation": [0, 0, 0] },
-      "minecraft:movable": { "movement_type": "popped" },
-      "minecraft:placement_filter": {
-        "conditions": [{ "allowed_faces": ["north", "south", "east", "west"] }]
-      }
+      "minecraft:movable": { "movement_type": "popped" }
     },
     "permutations": [
       {

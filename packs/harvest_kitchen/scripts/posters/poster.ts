@@ -36,10 +36,9 @@ import {
   halvesOf,
   isFacing,
   nextPoster,
-  opposite,
   posterDish,
   startHalf,
-  step,
+  wallPosition,
   type Discovery,
   type Facing,
 } from "./poster-logic";
@@ -87,9 +86,8 @@ const isSolid = (block: Block | undefined) =>
 
 /** The block a part hangs on: one block behind its front. */
 function wallOf(block: Block, facing: Facing): Block | undefined {
-  const back = step(opposite(facing));
   try {
-    return block.offset({ x: back.x, y: 0, z: back.z });
+    return block.dimension.getBlock(wallPosition(block.location, facing));
   } catch {
     return undefined;
   }
@@ -130,6 +128,11 @@ function cycle(player: Player, block: Block): void {
 
 /** Removes a poster that can't hang (no wall, parts not along the wall) and gives it back. */
 function refund(parts: readonly Block[], player: Player | undefined, reason: string): void {
+  // The Content Log is how a refused poster gets diagnosed (in game the poster just vanishes).
+  console.warn(
+    `[harvest_kitchen] recipe poster removed (${reason}) at ` +
+      parts.map((part) => JSON.stringify(part.location)).join(" + "),
+  );
   for (const part of parts) {
     try {
       // the item comes back below; if removing a part counts as a break, it must not drop too

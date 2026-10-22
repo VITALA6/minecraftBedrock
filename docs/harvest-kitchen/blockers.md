@@ -439,3 +439,13 @@ wall` and the poster stays in your hand (or comes back).
   to the base and split the permutations. (7) drops wrong → set the base loot to a poster loot
   table on part 0 only and drop the script drop. (6) blurry/too small → the layout is already at
   1/4-block icons; a 3×1 poster is the next step.
+
+- **2026-10-22 in game:** the poster broke right after placing (the log tail wasn't flushed, so
+  no line). The placement filter (`allowed_faces` on the side faces, no `block_filter`) was the
+  likely cause: it's re-checked on the trait's second part, which isn't placed against any face,
+  and after the script's state fix-up. **Removed it.** Floors and ceilings are still refused in
+  `beforeOnPlayerPlace`, and the wall going is handled by `posters/poster-support.ts` from
+  `hk:facing`. Wall maths is now one pure function (`wallPosition` / `posterPosition`, tested for
+  all four facings). A refused poster now logs `recipe poster removed (<reason>) at …`.
+  **Not covered without the filter:** a wall removed by `/setblock`, `/fill`, fire or an enderman
+  leaves the poster hanging.

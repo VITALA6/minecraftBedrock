@@ -1,6 +1,6 @@
 import { system, world, type Dimension, type Vector3 } from "@minecraft/server";
 import { BLOCK_RECIPE_POSTER, PISTON_SETTLE_TICKS, STATE_FACING } from "../config";
-import { FACINGS, step } from "./poster-logic";
+import { FACINGS, posterPosition } from "./poster-logic";
 
 // A recipe poster hangs on the block behind it and pops when that block goes. The block JSON's
 // minecraft:placement_filter (side faces only) is meant to do it, but whether a side-face filter
@@ -23,8 +23,8 @@ function popIfUnsupported(dimension: Dimension, wall: Vector3): void {
   const support = dimension.getBlock(wall);
   if (!support || !(support.isAir || support.isLiquid)) return;
   for (const facing of FACINGS) {
-    const d = step(facing);
-    const block = support.offset({ x: d.x, y: 0, z: d.z });
+    // a poster hanging on this wall with its front to `facing` sits one block that way
+    const block = dimension.getBlock(posterPosition(wall, facing));
     if (block?.typeId !== BLOCK_RECIPE_POSTER) continue;
     if (block.permutation.getAllStates()[STATE_FACING] !== facing) continue; // hangs elsewhere
     const { x, y, z } = block.location;

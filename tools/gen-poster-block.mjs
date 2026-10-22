@@ -120,10 +120,10 @@ function blockJson(d) {
         "minecraft:map_color": "#eedcb0",
         ...look(d.FACINGS[0], d.HALVES[0], 0),
         "minecraft:movable": { movement_type: "popped" },
-        // Faces of the wall block it may hang on; 1.26.50 rejects the old "side" shorthand.
-        "minecraft:placement_filter": {
-          conditions: [{ allowed_faces: ["north", "south", "east", "west"] }],
-        },
+        // No minecraft:placement_filter: re-checked on the trait's second part (placed against
+        // no face) or after the script's state fix-up, it removed the poster right after placing
+        // (2026-10-22). Floors and ceilings are refused in beforeOnPlayerPlace, and the wall
+        // going is handled by posters/poster-support.ts from hk:facing.
       },
       permutations,
     },

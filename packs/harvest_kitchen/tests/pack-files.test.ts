@@ -505,9 +505,9 @@ describe("recipe poster (D15)", () => {
   it("hangs on side faces, pops, drops nothing by itself, lets light through, thin boxes", () => {
     assert.ok(poster);
     const c = poster.components;
-    assert.deepEqual(c["minecraft:placement_filter"], {
-      conditions: [{ allowed_faces: ["north", "south", "east", "west"] }],
-    });
+    // no placement filter: it removed the poster right after placing (2026-10-22);
+    // floors/ceilings are refused by the script, the wall going by poster-support.ts
+    assert.equal(c["minecraft:placement_filter"], undefined);
     assert.deepEqual(c["minecraft:movable"], { movement_type: "popped" });
     assert.equal(c["minecraft:loot"], "loot_tables/hk/blocks/nothing.json");
     assert.equal(c["minecraft:light_dampening"], 0);

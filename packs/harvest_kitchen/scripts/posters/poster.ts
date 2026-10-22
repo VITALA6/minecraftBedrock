@@ -21,6 +21,7 @@ import {
   STATE_FACING,
   STATE_POSTER,
   STATE_RIGHT,
+  DEBUG_POSTERS,
 } from "../config";
 import { EFFECTS, familyOf, findDish } from "../data/dishes";
 import { foundCrops } from "../discovery/discovery";
@@ -30,6 +31,7 @@ import { giveOrDrop, isCreative } from "../lib/inventory";
 import { itemName, t } from "../lib/text";
 import { TickGate } from "../lib/tick-gate";
 import {
+  FACINGS,
   POSTER_BLANK,
   facingOfDirection,
   firstPoster,
@@ -39,6 +41,7 @@ import {
   opposite,
   posterDish,
   settleFacing,
+  wallPosition,
   startHalf,
   type Discovery,
   type Facing,
@@ -84,6 +87,20 @@ function facingOf(block: Block): Facing | undefined {
 
 const isSolid = (block: Block | undefined) =>
   block !== undefined && !block.isAir && !block.isLiquid;
+
+/**
+ * Test sessions only (DEBUG_POSTERS): each placement step goes to the placer's chat, because the
+ * Content Log loses its last 4 KB and a vanished poster leaves nothing else to go on. Not
+ * localized on purpose; off for release.
+ */
+function debug(player: Player | undefined, message: string): void {
+  if (!DEBUG_POSTERS) return;
+  const where = `§7[poster] ${message}`;
+  console.warn(`[harvest_kitchen] ${where}`);
+  if (player?.isValid) player.sendMessage(where);
+}
+
+const xyz = ({ x, y, z }: Vector3) => `${x} ${y} ${z}`;
 
 const center = ({ x, y, z }: Vector3): Vector3 => ({ x: x + 0.5, y: y + 0.5, z: z + 0.5 });
 
@@ -148,15 +165,28 @@ function refund(parts: readonly Block[], player: Player | undefined, reason: str
  */
 function settle(dimension: Dimension, location: Vector3, player: Player | undefined, retry = true) {
   const block = dimension.getBlock(location);
-  if (block?.typeId !== BLOCK_RECIPE_POSTER) return;
+  if (block?.typeId !== BLOCK_RECIPE_POSTER) {
+    debug(player, `settle: no poster at ${xyz(location)} (found ${block?.typeId ?? "nothing"}): the game didn't place it`); // prettier-ignore
+    return;
+  }
   const hint = facingOf(block);
   const parts = partsOf(block);
   if (parts.length < 2) {
+    debug(player, `settle: ${parts.length} part(s) at ${xyz(location)}${retry ? ", retrying" : ", giving up"}`); // prettier-ignore
     if (retry) system.runTimeout(() => settle(dimension, location, player, false), POSTER_SYNC_RETRY_TICKS); // prettier-ignore
     else console.warn(`[harvest_kitchen] recipe poster at ${JSON.stringify(location)}: second part never appeared`); // prettier-ignore
     return;
   }
   const [a, b] = parts as [Block, Block];
+  const behind = (at: Vector3, f: Facing) => {
+    const wall = dimension.getBlock(wallPosition(at, f));
+    return `${f}:${wall?.typeId.replace("minecraft:", "") ?? "?"}`;
+  };
+  debug(
+    player,
+    `settle: parts ${xyz(a.location)} + ${xyz(b.location)}, hint ${hint ?? "-"}; behind a ` +
+      FACINGS.map((f) => behind(a.location, f)).join(" "),
+  );
   // The facing comes from the world (where the wall really is), not only from the clicked face:
   // reading `face` the wrong way round refused every poster on 2026-10-22 ("no_room").
   const facing = settleFacing([a.location, b.location], hint, (at) => {
@@ -166,6 +196,7 @@ function settle(dimension: Dimension, location: Vector3, player: Player | undefi
       return false;
     }
   });
+  debug(player, `settle: facing ${facing ?? "none (no full wall)"}`);
   if (!facing) return refund(parts, player, "hk.poster.no_room");
   const halves = halvesOf(facing, a.location, b.location);
   if (!halves) {
@@ -230,6 +261,11 @@ const recipePoster: BlockCustomComponent = {
     const facing = against && opposite(against);
     const cardinal = event.permutationToPlace.getAllStates()[STATE_CARDINAL];
     const half = facing && isFacing(cardinal) ? startHalf(facing, cardinal) : undefined;
+    debug(
+      player,
+      `place at ${xyz(block.location)}: face ${face}, front ${facing ?? "-"}, ` +
+        `cardinal ${String(cardinal)}, half ${half ?? "-"}${!facing || !half ? " -> CANCEL" : ""}`,
+    );
     if (!facing || !half) {
       // up/down faces are refused by the placement filter; this is the player looking along
       // the wall, so the second part would go into it or stick out of it.

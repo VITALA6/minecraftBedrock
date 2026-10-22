@@ -159,3 +159,6 @@ export const PARTICLE = {
 
 /** Tell operators which build is running when they join (test sessions). Off for release. */
 export const ANNOUNCE_BUILD = true;
+
+/** Report every recipe poster placement step to the placer's chat (test sessions). Off for release. */
+export const DEBUG_POSTERS = true;

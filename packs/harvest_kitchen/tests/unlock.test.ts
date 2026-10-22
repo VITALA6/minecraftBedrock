@@ -8,6 +8,7 @@ import {
   addFound,
   cropOfItem,
   cropsOfDish,
+  inventoryDiscovery,
   isUnlocked,
   parseFound,
   serializeFound,
@@ -134,6 +135,46 @@ describe("the hk:found property", () => {
 
   it("crop keys can't contain the separator", () => {
     for (const crop of CROPS) assert.equal(crop.key.includes(","), false, crop.key);
+  });
+});
+
+describe("catching up on items already carried (CR4)", () => {
+  it("finds every crop the inventory holds, once each", () => {
+    const seen = inventoryDiscovery([
+      "hk:tomato",
+      "hk:tomato_seeds",
+      "hk:sliced_cucumber",
+      "minecraft:dirt",
+    ]);
+    assert.deepEqual(seen.crops.sort(), ["cucumber", "tomato"]);
+    assert.equal(seen.anyHk, true);
+    assert.equal(seen.hasBook, false);
+  });
+
+  it("an HK item that isn't a crop still makes the book due, but finds nothing", () => {
+    const seen = inventoryDiscovery(["hk:tomato_soup", "hk:cooking_pot"]);
+    assert.deepEqual(seen.crops, []);
+    assert.equal(seen.anyHk, true);
+  });
+
+  it("notices the book itself, so it isn't handed out twice", () => {
+    assert.equal(inventoryDiscovery(["hk:recipe_book"]).hasBook, true);
+  });
+
+  it("a vanilla-only or empty inventory changes nothing", () => {
+    assert.deepEqual(inventoryDiscovery(["minecraft:bread", "minecraft:bowl"]), {
+      crops: [],
+      anyHk: false,
+      hasBook: false,
+    });
+    assert.deepEqual(inventoryDiscovery([]), { crops: [], anyHk: false, hasBook: false });
+  });
+
+  it("each crop's seed, produce and prepared ingredient count", () => {
+    for (const crop of CROPS) {
+      assert.deepEqual(inventoryDiscovery([crop.seed]).crops, [crop.key]);
+      assert.deepEqual(inventoryDiscovery([crop.produce]).crops, [crop.key]);
+    }
   });
 });
 

@@ -84,6 +84,8 @@ export const CHOP_INTERVAL_TICKS = 6; // sneak-chop: one item every N ticks (S6)
 export const CHOP_MAX_DISTANCE = 4; // sneak-chop stops when the player is farther than this
 
 export const UNLOCK_TOAST_COOLDOWN_TICKS = 60; // "★ New recipe!" at most once per 3 s
+export const BOOK_OPEN_GAP_TICKS = 5; // onUse + onUseOn of one click open the book once
+export const SLICE_BITE_GAP_TICKS = 10; // a held use button eats at most 2 slices per second
 
 export const DEBUG_GROW_RADIUS = 8; // /hk:debug grow
 

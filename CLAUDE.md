@@ -51,6 +51,7 @@ tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
   paths.mjs        shared paths (repo, dist, game dir)
+  test.mjs         bundles packs/*/tests with esbuild, runs node --test (no @minecraft imports)
   gen-textures.mjs Harvest Kitchen 16×16 textures from art/harvest_kitchen/palette.json
                    (--palette re-samples vanilla) -> art/harvest_kitchen/generated/
   lint-textures.mjs checks generated/ against docs/harvest-kitchen/art-style.md, writes
@@ -87,6 +88,7 @@ Current packs:
 | `npm run typecheck`        | `tsc` only                                                               |
 | `npm run lint`             | eslint (type-aware for pack scripts)                                     |
 | `npm run format`           | prettier write (`format:check` to verify)                                |
+| `npm test`                 | unit tests (`packs/*/tests/*.test.ts`, node:test; pure logic only)       |
 | `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet   |
 | `npm run uuid`             | print 5 fresh UUIDs (one new BP+RP+script pack needs exactly 5)          |
 

@@ -2,7 +2,7 @@ import type { Player } from "@minecraft/server";
 import { UI_ICONS, itemIcon } from "../data/icons";
 import { ingredientName, itemName, t } from "../lib/text";
 import { startCooking, takeOut } from "../stations/station-engine";
-import { closestRecipe, phaseOf, possibleRecipes } from "../stations/station-logic";
+import { closestRecipe, possibleRecipes, showsScreen } from "../stations/station-logic";
 import { readStation, type StationRef } from "../stations/station-store";
 import { Menu, runForm } from "./menu";
 import { bookPage, showBook } from "./recipe-book";
@@ -22,8 +22,8 @@ type Next = "reopen" | "done" | (() => Promise<void>);
 async function show(player: Player, ref: StationRef): Promise<void> {
   for (let i = 0; i < 32; i++) {
     const state = readStation(ref);
-    const phase = phaseOf(ref.station, state);
-    if (phase === "cooking" || phase === "done") return; // someone else moved on
+    // Someone else moved on (cooking, done), or the last ingredient just came out: no form.
+    if (!showsScreen(ref.station, state)) return;
 
     const menu = new Menu<Next>(t(ref.station.nameKey));
     const possible = possibleRecipes(ref.station, state);

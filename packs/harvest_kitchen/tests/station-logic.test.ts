@@ -15,6 +15,7 @@ import {
   progressCells,
   routeUse,
   serializeSaved,
+  showsScreen,
   sneakHandles,
   spillContents,
   startJob,
@@ -221,6 +222,38 @@ describe("use routing (plan §2.3)", () => {
       for (const sneaking of [false, true]) {
         assert.deepEqual(routeUse(pot, cooking(50), held, sneaking), { kind: "progress" });
         assert.deepEqual(routeUse(pot, done, held, sneaking), { kind: "collect" });
+      }
+    }
+  });
+});
+
+describe("the pot screen (CR3)", () => {
+  const onion = { items: { "hk:onion": 1 } };
+
+  it("shows while idle or ready with something inside", () => {
+    assert.equal(showsScreen(pot, onion), true);
+    assert.equal(showsScreen(pot, soupReady), true);
+  });
+
+  it("doesn't reopen once the last ingredient is out: an empty pot gets the hint", () => {
+    const last = takeOutItems(onion, "hk:onion");
+    assert.ok(last);
+    assert.equal(showsScreen(pot, last.state), false);
+    assert.equal(showsScreen(pot, EMPTY), false);
+  });
+
+  it("closes when someone else started cooking or the dish is done", () => {
+    assert.equal(showsScreen(pot, cooking(50)), false);
+    assert.equal(showsScreen(pot, done), false);
+  });
+
+  it("whenever routing opens the screen, it has something to show", () => {
+    const states: StationState[] = [EMPTY, onion, soupReady, cooking(50), done];
+    for (const state of states) {
+      for (const sneaking of [false, true]) {
+        if (routeUse(pot, state, undefined, sneaking).kind === "screen") {
+          assert.equal(showsScreen(pot, state), true);
+        }
       }
     }
   });

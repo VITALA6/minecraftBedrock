@@ -112,7 +112,8 @@ scripts/
     pot-screen.ts            the pot screen
     recipe-book.ts           every book page, generated from data/
   debug/debug-command.ts     /hk:debug
-  lib/                       block states, inventory, text (lang keys), feedback (sound/particle)
+  lib/                       block states, inventory, text (lang keys), feedback (sound/particle),
+                             tick-gate (per-player rate limit: book open, cake bites)
 tests/                       node:test unit tests for the pure modules (see "Tests")
 ```
 
@@ -240,7 +241,7 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
   (both `@privilege early-execution-allowed`), `CustomCommandParamType.Enum`,
   `CommandPermissionLevel.GameDirectors`, `cheatsRequired`; `CustomCommandOrigin.sourceEntity`;
   block component hooks `onPlayerInteract`, `onPlace`, `onRandomTick`, `onPlayerBreak`,
-  `onBreak` (`brokenBlockPermutation`); item component `onUse`, `onConsume`;
+  `onBreak` (`brokenBlockPermutation`); item component `onUse`, `onUseOn`, `onConsume`;
   `EntityComponentTypes.Hunger` / `Saturation` (`EntityAttributeComponent.setCurrentValue`);
   `ItemComponentTypes.Food` (`ItemFoodComponent.nutrition`, `canAlwaysEat`, `usingConvertsTo`);
   `MolangVariableMap.setColorRGB`; `ScreenDisplay.setTitle` with `subtitle`;
@@ -276,8 +277,8 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
 Everything below is unproven in game:
 
 1. Same-id item + `replace_block_item` gives pot, board and cake a flat hotbar icon and the right
-   name; the creative menu shows each once (both the block and the item declare category
-   `items`).
+   name; the creative menu shows each once (the block declares category `items`, the item
+   `none`, as vanilla `red_shrub` does; see blockers.md B3).
 2. Sneak + use on the pot and board reaches our before-event handler, the cancel stops vanilla
    placement, and nothing runs twice.
 3. Multiple matching permutations combine (material swap + light emission).
@@ -287,7 +288,8 @@ Everything below is unproven in game:
    the air and plant on farmland.
 6. The `hk:seeds` item tag works as a shapeless recipe ingredient.
 7. `setTitle("§r", { subtitle })` shows only the subtitle.
-8. `onUse` fires for the recipe book with no other use component.
+8. The recipe book opens once per use, in the air (`onUse`) and while looking at a block
+   (`onUseOn`), with no other use component (blockers.md B12).
 9. `playerInventoryItemChange` fires for pickups, crafting results and `/give`.
 10. The pot's `onRandomTick` fires without a `minecraft:tick` component (the MVP crops proved it
     for crops).

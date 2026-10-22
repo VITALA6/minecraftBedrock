@@ -6,9 +6,17 @@ import {
   SOUND,
   UNLOCK_TOAST_COOLDOWN_TICKS,
 } from "../config";
-import { giveOrDrop, isCreative } from "../lib/inventory";
+import { countInventory, giveOrDrop, isCreative } from "../lib/inventory";
 import { t } from "../lib/text";
-import { addFound, cropOfItem, isUnlocked, parseFound, serializeFound, toastDue } from "./unlock";
+import {
+  addFound,
+  cropOfItem,
+  inventoryDiscovery,
+  isUnlocked,
+  parseFound,
+  serializeFound,
+  toastDue,
+} from "./unlock";
 
 // Discovery and unlock (D3). Every dish is listed in the book from the start; it unlocks once the
 // player has found every Harvest Kitchen crop it uses (seed, produce or prepared ingredient all
@@ -66,6 +74,21 @@ function giveBookOnce(player: Player, arrivedId: string): void {
   if (arrivedId === ITEM_RECIPE_BOOK) return;
   giveOrDrop(player, ITEM_RECIPE_BOOK, 1, player.dimension, player.location);
   player.sendMessage(t("hk.book.given"));
+}
+
+/**
+ * Catches up on what the player already carries. The inventory event only reports slots whose
+ * item changes (quantity changes are ignored), so HK items held from before (a missing or reset
+ * property, an older version of the pack) would never count. Call on the initial spawn.
+ */
+export function catchUpDiscovery(player: Player): void {
+  try {
+    const seen = inventoryDiscovery(Object.keys(countInventory(player)));
+    if (seen.anyHk) giveBookOnce(player, seen.hasBook ? ITEM_RECIPE_BOOK : "");
+    if (markFound(player, seen.crops).length > 0 && !isCreative(player)) toastNewRecipe(player);
+  } catch (error) {
+    console.warn(`[harvest_kitchen] discovery catch-up for ${player.name}: ${String(error)}`);
+  }
 }
 
 export function registerDiscovery(): void {

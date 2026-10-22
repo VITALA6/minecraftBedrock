@@ -226,6 +226,16 @@ export function routeUse(
   return only && possible.length === 1 ? { kind: "cook", recipe: only.id } : { kind: "screen" };
 }
 
+/**
+ * Whether the pot screen has anything to offer: only while idle or ready with something inside.
+ * An empty station gets the "Add ingredients" hint instead (plan §2.3), also when the screen
+ * would reopen after its last ingredient was taken out.
+ */
+export function showsScreen(station: ContainerStation, state: StationState): boolean {
+  const phase = phaseOf(station, state);
+  return (phase === "idle" || phase === "ready") && totalItems(state) > 0;
+}
+
 export type AddResult =
   | { readonly kind: "cooking" | "done" | "refused" | "full" | "none" }
   | {

@@ -138,7 +138,8 @@ export function registerStationEvents(): void {
   world.afterEvents.playerBreakBlock.subscribe(({ block }) => refreshAbove(block), {
     blockTypes: [...HEAT_BLOCK_IDS],
   });
-  world.afterEvents.playerInteractWithBlock.subscribe(({ block }) => {
-    system.runTimeout(() => refreshAbove(block), 1);
+  // Only the first event of a press: holding the button repeats this for every block in the world.
+  world.afterEvents.playerInteractWithBlock.subscribe(({ block, isFirstEvent }) => {
+    if (isFirstEvent) system.runTimeout(() => refreshAbove(block), 1);
   });
 }

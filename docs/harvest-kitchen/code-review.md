@@ -1,7 +1,8 @@
 # Harvest Kitchen: code review (portfolio slice)
 
-Reviewed 2026-10-22 against commit `3d40572` (branch `harvest-kitchen-mvp`). A refactor was moving
-pure logic into `*-logic.ts` modules while this was written, so each finding names the **function**
+Reviewed 2026-10-22 against commit `3d40572` (branch `harvest-kitchen-mvp`). Fixes were applied
+on top of `390abeb`; each finding's **Status** line says what changed. A refactor was moving pure
+logic into `*-logic.ts` modules while this was written, so each finding names the **function**
 as well as the `file:line` at `3d40572`. In the new layout the station rules live in
 `stations/station-logic.ts`, and `station-engine.ts` keeps the world-facing side.
 
@@ -33,6 +34,8 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR1. Dry farmland may revert to dirt under our crops, which then pop (needs-game)
 
+**Status: open → B10.**
+
 - **Where:** `behavior/blocks/{tomato,onion,cucumber}_crop.json:66-70` (`minecraft:placement_filter`
   with `block_filter: ["minecraft:farmland"]`); `crops/crop-growth.ts:72` `isDryFarmland`.
 - **Scenario:** a player plants tomatoes on farmland that isn't next to water. Vanilla farmland with
@@ -51,6 +54,8 @@ whatever doesn't fit. There are three exceptions:
   to accept the behaviour and say "needs water" in the book's crop page.
 
 ### CR2. The recipe book may not open while the player looks at a block (half clear-fix, half needs-game)
+
+**Status: fixed 2026-10-22** (`book/book-item.ts`: `onUseOn` + per-player `TickGate`, test `tests/tick-gate.test.ts`). In-game check → B12.
 
 - **Where:** `book/book-item.ts:8` `recipeBook.onUse`.
 - **Scenario:** a child holds the book and taps use while looking at the ground, which is the
@@ -72,6 +77,8 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR3. Pot screen reopens almost empty after the last ingredient comes out (clear-fix)
 
+**Status: fixed 2026-10-22** (`showsScreen` in `stations/station-logic.ts`, used by `ui/pot-screen.ts` `show`; tests "the pot screen (CR3)" in `tests/station-logic.test.ts`).
+
 - **Where:** `ui/pot-screen.ts:28-77` `show` loop. In the new layout this is the "reopen" branch.
 - **Scenario:** the pot holds one tomato. A player taps "In the pot ×1 Tomato", and `takeOut`
   returns true, so the loop reopens. The new screen has no Cook, no Almost and no In-the-pot
@@ -81,6 +88,8 @@ whatever doesn't fit. There are three exceptions:
   (`totalItems(state) === 0`). Optionally show `hk.station.add_hint` first.
 
 ### CR4. Discovery and the book hand-out miss items already in the inventory (clear-fix)
+
+**Status: fixed 2026-10-22** on initial spawn (`catchUpDiscovery` in `book/discovery.ts`, called from `main.ts`; pure `inventoryDiscovery` in `book/unlock.ts`, tests in `tests/unlock.test.ts`). Not called after `/hk:debug reset`: re-finding the carried items there would defeat the retest. Empty the inventory, or move an item to a new slot, to retest.
 
 - **Where:** `book/discovery.ts:135` `registerDiscovery` and `:127` `giveBookOnce`.
 - **Scenario:** the listener only sees slot changes, with `ignoreQuantityChange: true`.
@@ -98,6 +107,8 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR5. ActionForm `selection` vs `header()`/`divider()` rows (needs-game)
 
+**Status: open → B11.**
+
 - **Where:** `ui/menu.ts:56` `Menu.show` (`this.actions[response.selection]`). The pot screen uses
   `header` ×3 and `divider`, and every book page uses `divider` before Back.
 - **Scenario:** `Menu` assumes `selection` counts buttons only. The `.d.ts` says "index of the
@@ -110,6 +121,8 @@ whatever doesn't fit. There are three exceptions:
   header and divider so the indices line up.
 
 ### CR6. Clear-then-give loops lose the remaining items if one hand-out throws (clear-fix)
+
+**Status: fixed 2026-10-22** (`returnItems` in `stations/station-engine.ts`, around every hand-out in `collect`, `takeOut`, `takeAll`, `spill`). Game-facing, no unit test. The `parseItems` filter wasn't added.
 
 - **Where:** `stations/station-engine.ts:328` `spill`, `:311` `takeAll`, `:291` `takeOut`, `:281`
   `collect`; `lib/inventory.ts:55` `dropItems`, `:66` `giveOrDrop`.
@@ -126,6 +139,8 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR7. Holding the use button may eat the whole cake (needs-game)
 
+**Status: throttle applied 2026-10-22** (`food/sliced-dish.ts`, `SLICE_BITE_GAP_TICKS` 10; test `tests/tick-gate.test.ts`). Single taps are unchanged. Hold behaviour still open → B13.
+
 - **Where:** `food/sliced-dish.ts:17` `slicedDish.onPlayerInteract`. The same applies, with milder
   effects, to `container-station` `onPlayerInteract` (it adds one per repeat) and
   `crop-growth` `onPlayerInteract`.
@@ -137,6 +152,8 @@ whatever doesn't fit. There are three exceptions:
   ticks. This is safe to add even without testing, because it only throttles.
 
 ### CR8. Sneak-chop continues after the player stops sneaking, turning the whole stack into slices (needs-game, UX)
+
+**Status: open → B14** (an S6 decision).
 
 - **Where:** `stations/cutting-board.ts:84` `startChopping` (the interval's `keepGoing`).
 - **Scenario:** one accidental sneak-tap with 64 tomatoes chops all 64 over about 19 s. That
@@ -151,6 +168,8 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR9. Heat-refresh listener runs on every block interaction in the world (clear-fix)
 
+**Status: fixed 2026-10-22** (`registerStationEvents` in `stations/container-station.ts`).
+
 - **Where:** `stations/container-station.ts:160-162` (`world.afterEvents.playerInteractWithBlock`
   in `registerStationEvents`).
 - **Scenario:** every right-click on any block schedules a `runTimeout` that runs two `getBlock`
@@ -160,12 +179,16 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR10. "Cooking without heat" feedback differs from the spec (clear-fix)
 
+**Status: fixed 2026-10-22** (`showProgress` in `stations/station-engine.ts` calls `noHeat`).
+
 - **Where:** `stations/station-engine.ts:200-211` `showProgress`.
 - **Scenario:** using a paused pot plays `bubble.pop` and shows `Needs fire below`. §2.2 says no heat
   gives a fizz plus grey smoke.
 - **Fix:** in the no-heat branch, call `noHeat(player, ref)` instead of playing the bubble sound.
 
 ### CR11. The sweep re-parses every tracked station each 10 ticks (clear-fix, later)
+
+**Status: open, deferred to M4** (the 200-pot measurement).
 
 - **Where:** `stations/station-engine.ts:387` `sweepOne`.
 - **Scenario:** stations that are idle with leftovers, ready, or done stay tracked forever. Each
@@ -177,6 +200,8 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR12. Cake and pot can float (needs-game)
 
+**Status: open → B15.**
+
 - **Where:** `behavior/blocks/strawberry_cake.json`, `cooking_pot.json` (no
   `minecraft:placement_filter`).
 - **Scenario:** placed against a wall face, the cake sits in mid-air and stays when the block
@@ -187,6 +212,8 @@ whatever doesn't fit. There are three exceptions:
   - Leave the pot alone unless the art review asks for it.
 
 ## B2. Sneak + use through `beforeEvents.playerInteractWithBlock`
+
+**Status:** re-checked after the refactor (both paths now go through `handleUse` → `routeUse`): the assessment holds. In-game check → B2.
 
 **Assessment: likely works as designed; the residual risk is eating, not double-firing.**
 
@@ -222,6 +249,8 @@ whatever doesn't fit. There are three exceptions:
 
 ## B3. Same-id item with `block_placer` + `replace_block_item` + `minecraft:icon`
 
+**Status:** fallback 1 (item `menu_category: none`, vanilla pattern) applied 2026-10-22, tested by `tests/pack-files.test.ts` "same-id placer items". In-game check → B3.
+
 **Assessment: valid for 1.26.x and matches what vanilla does. The open question is the creative
 menu, not the icon.**
 
@@ -251,6 +280,8 @@ menu, not the icon.**
        debug kit and lang keys.
 
 ## B9. Model facing vs the `cardinal_direction` permutations
+
+**Status:** not applied; the one-line fix and the test are in blockers.md B9.
 
 **Assessment: the four rotations are consistent with vanilla. At worst they're off by one global
 angle, fixed with one line.**

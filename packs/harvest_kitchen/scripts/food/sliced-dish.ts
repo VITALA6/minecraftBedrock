@@ -1,8 +1,15 @@
-import type { BlockComponentRegistry, BlockCustomComponent } from "@minecraft/server";
-import { COMPONENT_SLICED_DISH, PARTICLE, SOUND, STATE_SLICES } from "../config";
+import { system, type BlockComponentRegistry, type BlockCustomComponent } from "@minecraft/server";
+import {
+  COMPONENT_SLICED_DISH,
+  PARTICLE,
+  SLICE_BITE_GAP_TICKS,
+  SOUND,
+  STATE_SLICES,
+} from "../config";
 import { dishBySliceBlock } from "../data/dishes";
 import { getNumberState, setState } from "../lib/block-states";
 import { particle, sound } from "../lib/feedback";
+import { TickGate } from "../lib/tick-gate";
 import { applyEffect, feed } from "./feed";
 
 // Placeable dishes eaten one slice at a time (plan §2.6, §5.2): the Strawberry Cake now, pies and
@@ -12,6 +19,12 @@ import { applyEffect, feed } from "./feed";
 //
 // Anyone can eat a slice at any hunger level, so a group shares one cake. The last slice removes
 // the block.
+//
+// Component events have no isFirstEvent, so if the game repeats the interaction while use is held,
+// the bite gate allows one slice per SLICE_BITE_GAP_TICKS per player, so a held button can't eat
+// the whole cake in a second. A single tap is never affected.
+
+const bites = new TickGate(SLICE_BITE_GAP_TICKS);
 
 const slicedDish: BlockCustomComponent = {
   onPlayerInteract({ block, dimension, player }) {
@@ -22,6 +35,7 @@ const slicedDish: BlockCustomComponent = {
       console.warn(`[harvest_kitchen] ${block.typeId} has ${COMPONENT_SLICED_DISH} but no dish`);
       return;
     }
+    if (!bites.pass(player.id, system.currentTick)) return;
     const eaten = getNumberState(block, STATE_SLICES) ?? 0;
     const center = block.center();
 

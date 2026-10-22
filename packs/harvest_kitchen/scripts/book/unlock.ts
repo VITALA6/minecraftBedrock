@@ -59,6 +59,29 @@ export const HK_ITEM_IDS: readonly string[] = [
   ]),
 ];
 
+/**
+ * What items already in an inventory count as: the crops they find, whether any is a Harvest
+ * Kitchen item (so the book is due) and whether the book is among them. For the catch-up at
+ * spawn, which sees items the inventory event never reported.
+ */
+export function inventoryDiscovery(itemIds: Iterable<string>): {
+  crops: string[];
+  anyHk: boolean;
+  hasBook: boolean;
+} {
+  const crops = new Set<string>();
+  let anyHk = false;
+  let hasBook = false;
+  for (const id of itemIds) {
+    if (!id.startsWith("hk:")) continue;
+    anyHk = true;
+    if (id === ITEM_RECIPE_BOOK) hasBook = true;
+    const key = CROP_OF_ITEM.get(id);
+    if (key) crops.add(key);
+  }
+  return { crops: [...crops], anyHk, hasBook };
+}
+
 // --- the saved form: "tomato,onion" ---------------------------------------------------------------
 
 /** Reads the hk:found property. Anything that isn't a string counts as nothing found. */

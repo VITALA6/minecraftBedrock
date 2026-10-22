@@ -5,7 +5,7 @@
 
 import { system, world } from "@minecraft/server";
 import { registerRecipeBook } from "./book/book-item";
-import { registerDiscovery } from "./book/discovery";
+import { catchUpDiscovery, registerDiscovery } from "./book/discovery";
 import { registerCropGrowth } from "./crops/crop-growth";
 import { registerSeedDrops } from "./crops/seed-drops";
 import { validateData } from "./data/validate";
@@ -35,7 +35,12 @@ world.afterEvents.worldLoad.subscribe(() => {
 });
 
 world.afterEvents.playerSpawn.subscribe(({ player, initialSpawn }) => {
-  if (initialSpawn) system.runTimeout(() => player.isValid && announceProblems(player), 40);
+  if (!initialSpawn) return;
+  system.runTimeout(() => {
+    if (!player.isValid) return;
+    announceProblems(player);
+    catchUpDiscovery(player);
+  }, 40);
 });
 
 registerSeedDrops();

@@ -260,3 +260,35 @@ describe("station and placed-dish block states against the data", () => {
     });
   }
 });
+
+describe("same-id placer items (B3)", () => {
+  interface PlacerJson {
+    description: { identifier: string; menu_category?: { category?: string } };
+    components: { "minecraft:block_placer"?: { block?: string; replace_block_item?: boolean } };
+  }
+  interface CategoryJson {
+    description: { menu_category?: { category?: string } };
+  }
+  const placers = [...items.values()]
+    .map((item) => item as unknown as PlacerJson)
+    .filter((item) => item.components["minecraft:block_placer"]?.replace_block_item === true);
+
+  it("the pot, the board and the cake replace their block's item", () => {
+    assert.deepEqual(placers.map((p) => p.description.identifier).sort(), [
+      "hk:cooking_pot",
+      "hk:cutting_board",
+      "hk:strawberry_cake",
+    ]);
+  });
+
+  for (const placer of placers) {
+    const id = placer.description.identifier;
+    it(`${id}: same id as its block; the block carries the creative category (vanilla red_shrub)`, () => {
+      assert.equal(placer.components["minecraft:block_placer"]?.block, id);
+      assert.equal(placer.description.menu_category?.category, "none");
+      const block = blocks.get(id) as unknown as CategoryJson | undefined;
+      assert.ok(block, "block JSON");
+      assert.notEqual(block.description.menu_category?.category ?? "none", "none");
+    });
+  }
+});

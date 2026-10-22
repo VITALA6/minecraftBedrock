@@ -158,21 +158,33 @@ function announceReady(player: Player, ref: StationRef, recipes: StationRecipe[]
   );
 }
 
-/** "♨ ■■■□□" — five cells; pauses (and says so) without heat. */
+/** "♨ ■■■□□" — five cells; without heat it's paused and says so (fizz, "Needs fire below"). */
 export function showProgress(player: Player, ref: StationRef, state = readStation(ref)): void {
   const job = state.job;
   const block = stationBlock(ref);
   if (!job || !block) return;
+  if (!isHot(ref, block)) return noHeat(player, ref); // paused: fizz + smoke (plan §2.2)
   sound(ref.dimension, SOUND.bubbleShort, stationTop(ref), { volume: 0.6 });
-  if (!isHot(ref, block)) {
-    actionBar(player, t("hk.station.no_heat"));
-    return;
-  }
   const done = progressCells(job);
   actionBar(player, t("hk.station.progress", "■".repeat(done) + "□".repeat(5 - done)));
 }
 
 // --- actions --------------------------------------------------------------------------------------
+
+/**
+ * One hand-out or drop of `count` × `typeId`. The saved state is already cleared (so nothing can
+ * be taken twice); if this one throws (an item id that no longer exists after an update or a
+ * vanilla rename), it's logged and the remaining entries still come out.
+ */
+function returnItems(ref: StationRef, typeId: string, count: number, give: () => void): void {
+  try {
+    give();
+  } catch (error) {
+    console.warn(
+      `[harvest_kitchen] ${stationKey(ref)}: couldn't return ${count}× ${typeId}: ${String(error)}`,
+    );
+  }
+}
 
 /**
  * Puts up to `count` of the held `typeId` in. Refuses non-ingredients, a full station and a busy
@@ -251,7 +263,9 @@ export function collect(player: Player, ref: StationRef): void {
   if (!result) return;
   const { out } = result;
   save(ref, result.state);
-  giveOrDrop(player, out.item, out.count, ref.dimension, stationTop(ref), true);
+  returnItems(ref, out.item, out.count, () =>
+    giveOrDrop(player, out.item, out.count, ref.dimension, stationTop(ref), true),
+  );
   sound(ref.dimension, SOUND.pop, stationTop(ref));
 }
 
@@ -267,7 +281,9 @@ export function takeOut(player: Player, ref: StationRef, typeId: string): boolea
     return false;
   }
   save(ref, result.state);
-  giveOrDrop(player, typeId, result.count, ref.dimension, stationTop(ref));
+  returnItems(ref, typeId, result.count, () =>
+    giveOrDrop(player, typeId, result.count, ref.dimension, stationTop(ref)),
+  );
   sound(ref.dimension, SOUND.pop, stationTop(ref));
   return true;
 }
@@ -286,7 +302,9 @@ export function takeAll(player: Player, ref: StationRef): void {
   const result = takeAllItems(state);
   if (!result) return addHint(player, ref);
   save(ref, result.state);
-  for (const [id, n] of result.items) giveOrDrop(player, id, n, ref.dimension, stationTop(ref));
+  for (const [id, n] of result.items) {
+    returnItems(ref, id, n, () => giveOrDrop(player, id, n, ref.dimension, stationTop(ref)));
+  }
   sound(ref.dimension, SOUND.pop, stationTop(ref));
 }
 
@@ -300,7 +318,9 @@ export function spill(ref: StationRef): void {
     y: ref.location.y + 0.5,
     z: ref.location.z + 0.5,
   };
-  for (const [id, n] of spillContents(state)) dropItems(ref.dimension, center, id, n);
+  for (const [id, n] of spillContents(state)) {
+    returnItems(ref, id, n, () => dropItems(ref.dimension, center, id, n));
+  }
 }
 
 /** A station placed where stale data survived (e.g. /setblock fires no break) starts empty. */

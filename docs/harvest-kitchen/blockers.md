@@ -21,20 +21,59 @@ why, the fallback taken, and what you need to decide or test.
 - **What:** §2.3/§2.5 need sneak + use (pot: add the whole stack / take all out; board: chop the
   stack). Whether a block's `onPlayerInteract` fires while sneaking with an item in hand isn't
   known; vanilla usually places the held block instead.
-- **Fallback:** sneak cases go through `world.beforeEvents.playerInteractWithBlock`, which cancels
-  the vanilla action and runs ours next tick. The components skip those cases.
-- **Test:** sneak + use the pot with a stack of tomatoes, with an empty hand, and the board with a
-  stack of onions. Each should act once. Sneak with dirt next to a pot should still place dirt.
+- **Fallback taken:** sneak cases go through `world.beforeEvents.playerInteractWithBlock`, which
+  cancels the vanilla action and runs ours next tick. Both paths end in `handleUse` →
+  `routeUse` (`station-logic.ts`). The component passes `sneaking = false` and skips the cases the
+  before-event takes (`sneakHandles`), so nothing runs twice.
+- **Review assessment (code-review.md, 2026-10-22): likely works.**
+  - The before-event replaced `itemUseOn` in 2.x and reports `itemStack` undefined for an empty
+    hand, so it should fire for all four cases.
+  - It cancels only on our blocks with the narrow predicate. Sneak + dirt isn't cancelled.
+  - `isFirstEvent` (documented: false on hold repeats) stops repeats. Repeats are still
+    cancelled, so vanilla can't act on them.
+  - No cancelled item can be placed on a pot or board face, so no ghost blocks are expected.
+  - If the held item changes in the tick between the event and `system.run`, `routeUse` just
+    treats it as a plain use (dirt → "Can't cook Dirt"), which is harmless.
+- **Remaining risk:** sneaking with a **food** ingredient (tomato, strawberry, onion, carrot,
+  bread, beef…) may fall through to the item's own use, so the player starts eating. For the pot
+  that's harmless, because the stack goes in at once. On the board the eat timer races the chop
+  loop.
+- **Test:**
+  - Sneak + use the pot with a stack of tomatoes, with an empty hand (pot with items, and an empty
+    pot), and the board with a stack of onions. Each should act once.
+  - While doing that, watch for the eat animation.
+  - Sneak with dirt next to a pot should still place dirt.
+- **If sneak can't be made to work:** replace the sneak gestures with hold-to-repeat. Holding use
+  keeps adding to the pot or keeps chopping, using the non-first before-events. Take-all becomes a
+  "Take all out" button at the bottom of the pot screen's In-the-pot section.
 
 ## B3. Flat item icons for pot, board and cake
 
 - **What:** MCPE-185868 breaks held/hotbar rendering of geometry with `bone_visibility`, so these
   blocks need flat icons.
-- **Fallback:** a same-id item with `minecraft:block_placer` + `replace_block_item: true` and
-  `minecraft:icon` (binary and vanilla `red_shrub` evidence, see slice.md). Not seen in game.
-- **Test:** hotbar icon and name of all three; creative menu shows each once. If the replacement
-  is rejected (Content Log: "Cannot replace the block item"), the fallback is separate item ids
-  (`hk:cooking_pot_item`, …) with plain `block_placer`, which changes the saved/display ids.
+- **Fallback taken:** a same-id item with `minecraft:block_placer` + `replace_block_item: true` and
+  `minecraft:icon`. Not seen in game yet.
+- **Evidence (code-review.md):**
+  - The 1.26.52.3 binary has the `replace_block_item` key and the error "Item identifier %s does not
+    match the block identifier %s. Cannot replace the block item."
+  - The vanilla 1.26.50 `items.brarchive` (binary MCB format) has exactly two `block_placer` items,
+    `minecraft:red_shrub` and `minecraft:shelf_mushroom`. Both share their block's id, use a flat
+    icon and a `tile.<id>.name` display name.
+  - Both items have menu category **`none`**, while their blocks are in `nature`. Every other
+    vanilla JSON item in the archives uses a real category, so `none` marks this pattern.
+- **Applied 2026-10-22 (CR review, phase 2):** the three placer items now use
+  `menu_category: none` like vanilla. Their blocks keep `items`, so the creative menu gets one
+  entry per block, not two. `tests/pack-files.test.ts` ("same-id placer items") keeps it that way.
+- **Test:** check the hotbar icon and name of all three, and that the creative menu (Items tab)
+  shows each exactly once.
+- **If something's wrong:**
+  - If an entry is **missing** from the creative menu, set the item's category back to `items`
+    (one line in each of `behavior/items/{cooking_pot,cutting_board,strawberry_cake}.json`) and
+    update the test.
+  - If the replacement is rejected (Content Log: "Cannot replace the block item"), the fallback is
+    separate item ids (`hk:cooking_pot_item`, …) with plain `block_placer`. The block then needs
+    an explicit `minecraft:loot` that drops the placer item; otherwise it drops its own 3D item.
+  - That changes the saved and display ids, so decide before the first public build.
 
 ## B4. Effect button icon: vanilla effect icon or our family icon
 
@@ -86,7 +125,89 @@ why, the fallback taken, and what you need to decide or test.
 
 - **What:** the Bedrock exporter mirrors x, the same as for the S8 pot. The knife handle is at +x
   in Blockbench and at x −7..−3 in the geo. The cake's quarters are mirrored the same way.
-- **Test:** place the board facing each of the 4 directions and note where the handle tab and the
-  knife end up relative to you; decide which way it should face. A wrong side is fixed by rotating
-  the permutations, not the model. On the cake, note which corner goes first; any consistent
-  order is fine.
+- **Review assessment (code-review.md):**
+  - The four `cardinal_direction` permutations match vanilla `minecraft:shelf_mushroom` exactly:
+    north none, west `[0, 90, 0]`, south `[0, 180, 0]`, east `[0, 270, 0]`. A rotation can't
+    mirror, so either all four are right or all four are off by the same angle.
+  - The x-mirror is the exporter's normal conversion, so the board renders as Blockbench shows it.
+  - The only unknown is whether the trait stores the direction the player looks or its opposite.
+- **Fix if it faces the wrong way:** add one line to the trait in
+  `behavior/blocks/cutting_board.json`, no model or permutation edits:
+
+  ```json
+  "minecraft:placement_direction": {
+    "enabled_states": ["minecraft:cardinal_direction"],
+    "y_rotation_offset": 180
+  }
+  ```
+
+  Use `90` or `270` if it's a quarter turn off. The binary confirms the key is valid with
+  `cardinal_direction` (its error text says `y_rotation_offset` needs one of the direction
+  states enabled). Not applied blind: which way is right needs the game.
+
+- **Test:** place the board facing north and note where the handle tab and knife are relative to
+  you; that decides the offset. Placing it facing east confirms the turn direction. On the cake,
+  note which corner goes first; any consistent order is fine.
+
+## B10. Dry farmland may revert to dirt under our crops (CR1)
+
+- **What:** vanilla keeps dry farmland from reverting only under its own crop blocks (a
+  `crop_block` archetype that custom blocks can't use). If our crops don't count, unwatered
+  farmland turns to dirt and the crop's `placement_filter` pops it (it drops seeds).
+- **Test:** plant a tomato on farmland at least 5 blocks from water, with no rain. Run
+  `/gamerule randomtickspeed 200`, wait 30 s, then `/gamerule randomtickspeed 1`. Expected if
+  vanilla protects it: the farmland stays (dry) and the crop grows at half speed.
+- **Fallback if it reverts:** add `minecraft:dirt` to the crops' `block_filter` and turn dirt under
+  a crop back into dry farmland in `onRandomTick`. The cost is that trampling no longer pops the
+  crop. Or accept it and add "needs water nearby" to the crop page.
+
+## B11. Pot screen buttons vs `header()`/`divider()` rows (CR5)
+
+- **What:** `Menu` (`ui/menu.ts`) assumes `ActionFormResponse.selection` counts buttons only, as
+  the `.d.ts` says ("index of the button"). S1 tested icon buttons, not headers.
+- **Test:** put 2 tomatoes, 1 onion and 1 bowl in a pot. Open the screen and tap the **second**
+  "In the pot" button. Expected: the onion comes out, not a tomato, and nothing starts cooking.
+- **Fallback:** if the index counts header and divider rows, have `Menu.header`/`divider` push an
+  `undefined` action so the indices line up.
+
+## B12. Recipe book use: in the air and at a block (CR2)
+
+- **What:** the book opened only through `onUse`. Whether `onUse` fires for an item with no use
+  component, and whether it fires while the player looks at a block, was unproven. A child looking
+  at the ground would get no book.
+- **Applied:** `onUseOn` opens it too. A per-player `TickGate` (`BOOK_OPEN_GAP_TICKS`, 5) makes a
+  click that fires both open one book.
+- **Test:** use the book pointing at the sky, at grass, and at the pot. The first two should open
+  the book exactly once, with no "Close chat" message. The pot should take the click as a normal
+  pot use ("Can't cook Recipe Book").
+- **Fallback:** if it never opens in the air, add `minecraft:use_modifiers` to the book JSON.
+
+## B13. Holding use on the cake (CR7)
+
+- **What:** block component events have no `isFirstEvent`. If the game repeats the interaction
+  while use is held, a held button would eat the whole cake in under a second.
+- **Applied:** a per-player bite gate (`SLICE_BITE_GAP_TICKS`, 10 = 0.5 s) in
+  `food/sliced-dish.ts`. Single taps are unaffected.
+- **Test:** tap a cake 4 times at a normal pace: 4 slices, and the block goes. Hold use on a fresh
+  cake for 2 s: at most 4 slices (one per half second), or 1 if the game doesn't repeat.
+- **Decide:** if hold-eating should stop after one slice, switch the gate to a debounce: reset the
+  timer on every event, not only on bites.
+
+## B14. Sneak-chop doesn't stop when the player stops sneaking (CR8)
+
+- **What:** one sneak-tap with 64 tomatoes chops all 64 (about 19 s) unless the player walks more
+  than 4 blocks away or switches items. Sliced tomatoes can't go into the pot or be planted. This
+  matches §2.5 as written.
+- **Test (S6):** sneak-tap the board once with a full stack, stand up and look away. Note whether
+  chopping everything feels right.
+- **Option:** add `player.isSneaking &&` to `keepGoing` in `startChopping`
+  (`stations/cutting-board.ts`), so releasing sneak stops it.
+
+## B15. The cake can float (CR12)
+
+- **What:** neither the cake nor the pot has a `minecraft:placement_filter`. Placed against a wall,
+  the cake hangs in mid-air and stays when the block below goes. Vanilla cake pops.
+- **Test:** place the cake against the side of a block and break the block under it.
+- **Option:** add `"minecraft:placement_filter": { "conditions": [{ "allowed_faces": ["up"] }] }`
+  to the cake. Before doing the same for the pot, check that a pot popped this way fires `onBreak`,
+  so its contents spill.

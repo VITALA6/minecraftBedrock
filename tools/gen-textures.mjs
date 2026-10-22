@@ -815,112 +815,99 @@ def(
   "produce",
 );
 
-// --- Seeds: every seed has its own sprite, colour and layout (art-style.md) ---------------------
+// --- Seeds: small, sparse grains like vanilla wheat seeds (5–7 grains of 2–3 px, lots of empty
+// space). Every seed has its own grain shape, colour and scatter (art-style.md) -----------------
 
-// Tomato: small flat teardrops, pale cream-yellow, in a heaped pile.
+const scatter = (grain, legend, spots) =>
+  stack(...spots.map(([x, y, g]) => stamp(g ?? grain, legend, x, y)));
+
+// Tomato: pale cream-yellow teardrops (3 px), loose scatter.
 def(
   "items",
   "tomato_seeds",
-  () => {
-    const seed = `
-      .l.
-      lmm
-      mmd
-      .d.`;
-    const legend = { l: c("onion_flesh", -1), m: c("onion_flesh", 3), d: c("potato", 1) };
-    return stack(
-      ...[
-        [6, 2],
-        [3, 5],
-        [9, 5],
-        [6, 6],
-        [1, 9],
-        [4, 9],
-        [8, 9],
-        [11, 9],
-      ].map(([x, y]) => stamp(seed, legend, x, y)),
-    );
-  },
+  () =>
+    scatter(
+      `
+      lm
+      .d`,
+      { l: c("onion_flesh", -1), m: c("onion_flesh", 3), d: c("potato", 1) },
+      [
+        [4, 3],
+        [10, 4],
+        [7, 7],
+        [2, 9],
+        [12, 9],
+        [6, 12],
+      ],
+    ),
   "seeds",
 );
 
-// Cucumber: long pale mint ovals laid in a neat diagonal row.
+// Cucumber: long thin mint grains (3 px on a diagonal), all pointing the same way.
 def(
   "items",
   "cucumber_seeds",
-  () => {
-    const seed = `
-      ..lm
-      .lmd
-      lmd.
-      md..`;
-    const legend = {
-      l: c("cucumber_flesh", -1),
-      m: c("cucumber_flesh", 3),
-      d: c("cucumber_flesh", 1),
-    };
-    return stack(
-      ...[
-        [1, 3],
-        [4, 6],
-        [7, 9],
-        [10, 11],
-      ].map(([x, y]) => stamp(seed, legend, x, y)),
-    );
-  },
+  () =>
+    scatter(
+      `
+      ..l
+      .m.
+      d..`,
+      { l: c("cucumber_flesh", -1), m: c("cucumber_flesh", 3), d: c("cucumber_flesh", 1) },
+      [
+        [2, 3],
+        [8, 2],
+        [11, 7],
+        [5, 7],
+        [2, 11],
+        [9, 11],
+      ],
+    ),
   "seeds",
 );
 
-// Chili: round flat orange discs with a notch, arranged in a ring.
+// Chili: flat orange discs (3 px, an L of a round seed), in a wide ring.
 def(
   "items",
   "chili_pepper_seeds",
-  () => {
-    const seed = `
-      .ll.
-      lmmd
-      lm..
-      .dd.`;
-    const legend = { l: c("carrot", -1), m: c("carrot", 3), d: c("carrot", 1) };
-    return stack(
-      ...[
-        [6, 1],
-        [10, 4],
-        [10, 9],
-        [5, 11],
-        [1, 7],
-        [2, 2],
-      ].map(([x, y]) => stamp(seed, legend, x, y)),
-    );
-  },
+  () =>
+    scatter(
+      `
+      lm
+      d.`,
+      { l: c("carrot", -1), m: c("carrot", 3), d: c("carrot", 1) },
+      [
+        [6, 2],
+        [11, 4],
+        [12, 9],
+        [7, 12],
+        [2, 10],
+        [2, 5, "lm\n.d"],
+      ],
+    ),
   "seeds",
 );
 
-// Strawberry: tiny plum-pink achenes sprinkled in a heart-shaped cloud.
+// Strawberry: tiny 2 px plum-pink grains with a bright core, in a small heart-shaped cloud.
 def(
   "items",
   "strawberry_seeds",
-  () => {
-    const seed = `
-      lm
-      md`;
-    // Bright core, dark plum edge: reads on the slot grey (#8B8B8B).
-    const legend = { l: c("strawberry", 3), m: c("strawberry", 1), d: c("strawberry", 0) };
-    return stack(
-      ...[
-        [2, 3],
-        [5, 2],
-        [9, 2],
-        [12, 3],
-        [3, 6],
-        [7, 5],
-        [11, 6],
-        [5, 9],
-        [9, 9],
-        [7, 12],
-      ].map(([x, y]) => stamp(seed, legend, x, y)),
-    );
-  },
+  () =>
+    scatter(
+      `
+      l
+      d`,
+      { l: c("strawberry", 3), m: c("strawberry", 2), d: c("strawberry", 0) },
+      [
+        [3, 4],
+        [6, 3, "m\nd"],
+        [9, 3],
+        [12, 4, "m\nd"],
+        [4, 8, "m\nd"],
+        [11, 8],
+        [7, 11],
+      ],
+    ),
   "seeds",
 );
 
@@ -1114,22 +1101,27 @@ bowlDish(
   }),
 );
 
-// Chunky heaps rising above the rim.
+// Heaps rise above the rim as a dome no wider than the bowl's mouth (art-style.md: food may rise
+// above the rim but never widens the bowl). Envelope: row 2 cols 6–9, row 3 cols 5–10,
+// row 4 cols 4–11, rows 5–8 cols 3–12.
+
+// Salsa: orange-red tomato chunks (≈17°, well away from the strawberry cup's crimson) with white
+// onion and green herbs, each chunk lit top-left.
 bowlDish(
   "salsa",
   `
   ................
   ................
   ......3w32......
-  ....32g323w2....
-  ...3w233221g3...
+  .....32g323.....
+  ....3w23322g....
   ...23g2w3232w...
   ...32g12w3212...
   ...12211g21w2...
   ...21122w1221...`,
   () => ({
-    1: c("chili", 1),
-    2: c("chili", 3),
+    1: c("copper", 1),
+    2: c("fish", 2),
     3: c("carrot", 3),
     w: c("onion_flesh", -1),
     g: c("leaf", 4),
@@ -1141,11 +1133,11 @@ bowlDish(
   `
   ................
   .......ed.......
-  ....edcdcde.....
-  ...dccbcdcdcd...
-  ..edcrRrbdcbdc..
-  ..dcbRRrbkCkcb..
-  ..cbrrrcCCCkbc..
+  ......edcd......
+  .....dcbcde.....
+  ....edcRrdcd....
+  ...dcbRrbkCkd...
+  ...cbrrcbCCCk...
   ...bcbbcbkCkb...
   ...cbcbbcbbcb...`,
   () => ({
@@ -1157,24 +1149,23 @@ bowlDish(
   }),
 );
 
-const BERRY = `
-  .gG.
-  3443
-  3y32
-  .21.`;
-
-const berryLegend = () => ({
-  ...L("strawberry", " 1234"),
-  g: c("leaf", 1),
-  G: c("leaf", 3),
-  y: c("flower_yellow", -1),
-});
+// Strawberry cup: ripe red berries under a cream dollop (not pink, so it never reads as the cake).
+const CUP_BERRY = `
+  .gg.
+  2332
+  2y21
+  .11.`;
 
 def(
   "items",
   "strawberry_cup",
-  () =>
-    stack(
+  () => {
+    const berry = {
+      ...L("tomato", " 123"),
+      g: c("leaf", 1),
+      y: c("flower_yellow", -1),
+    };
+    return stack(
       bowl(),
       rows(
         pad(`
@@ -1184,34 +1175,42 @@ def(
           ................
           ................
           ................
-          .....232323.....
-          ...2323232323...
-          ...3232323232...`),
-        L("strawberry", "  23"),
+          .....1212121....
+          ...1212121212...
+          ...2121212121...`),
+        L("tomato", " 12"),
         "strawberry_cup",
       ),
-      stamp(BERRY, berryLegend(), 2, 4),
-      stamp(BERRY, berryLegend(), 10, 4),
-      stamp(BERRY, berryLegend(), 4, 2),
-      stamp(BERRY, berryLegend(), 8, 2),
-      stamp(BERRY, berryLegend(), 6, 0),
-      stamp(BERRY, berryLegend(), 4, 5),
-      stamp(BERRY, berryLegend(), 8, 5),
-    ),
+      stamp(CUP_BERRY, berry, 3, 4),
+      stamp(CUP_BERRY, berry, 9, 4),
+      stamp(CUP_BERRY, berry, 6, 3),
+      stamp(CUP_BERRY, berry, 4, 6),
+      stamp(CUP_BERRY, berry, 8, 6),
+      rows(
+        pad(`
+          .......WW.......
+          ......WWWw......
+          ......WWww......
+          .......ww.......`),
+        { W: c("cream", -1), w: c("cream", 0) },
+        "strawberry_cup",
+      ),
+    );
+  },
   "dishes",
 );
 
 // Chunky stew: carrot, potato, tomato and onion chunks, each lit top-left with its own shadow
-// side, half sunk in a brown-orange broth.
+// side, heaped in a golden-brown broth.
 def(
   "items",
   "vegetable_stew",
   () => {
-    const chunk = (light, dark) => ({ l: light, d: dark });
-    const carrot = chunk(c("carrot", 3), c("chicken", 1));
-    const potato = chunk(c("potato", -1), c("chicken", 1));
-    const tomato = chunk(c("tomato", 2), c("chicken", 1));
-    const onion = chunk(c("onion_flesh", -1), c("chicken", 1));
+    const shadow = c("bread", 1);
+    const carrot = { l: c("carrot", 3), d: shadow };
+    const potato = { l: c("potato", -1), d: shadow };
+    const tomato = { l: c("tomato", 2), d: shadow };
+    const onion = { l: c("onion_flesh", -1), d: shadow };
     const piece = (legend, x, y) =>
       stamp(
         `
@@ -1228,42 +1227,42 @@ def(
           ................
           ................
           ................
-          ......ssss......
+          .....ssssss.....
           ....ssssssss....
           ...ssssssssss...
           ...ssssssssss...
           ...ssssssssss...
           ...ssssssssss...`),
-        { s: c("chicken", 2) },
+        { s: c("bread", 3) },
         "vegetable_stew",
       ),
-      piece(carrot, 6, 2),
-      piece(potato, 9, 3),
+      piece(potato, 6, 2),
+      piece(carrot, 8, 3),
       piece(tomato, 4, 4),
-      piece(onion, 7, 4),
-      piece(carrot, 11, 5),
+      piece(onion, 7, 5),
+      piece(carrot, 10, 5),
       piece(potato, 3, 6),
-      piece(carrot, 6, 6),
-      piece(tomato, 9, 6),
-      piece(onion, 5, 8),
-      piece(potato, 10, 8),
+      piece(carrot, 5, 7),
+      piece(tomato, 9, 7),
+      piece(onion, 11, 7),
     );
   },
   "dishes",
 );
 
-// A big protrusion on one side.
+// Protrusions go up, inside the bowl's width: chili on the right, fish in the middle, drumstick
+// on the left.
 bowlDish(
   "chili_stew",
   `
-  ............dbb.
-  ...........34db.
-  ..........34421.
-  .........344211.
-  ........34421...
+  ...........dbb..
+  ..........34db..
+  .........34421..
+  ........344211..
   .......34421....
-  .....BB4421B....
-  ...BBBB421BBb...
+  ......34421.....
+  .....B4421BB....
+  ...BBB421BBBb...
   ...bBBBB1BBbb...`,
   () => ({
     ...L("chili", " 1234"),
@@ -1273,19 +1272,19 @@ bowlDish(
   }),
 );
 
-// A silver fish in side view, half out of the cream chowder: eye, dorsal fin, forked tail.
+// A silver fish leaping out of the cream chowder: eye, dorsal fin, forked tail.
 bowlDish(
   "fish_chowder",
   `
   ................
-  ......dd........
-  ....dddFdd...dd.
-  ...dFFFFFFdd.dF.
-  ..dkFFFFFFFFddd.
-  ..FFFFFFFFFFdd..
-  ...bbbbbbbbd.dF.
-  ...wwbbbbwwW.dd.
-  ...wWwwgwwWwwg..`,
+  .......dd.......
+  .....dFFFd...d..
+  ....dkFFFd.dd...
+  ....FFFFFFFdd...
+  ....bbbbbbd.dd..
+  .....bbbbd...d..
+  ...wwbbbwwwWw...
+  ...wWwwgwwWwg...`,
   () => ({
     d: c("iron", 1),
     F: c("iron", 2),
@@ -1300,14 +1299,14 @@ bowlDish(
 bowlDish(
   "chicken_soup",
   `
-  ..WW............
-  ..WsW...........
-  ...sW...........
-  ...sCc..........
-  ..CCCck.........
-  ..CCccck........
-  ..CCccckkYYY....
-  ...CckkkYYyYY...
+  ...WWW..........
+  ...WssW.........
+  ....sWs.........
+  ....sCCc........
+  ...CCCCck.......
+  ...CCcccck......
+  ...CCcccckYY....
+  ...CcckkkYyYY...
   ...yYYyYYYyYy...`,
   () => ({
     C: c("chicken", 2),
@@ -1315,8 +1314,8 @@ bowlDish(
     k: c("chicken", 0),
     W: c("sugar", -1),
     s: c("sugar", 1),
-    Y: c("flower_yellow", -1),
-    y: c("flower_yellow", 2),
+    Y: c("cream", -1),
+    y: c("potato", -1),
   }),
 );
 
@@ -1428,8 +1427,8 @@ def(
   "dishes",
 );
 
-// Strawberry cake, 3/4 view like vanilla's cake item: a pink-frosted top with a big strawberry,
-// pink drips, and a side showing a pale pink cream layer between golden sponge.
+// Strawberry cake item: one slice (a wedge in 3/4 view) of the placeable cake. Cream-white
+// frosting and sponge dominate; pink accents are the jam stripe and the berry on top.
 def(
   "items",
   "strawberry_cake",
@@ -1437,30 +1436,31 @@ def(
     rows(
       `
       ................
-      ......GGG.......
-      .....24422......
-      ...hF4y4y2FFp...
-      ..hFF12y221FFp..
-      .hFFFF1221FFFFp.
-      .hFFFFFFFFFFFFp.
-      .FFFFFFFFFFFFpp.
-      .SFSSSFSSFSSSFs.
-      .hhhhhhhhhhhhhh.
-      .SSSSSSSSSSSSss.
-      ..ssssssssssss..
-      ................
+      ...........gg...
+      ..........3443..
+      ..........4y32e.
+      ........fFF221e.
+      ......fFFFFFFFe.
+      ....fFFFFFFFFFe.
+      ..fFFFFFFFFFFFe.
+      .ffffffffffffff.
+      .SfSSSSfSSSSfSe.
+      .PPPPPPPPPPPPPp.
+      .SSSSSSSSSSSSSe.
+      .eeeeeeeeeeeeee.
       ................
       ................
       ................`,
       {
-        ...L("strawberry", " 12 4"),
-        G: c("leaf", 3),
+        F: c("cream", -1),
+        f: c("cream", 1),
+        e: c("cream", 0),
+        S: c("onion_flesh", 3),
+        P: c("strawberry", 2),
+        p: c("strawberry", 1),
+        ...L("strawberry", " 1234"),
         y: c("flower_yellow", -1),
-        h: c("frosting", -1),
-        F: c("frosting", 2),
-        p: c("frosting", 1),
-        S: c("potato", -1),
-        s: c("potato", 2),
+        g: c("leaf", 3),
       },
       "strawberry_cake",
     ),

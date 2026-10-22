@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "textures": "node tools/gen-textures.mjs && node tools/lint-textures.mjs",
+    "book": "node tools/gen-book-pages.mjs && node tools/lint-pages.mjs",
     "uuid": "node -e \"for (let i = 0; i < 5; i++) console.log(crypto.randomUUID())\""
   },
   "dependencies": {

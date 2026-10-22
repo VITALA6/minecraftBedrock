@@ -102,6 +102,12 @@ function isHot(ref: StationRef, block: Block): boolean {
   return !ref.station.needsHeat || hasHeatBelow(block);
 }
 
+/** Heat below right now (stations that don't need heat always count as hot). */
+export function stationHot(ref: StationRef): boolean {
+  const block = stationBlock(ref);
+  return block !== undefined && isHot(ref, block);
+}
+
 /** Pushes the saved state (and the heat below) into the block states that drive the model. */
 export function refreshVisuals(ref: StationRef, state = readStation(ref)): void {
   const block = stationBlock(ref);

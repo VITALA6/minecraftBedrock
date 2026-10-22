@@ -1,77 +1,124 @@
-import type { Player } from "@minecraft/server";
-import { UI_ICONS, itemIcon } from "../data/icons";
-import { ingredientName, itemName, t } from "../lib/text";
-import { startCooking, takeOut } from "../stations/station-engine";
-import { closestRecipe, possibleRecipes, showsScreen } from "../stations/station-logic";
+import { system, type Player } from "@minecraft/server";
+import { CustomForm, ObservableString, ObservableUIRawMessage } from "@minecraft/server-ui";
+import { POT_SCREEN_REFRESH_TICKS, RP_UUID } from "../config";
+import { itemName, t } from "../lib/text";
+import { stationHot, startCooking, takeOut } from "../stations/station-engine";
 import { readStation, type StationRef } from "../stations/station-store";
-import { Menu, runForm } from "./menu";
-import { bookPage, showBook } from "./recipe-book";
+import { bookPage } from "./book-pages";
+import { showBook } from "./book";
+import { closeForm, later, runForm, showForm, ui } from "./forms";
+import { potImagePath, potScreenView, type PotScreenView } from "./pot-status";
 
-// The pot screen (plan §2.4), only when there's a choice. Titled with the station name, no body.
-// Sections appear only when they have something, top to bottom, so the next step is always the
-// first button:
-//   Cook        one button per dish possible right now         -> starts cooking (re-validated)
-//   Almost!     only when nothing is possible: the closest
-//               recipe's first missing item, "+1 Onion"         -> the book on that dish
-//   In the pot  one button per ingredient type, "×2 Tomato"     -> takes it out; screen reopens
-//   Recipe Book                                                 -> the book on this station
-// "Take all out" isn't a button: it's sneak + empty hand on the pot (§2.3).
+// The pot screen (plan §2.4, D14), only when there's a choice: a CustomForm with the pot's status
+// image (ui/pot-status.ts picks it, tools/gen-book-pages.mjs draws it) and buttons under it:
+//
+//   [status image]        the target recipe in the pot (present / +N missing), heat, result
+//   [♨ Needs fire below]  only when there's no heat
+//   Cook <dish>           one per dish possible right now           -> starts cooking, closes
+//   Almost! <dish>        only when nothing is possible: closest    -> the book on that dish
+//   Take out <item> ×N    one per ingredient type                   -> takes it out
+//   Recipe Book                                                     -> the book on this station
+//   Close (X)
+//
+// While open, it re-reads the pot every POT_SCREEN_REFRESH_TICKS: the image and the Take-out
+// counts update in place; when the set of buttons changes (or the heat), the screen reopens; when
+// no screen applies any more (cooking, done, empty), it closes. Every tap re-validates against
+// the pot's current state in station-engine.ts.
 
-type Next = "reopen" | "done" | (() => Promise<void>);
+type Next = "reopen" | (() => Promise<void>) | undefined;
 
-async function show(player: Player, ref: StationRef): Promise<void> {
-  for (let i = 0; i < 32; i++) {
-    const state = readStation(ref);
-    // Someone else moved on (cooking, done), or the last ingredient just came out: no form.
-    if (!showsScreen(ref.station, state)) return;
+class PotScreen {
+  readonly form: CustomForm;
+  next: Next;
+  private readonly src: ObservableString;
+  private readonly takeLabels = new Map<string, ObservableUIRawMessage>();
 
-    const menu = new Menu<Next>(t(ref.station.nameKey));
-    const possible = possibleRecipes(ref.station, state);
-    if (possible.length > 0) {
-      menu.header(t("hk.pot.cook"));
-      for (const recipe of possible) {
-        menu.button(t("hk.ui.text", itemName(recipe.result)), itemIcon(recipe.result), () => {
-          startCooking(player, ref, recipe.id);
-          return "done";
-        });
-      }
-    } else {
-      const closest = closestRecipe(ref.station, state);
-      const first = closest?.missing[0];
-      if (closest && first) {
-        menu.header(t("hk.pot.almost"));
-        menu.button(
-          t("hk.pot.almost_button", first.missing, ingredientName(first.ingredient)),
-          itemIcon(first.ingredient.items[0] ?? ""),
-          () => () => showBook(player, bookPage.dish(closest.recipe.result)),
-        );
-      }
-    }
-
-    const contents = Object.entries(state.items);
-    if (contents.length > 0) {
-      menu.header(t("hk.pot.in_pot"));
-      for (const [id, count] of contents) {
-        menu.button(t("hk.pot.in_pot_button", count, itemName(id)), itemIcon(id), () =>
-          takeOut(player, ref, id) ? "reopen" : "done",
-        );
-      }
-    }
-
-    menu
-      .divider()
-      .button(
-        t("hk.book.title"),
-        UI_ICONS.book,
-        () => () => showBook(player, bookPage.station(ref.station.id)),
+  constructor(
+    private readonly player: Player,
+    private readonly ref: StationRef,
+    private readonly view: PotScreenView,
+  ) {
+    this.src = new ObservableString(potImagePath(view.image));
+    const form = new CustomForm(player, t(ref.station.nameKey)).image(this.src, RP_UUID, {
+      width: 1,
+    });
+    if (view.heat === "cold") form.label(t("hk.station.no_heat"));
+    for (const recipe of view.cook) {
+      form.button(t("hk.pot.cook", itemName(recipe.result)), () =>
+        later(player, () => {
+          startCooking(player, ref, recipe.id); // re-validates; says why if it can't
+          closeForm(this.form);
+        }),
       );
+    }
+    const almost = view.almost;
+    if (almost) {
+      form.button(t("hk.pot.almost", itemName(almost.result)), () =>
+        this.leave(() => showBook(player, bookPage.dish(almost.result))),
+      );
+    }
+    for (const [id, count] of view.contents) {
+      const label = new ObservableUIRawMessage(ui(t("hk.pot.take_out", count, itemName(id))));
+      this.takeLabels.set(id, label);
+      form.button(label, () =>
+        later(player, () => {
+          takeOut(player, ref, id);
+          this.refresh();
+        }),
+      );
+    }
+    form.button(t("hk.book.title"), () =>
+      this.leave(() => showBook(player, bookPage.chapter(ref.station.id))),
+    );
+    this.form = form.closeButton();
+  }
 
-    const next = await menu.show(player);
-    if (next === undefined || next === "done") return;
-    if (next !== "reopen") return next();
+  /** Closes this screen and then runs `flow` (the book), so the two forms never overlap. */
+  private leave(flow: () => Promise<void>): void {
+    later(this.player, () => {
+      this.next = flow;
+      closeForm(this.form);
+    });
+  }
+
+  /** Re-reads the pot: update in place, reopen on a new layout, close when no screen applies. */
+  refresh(): void {
+    if (!this.player.isValid || !this.form.isShowing()) return;
+    const view = potScreenView(this.ref.station, readStation(this.ref), stationHot(this.ref));
+    if (!view) return closeForm(this.form);
+    if (view.layout !== this.view.layout) {
+      this.next = "reopen";
+      return closeForm(this.form);
+    }
+    this.src.setData(potImagePath(view.image));
+    for (const [id, count] of view.contents) {
+      this.takeLabels.get(id)?.setData(ui(t("hk.pot.take_out", count, itemName(id))));
+    }
+  }
+
+  async show(): Promise<boolean> {
+    const poll = system.runInterval(() => this.refresh(), POT_SCREEN_REFRESH_TICKS);
+    try {
+      return await showForm(this.player, this.form);
+    } finally {
+      system.clearRun(poll);
+    }
   }
 }
 
+async function show(player: Player, ref: StationRef): Promise<void> {
+  for (let i = 0; i < 64; i++) {
+    const view = potScreenView(ref.station, readStation(ref), stationHot(ref));
+    if (!view) return; // someone else moved on (cooking, done), or it's empty now
+    const screen = new PotScreen(player, ref, view);
+    if (!(await screen.show())) return;
+    if (screen.next === "reopen") continue;
+    if (screen.next) await screen.next();
+    return;
+  }
+}
+
+/** Opens the pot screen next tick (forms can't be built in restricted execution). */
 export function openPotScreen(player: Player, ref: StationRef): void {
-  runForm(show(player, ref), "pot screen");
+  later(player, () => runForm(show(player, ref), "pot screen"));
 }

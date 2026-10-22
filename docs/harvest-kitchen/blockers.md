@@ -83,6 +83,8 @@ why, the fallback taken, and what you need to decide or test.
   the label and the body, and tapping the button explains the family (`❤ Red food heals you`).
   `EFFECT_BUTTON_ICON = "family"` in `config.ts` switches to our family icons.
 - **Decide:** which reads better for kids once the family icons have final art.
+- **Update 2026-10-22 (D14):** obsolete. The book is a `CustomForm` with page images drawn from our
+  own art; the image shows the family badge, and `EFFECT_BUTTON_ICON` is gone.
 
 ## B5. Bush soil
 
@@ -169,6 +171,8 @@ why, the fallback taken, and what you need to decide or test.
   "In the pot" button. Expected: the onion comes out, not a tomato, and nothing starts cooking.
 - **Fallback:** if the index counts header and divider rows, have `Menu.header`/`divider` push an
   `undefined` action so the indices line up.
+- **Update 2026-10-22 (D14):** obsolete. `Menu` and the `ActionFormData` pot screen are gone; the
+  `CustomForm` pot screen gives each button its own `onClick`.
 
 ## B12. Recipe book use: in the air and at a block (CR2)
 
@@ -275,3 +279,46 @@ why, the fallback taken, and what you need to decide or test.
   same.
 - **Decide:** nothing. Re-try the read after a game update if a script ever needs food values in
   game (the book uses `DISHES`, not the component).
+
+## B18. Book page images: size on screen and flipping in place (untested)
+
+- **What:** the book and pot screen are `CustomForm`s with one pre-rendered image at `width: 1`
+  (D14). S1 proved a static `image()` with our RP UUID and a `.png` path, live label updates and
+  a self-toggling `disabled` button. Not proven: (a) setting an `ObservableString` `src` after
+  `show()` swaps the picture; (b) `visible: ObservableBoolean` hides and shows buttons (the book
+  keeps a pool of 13 context buttons and hides the unused ones); (c) how wide a width-1 image is
+  on PC, phone and console. The page lint assumes 280 UI px.
+- **Test:** open the book, press Next ▶ a few times, open the Pot chapter, tap a dish, tap "→ Tomato".
+  The picture must change with every tap. Only the page's own buttons should show: the Home page
+  has 5, the Pot chapter 7, and a dish 1–4. Note how big the image is on screen. Is the "8 s" text
+  readable, and is a single icon about inventory size?
+- **Fallback:** (a) or (b) fails → set `BOOK_FLIP = "reopen"` in `config.ts`. Every page is then a
+  fresh form with exactly its own buttons, at the cost of a close/open flicker. (c) too small →
+  render at a bigger art scale, or make the canvas narrower (e.g. one page per image) and re-run
+  `npm run book`. The lint's `formUiWidth` then gets the measured value.
+
+## B19. `◀` in button labels (untested)
+
+- **What:** the Prev button is `◀ Prev` (lang `hk.book.prev`). S2 checked `▶` on the vanilla glyph
+  pages but not `◀`.
+- **Test:** the book's first button shows a left triangle, not a box or nothing.
+- **Fallback:** change the lang line to `< Prev` (no code change).
+
+## B20. Long button lists in a CustomForm (untested)
+
+- **What:** "What can I make?" lists every dish you can make right now (up to 13), and a full pot
+  screen can have up to 7 Cook or 8 Take-out buttons. Under a large image, the buttons may need
+  scrolling, which is awkward on a phone.
+- **Test:** `/hk:debug kit`, open the book → What can I make?. Do all the dishes show, can you
+  scroll to the last one, and does Close stay reachable?
+- **Fallback:** cap the list (e.g. the first 6) or put the What page's image at `width: 0.5`.
+
+## B21. Page textures loaded only by path (untested)
+
+- **What:** `textures/hk/book/*.png` and `textures/hk/pot/*.png` (310 files, 1 MiB) aren't listed
+  in any texture JSON. `image()` loads them by path from our RP, which is how S1 loaded
+  `textures/hk/items/tomato.png`. That file is also in `item_texture.json`, though.
+- **Test:** the first book page shows. If it's blank while the S1-style item texture works, the
+  path isn't the cause; check the Content Log for a texture error.
+- **Fallback:** none needed if it shows. If a load-time or memory cost shows up with 310 images,
+  drop the cold pot variants (the label already says "Needs fire below"): 124 fewer images.

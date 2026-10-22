@@ -48,7 +48,6 @@ tile.hk:strawberry_bush.name=Strawberry Bush
 hk.ui.text=%1$s
 hk.ui.item_count=%1$s × %2$s
 hk.ui.busy=§eClose chat, then try again.
-hk.ui.back=Back
 
 ## Stations (action bar: at most 5 words)
 hk.station.pot=Cooking Pot
@@ -65,11 +64,9 @@ hk.station.changed=§e✘ It changed, try again
 hk.station.needs=§c✘ Needs %1$s × %2$s
 
 ## Pot screen
-hk.pot.cook=Cook
-hk.pot.almost=Almost!
-hk.pot.almost_button=+%1$s %2$s
-hk.pot.in_pot=In the pot
-hk.pot.in_pot_button=×%1$s %2$s
+hk.pot.cook=Cook %1$s
+hk.pot.almost=Almost! %1$s
+hk.pot.take_out=Take out %2$s ×%1$s
 
 ## Cutting board
 hk.board.refuse=§c✘ Can't cut that
@@ -81,19 +78,18 @@ hk.book.what=What can I make?
 hk.book.board=Cutting Board
 hk.book.crafting=Crafting Table
 hk.book.crops=Crops
+hk.book.crops_hint=Break grass to find seeds
+hk.book.prev=◀ Prev
+hk.book.next=Next ▶
+hk.book.contents=Contents
+hk.book.go=→ %1$s
 hk.book.locked=???
 hk.book.locked_body=Find these crops first.
-hk.book.cut_row=%1$s → %2$s × %3$s
-hk.book.board_hint=Hold %1$s, use board
+hk.book.board_hint=Hold a vegetable, use the board
 hk.book.needs_heat=♨ Needs fire below
-hk.book.heat_sources=Campfire, fire, magma, lava
-hk.book.vanilla_item=Vanilla item
 hk.book.no_effect=Filling food
 hk.book.effect_line=%1$s %2$s · %3$s s
 hk.book.sliced=Place it · %1$s slices
-hk.book.ingredient=×%1$s %2$s
-hk.book.station_heat=%1$s · ♨ needs fire
-hk.book.crop_row=%1$s · %2$s
 hk.book.crop_locked=??? · %1$s
 hk.book.where=Grass in: %1$s
 hk.book.plant_farmland=Plant on farmland

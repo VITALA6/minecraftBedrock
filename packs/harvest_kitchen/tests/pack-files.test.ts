@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { describe, it } from "node:test";
 import { HK_ITEM_IDS } from "../scripts/book/unlock";
+import { RP_UUID } from "../scripts/config";
 import { readParams } from "../scripts/crops/growth-logic";
 import { CROPS } from "../scripts/data/crops";
 import { DISHES, FAMILIES } from "../scripts/data/dishes";
@@ -150,6 +151,13 @@ describe("icons", () => {
       paths.filter((p) => !existsSync(`${RP}/${p}.png`)),
       [],
     );
+  });
+});
+
+describe("resource pack UUID (CustomForm.image, S1a)", () => {
+  it("config.ts RP_UUID is the resource pack's header uuid", () => {
+    const manifest = JSON.parse(read(`${RP}/manifest.json`)) as { header: { uuid: string } };
+    assert.equal(RP_UUID, manifest.header.uuid);
   });
 });
 

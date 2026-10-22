@@ -19,8 +19,8 @@ Written 2026-10-21/22 without an in-game run. Everything not yet seen working in
 | Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                            |
 | Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`, `hk:liquid` (7 colours). Bone visibility shows the liquid level and the lid (cooking). The liquid shows what's in the pot (`liquidOf`: the matched dish's colour, else the main ingredient's, else clear water) with a glint when ready or done; the rim glows when hot; light 7 while cooking with heat. Generated permutations (`tools/gen-pot-block.mjs`). All materials `opaque`. |
 | Pot interactions  | Exactly §2.3: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the pot screen for several or for "idle with items", says `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills.                           |
-| Pot screen (§2.4) | `ActionFormData`: Cook (one button per possible dish), Almost! (only when nothing is possible: closest recipe's first missing item → its book page), In the pot (one button per type → take it out, screen reopens), Recipe Book (→ the pot chapter). Every choice re-validated after the form.                                                                                                                                                                     |
-| Recipe book (§3)  | `hk:recipe_book` item (`onUse`). Home → What can I make? / Pot / Board / Crafting / Crops. Dish pages: effect line in the body, effect button, ingredient buttons that chain to the crop page, the Board, the dish page, or a "Vanilla item" hint; the station button. Crops page with biome hints. Back is the last button on every page but Home.                                                                                                                 |
+| Pot screen (§2.4) | `CustomForm` (D14): a pre-rendered status image (the target recipe in the pot with present / "+N" missing slots, lit or cold flame, the result or its ghost) plus buttons: Cook (one per possible dish), Almost! (closest recipe → its book page), Take out (one per ingredient type), Recipe Book, Close. Updates live while open; every tap re-validated. See "Book and pot screen (D14)".                                                                        |
+| Recipe book (§3)  | `hk:recipe_book` item (`onUse`). `CustomForm` (D14): one large pre-rendered page image per page, title from lang, one short label, ◀ Prev / Next ▶ / Contents, a few context buttons (dish names or `???`, crops, chapters), Close. 24 pages: Home, What can I make?, Pot chapter + 7 dishes, Board, Crafting chapter + 6 dishes, Crops chapter + 5 crops. See "Book and pot screen (D14)".                                                                         |
 | Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; locked entries are `???` with the locked icon. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. Book handed out the first time any HK item enters the inventory; craftable from Book + any HK seed (tag `hk:seeds`, onion included).                                                     |
 | Dishes            | All 13 MUST dishes. Pot: tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam. Crafting (shapeless): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                                                    |
 | Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Only placeable on top of a block; pops (dropping nothing) when the block below goes or a piston pushes it (B15). Generic `hk:sliced_dish` component.                           |
@@ -138,9 +138,11 @@ scripts/
     discovery.ts             player property, first-item book hand-out, toast
     book-item.ts             hk:recipe_book: open the book
   ui/
-    menu.ts                  ActionFormData with one action per button
-    pot-screen.ts            the pot screen
-    recipe-book.ts           every book page, generated from data/
+    forms.ts                 shared CustomForm helpers (show, close, later, runForm)
+    book-pages.ts            page order, Prev/Next, image per player, context buttons (pure)
+    book.ts                  the recipe book CustomForm
+    pot-status.ts            pot screen image and buttons for a state (pure)
+    pot-screen.ts            the pot screen CustomForm
   debug/debug-command.ts     /hk:debug
   lib/                       block states, inventory, text (lang keys), feedback (sound/particle),
                              tick-gate (per-player rate limit: book open, cake bites)
@@ -230,11 +232,12 @@ request for unknown variable`. It now gets `setVector3("variable.direction", up)
   and grow at half speed on dry farmland.
 - **Bush pick falls back to stage 2** (plan wording), not stage 1 like vanilla berries; it's
   `pickResetStage` in `data/crops.ts`.
-- **Effect button icon:** the vanilla effect icon (`textures/ui/<effect>_effect`) by default,
-  because it's real art today and matches the HUD icon. `EFFECT_BUTTON_ICON = "family"` in
-  `config.ts` switches to our family icons. The family colour also shows as a glyph in front of
-  every dish name and in the effect line (❤ red heal, ▶ blue move, ■ yellow work, ● green explore).
-- **Home has no Back button** (it's the root; close with ✕). Every other page ends with Back.
+- **Effect family in the book:** the page image shows our family badge (family icon + duration);
+  the label under it names the effect with the vanilla lang key, after the family glyph
+  (❤ red heal, ▶ blue move, ■ yellow work, ● green explore), which also prefixes dish buttons.
+  No vanilla effect icons (D14: our own art only).
+- **No Back button in the book:** Prev/Next walk the book in order, Contents goes Home, and the
+  context buttons jump (dish → crop, crop → dish, chapter → dish).
 - **Cake** drops nothing when broken (`loot_tables/hk/blocks/nothing.json`), so a half-eaten cake
   can't be broken into a whole one. Its selection box stays full size as slices go.
 - **Feeding from script** uses the stable `minecraft:player.hunger` / `minecraft:player.saturation`
@@ -274,6 +277,12 @@ request for unknown variable`. It now gets `setVector3("variable.direction", up)
   (`pack-files` "cooking pot looks": runs `tools/gen-pot-block.mjs --check` and evaluates every
   condition for all 224 state combinations with the small Molang evaluator in `tests/molang.ts`)
   and the cake's placement filter and empty loot (`pack-files` "strawberry cake support").
+  The book and pot screen (`book-pages`, `pot-status`): page order, Prev/Next, locked/unlocked
+  image choice for every discovery state, context buttons, "What can I make?", the pot image and
+  buttons per state (and every state of up to 4 items reaching an existing image), every image
+  path the script can produce exists as a PNG and no PNG is orphaned; `pack-files` checks
+  `RP_UUID` equals the RP header UUID.
+- **Pure modules** also include `ui/book-pages.ts` and `ui/pot-status.ts`.
 - What stays game-only (needs the in-game test): everything in `station-engine.ts`,
   `container-station.ts` and the other `@minecraft/server` modules (block reads, heat lookups,
   hand-outs, forms, events), and `validate.ts`'s item/block/biome/effect/food checks.
@@ -298,6 +307,13 @@ request for unknown variable`. It now gets `setVector3("variable.direction", up)
   `ActionFormData.header/divider/button(icon)`; `show()` is `no-restricted-execution` (the book
   item defers it with `system.run`); `Block.above(steps)`; `Player.getBlockFromViewDirection`.
   `tsc` checks every call against these typings.
+- **CustomForm APIs** (D14, `server-ui@2.2.0/index.d.ts`): `new CustomForm(player, title)` (title
+  may be an `ObservableUIRawMessage`), `image(src: ObservableString | string, pack, { width })`,
+  `label(text, { visible })`, `button(label, onClick, { disabled, visible })` with observable
+  label/disabled/visible, `closeButton()`, `close()`, `isShowing()`, `show()` →
+  `DataDrivenScreenClosedReason` (`UserBusy`); `ObservableString/Boolean/UIRawMessage`
+  (`setData`); `PlayerLeftError`. All are `@privilege no-restricted-execution`, so the pot screen
+  opens one tick later and every button callback only schedules its work with `system.run`.
 - **Sounds** (all in the 1.26.52.3 vanilla `sound_definitions.json` files): `block.decorated_pot.insert`,
   `block.decorated_pot.insert_fail`, `note.chime`, `note.bell`, `block.lantern.place`, `bubble.up`,
   `bubble.pop`, `random.pop`, `random.fizz`, `random.click`, `hit.wood`, `mob.slime.squish`,
@@ -354,6 +370,9 @@ Everything below is unproven in game:
     (B15), and a pop drops nothing.
 17. The pot's 28 permutations load and the liquid colour shows per state (B16).
 18. The water splash with `variable.direction` = up still looks like a splash out of the pot.
+19. The book and pot screen (D14): `image()` with an observable `src` flips in place, button
+    `visible`/`disabled` observables work on a pool of 13 buttons, the ◀ glyph renders, and the
+    page images are readable at form size on PC, phone and console (blockers.md B18–B21).
 
 ## In-game checks for the 2026-10-22 fixes
 
@@ -397,6 +416,110 @@ identifiers, bones and slots. Crops and bushes use the `#`-shaped `geometry.hk.c
   (45 files, shortnames `hk_<file>`).
 - `textures/hk/ui/`: `family_heal`, `family_move`, `family_work`, `family_explore`, `locked`,
   `chapter_crops`, `chapter_what_can_i_make`, `needs_heat` (referenced by path).
+- `textures/hk/book/` and `textures/hk/pot/`: the rendered book pages and pot status images
+  (`npm run book`, see "Book and pot screen (D14)"). Generated; don't edit by hand.
+
+## Book and pot screen (D14)
+
+Both are `CustomForm`s (`@minecraft/server-ui` 2.2.0) showing one pre-rendered image with
+`image(src, RP_UUID, { width: 1 })` and icon-free buttons under it. `src` is the RP-relative path
+with `.png` and `RP_UUID` (`config.ts`) is the resource pack's header UUID (S1a; a test keeps it
+equal to `resource/manifest.json`). The images contain only numbers and symbols; every word is a
+lang key in the title, the label or a button, so localization still works.
+
+### The book (`ui/book.ts`, `ui/book-pages.ts`)
+
+```
+title      page name (lang): Recipe Book, Cooking Pot, Tomato Soup, ??? ...
+image      the page for this player (locked or unlocked)
+label      one short line: "❤ Regeneration · 8 s", "Grass in: Plains, forests", "Find these crops first."
+◀ Prev     disabled on the first page
+Next ▶     disabled on the last page
+Contents   Home (disabled on Home)
+context    Home: What can I make? + 4 chapters; chapter: its dishes (name, or ??? when locked)
+           or crops; dish: → its crops (+ Cutting Board for sliced ingredients);
+           crop: its dishes once found; What can I make?: the dishes you can make now
+Close (X)  closeButton()
+```
+
+- **Order** (Prev/Next, page numbers in the images): Home, What can I make?, Pot chapter, 7 pot
+  dishes, Board chapter, Crafting chapter, 6 crafting dishes, Crops chapter, 5 crops (24).
+- **Flipping in place** (`BOOK_FLIP = "in_place"`): title, image `src`, label, Prev/Next disabled
+  state and a pool of 13 context buttons (`MAX_CONTEXT_BUTTONS`, observable label + `visible`)
+  are observables; a tap changes them, with a page-turn sound. `BOOK_FLIP = "reopen"` closes the
+  form and opens a fresh one per page instead (the fallback if observable `src` or `visible`
+  misbehaves in game, B18).
+- **Discovery** picks the image: `dish_<name>` when unlocked, else `dish_<name>_locked_<missing
+crops>`; `crop_<key>` or `crop_<key>_locked`. Creative unlocks everything. Chapter indexes,
+  Home and What are the same image for everyone (dish silhouettes with family gems); the
+  per-player part is the button labels.
+- Every button callback only schedules work (`system.run`, `ui/forms.ts` `later`), and re-checks
+  the player.
+
+### The pot screen (`ui/pot-screen.ts`, `ui/pot-status.ts`)
+
+Opens as before from `routeUse` → `"screen"` (several dishes possible, or idle with items), one
+tick later. Buttons: **Cook `<dish>`** (one per possible dish; closes, `startCooking` re-validates
+and says why if it can't), **Almost! `<dish>`** (only when nothing is possible → the book on that
+dish), **Take out `<item>` ×N** (one per ingredient type), **Recipe Book** (→ the pot chapter),
+Close. A cold pot adds the label `♨ Needs fire below`. While open it re-reads the pot every
+`POT_SCREEN_REFRESH_TICKS` (10): the image and Take-out counts update in place; a different set of
+buttons or heat reopens the screen; cooking, done or empty closes it.
+
+**Trade-off: the image shows the target recipe, not the literal contents.** The pot holds up to 8
+items of 15 ingredient types, so "every possible contents" can't be pre-rendered, and images can't
+be composed side by side (they always stack, S1b). The useful fact is that whatever is in the pot,
+the screen is about one recipe: the single possible one, or the closest one ("Almost!"). So the
+image is keyed by **recipe × missing count per slot × heat**:
+
+- slot complete: solid icon (with its count if > 1);
+- slot partly there: solid icon with a yellow "+N";
+- slot not there at all: ghost icon with "+N";
+- the flame lit or cold (plus a red "!"), the arrow white when it can cook, and the result solid
+  (ready over fire) or ghosted;
+- the dish's effect badge under the pot.
+
+That is 123 vectors over the 7 pot recipes × 2 heats + 2 generic "choose" images (several dishes
+possible) = **248 images, 0.6 MiB**. What the image can't show: ingredients that belong to no slot of
+the target recipe ("extras"); they appear only as Take-out buttons. Composing from stacked strips
+(one image per item row) would show the literal contents with ~20 images, but makes a tall form
+whose buttons scroll away; one image keeps the screen short.
+
+### Pages and images
+
+| Image                               | Count | Shows                                                                                                                                               |
+| ----------------------------------- | ----- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `home`                              | 1     | the book, the 4 family badges; right page: What + 4 chapters with entry counts (same order as the buttons)                                          |
+| `what`                              | 1     | magnifier; a bag of ingredients → a dish                                                                                                            |
+| `chapter_pot`, `chapter_crafting`   | 2     | the station (pot over flame / crafting table), family legend, dish silhouettes with family gems                                                     |
+| `chapter_board`                     | 1     | the board; tomato/onion/cucumber → board → ×2 slices                                                                                                |
+| `chapter_crops`                     | 1     | seedling; grass → seed → farmland; all 10 biome icons                                                                                               |
+| `dish_<name>`                       | 13    | dish on a sunburst, family badge + duration, station (+ flame), food shanks; 3×3 recipe grid → result; "grass in these biomes → seed" for each crop |
+| `dish_<name>_locked_<crops>`        | 33    | same layout; dish, badge, food and the missing crops' ingredients and seeds as silhouettes with "?"; only the missing crops in the find strip       |
+| `crop_<key>`, `crop_<key>_locked`   | 10    | produce, 4 growth stages, seed → farmland; where to find (grass + all biomes → seed); board recipe or bush pick (1–3)                               |
+| `pot_<recipe>_<missing>_<lit/cold>` | 246   | see the trade-off above                                                                                                                             |
+| `pot_choose_<lit/cold>`             | 2     | empty pot slots → "?"                                                                                                                               |
+
+62 book pages (1024×640) + 248 pot images (1024×384) = 310 PNGs, **1.0 MiB** in
+`resource/textures/hk/book/` and `resource/textures/hk/pot/`.
+
+**Resolution:** pixel art on a 256×160 (book) / 256×96 (pot) canvas, scaled ×4 nearest-neighbour.
+Icons are drawn at 1× minimum (64 PNG px; ≈ 17 UI px if the form image is ~280 UI px wide) and
+the 7 px font at 1× (≈ 7.7 UI px, game-font size). ×4 keeps edges hard if the game resamples. The
+rules and the lint are in `art-style.md` "Book pages".
+
+### Re-rendering
+
+```sh
+npm run book     # node tools/gen-book-pages.mjs && node tools/lint-pages.mjs
+```
+
+The renderer bundles the pack's own `ui/book-pages.ts` and `ui/pot-status.ts` (esbuild, as
+`gen-pot-block.mjs` does), so it draws exactly the images the script can ask for, and removes
+stale PNGs. Re-run after changing a dish, crop, recipe, or any texture in
+`art/harvest_kitchen/generated/`. Contact sheets: `art/harvest_kitchen/book_preview/book_pages.png`
+and `pot_status.png`. Art: our own textures only (`generated/{items,ui,ingredients,blocks}` and
+the mockup `parts/`); a missing texture becomes a neutral "?" tile with a warning.
 
 ## /hk:debug
 

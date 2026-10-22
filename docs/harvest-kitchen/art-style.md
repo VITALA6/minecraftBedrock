@@ -81,3 +81,31 @@ wheat seeds, mushroom stew, bread), then shows each icon:
 
 Flagged icons get a red frame in the 4× row. The vanilla references need the game installed (see
 CLAUDE.md "Versions"); without it the sheet is drawn without them.
+
+## Book pages
+
+The recipe book and the pot screen show pre-rendered images (D14, `slice.md` "Book and pot
+screen"). `tools/gen-book-pages.mjs` draws them; `tools/lint-pages.mjs` checks them.
+
+```sh
+npm run book    # render, then lint
+```
+
+| Rule                                                                                                                                                                          | Lint                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| **Our own art only:** icons from `generated/{items,ui,ingredients,blocks}`, frames from `mockups/parts/`. No vanilla or Mojang textures, not even as a fallback.              | no (the renderer can't load vanilla files)                                 |
+| **No words in images.** Numbers, ×N counts and symbols (`? ! + → ×`, `s` for seconds) only; names and hints are lang keys in the form's title, label and buttons.             | no (the page font has no capitals)                                         |
+| **Fixed size:** book pages 256×160 art px, pot images 256×96, both scaled ×4 (1024×640, 1024×384).                                                                            | size per kind                                                              |
+| **Hard pixels:** integer ×4 scale, no smoothing, alpha 0 or 255.                                                                                                              | every 4×4 block one colour; no 0 < alpha < 255                             |
+| **Icons at least 1× (16 art px = 64 PNG px)**, big hero icons 3×. At an assumed form image width of 280 UI px that's ≥ 16 UI px, inventory-icon size.                         | every icon ≥ 16 UI px at 280 UI px width                                   |
+| **Text at least the 7 px font at 1×** (≥ 7 UI px at that width, the game font's cap height).                                                                                  | every glyph run ≥ 7 UI px tall                                             |
+| **Text contrast ≥ 4.5:1** (WCAG) against what's behind it; white counts get a dark shadow, family badge text is darkened until it passes.                                     | contrast of the drawn text colour vs its background, both found in the PNG |
+| **Icons stand out:** the most contrasting pixel of an icon or silhouette vs its slot/page ≥ 2:1. Ghosts (missing pot items, uncookable results) are exempt; their "+N" isn't. | per icon, measured in the PNG                                              |
+| **Locked = silhouette + "?"**, same layout as the unlocked page, so a locked page still teaches the structure.                                                                | no                                                                         |
+| **Pages are neutral where they can't be per player:** chapter indexes show dish silhouettes with family gems; names live in the buttons.                                      | no                                                                         |
+| **Every image the script can show exists, and nothing else.** The list comes from the pack's `bookImageSpecs()` / `potImageSpecs()`.                                          | missing files, orphan PNGs; also unit-tested                               |
+| **Up to date:** each PNG equals the current render.                                                                                                                           | pixel diff vs an in-memory render                                          |
+
+The renderer records every icon and text run it draws (position, scale, colours), and the lint
+measures those in the decoded PNG, so the readability checks follow the layout automatically.
+The 280 UI px form width is an assumption until it's measured in game (blockers.md B18).

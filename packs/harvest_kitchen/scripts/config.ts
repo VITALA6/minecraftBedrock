@@ -91,8 +91,22 @@ export const PISTON_SETTLE_TICKS = 3; // a pushed block lands ~2 ticks after the
 
 export const DEBUG_GROW_RADIUS = 8; // /hk:debug grow
 
-/** Which icon the book's dish page shows on its effect button: vanilla effect icon or ours. */
-export const EFFECT_BUTTON_ICON: "effect" | "family" = "effect";
+// --- forms (D14: CustomForm with pre-rendered page images) ---------------------------------------
+/**
+ * The resource pack's header UUID (resource/manifest.json). CustomForm.image() only renders with
+ * this as its `pack` argument (S1a); tests/pack-files.test.ts keeps the two equal.
+ */
+export const RP_UUID = "7d315b99-c26f-455f-ade9-92107adaf4d8";
+
+/**
+ * How the book turns pages. "in_place": one form, the page image (observable src), labels and a
+ * pool of context buttons (observable visible) change in place. "reopen": every page is a new
+ * form (close + show), which needs no observable image or visibility. Switch to "reopen" if
+ * flipping in place misbehaves in game (blockers.md B18).
+ */
+export const BOOK_FLIP: "in_place" | "reopen" = "in_place";
+
+export const POT_SCREEN_REFRESH_TICKS = 10; // the open pot screen re-reads the pot this often
 
 // --- vanilla sounds and particles ----------------------------------------------------------------
 // Every id below was checked on 2026-10-21 against the 1.26.52.3 vanilla resource packs

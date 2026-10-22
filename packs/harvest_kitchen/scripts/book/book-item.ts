@@ -6,7 +6,7 @@ import {
 } from "@minecraft/server";
 import { BOOK_OPEN_GAP_TICKS, COMPONENT_RECIPE_BOOK } from "../config";
 import { TickGate } from "../lib/tick-gate";
-import { openBook } from "../ui/recipe-book";
+import { openBook } from "../ui/book";
 
 // hk:recipe_book: using the item opens the book on its Home page (plan §3).
 //

@@ -10,6 +10,7 @@
     "deploy": "node tools/deploy.mjs",
     "typecheck": "tsc",
     "test": "node tools/test.mjs",
+    "test:coverage": "node tools/test.mjs --coverage",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

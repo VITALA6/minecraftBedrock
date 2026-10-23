@@ -38,3 +38,9 @@ declare module "node:child_process" {
     options?: { encoding?: "utf8"; cwd?: string },
   ): { status: number | null; stdout: string; stderr: string };
 }
+
+declare module "node:process" {
+  // Only the environment: tests/fuzz.ts reads FUZZ_SEED, FUZZ_RUNS and FUZZ_CASE.
+  const process: { readonly env: Readonly<Record<string, string | undefined>> };
+  export default process;
+}

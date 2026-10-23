@@ -85,10 +85,13 @@ function parseItems(raw: unknown): Record<string, number> {
 function parseJob(raw: unknown): StationJob | undefined {
   if (!isRecord(raw)) return undefined;
   const { recipe, ticks, total, servings } = raw;
-  if (typeof recipe !== "string" || typeof ticks !== "number" || !positiveInt(total)) return;
+  if (typeof recipe !== "string" || !Number.isFinite(ticks) || !positiveInt(total)) return;
   // Jobs saved before batch cooking have no servings: they cooked one.
   const n = positiveInt(servings) ? servings : 1;
-  return { recipe, ticks: Math.max(0, Math.floor(ticks)), total, servings: n };
+  // Ticks left, clamped to the job's length: a damaged save (more left than the whole job, or not
+  // a finite number) can't keep a pot cooking forever.
+  const done = Math.min(total, Math.max(0, Math.floor(ticks as number)));
+  return { recipe, ticks: done, total, servings: n };
 }
 
 function parseOut(raw: unknown): StationOutput | undefined {

@@ -46,10 +46,15 @@ const FORBIDDEN = [
   /(^|\/)(tests?|docs)\//,
 ];
 
-/** Throws if any entry is a file that doesn't belong in a release. */
+// What must always ship: the license, in both packs (packs/harvest_kitchen/*/LICENSE.txt).
+const REQUIRED = FOLDERS.map((folder) => `${folder}/LICENSE.txt`);
+
+/** Throws if any entry is a file that doesn't belong in a release, or a required file is missing. */
 function checkEntries(entries) {
   const bad = entries.filter((e) => FORBIDDEN.some((re) => re.test(e.name))).map((e) => e.name);
   if (bad.length > 0) throw new Error(`not for release: ${bad.join(", ")}`);
+  const missing = REQUIRED.filter((name) => !entries.some((e) => e.name === name));
+  if (missing.length > 0) throw new Error(`missing from release: ${missing.join(", ")}`);
 }
 
 /** A zip archive of `entries` (no zip64: throws past 4 GiB or 65535 entries). */

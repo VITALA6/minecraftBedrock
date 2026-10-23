@@ -1,0 +1,33 @@
+# biome_taiga (biomes). Taiga: two spruces in stacked tiers, the taller one on the left. Each tier
+# is lit on its left with snow lying on the left branch tips, shading to a dark right edge; thin
+# trunks on snowy podzol. Pointed triangles, so they never read as the round oak canopies.
+palette
+0 #15372e
+1 #1c4537
+2 #295b47
+3 #377659
+4 #46956b
+W #d8e3e9
+w #b9c9d4
+t #765937
+T #584028
+p #6b4a2c
+q #4e3520
+r #362317
+grid
+................
+....2...........
+...130..........
+..1Ww20.........
+...140..........
+..14320...2.....
+.1Ww3210..130...
+...130...1Ww20..
+..14320...140...
+.1Ww3210.14320..
+....tT..1Ww3210.
+....tT.....tT...
+.pwppqpwpppwpqp.
+.qpqqpqqqpqqpqq.
+..rrrrrrrrrrrr..
+................

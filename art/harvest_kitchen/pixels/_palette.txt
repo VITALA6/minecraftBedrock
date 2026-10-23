@@ -1,7 +1,15 @@
 # Named colours shared by several grids: "<name> <colour>" (hex or a palette.json ramp shade).
-# The shared bowl of every bowl dish and bowl mix (art-style.md "Families of items").
-bowl_dark bowl.0
-bowl_mid bowl.3
-bowl_light bowl.4
-# The light metal spoon of the mixes.
-spoon_light iron.-1
+# The shared bowl of every bowl dish and bowl mix (art-style.md "Families of items"): a turned
+# warm wooden bowl: mid-tones 28-35° at ~50% saturation, a paler highlight, and a cooler, greyer
+# brown (under 25% saturation) for the outline and the shadow inside the mouth. Grids map these to the digits 1-6 (README "Shared bases"). Dishes cover rows 7-8
+# the same way, so the bowl pixels never enter a dish-vs-dish pair diff.
+bowl_dark #382a22    # outline, shadow side (bottom/right), foot
+bowl_edge #4e3c30    # outline, lit side (top/left); shadow inside the mouth
+bowl_shade #7e5128   # body shadow, wood grain, inside back wall (dark)
+bowl_mid #a06a32     # body
+bowl_light #c08848   # body lit side, lit inside wall
+bowl_hi #daaa68      # rim lip highlight (top left)
+# The light metal spoon of the mixes (digits 7-9).
+spoon_light #dfe2e4  # lit top edge of the handle
+spoon_mid #a9aeb4    # handle
+spoon_dark #62666e   # handle underside

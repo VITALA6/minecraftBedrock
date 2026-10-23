@@ -1,31 +1,39 @@
-# sliced_tomato (prepared). Hand-drawn: two round slices, cut face up, overlapping on the
-# diagonal (the back one top right). Skin ramp from the whole tomato (warm highlight top left,
-# crimson and purple-red shadow bottom right), red fruit wall and a cross of septa meeting at a
-# pale core, light gel chambers with a yellow seed each. The front slice casts a 1 px shadow on
-# the back one.
+# sliced_tomato (prepared). Hand-drawn: a thick round slice, cut face up, bottom left, in front of
+# the tomato's stem end (top right: a skin dome with the item's green sepals round the stalk).
+# The slice: a dark skin rim (lit side a step lighter) with a 1 px darker side band along the lower
+# right showing its thickness, a red wall lit top left, three red septa running from a 2×2 pale
+# core out to the wall, pale gel chambers with yellow seeds along the septa, one wet glint.
+# Same red ramp as the whole tomato.
 palette
-D #4a0a22   # deepest shadow, cool purple-red (same as tomato), cast shadow
-K tomato.1  # skin shadow
-R #e01e2c   # fruit wall and septa
-r #f42e30   # lit skin
-h #ff6c58   # skin highlight, warm (same as tomato)
-G #ff8c78   # gel chambers
-C #ffd0b0   # pale core
-Y #ffd84a   # seeds
+K #4d0e1c   # skin, deepest; slice side band (tomato)
+D #7c1227   # skin, lit side (tomato)
+d #b0182c   # skin, shadow side (tomato)
+q #cb1a2c   # wall shadow (tomato)
+R #e61f2c   # wall and septa (tomato)
+r #ec3b3d   # wall lit (tomato)
+h #f45a55   # dome light (tomato)
+p #fb7a74   # dome light band (tomato)
+G #ffaf9a   # pale gel chambers
+w #ffcac2   # wet glint
+C #ffc6b2   # pale core
+Y #e8c64c   # seeds
+k #1f4a2a   # sepal dark (tomato)
+g #2f7a32   # sepal (tomato)
+c #b6d27a   # stalk end (tomato)
 grid
 ................
-................
-........hhrrr...
-.......hRRRRRr..
-......hRGYRGYRK.
-......rRGGRGGRK.
-...hhrrrDRCRRRK.
-..hRRRRRrDRGYRK.
-.hRGYRGYRKDGGRK.
-.rRGGRGGRKDRRD..
-.rRRRCRRRKDDD...
-.rRGYRGYRK......
-.rRGGRGGRK......
-..KRRRRRD.......
-...KDDDD........
+.........DDDK...
+........DhpGrdK.
+.......DhGgkGdK.
+....DDDDrRkcRdK.
+..DDrrRRDDgkgdK.
+.DrwGRGGGqdGddK.
+.DrGYRYGGqddd...
+.DrGGCCGGqdK....
+.DrGYCCGGqdK....
+.DrGRGGRGqdK....
+.DrRYGGYRqdK....
+..DqqGGqqdKK....
+...KddddKKK.....
+.....KKKK.......
 ................

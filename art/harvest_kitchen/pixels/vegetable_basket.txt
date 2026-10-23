@@ -1,32 +1,38 @@
-# vegetable_basket (decor). Hand-drawn: a wicker basket with an arched handle, heaped with a
-# tomato, a cucumber with its leafy top, an onion and an eggplant. Each piece is at least 2×2 with a
-# lit top-left and a dark bottom-right pixel; the weave is a 2-px over-under (llm, shifted 1 px per
-# row), lit along the rim (onion.4 doubles as the rim highlight to stay within 10 colours).
+# vegetable_basket (decor). Hand-drawn: a wicker basket with an arched handle (lit left, dark
+# right), heaped above the rim with a tomato (one glossy pixel), a cucumber lying across with its
+# leaf, an onion with a sprout and an eggplant with its green cap. Each piece has a lit top-left
+# and a dark bottom-right pixel. The basket tapers to the base; the weave is a 2-px over-under
+# (shifted 1 px per row) under a lit rim, with darker strands at the edges.
 palette
+d bread.0     # deepest wicker: base, right edge
+m bread.2     # under-strand, left edge, handle shadow side
 l bread.3     # wicker
-m bread.2     # wicker under-strand, handle shadow side
-d bread.0     # deepest shadow: basket base, produce bottom-right pixels
-o onion.4     # rim highlight, onion and cucumber lit pixel
-O onion.3     # onion
-t tomato.4    # tomato lit
+L bread.4     # rim and handle, lit
+S #ffb4a0     # tomato gloss
+t tomato.3    # tomato lit
 T tomato.2    # tomato
+R tomato.1    # tomato shadow
+G #6aa83a     # cucumber lit, eggplant cap
+g #2e6a2a     # cucumber shadow, leaves
+o onion.4     # onion lit
+O onion.2     # onion shadow
 e eggplant.3  # eggplant lit
 E eggplant.2  # eggplant
-G cucumber.2  # cucumber, leaves, eggplant cap, onion sprout
+D eggplant.0  # eggplant shadow
 grid
 ................
-.....llllll.....
-....l......m....
-...l..GG....m...
-..l..GGGG.G..m..
-..ltTToGG.eEEm..
-..lTTTGGoOEEEm..
-..lTTdGdOdEEdm..
-.oooooooooooood.
-.llmllmllmllmld.
-.lmllmllmllmlld.
-..llmllmllmlld..
-..lmllmllmllmd..
-...dddddddddd...
+.....mLLLLm.....
+....L......m....
+...L...g....m...
+...L..gGG..Gm...
+...LtSTgGGGeEm..
+..mtTTRoGgeEEDm.
+..mTTRooOgEEDDm.
+.mLLLLLLLLLLLLd.
+.mlmllmllmllmld.
+..mllmllmllmld..
+..mlmllmllmlld..
+...mllmllmlld...
+....dddddddd....
 ................
 ................

@@ -1,0 +1,37 @@
+# biome_swamp (biomes). Swamp: a flat band of murky green water across the width on a muddy ground
+# strip (the "ground + feature" layout of the other biomes). A dark far edge on the water, short
+# pale ripples, one bright lily pad (a disc with a notch, dark underside), and two cattails of
+# different heights, placed off-centre: brown heads lit on the left, green stalks and reed blades.
+palette
+0 #162c27
+1 #2e4a40
+2 #4a7262
+3 #5e8a72
+4 #8bbf9c
+L #79b84a
+l #3f7a27
+g #5c8a2e
+G #3b5e1e
+H #a06a3c
+h #6b4426
+O #4e301c
+m #6b5a3a
+M #54452c
+N #3a2f1f
+grid
+................
+................
+...g............
+...Hh...........
+...hO...........
+...hO....g......
+.g.g.....Hh.....
+..gg.....hO.....
+...g.....gg.....
+.11G11111G11111.
+.234332344LL2L2.
+.132323322llll1.
+.mmMmmmMMmmMmmN.
+.NMMMNMMMNMMMMN.
+..NNNNNNNNNNNN..
+................

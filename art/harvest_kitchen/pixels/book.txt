@@ -1,0 +1,34 @@
+# book (ingredients). Our own book: a closed brown leather book lying at a slant, seen from above,
+# a darker spine edge with two gold bands, a small gold diamond on the cover, the page block
+# showing along the right and bottom, a red ribbon bookmark hanging out of the bottom.
+palette
+K #3a2010   # outline, shadow side
+k #4a2a12   # outline, lit side, cover edge
+D #623a1c   # leather shadow, spine
+M #7a4a26   # leather mid
+L #925c32   # leather light
+H #aa7442   # highlight band
+W #c48e58   # specular
+G #e8bc48   # gold
+g #a87818   # gold shade
+p #e6dabe   # pages
+P #c4b292   # page shade
+R #c02830   # ribbon
+r #801824   # ribbon shade
+grid
+................
+................
+......kkkkkkkK..
+......kDHWHLLK..
+.....kgHHLLMkpK.
+.....kDHLGLMkpK.
+....kDLLGgGkpK..
+....kDLMLgMkPK..
+...kDLMLMDkpK...
+...kgMLMDMkpK...
+..kDMMDMDkPK....
+..kDDDDDDkpK....
+...kppRpPpK.....
+...KKKRKKKK.....
+......Rr........
+................

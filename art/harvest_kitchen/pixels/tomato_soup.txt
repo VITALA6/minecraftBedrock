@@ -1,30 +1,39 @@
-# tomato_soup: smooth liquid. Flat bright tomato red with a warm highlight streak top left, a
-# basil leaf floating right of centre, cool crimson shadow toward the bottom right.
-# Lint hue slot ~356° (vegetable_stew 19°, chili_stew 331°).
+# tomato_soup: smooth tomato soup filled just over the rim. The liquid has four reds (a dark ring
+# where it meets the back of the bowl, cool crimson bottom right) and a pale pink sheen top left;
+# a calm red field with one lit arc around the specular; three bits float on it: a basil leaf,
+# a cream swirl and one golden crouton (lit top, shaded side).
+# Lint hue ~353°: chili_stew (~15°) and salsa (taller, with a chip) are told apart from it.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S #9a1430   # shadow (cool, toward crimson)
-r #e02838   # soup
-o #ff5a40   # lit soup
-h #ffa878   # highlight streak (warm)
-g #6aab2d   # basil, lit
-G #2b702a   # basil, shadow
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+a #7c1a2e   # ring at the back of the bowl
+d #a42034   # soup shadow (cool)
+r #ca2e38   # soup
+l #e2504e   # lit soup
+h #f4949a   # sheen (paler, not yellower)
+c #e6b464   # crouton top
+C #a8702c   # crouton side
+w #f4e6d8   # cream swirl
+g #64a03a   # basil
+G #2e6428   # basil shadow
 grid
 ................
 ................
 ................
 ................
 ................
-.....DDDDDD.....
-...DDoorgGSDD...
-..DohhorrgrSSD..
-..LrorrrrrSSSD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+.....aaaaaa.....
+....alhhlrrd....
+..2drllrrwrcC1..
+.2drrgGrrrwCdd1.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

@@ -1,30 +1,37 @@
-# tomato_soup_mix: diced raw tomato in the shared bowl (dark inside shows, no broth); a whole
-# tomato sits in the back left of the bowl (top left is the tomato soup mix's place); mix spoon top right.
+# tomato_soup_mix: diced raw tomato in the shared bowl (dark inside shows, no broth), each dice
+# with a lit and a shaded pixel; a whole tomato sits on the back-left rim with a short curled
+# stem (top left is the tomato soup mix's place); the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-k tomato.1   # tomato shadow
-R #e01e2c    # tomato body (tomato.txt base red)
-h #ff6c58    # lit tomato / cut flesh
-w #ffd2a8    # specular
-g leaf.1
-G leaf.4
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+d #7e1430   # tomato outline / shadow (cool)
+r #b0202e   # tomato, shaded
+R #d43440   # tomato
+l #ec5a58   # tomato, lit
+h #f69494   # specular (paler, not yellower)
+g #5a9a34   # stem
+G #2e6428   # stem shadow
 grid
 ................
-...g.........S..
-..GgGR......SD..
-.hhGRRk....SD...
-.hwhRRk...SD....
-.RhRRkkDDSD.....
-..RRkkhRSDhDD...
-..DDhDRkDDRkDD..
-..LDRkDDhRDhkD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+...Gg........78.
+..rRd.......789.
+.rlhRd.....89...
+.rRlRd....89....
+.rRRdd...89.....
+..ddd2228922....
+..22lR3894Rd21..
+.21lRd22lRd4431.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

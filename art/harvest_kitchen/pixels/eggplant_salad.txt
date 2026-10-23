@@ -1,31 +1,37 @@
-# eggplant_salad: a low, wide heap of roasted eggplant cubes (cream flesh top left, purple skin,
-# dark shadow bottom right) and two cucumber half-moons on a thin leaf bed at the rim, one sliver
-# of onion.
+# eggplant_salad: a heap of four roasted eggplant chunks rising over the rim, each 3x3 (lit top
+# left, purple middle, dark bottom right), two of them cut-side up with cream flesh; cucumber
+# half-moons and a sliver of onion at the front, and a leafy green frill spilling over the rim on
+# both sides, which keeps it apart from ratatouille.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-V #3d1a71   # eggplant skin shadow
-v #8a48c0   # eggplant skin
-f #efe6d0   # roasted flesh
-C #1f5a2a   # cucumber rind
-c #b8e090   # cucumber flesh
-m #4e8a3a   # leaf bed
-w #fffaf0   # onion sliver
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+V #3a1a5a   # eggplant skin, dark
+v #6a34a0   # eggplant skin
+l #a070cc   # eggplant gloss (lit corner)
+f #ecdcc0   # roasted flesh
+F #c4ae8a   # roasted flesh, shaded
+c #c4e098   # cucumber flesh
+Z #2e6a2e   # cucumber rind / leaf shadow
+g #5e9e3c   # leaf frill
+w #e6e0d4   # onion sliver
 grid
 ................
 ................
 ................
-.....fvV.ffv....
-....mvVVvvVVm...
-....mcccfvVm....
-...DDCCCvVVDD...
-..DmfvwwVcccmD..
-..LVvVVVVCCCVD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+.....lvv........
+....gvvVffF.....
+....gvVVvvffFg..
+..gZlvvgvVvvVgg.
+..2cvvVwccvVV1..
+.2gZvVVgZgccZg1.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

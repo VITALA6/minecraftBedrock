@@ -1,0 +1,29 @@
+# mutton (ingredients). Our own raw leg of mutton: a plump rose-red leg tapering up to the right
+# into a two-knob bone end, with a pale fat seam curving through the meat.
+palette
+K #561228   # outline, shadow side (cool rose)
+k #7a1c34   # outline, lit side
+D #a8303e   # shadow
+M #c84a50   # mid
+L #dc6862   # light
+H #ec8e80   # highlight band
+W #f8bcaa   # specular
+B #c4ac8a   # bone shade / outline
+b #f2e6cc   # bone light, fat seam
+grid
+................
+............BB..
+...........BbbB.
+...........BbbB.
+..........BbbB..
+.........kBBK...
+.......kkLHMK...
+.....kkLHHbMDK..
+....kLHWHbLMDK..
+...kLHHHbLLMDK..
+..kLHLLbLMMDDK..
+.kLLLbLMMDDDK...
+.kMLbMMMDDKK....
+.kMMMDDDKK......
+..KKKKKK........
+................

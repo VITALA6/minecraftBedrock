@@ -1,0 +1,32 @@
+# biome_savanna (biomes). Savanna: an acacia with a broad flat crown and a smaller flat pad off a
+# side branch, on a forked grey-brown trunk, over dry golden grass. Each crown pad is lit along
+# its top with darker sage underneath, so the flat "table" shape reads at 1x.
+palette
+0 #2f411b
+1 #485d28
+2 #657d36
+3 #869f41
+4 #a9bd56
+t #997a66
+T #725c4f
+a #dcc56a
+b #c9a940
+c #997e33
+d #533427
+grid
+................
+................
+....11121112....
+..134344343320..
+.12323323323210.
+.00100001000100.
+..........T.....
+.1321.....t.....
+.0010t...T......
+......ttTT......
+.......tT.......
+..a....tT...ab..
+.bacbabtTbcabab.
+.cbcccbcbccbccc.
+..dddddddddddd..
+................

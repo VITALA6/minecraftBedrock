@@ -1,31 +1,38 @@
-# kitchen_sink (decor). Hand-drawn: a lower counter cabinet with a basin of blue water in the
-# stone top, an iron faucet rising behind it, and a red-and-cream tea towel on the left door.
-# The faucet and water make it read apart from the plain counter.
+# kitchen_sink (decor). Hand-drawn: the counter cabinet with an iron basin set into the stone top
+# (dark back wall, blue water with one glint, a lit front rim line), an iron faucet rising behind
+# it (lit left side, dark right side) with copper taps either side, and a red-and-cream striped
+# tea towel over the left door. The faucet and basin make it read apart from the plain counter.
 palette
-I iron.4      # faucet, lit
-C #97979c     # faucet shadow, stone lip
-A #e3dfd2     # stone top, towel cream
+I iron.4      # faucet and basin rim, lit
+h iron.2      # faucet, mid
+j iron.1      # faucet dark side, basin back wall
+A #e3dfd2     # stone top, lit; towel cream
+B #c8c4b8     # stone top
+C #a8a59d     # stone edge
+D #86847e     # stone front lip
 w glass.0     # water
-x wood.0      # gaps
-k wood.1      # shadows
+W glass.2     # water glint
+x wood.0      # gaps, toe kick
+k wood.1      # shadow edges
+d wood.2      # lit edges
 m wood.3      # oak
-h wood.4      # lit edges
-o pot_copper.3 # knob
+o pot_copper.3 # taps, knobs
+e pot_copper.1 # tap shadow
 r tomato.1    # towel red
 grid
 ................
+......hhhI......
+......j..hj.....
+.........hj.....
+..oe.....hj.oe..
+.DCDCCCCDhjCCCD.
+.CAhjjjjjjjhABD.
+.CAhwWwwwwwhBAD.
+.CBAIIIIIIIABBD.
+.DDDCDDDDCDDDDD.
+..xxxxxxxxxxxx..
+..dAAAhkdhhhhk..
+..drrrokdommdk..
+...xxxxxxxxxx...
 ................
-......IIIIC.....
-......C..IC.....
-.........IC.....
-.........IC.....
-.AAAAAAAAAAAAAA.
-.AAAwwwwwwwwAAC.
-.CCCCCCCCCCCCCC.
-.xxxxxxxxxxxxxx.
-.hhhhhhkhhhhhhk.
-.hrArmmkhmmmmmk.
-.hArAmokhommmmk.
-.hrArmmkhmmmmmk.
-.xxxxxxxxxxxxxx.
 ................

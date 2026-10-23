@@ -1,28 +1,36 @@
-# spice_shelf (decor). Hand-drawn: a little open oak shelf, two rows of copper-lidded spice jars
-# (chili red, turmeric yellow, green herbs), open at the back.
+# spice_shelf (decor). Hand-drawn: a little open oak shelf (grain streaks on the boards, lit top
+# edges, dark undersides), two rows of copper-lidded glass spice jars (chili red, turmeric
+# yellow, green herbs; a glint on each jar's lit side, the spice seen through the glass), open
+# at the back so the wall shows between the jars.
 palette
-h wood.4      # lit board edges
+x wood.0      # board undersides
+k wood.1      # shadow edges
+d wood.2      # lit edges, grain
 m wood.3      # oak
-k wood.1      # board shadow
+h wood.4      # lit board tops
 o pot_copper.3 # lids
+e pot_copper.1 # lid shadow
+w glass.2     # glass glint
 R chili.3     # chili flakes
+Q chili.1     # chili, shadow
 y flower_yellow.2 # turmeric
+Y flower_yellow.1 # turmeric, shadow
 G leaf.3      # herbs
-W glass.3     # glass glint
+g leaf.1      # herbs, shadow
 grid
 ................
 ................
-.hhhhhhhhhhhhhh.
-.kkkkkkkkkkkkkk.
-..h.oo.oo.oo.k..
-..h.WR.yy.GG.k..
-..h.RR.yy.GG.k..
-..hhhhhhhhhhhk..
-..hkkkkkkkkkkk..
-..h.oo.oo.oo.k..
-..h.WG.Wy.RR.k..
-..h.GG.yy.RR.k..
-..hhhhhhhhhhhk..
-..kkkkkkkkkkkk..
+.dkddkdddkddkdk.
+.dhhmhhhhmhhhhk.
+..d.oe.oe.oe.k..
+..d.wR.wy.wG.k..
+..d.RQ.yY.Gg.k..
+..dhhhmhhhhmhk..
+..dxxkxxxxkxxk..
+..d.oe.oe.oe.k..
+..d.wG.wY.wR.k..
+..d.gG.yY.RQ.k..
+.dhhmhhhhhmhhhk.
+.kxxxkxxxxkxxxk.
 ................
 ................

@@ -13,99 +13,99 @@ ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops
 ingredients: bowl, carrot, potato, bread, beef, mutton, stick, chicken, cod, salmon, sugar, glass_bottle, cake, cooked_porkchop, book, short_grass, crafting_table, campfire, farmland
 biomes: biome_plains, biome_forest, biome_cherry_grove, biome_taiga, biome_savanna, biome_jungle, biome_badlands, biome_swamp, biome_river, biome_meadow
 
-Per icon: colours, bounding box, grayscale range.
-  tomato: 8 colours, 14x14, grey 187
-  onion: 6 colours, 14x14, grey 165
-  cucumber: 7 colours, 14x14, grey 167
-  chili_pepper: 7 colours, 14x13, grey 154
-  strawberry: 9 colours, 13x14, grey 176
-  eggplant: 8 colours, 13x14, grey 196
-  tomato_seeds: 10 colours, 12x15, grey 212
-  cucumber_seeds: 6 colours, 13x13, grey 170
-  chili_pepper_seeds: 8 colours, 14x13, grey 170
-  strawberry_seeds: 9 colours, 14x13, grey 185
-  eggplant_seeds: 9 colours, 13x14, grey 202
-  sliced_tomato: 8 colours, 14x13, grey 187
-  sliced_cucumber: 6 colours, 14x14, grey 170
-  sliced_eggplant: 7 colours, 14x14, grey 190
-  chopped_onion: 7 colours, 13x14, grey 156
-  tomato_soup: 9 colours, 12x8, grey 171
-  onion_soup: 9 colours, 12x11, grey 221
-  salsa: 10 colours, 12x12, grey 222
-  garden_salad: 10 colours, 12x11, grey 210
-  strawberry_cup: 9 colours, 14x14, grey 197
-  vegetable_stew: 10 colours, 12x11, grey 199
-  chili_stew: 10 colours, 13x13, grey 129
-  fish_chowder: 8 colours, 12x8, grey 232
-  chicken_soup: 10 colours, 12x12, grey 220
-  strawberry_jam: 9 colours, 12x13, grey 205
-  veggie_sandwich: 8 colours, 14x12, grey 173
-  hearty_sandwich: 8 colours, 14x12, grey 156
-  strawberry_cake: 10 colours, 14x13, grey 186
-  stuffed_eggplant: 10 colours, 14x12, grey 186
-  ratatouille: 10 colours, 12x9, grey 167
-  eggplant_curry: 10 colours, 12x9, grey 206
-  eggplant_salad: 10 colours, 12x10, grey 233
-  veggie_skewer: 10 colours, 14x14, grey 198
-  tomato_soup_mix: 10 colours, 13x12, grey 201
-  chili_stew_mix: 10 colours, 14x12, grey 209
-  vegetable_stew_mix: 10 colours, 14x14, grey 209
-  fish_chowder_mix: 9 colours, 12x12, grey 210
-  chicken_soup_mix: 10 colours, 12x14, grey 216
-  onion_soup_mix: 10 colours, 14x14, grey 209
-  ratatouille_mix: 10 colours, 14x12, grey 200
-  eggplant_curry_mix: 10 colours, 14x12, grey 209
-  strawberry_jam_mix: 10 colours, 13x14, grey 224
-  stuffed_eggplant_mix: 10 colours, 14x14, grey 202
-  cooking_pot: 8 colours, 14x13, grey 142
-  cutting_board: 8 colours, 14x14, grey 177
-  recipe_poster: 8 colours, 14x8, grey 205
-  guide_book: 10 colours, 12x14, grey 201
-  kitchen_counter: 10 colours, 14x12, grey 148
-  kitchen_cabinet: 10 colours, 14x13, grey 155
-  spice_shelf: 7 colours, 14x12, grey 133
-  kitchen_sink: 10 colours, 14x13, grey 152
-  kitchen_stove: 8 colours, 10x13, grey 141
-  hanging_pan: 8 colours, 10x15, grey 166
-  pickle_jar: 10 colours, 10x12, grey 155
-  vegetable_basket: 10 colours, 14x13, grey 153
-  family_heal: 5 colours, 14x12, grey 170
-  family_move: 6 colours, 12x13, grey 188
-  family_work: 8 colours, 14x14, grey 187
-  family_explore: 7 colours, 14x13, grey 214
-  locked: 6 colours, 12x14, grey 191
-  chapter_crops: 9 colours, 14x14, grey 134
-  chapter_how_to_play: 8 colours, 14x13, grey 205
-  chapter_what_can_i_make: 10 colours, 14x14, grey 184
-  needs_heat: 9 colours, 14x14, grey 186
-  bowl: 4 colours, 12x8, grey 216
-  carrot: 7 colours, 13x14, grey 130
-  potato: 5 colours, 14x10, grey 162
-  bread: 4 colours, 13x12, grey 101
-  beef: 6 colours, 14x10, grey 187
-  mutton: 7 colours, 13x12, grey 200
-  stick: 3 colours, 12x12, grey 104
-  chicken: 6 colours, 14x12, grey 130
-  cod: 7 colours, 14x13, grey 192
-  salmon: 7 colours, 14x13, grey 160
-  sugar: 5 colours, 12x8, grey 159
-  glass_bottle: 4 colours, 11x14, grey 114
-  cake: 7 colours, 12x9, grey 184
-  cooked_porkchop: 6 colours, 14x12, grey 162
-  book: 4 colours, 12x12, grey 218
-  short_grass: 4 colours, 13x12, grey 81
-  crafting_table: 9 colours, 13x14, grey 177
-  campfire: 6 colours, 13x13, grey 206
-  farmland: 6 colours, 14x14, grey 112
-  biome_plains: 8 colours, 14x9, grey 133
-  biome_forest: 7 colours, 14x13, grey 97
-  biome_cherry_grove: 7 colours, 12x14, grey 188
-  biome_taiga: 6 colours, 15x13, grey 193
-  biome_savanna: 6 colours, 14x12, grey 134
-  biome_jungle: 6 colours, 14x13, grey 111
-  biome_badlands: 6 colours, 14x11, grey 123
-  biome_swamp: 6 colours, 14x12, grey 91
-  biome_river: 5 colours, 14x8, grey 155
-  biome_meadow: 9 colours, 14x10, grey 148
+Per icon: colours, bounding box, grayscale range, largest flat patch, edge/inner, detail.
+  tomato: 13 colours, 14x14, grey 163, flat 14, edge 0.71, detail 0.63
+  onion: 10 colours, 12x14, grey 165, flat 6, edge 0.54, detail 0.71
+  cucumber: 12 colours, 14x13, grey 146, flat 11, edge 0.41, detail 0.76
+  chili_pepper: 11 colours, 13x13, grey 158, flat 5, edge 0.54, detail 0.81
+  strawberry: 13 colours, 12x13, grey 179, flat 10, edge 0.52, detail 0.75
+  eggplant: 12 colours, 14x14, grey 157, flat 10, edge 0.47, detail 0.69
+  tomato_seeds: 15 colours, 12x14, grey 181, flat 12, edge 0.82, detail 0.63
+  cucumber_seeds: 9 colours, 13x14, grey 137, flat 3, edge 0.62, detail 0.84
+  chili_pepper_seeds: 15 colours, 12x14, grey 184, flat 3, edge 0.61, detail 0.85
+  strawberry_seeds: 15 colours, 13x13, grey 179, flat 3, edge 0.81, detail 0.87
+  eggplant_seeds: 15 colours, 14x14, grey 188, flat 5, edge 0.40, detail 0.79
+  sliced_tomato: 15 colours, 14x14, grey 183, flat 14, edge 0.36, detail 0.64
+  sliced_cucumber: 9 colours, 14x14, grey 185, flat 6, edge 0.41, detail 0.81
+  sliced_eggplant: 10 colours, 14x14, grey 174, flat 6, edge 0.40, detail 0.77
+  chopped_onion: 9 colours, 14x14, grey 142, flat 7, edge 0.77, detail 0.67
+  tomato_soup: 16 colours, 14x9, grey 187, flat 6, edge 0.51, detail 0.74
+  onion_soup: 13 colours, 14x11, grey 186, flat 6, edge 0.63, detail 0.73
+  salsa: 16 colours, 14x13, grey 180, flat 5, edge 0.72, detail 0.84
+  garden_salad: 14 colours, 14x12, grey 176, flat 6, edge 0.76, detail 0.79
+  strawberry_cup: 15 colours, 14x14, grey 185, flat 10, edge 0.70, detail 0.75
+  vegetable_stew: 15 colours, 14x12, grey 174, flat 6, edge 0.76, detail 0.78
+  chili_stew: 16 colours, 14x12, grey 132, flat 6, edge 0.68, detail 0.76
+  fish_chowder: 15 colours, 14x10, grey 199, flat 12, edge 0.62, detail 0.71
+  chicken_soup: 16 colours, 14x13, grey 195, flat 6, edge 0.79, detail 0.71
+  strawberry_jam: 14 colours, 12x13, grey 179, flat 11, edge 0.64, detail 0.64
+  veggie_sandwich: 12 colours, 14x12, grey 162, flat 11, edge 0.59, detail 0.71
+  hearty_sandwich: 15 colours, 14x13, grey 163, flat 4, edge 0.70, detail 0.89
+  strawberry_cake: 14 colours, 14x12, grey 172, flat 14, edge 0.66, detail 0.71
+  stuffed_eggplant: 14 colours, 14x12, grey 179, flat 6, edge 0.39, detail 0.74
+  ratatouille: 16 colours, 14x11, grey 176, flat 5, edge 0.66, detail 0.79
+  eggplant_curry: 14 colours, 14x9, grey 179, flat 5, edge 0.67, detail 0.79
+  eggplant_salad: 15 colours, 14x11, grey 182, flat 10, edge 0.84, detail 0.74
+  veggie_skewer: 15 colours, 14x14, grey 185, flat 5, edge 0.71, detail 0.67
+  tomato_soup_mix: 16 colours, 14x13, grey 180, flat 7, edge 0.81, detail 0.78
+  chili_stew_mix: 16 colours, 15x13, grey 184, flat 6, edge 0.78, detail 0.80
+  vegetable_stew_mix: 16 colours, 15x14, grey 180, flat 5, edge 0.77, detail 0.79
+  fish_chowder_mix: 16 colours, 14x13, grey 191, flat 6, edge 0.71, detail 0.78
+  chicken_soup_mix: 16 colours, 15x14, grey 184, flat 6, edge 0.70, detail 0.80
+  onion_soup_mix: 16 colours, 15x14, grey 185, flat 8, edge 0.76, detail 0.77
+  ratatouille_mix: 16 colours, 15x13, grey 180, flat 5, edge 0.82, detail 0.79
+  eggplant_curry_mix: 16 colours, 15x13, grey 181, flat 6, edge 0.80, detail 0.79
+  strawberry_jam_mix: 14 colours, 14x14, grey 164, flat 8, edge 0.66, detail 0.79
+  stuffed_eggplant_mix: 13 colours, 14x14, grey 181, flat 4, edge 0.65, detail 0.88
+  cooking_pot: 10 colours, 14x13, grey 142, flat 10, edge 0.68, detail 0.65
+  cutting_board: 13 colours, 14x14, grey 177, flat 10, edge 0.75, detail 0.87
+  recipe_poster: 13 colours, 14x8, grey 184, flat 10, edge 0.47, detail 0.69
+  guide_book: 14 colours, 12x13, grey 186, flat 11, edge 0.58, detail 0.66
+  kitchen_counter: 12 colours, 14x11, grey 148, flat 13, edge 0.82, detail 0.66
+  kitchen_cabinet: 13 colours, 14x13, grey 159, flat 13, edge 0.74, detail 0.64
+  spice_shelf: 14 colours, 14x12, grey 138, flat 8, edge 0.84, detail 0.72
+  kitchen_sink: 16 colours, 14x13, grey 152, flat 12, edge 0.84, detail 0.64
+  kitchen_stove: 12 colours, 10x12, grey 142, flat 14, edge 0.60, detail 0.66
+  hanging_pan: 12 colours, 10x14, grey 166, flat 13, edge 0.84, detail 0.68
+  pickle_jar: 15 colours, 10x12, grey 169, flat 14, edge 0.83, detail 0.66
+  vegetable_basket: 15 colours, 14x13, grey 159, flat 12, edge 0.83, detail 0.67
+  family_heal: 7 colours, 14x12, grey 170, flat 13, edge 0.50, detail 0.63
+  family_move: 7 colours, 12x13, grey 164, flat 13, edge 0.38, detail 0.67
+  family_work: 10 colours, 14x14, grey 174, flat 6, edge 0.50, detail 0.72
+  family_explore: 13 colours, 14x14, grey 176, flat 13, edge 0.46, detail 0.67
+  locked: 7 colours, 10x14, grey 178, flat 14, edge 0.59, detail 0.52
+  chapter_crops: 11 colours, 14x14, grey 137, flat 7, edge 0.66, detail 0.77
+  chapter_how_to_play: 13 colours, 13x14, grey 180, flat 11, edge 0.73, detail 0.65
+  chapter_what_can_i_make: 16 colours, 14x14, grey 189, flat 6, edge 0.58, detail 0.63
+  needs_heat: 7 colours, 12x14, grey 145, flat 8, edge 0.58, detail 0.73
+  bowl: 6 colours, 14x8, grey 132, flat 11, edge 0.57, detail 0.67
+  carrot: 10 colours, 14x14, grey 168, flat 9, edge 0.59, detail 0.76
+  potato: 7 colours, 14x11, grey 159, flat 8, edge 0.48, detail 0.69
+  bread: 8 colours, 14x13, grey 174, flat 10, edge 0.45, detail 0.69
+  beef: 9 colours, 14x11, grey 179, flat 10, edge 0.46, detail 0.77
+  mutton: 9 colours, 14x14, grey 190, flat 10, edge 0.53, detail 0.66
+  stick: 7 colours, 14x14, grey 160, flat 2, edge 0.56, detail 0.97
+  chicken: 7 colours, 14x13, grey 158, flat 10, edge 0.53, detail 0.68
+  cod: 7 colours, 13x13, grey 166, flat 7, edge 0.49, detail 0.67
+  salmon: 9 colours, 14x13, grey 155, flat 6, edge 0.56, detail 0.84
+  sugar: 7 colours, 14x10, grey 144, flat 14, edge 0.60, detail 0.73
+  glass_bottle: 7 colours, 12x14, grey 162, flat 8, edge 0.79, detail 0.70
+  cake: 15 colours, 14x13, grey 188, flat 7, edge 0.61, detail 0.73
+  cooked_porkchop: 9 colours, 14x11, grey 185, flat 12, edge 0.45, detail 0.64
+  book: 13 colours, 13x13, grey 180, flat 10, edge 0.41, detail 0.73
+  short_grass: 7 colours, 14x13, grey 132, flat 6, edge 0.82, detail 0.75
+  crafting_table: 14 colours, 14x14, grey 156, flat 12, edge 0.44, detail 0.68
+  campfire: 11 colours, 14x14, grey 187, flat 7, edge 0.68, detail 0.73
+  farmland: 13 colours, 14x14, grey 117, flat 12, edge 0.56, detail 0.70
+  biome_plains: 11 colours, 14x11, grey 155, flat 12, edge 0.81, detail 0.77
+  biome_forest: 12 colours, 14x14, grey 127, flat 12, edge 0.79, detail 0.76
+  biome_cherry_grove: 12 colours, 14x14, grey 158, flat 10, edge 0.66, detail 0.72
+  biome_taiga: 12 colours, 14x14, grey 185, flat 12, edge 0.72, detail 0.81
+  biome_savanna: 11 colours, 14x13, grey 138, flat 12, edge 0.70, detail 0.70
+  biome_jungle: 11 colours, 14x13, grey 126, flat 11, edge 0.67, detail 0.79
+  biome_badlands: 11 colours, 14x10, grey 133, flat 8, edge 0.67, detail 0.66
+  biome_swamp: 14 colours, 14x13, grey 123, flat 14, edge 0.75, detail 0.66
+  biome_river: 14 colours, 14x11, grey 148, flat 12, edge 0.73, detail 0.71
+  biome_meadow: 10 colours, 14x12, grey 172, flat 12, edge 0.58, detail 0.66
 
 Problems: none

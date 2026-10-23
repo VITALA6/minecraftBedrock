@@ -1,0 +1,37 @@
+# cake (ingredients). Our own cake: a wide round cake with one striped candle and its flame on
+# top and its front-right quarter cut away (the cut face shows sponge and a cream filling),
+# cream frosting running down the front in drips, red berries, golden-brown sponge lit from the
+# left.
+palette
+o #8c7860   # frosting outline
+c #c4b294   # frosting shade, candle shade
+C #e0d2b8   # frosting mid
+L #f0e8d6   # frosting light, candle
+W #faf4e8   # specular, berry shine
+K #54301c   # sponge outline, shadow side
+k #6e3822   # sponge outline, lit side
+D #7e4024   # sponge shadow
+M #9c5530   # sponge mid
+S #b86e3e   # sponge lit
+r #a01828   # berry shade, candle stripe shade
+R #e0303a   # berry, candle stripe
+y #ffd866   # flame core
+O #f08a28   # flame
+Y #d69a60   # crumb on the cut face
+grid
+................
+................
+.......O........
+.......yO.......
+.......Lc.......
+....oooRrooo....
+..ooLLLLcLWRoo..
+.oLLWRLLcLLCCco.
+.oLLRrLWDYSYYSK.
+.kcCCLCrDSYSSYK.
+.kSScMScDCLCCcK.
+.kSMcMSMDYYSYSK.
+.kSSMMSMKKKKKK..
+..kSMSMD........
+...KKKKK........
+................

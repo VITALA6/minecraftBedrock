@@ -1,32 +1,39 @@
 # strawberry_cup (dishes). Hand-drawn: a footed glass dessert coupe (not the shared bowl): wide
 # shallow glass bowl of crushed strawberries under a band of whipped cream, three separate
-# whole strawberries (dark gaps between them, one seed and a leaf each) sitting on
-# the cream, thin stem and a round foot. Goblet silhouette (strawberry_cake is a wide round
-# cake, strawberry_jam a jar).
+# whole strawberries (gaps between them, one seed and a leaf each) sitting on the cream, thin
+# stem and a round foot. Goblet silhouette (strawberry_cake is a wide round cake,
+# strawberry_jam a jar). Glass: dark blue-grey outline, a lit rim line on the left, the
+# crushed fruit seen through it.
 palette
-G #4a9a2c   # leaf
-L #ff74a0   # strawberry, lit
-R #ea4a86   # strawberry
-D #a8266a   # strawberry, shadow
-K #5c1444   # strawberry, deepest (cool plum)
-s #ffe27a   # seeds
-c #fff0e8   # whipped cream band
-g #dcefff   # glass, lit
-e #7a9ec8   # glass, cool shadow
+K #66163f   # strawberry, deepest (cool plum)
+D #8c1c48   # strawberry, shadow
+R #bc2c5a   # strawberry
+r #dc4a70   # strawberry, lit
+L #f06c92   # strawberry, light
+S #ffb8cc   # strawberry specular (paler, not yellower)
+y #f4d27a   # seed
+G #4c9a34   # leaf, lit
+g #2a6430   # leaf, dark
+c #f8e8dc   # whipped cream
+C #e2c4bc   # cream in shade
+E #3e5280   # glass outline
+e #6e8cbc   # glass
+h #a8c4e4   # glass, lit
+H #dceaf8   # glass specular
 grid
 ................
-.......GG.......
-...GG.LRRD.GG...
-..LRRDRsRDLRRD..
-..RsRDRRRDRsRD..
-..KRDDKRDDKRDD..
-.gKKKKKKKKKKKKe.
-.gcccccccccccce.
-..gRRDRRDDDKe...
-...gDDDDDKKe....
-.....geeeee.....
-.......ge.......
-.......ge.......
-.....ggeeee.....
-....geeeeeee....
+.......gG.......
+..gG..DLrD..gG..
+.DLrD.LSrK.DLrD.
+.LSRK.DyRK.LSRK.
+.DyRKcDRKcCDyRK.
+.EDKcccDKccCDKE.
+.EhcccccCccCCCE.
+.EHrRrLrRRrDRKE.
+..EhRrRRDRDDKE..
+...EhDRDDKKKE...
+....EEeeeeEE....
+.......hE.......
+.....EheeeeE....
+....EEEEEEEE....
 ................

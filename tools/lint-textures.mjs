@@ -27,13 +27,22 @@ const S = 16;
 // Calibrated on vanilla 1.26.52 icons (see art-style.md).
 export const LIMITS = {
   minColours: 3,
-  maxColours: 10, // icons; vanilla items mostly use 7-10
+  maxColours: 16, // icons; vanilla items mostly use 7-10, Farmer's Delight 13 (p90 22)
   maxColoursPlant: 8, // crop stages
   minSide: 10,
   maxSide: 15,
   minGreyRange: 80, // icons; vanilla items 63-164, most above 90
   minGreyRangeYoung: 35, // crop stages 0-2; vanilla young crops 37-60
   minGreyRangeMature: 70, // last crop stage; vanilla mature crops 68-97
+  // Surface richness, calibrated on Farmer's Delight + Croptopia items (art-style.md
+  // "Reference study"): their p90 flat patch is 12-14 px, median edge/inner 0.54-0.66,
+  // p10 detail 0.62-0.72.
+  maxFlatPx: 14,
+  maxEdgeVsInner: 0.85,
+  minDetail: 0.62,
+  // UI symbols are clean metal, paper and glyphs: vanilla bucket, map, ingots, paper and compass
+  // score 0.54-0.59. The flat-patch limit still stops flat clip-art.
+  minDetailUi: 0.5,
   similarIou: 0.8,
   similarHue: 20,
 };
@@ -101,6 +110,136 @@ export function analyse(img) {
     box,
     greyRange: Math.round(gMax - gMin),
     orphans,
+    surface: maxX < 0 ? null : metrics(img),
+  };
+}
+
+// ---------------------------------------------------------------------------------------------
+// Surface metrics (art-style.md "Reference study"): what "reads richer" measures as, on opaque
+// pixels, luma 0-255. tools/ref-sheet.mjs reports them for the reference mods too.
+// ---------------------------------------------------------------------------------------------
+
+const luma = (r, g, b) => 0.299 * r + 0.587 * g + 0.114 * b;
+const hueDiff = (a, b) => ((b - a + 540) % 360) - 180;
+
+export function metrics(img) {
+  const at = (x, y) =>
+    x >= 0 && y >= 0 && x < S && y < S && img.px[(y * S + x) * 4 + 3] ? (y * S + x) * 4 : -1;
+  const key = (i) => (img.px[i] << 16) | (img.px[i + 1] << 8) | img.px[i + 2];
+  const L = (i) => luma(img.px[i], img.px[i + 1], img.px[i + 2]);
+  const pts = [];
+  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) if (at(x, y) >= 0) pts.push([x, y]);
+  if (!pts.length) return null;
+  const xs = pts.map((p) => p[0]);
+  const ys = pts.map((p) => p[1]);
+  const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+  const colours = new Map();
+  let pairs = 0;
+  let changes = 0;
+  const edge = [];
+  const inner = [];
+  const lit = []; // luma of edge pixels exposed on the top or left
+  const shaded = []; // ... on the bottom or right
+  for (const [x, y] of pts) {
+    const i = at(x, y);
+    colours.set(key(i), (colours.get(key(i)) ?? 0) + 1);
+    for (const [dx, dy] of [
+      [1, 0],
+      [0, 1],
+    ]) {
+      const j = at(x + dx, y + dy);
+      if (j < 0) continue;
+      pairs++;
+      if (key(i) !== key(j)) changes++;
+    }
+    const open = {
+      t: at(x, y - 1) < 0,
+      l: at(x - 1, y) < 0,
+      b: at(x, y + 1) < 0,
+      r: at(x + 1, y) < 0,
+    };
+    if (open.t || open.l || open.b || open.r) edge.push(L(i));
+    else inner.push(L(i));
+    if ((open.t || open.l) && !(open.b || open.r)) lit.push(L(i));
+    if ((open.b || open.r) && !(open.t || open.l)) shaded.push(L(i));
+  }
+  const mean = (a) => (a.length ? a.reduce((s, v) => s + v, 0) / a.length : NaN);
+  const lumas = pts.map(([x, y]) => L(at(x, y)));
+
+  // Colour families: chromatic colours binned by hue (30°), greys in their own family.
+  const fams = new Map();
+  for (const [k, n] of colours) {
+    const [h, s, l] = hsl(k >> 16, (k >> 8) & 255, k & 255);
+    const fam = s < 0.15 || l < 0.08 ? "grey" : Math.round(h / 30) % 12;
+    if (!fams.has(fam)) fams.set(fam, []);
+    fams.get(fam).push({ h, s, l, n });
+  }
+  const famList = [...fams.entries()]
+    .map(([fam, cs]) => ({ fam, cs, n: cs.reduce((s, c) => s + c.n, 0) }))
+    .sort((a, b) => b.n - a.n);
+  const main = famList.find((f) => f.fam !== "grey") ?? famList[0];
+  const ramp = [...main.cs].sort((a, b) => a.l - b.l);
+  // Hue shift of the main ramp: lightest vs darkest shade. Positive = the highlight sits nearer
+  // yellow (60°) than the shadow does, i.e. warm highlights / cool shadows.
+  const dark = ramp[0];
+  const light = ramp.at(-1);
+  const toYellow = (h) => Math.abs(hueDiff(h, 60));
+  const shift = ramp.length > 1 ? Math.abs(hueDiff(dark.h, light.h)) : 0;
+  const warmth = ramp.length > 1 ? toYellow(dark.h) - toYellow(light.h) : 0;
+
+  // Highlight placement: centroid of the brightest 10% of pixels, in bbox units (-1..1).
+  const sorted = pts.map((p, n) => ({ p, l: lumas[n] })).sort((a, b) => b.l - a.l);
+  const top = sorted.slice(0, Math.max(1, Math.round(pts.length * 0.1)));
+  const cx = (x0 + x1) / 2;
+  const cy = (y0 + y1) / 2;
+  const hx = mean(top.map((t) => (t.p[0] - cx) / Math.max(1, (x1 - x0) / 2)));
+  const hy = mean(top.map((t) => (t.p[1] - cy) / Math.max(1, (y1 - y0) / 2)));
+
+  // Largest 4-connected patch of one colour, as a share of the painted pixels.
+  const seen = new Set();
+  let flat = 0;
+  for (const [x, y] of pts) {
+    if (seen.has(y * S + x)) continue;
+    const k = key(at(x, y));
+    const todo = [[x, y]];
+    let n = 0;
+    seen.add(y * S + x);
+    while (todo.length) {
+      const [px, py] = todo.pop();
+      n++;
+      for (const [nx, ny] of [
+        [px + 1, py],
+        [px - 1, py],
+        [px, py + 1],
+        [px, py - 1],
+      ]) {
+        const j = at(nx, ny);
+        if (j < 0 || seen.has(ny * S + nx) || key(j) !== k) continue;
+        seen.add(ny * S + nx);
+        todo.push([nx, ny]);
+      }
+    }
+    flat = Math.max(flat, n);
+  }
+
+  return {
+    longest: Math.max(x1 - x0, y1 - y0) + 1,
+    flat: flat / pts.length,
+    flatPx: flat,
+    coverage: pts.length / (S * S), // share of the 16×16 canvas that is painted
+    bboxFill: pts.length / ((x1 - x0 + 1) * (y1 - y0 + 1)),
+    colours: colours.size,
+    families: famList.length,
+    mainShades: ramp.length, // shades in the dominant hue family
+    detail: pairs ? changes / pairs : 0, // neighbour pairs that change colour
+    edgeVsInner: mean(edge) / mean(inner), // < 1: the edge is darker than the inside
+    darkEdge: edge.filter((l) => l < 45).length / Math.max(1, edge.length), // near-black edge
+    edgeTLminusBR: mean(lit) - mean(shaded), // > 0: light from the top left on the outline
+    lumaRange: Math.max(...lumas) - Math.min(...lumas),
+    hueShift: shift,
+    warmth,
+    highlight: [hx, hy],
+    sat: mean(pts.map(([x, y]) => hsl(...img.px.subarray(at(x, y), at(x, y) + 3))[1])),
   };
 }
 
@@ -123,6 +262,17 @@ function checks(t) {
         ? LIMITS.minGreyRangeMature
         : LIMITS.minGreyRangeYoung;
   if (a.greyRange < minGrey) fails.push(`grayscale range ${a.greyRange} (want >= ${minGrey})`);
+  const m = a.surface;
+  if (t.profile === "icon" && m) {
+    if (m.flatPx > LIMITS.maxFlatPx)
+      fails.push(`flat patch of ${m.flatPx} px in one colour (want <= ${LIMITS.maxFlatPx})`);
+    if (m.edgeVsInner > LIMITS.maxEdgeVsInner)
+      fails.push(
+        `edge/inner brightness ${m.edgeVsInner.toFixed(2)} (want <= ${LIMITS.maxEdgeVsInner}: a darker edge)`,
+      );
+    const minDetail = t.folder === "ui" ? LIMITS.minDetailUi : LIMITS.minDetail;
+    if (m.detail < minDetail) fails.push(`detail ${m.detail.toFixed(2)} (want >= ${minDetail})`);
+  }
   return fails;
 }
 
@@ -199,8 +349,20 @@ function similarPairs(icons) {
 }
 
 /** Checks one icon image as the full lint would (pixels.mjs --preview). */
+/** The last stage of a crop is its mature look. */
+const isMature = (sprite) => {
+  const stage = /^(.*)_stage_(\d+)$/.exec(sprite.name);
+  return (
+    !!stage &&
+    !SPRITES.some(
+      (o) => o.folder === sprite.folder && o.name === `${stage[1]}_stage_${+stage[2] + 1}`,
+    )
+  );
+};
+
 export function lintOne(sprite, img) {
-  const t = { ...sprite, img, profile: profileOf(sprite.folder, sprite.name), mature: true };
+  const t = { ...sprite, img, profile: profileOf(sprite.folder, sprite.name) };
+  t.mature = isMature(t);
   t.stats = analyse(img);
   return { stats: t.stats, fails: checks(t) };
 }
@@ -338,7 +500,7 @@ export function drawText(cv, x, y, text, rgb = INK) {
 }
 
 /** Splits a snake_case name into label lines of at most `max` characters. */
-function labelLines(name, max = LABEL_CHARS) {
+export function labelLines(name, max = LABEL_CHARS) {
   const lines = [];
   let line = "";
   for (let word of name.split("_")) {
@@ -442,13 +604,7 @@ function main() {
     }
     const img = decodePng(readFileSync(file));
     const t = { ...sprite, img, profile: profileOf(sprite.folder, sprite.name), pairs: [] };
-    // The last stage of a crop is its mature look.
-    const stage = /^(.*)_stage_(\d+)$/.exec(sprite.name);
-    t.mature =
-      !!stage &&
-      !SPRITES.some(
-        (o) => o.folder === sprite.folder && o.name === `${stage[1]}_stage_${+stage[2] + 1}`,
-      );
+    t.mature = isMature(sprite);
     if (!img || img.w !== S || img.h !== S) t.fails = ["not a decodable 16x16 PNG"];
     else {
       t.stats = analyse(img);
@@ -498,9 +654,11 @@ function main() {
     "",
     ...groups.map((g) => `${g.title}: ${g.items.map((t) => t.name).join(", ")}`),
     "",
-    "Per icon: colours, bounding box, grayscale range.",
+    "Per icon: colours, bounding box, grayscale range, largest flat patch, edge/inner, detail.",
     ...icons.map(
-      (t) => `  ${t.name}: ${t.stats.colours} colours, ${t.stats.box}, grey ${t.stats.greyRange}`,
+      ({ name, stats: a }) =>
+        `  ${name}: ${a.colours} colours, ${a.box}, grey ${a.greyRange}, flat ${a.surface.flatPx}, ` +
+        `edge ${a.surface.edgeVsInner.toFixed(2)}, detail ${a.surface.detail.toFixed(2)}`,
     ),
     "",
     lines.length ? "Problems:" : "Problems: none",

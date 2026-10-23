@@ -1,33 +1,38 @@
 # guide_book (stations). Hand-drawn: the Kitchen Guide, a closed book seen from the front: a red
-# leather cover (brown made it a twin of the crafting table icon) with a lit spine and a dark
-# crease down its left side, cream page edges showing below and to the right (the page block sits
-# one pixel down-right of the cover), and a carrot on the cover (the item it's crafted from),
-# lying on the diagonal with its leaves top right. Light from the top left.
+# leather cover (brown made it a twin of the crafting table icon) lit toward the top left, with a
+# lit spine ridge and a dark crease down its left side, cream page edges (with page lines and a
+# dark outline) showing below and to the right (the page block sits one pixel down-right of the
+# cover), and a carrot on the cover (the item it's crafted from), lying on the diagonal with its
+# leaves top right. Light from the top left; every outer edge is darker than the cover.
 palette
-H beet.3      # lit spine and top edge
-S beet.0      # spine crease, cover shadow edges
-C beet.1      # cover
-P cream.2     # page edges, right
-p cream.0     # page edges, bottom
-O carrot.3    # carrot
-o carrot.2    # carrot shadow and tip
+o #4e1420     # cover outline, crease
+S #74202e     # cover edge, lit side; cover shadow
+T #862432     # top edge
+C #962a36     # cover
+c #b23a42     # cover, lit
+H #cc5a5c     # spine ridge
+P #efe0c0     # page edges
+p #cdb890     # page lines
+q #3a2c1e     # page block outline (the darkest edge, bottom right)
 Y carrot.4    # carrot highlight
+O carrot.3    # carrot
+R carrot.2    # carrot shadow and tip
 G leaf.4      # carrot leaves
 g leaf.2      # carrot leaf shadow
 grid
 ................
-..HSHHHHHHHHS...
-..HSHCCCCCCCSP..
-..HSHCCCCCCCSP..
-..HSHCCCCGCGSP..
-..HSHCCCCCgCSP..
-..HSHCCCYOgCSP..
-..HSHCCYOOoCSP..
-..HSHCCOOoCCSP..
-..HSHCYOoCCCSP..
-..HSHCOoCCCCSP..
-..HSHooCCCCCSP..
-..HSHCCCCCCCSP..
-..SSSSSSSSSSSp..
-...ppppppppppp..
+..TTTTTTTTTT....
+..SHoccccCcSPq..
+..SHocCccCgSPq..
+..ScSccCCGgSpq..
+..SHocCCYOCSPq..
+..SHocCYORCSPq..
+..SHoCOORCCSpq..
+..SHoCORCcCSPq..
+..ScSORCSCCSPq..
+..SHoRCSCSCSpq..
+..SoSooooooSPq..
+...PPpPPPpPPPq..
+...qqqqqqqqqq...
+................
 ................

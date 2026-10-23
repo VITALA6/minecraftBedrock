@@ -1,30 +1,38 @@
-# chicken_soup_mix: raw chicken pieces, carrot rounds and onion in the shared bowl; a raw
-# drumstick lies in front of the bowl, bone to the right (the bottom front is its place); spoon top right.
+# chicken_soup_mix: raw chicken pieces (pink, lit and shaded), carrot rounds and onion in the
+# shared bowl (dark inside shows); a short raw drumstick leans against the front of the bowl: a
+# 4x3 meat bulb out past the lower right, a thin bone rising to a 2x2 knuckle on the lip (the
+# bottom front is its place, angled so it is not parallel to the foot); the spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-q #a0564c    # raw chicken shadow
-m #e89c8a    # raw chicken
-w #fcc6b2    # raw chicken light
-B #f0ead8    # bone
-c carrot.3
-o onion_flesh.4
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+q #8e4044   # raw chicken, shaded
+m #e09088   # raw chicken
+w #f6c0b6   # raw chicken, lit
+B #e4dac2   # bone
+k #948670   # bone shadow
+c #e88028   # carrot round
+o #eee4d4   # onion
 grid
 ................
-.............S..
-............SD..
-...........SD...
-..........SD....
-.....DDDDSD.....
-...DDmwDSDocDD..
-..DcDqmDcDwmDD..
-..LoDDDmqDqoDD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-.....wwmDD..B...
-....wwmmmqBBB...
-.....qqq....B...
+.............78.
+............789.
+...........89...
+..........89....
+.........89.....
+....22228922....
+..2mq3389co521..
+.21wmq2oc3mq431.
+.2566655BB54431.
+..255444kBB331..
+...24533434kBmm.
+.....243321mwwmq
+....21221111mmmq
+............qqq.
 ................

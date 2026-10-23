@@ -1,30 +1,38 @@
-# eggplant_curry_mix: raw eggplant cubes, chili, onion and potato bits in the shared bowl; a whole
-# eggplant lies on the back-left rim, cap pointing out to the left (the back left is its place); spoon top right.
+# eggplant_curry_mix: raw eggplant cubes (pale flesh, purple skin), chili and onion bits in the
+# shared bowl (dark inside shows); a whole eggplant lies along the back-left rim, its green cap
+# pointing out to the left (the back left is its place, a long bar where the tomato mix has a
+# ball), glossy on top; the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-d #3a1c5e    # eggplant shadow
-m #5a2a82    # eggplant body
-h #c87cc8    # eggplant gloss
-G leaf.4
-o onion_flesh.4
-r #da341c    # chili
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+d #3a1c5e   # eggplant, shadow
+m #5e2c8a   # eggplant
+l #8a4cb8   # eggplant, lit
+h #c690e0   # eggplant gloss
+G #2e6428   # cap
+f #ece0c4   # eggplant flesh / onion
+r #d8302a   # chili bit
 grid
 ................
-...hhm.......S..
-.Ghhmmmd....SD..
-GGmmmmmddd.SD...
-.Gdmmmmdd.SD....
-...dddDDDSD.....
-...DDomDSrDDD...
-..DomDrDDoomDD..
-..LDromDomDrDD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+.............78.
+............789.
+...........89...
+...mmmm...89....
+GGmlhllm.89.....
+.GGdmmld8922....
+..dddd3894rf21..
+.21mfd2fr3fmd31.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

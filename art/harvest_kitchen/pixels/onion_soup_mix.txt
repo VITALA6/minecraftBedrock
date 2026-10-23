@@ -1,30 +1,37 @@
-# onion_soup_mix: raw onion rings and bread cubes in the shared bowl; a whole onion sits in front
-# of the bowl's lower left, roots down (the bottom left is its place); mix spoon top right.
+# onion_soup_mix: raw onion rings and bread cubes (light crumb top, brown crust side) in the
+# shared bowl (dark inside shows); a whole onion sits in front of the bowl's lower left, pointed
+# top up and roots down (the bottom left is its place); the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-k #93491a    # onion skin shadow
-m #c97e2a    # onion skin
-l #e6a845    # lit skin
-h #f8d67c    # highlight / bread crumb
-o onion_flesh.4
-b bread.2    # bread crust
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+K #6e3814   # onion outline, shadow side
+k #9a561e   # onion outline, lit side / bread crust
+m #d49a3a   # onion skin
+l #ecc060   # onion skin, lit
+h #f8dc98   # onion highlight
+o #f0e6d2   # onion flesh / roots
+b #eecb8a   # bread crumb
 grid
 ................
-.............S..
-............SD..
-...........SD...
-..........SD....
-.....DDDDSD.....
-...DDooDShbDD...
-..DhbDoDoDooDD..
-..lDDooDhbDDoD..
-..lkLLLLLLLLMD..
-.hlmkMMMMMMMD...
-lhmmkMMMMMMD....
-llmkk.DDDD......
-.mkk............
-.o.o............
+.............78.
+............789.
+...........89...
+..........89....
+.........89.....
+....22228922....
+..k2bk3894oK21..
+.klK1oK22bk4431.
+klhmK6555454431.
+kllmK444434331..
+kmlmK53343231...
+.KmKK243321.....
+..KK21221111....
+..K.K...........
 ................

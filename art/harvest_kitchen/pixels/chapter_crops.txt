@@ -1,31 +1,33 @@
-# chapter_crops (ui). Recipe-book chapter "Crops": a sprout growing out of a soil mound. Two full
-# leaves in a V (the right one larger), lit on their upper faces with a warm yellow-green tip,
-# cool dark undersides; a 2 px stem (lit left, shadow right); the mound is light on its top-left
-# slope and dark at the base.
+# chapter_crops (ui). Recipe-book chapter "Crops": a sprout growing out of a soil mound. Two
+# leaves on a 45-degree diagonal (the right one larger, reaching the top-right corner), each with a
+# pale midrib, a lit upper side and a dark lower side; a 2 px stem (lit left, shadow right); a
+# lumpy mound of clods, each lit on its top left, darkest along the base.
 palette
-f dirt.0
-d leaf.1
-c leaf.2
-i dirt.1
-a leaf.3
-e dirt.2
-b leaf.4
-g dirt.3
-h #b9dc55
+0 #143d1a
+1 #205b24
+2 #2c772c
+3 #3b9d34
+4 #52c341
+5 #82d56d
+a dirt.3
+b dirt.2
+c dirt.1
+d dirt.0
+e #362317
 grid
 ................
-...........hbb..
-..hb......hbbac.
-.hbba....hbbacd.
-.abbaa..hbaacd..
-..aaacc.bacdd...
-...ddccacdd.....
-.....dcad.......
-......ca........
-......cd........
-.....gcdge......
-...gggcdeeeei...
-..ggeeeeeeeiii..
-.geeeeeeeiiiiff.
-.ffffffffffffff.
+.............31.
+..........34451.
+..3......344520.
+..2543..344520..
+..12543.345210..
+..01253.35210...
+...012531210....
+.....0131.......
+.......31.......
+.......31.......
+......b31c......
+...bbbaacaccc...
+..baababbcbccd..
+.ddeddedeedeeee.
 ................

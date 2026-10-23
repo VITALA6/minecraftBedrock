@@ -63,6 +63,10 @@ tools/
   pixels.mjs       pixel grids -> PNG; --preview <name> (8× next to vanilla, lint), --export
   lint-textures.mjs checks generated/ against docs/harvest-kitchen/art-style.md, writes
                    generated/review_sheet.png
+  ref-sheet.mjs    reference study vs Farmer's Delight/Croptopia/Create (gitignored
+                   art/references/mods/, setup in art/references/README.md): sheets + metrics,
+                   --originality (each icon vs its closest references), --compare <ref>
+                   (before/after sheet -> generated/before_after.png)
   gen-pot-block.mjs  writes the cooking pot block JSON (liquid colour permutations)
   gen-posters.mjs    renders recipe poster textures (64 px per block, 2 blocks wide)
   gen-poster-block.mjs writes the recipe poster block JSON (permutations per poster/facing/half)

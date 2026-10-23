@@ -1,0 +1,36 @@
+# crafting_table (ingredients). Our own crafting table: an isometric oak block (the same cube as
+# farmland), the top crossed by near-black grid lines running out to its edges, a lit edge where
+# the top meets the left face, a saw on the left face (one step darker than the top) and a hammer
+# on the shadowed right face, plank seams on both.
+palette
+K #2e220c   # outline, shadow side
+k #4e3a18   # outline, lit side
+G #2a1e0a   # grid lines on the top (near outline dark)
+i #5c4620   # right side seam, tool handles
+n #604a24   # right side under the lip
+e #70572c   # right side
+s #7c6030   # left plank seam
+d #92723a   # left side
+m #a07e44   # right front lip
+c #b48e4c   # oak mid (top)
+b #c9a15c   # oak light (top)
+W #dcb778   # lit edge between the top and the left face
+J #74747e   # iron, dark
+I #b8b8c0   # iron, light
+grid
+................
+.......kk.......
+.....kkbckk.....
+...kkbcGGbckk...
+.kkbcGGbcGGbckk.
+.kWGGbcGGbcGGnK.
+.kdWWGGbcGGnneK.
+.kiIdWWWmnneeeK.
+.kiIIddWnJIJeiK.
+.kdIIsddeeiieeK.
+.kdJJssdeeieeeK.
+.KKddddsieieeKK.
+...KKdddeeeKK...
+.....KKdeKK.....
+.......KK.......
+................

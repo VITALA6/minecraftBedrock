@@ -1,0 +1,31 @@
+# campfire (ingredients). Our own campfire: two split logs crossed in an X with pale cut ends,
+# a two-tongued flame rising from where they cross, a hot pale core, glowing embers between.
+palette
+o #a82c0c   # flame outline (dark red-orange)
+f #e05a14   # flame outer
+y #f49428   # flame mid
+Y #fac84c   # flame inner
+w #fce6a4   # flame core
+K #3a2614   # log outline, shadow side
+k #4a301a   # log outline, lit side
+B #6a4626   # bark
+b #8c6236   # bark lit
+r #c49a62   # cut end, rings
+R #e0bc84   # cut end, light
+grid
+................
+.......o........
+......of...o....
+......ofo.of....
+.....ofyfoyo....
+.....fyYyfyfo...
+....ofyYwYyYf...
+....fyYwwYYyfo..
+.RbbofYwwYyybbR.
+.rBBbbbffbbbBBr.
+.KKKBBbbbBBBKKK.
+...kbbBBBBbbk...
+.RbBBBKKKKBBBbR.
+.rBKKK....KKKBr.
+.KK..........KK.
+................

@@ -1,0 +1,37 @@
+# biome_river (biomes). River: a grassy field strip (the "ground + feature" layout of the other
+# biomes) with a blue channel meandering through it, rising and falling a pixel across the
+# columns and narrowing in two places. The far bank shows its dirt face over a dark strip of shade
+# on the water, pale crests run with the current, the near bank has a sandy, irregular edge, and
+# the strip ends in a soil front.
+palette
+1 #264a7e
+2 #2f67a7
+3 #3f8acf
+5 #a4d2ef
+a #244d1a
+b #396d26
+c #518f32
+e #6cb43c
+f #8bc954
+d #7f5a3d
+D #61422e
+N #462e20
+s #c5ae77
+S #a48551
+grid
+................
+................
+................
+................
+..ccbcccbccbcc..
+.cefeffefeefeca.
+.cffDdDDffefDda.
+.dDD1111DdDD112.
+.11153331111332.
+.13522223553222.
+.222ssSs2222SsS.
+.csSefeesSssfea.
+.dddDdddDdddDdd.
+.DDDDdDDDDdDDDD.
+..NNNNNNNNNNNN..
+................

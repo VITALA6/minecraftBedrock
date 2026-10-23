@@ -1,0 +1,34 @@
+# biome_plains (biomes). Plains: a flat strip of open grassland seen from slightly above. Tall
+# grass blades of different heights (lit left, dark right), one dandelion standing out, a lit
+# grass top with tufts in light/shadow clusters, and a dirt edge along the front. Wide and low, so
+# it reads as "flat and open" next to the tree biomes.
+palette
+0 #244d1a
+1 #396d26
+2 #518f32
+3 #6cb43c
+4 #8bc954
+5 #a8d978
+y flower_yellow.2
+Y flower_yellow.-1
+a #a0724b
+b #7f5a3d
+c #61422e
+d #462e20
+grid
+................
+................
+................
+................
+..........Y.....
+...2.....YyY....
+..32..2...2..3..
+..21..32..2.432.
+.321.3212.1.321.
+.12211221212211.
+.24354435443541.
+.13424342434321.
+.1baabbabaabbbc.
+.dcbccbcccbcccd.
+..dddddddddddd..
+................

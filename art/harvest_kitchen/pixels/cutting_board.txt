@@ -1,31 +1,37 @@
 # cutting_board (stations). Hand-drawn: a wooden chopping board seen from above, lying on the
 # diagonal (bottom-left -> top-right) with a hanging tab and hole at the top-right end, 1 px of
 # board thickness showing along the bottom edges, and a kitchen knife resting along its upper
-# half (light steel blade, dark wooden handle at the bottom-left); grain lines on the free half.
-# Light from the top left.
+# half (steel blade: a clean highlight line, a mid band and a dark spine; an iron bolster; a
+# dark wooden handle at the bottom-left). Oak grain runs along the board as 2-3 px streaks.
+# Light from the top left; every outer edge is darker than the face.
 palette
-A wood.4      # lit top edges
+e wood.2      # lit edges (top-left)
+k wood.1      # shadow edges, front face
+c wood.0      # front face shadow, tab hole rim
+f #9c7c46     # grain streaks
 a wood.3      # board face
-f wood.2      # board face, shadow edge
-c wood.0      # board thickness (side)
-I iron.4      # blade spine, lit
-i iron.2      # blade edge
-k bark.1      # knife handle
-j bark.0      # knife handle shadow
+A wood.4      # board face, lit; front bevel
+j iron.1      # blade spine
+I iron.4      # blade highlight line
+i iron.3      # blade edge
+h iron.2      # bolster
+L bark.2      # handle, lit
+K bark.1      # handle
+J bark.0      # handle shadow
 grid
 ................
-............AAa.
-............A.f.
-........AA..aff.
-.......AaaaAfcc.
-......AaaIaf....
-.....AaaIiaaf...
-....AaaIiaafaf..
-...AaaIiaafaac..
-..AaaIiaaaaac...
-.Aaakjafaaac....
-.cakjafaaac.....
-..kjaaaaac......
-...caaaac.......
+............eek.
+............e.k.
+........ee..akk.
+.......eAaaeakc.
+......eAaIak....
+.....eAaIijak...
+....eAaIijafak..
+...eAaIijafakc..
+..eAahhaafakc...
+.eaLKJaafakc....
+.kLKJaafakc.....
+..KJAafakc......
+...kaaakc.......
 ....cccc........
 ................

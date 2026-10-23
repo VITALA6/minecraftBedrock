@@ -1,0 +1,33 @@
+# biome_forest (biomes). Forest: two oaks, the smaller one in front on the left. Round canopies
+# built from leaf clusters, each lit on its top left (dark outline, lit side one step lighter),
+# brown trunks lit on the left, on a strip of grass with a dark soil edge.
+palette
+0 #143919
+1 #1e5222
+2 #2b6e2b
+3 #3c8c36
+4 #4eab3f
+5 #6bc355
+t #997648
+T #584028
+h #8bc954
+i #6cb43c
+j #396d26
+d #462e20
+grid
+................
+.........1110...
+........145430..
+..1110.14543320.
+.14543013432430.
+.14533202324530.
+.13424301234320.
+.1232320121210..
+.012110..0tT0...
+..0000....tT....
+...tT.....tT....
+...tT.....tT....
+.hhtTihhiitTihh.
+.jTjjTjTjjTjjTj.
+..dddddddddddd..
+................

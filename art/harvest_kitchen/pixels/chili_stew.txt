@@ -1,31 +1,38 @@
-# chili_stew: deep red-brown chili level with the rim: kidney beans (dark 2x1, warm glint top
-# left) and beef pieces (2x2, lit top left); a big red chili pepper stands out of it toward the
-# top right, lit along its top edge with a darker underside and a green stem.
+# chili_stew: deep red-brown chili filled just over the rim: kidney beans (dark, with a lit
+# pixel) and beef chunks (lit top, shaded side) in a four-shade sauce; a whole red chili pepper
+# is stuck in tip first, leaning out toward the top right with its green cap on top; a dark ring
+# marks where the chili meets the back of the bowl.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-X #5a1a10   # sauce shadow / beans
-S #8e2e1a   # sauce / pepper underside
-l #c04a2a   # sauce light / bean and beef glint (warm)
-B #8a5a3a   # beef
-r #d82020   # pepper
-H #ff6a48   # pepper highlight
-G #4a8f28   # stem
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+X #502212   # sauce shadow / ring at the back
+S #823818   # sauce shade / pepper underside
+M #ac5024   # sauce
+l #cc743a   # sauce, lit / bean glint
+K #5c1c1a   # kidney bean
+b #b07a56   # beef, lit
+B #7a4a34   # beef, shaded
+r #d42e22   # pepper
+H #f07258   # pepper highlight
+G #4a8f28   # pepper cap
 grid
-..............G.
-..........HHrrG.
-.........HrrrS..
-.........HrrS...
-........HrrSS...
-.....DDHrSD.....
-...DDlXSSlBDD...
-..DlBSSlXBXSXD..
-..LBXSlXSSlXXD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
 ................
+................
+............GGG.
+..........HHrrS.
+........HrrrrSS.
+....XXXHrSSS....
+..XSlXlSrSMlXX..
+..2lMlKlMSlBS1..
+.2MlKSMMlKbBSX1.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

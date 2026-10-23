@@ -1,28 +1,32 @@
 # family_work (ui). Work family: a golden pickaxe, handle bottom left to head top right (vanilla
-# layout), with a thick head so the yellow dominates. Dark bark handle.
+# layout). The head is a thick crescent: lit top arm with the specular left of centre, the right
+# arm stepping down into shadow, inner edges dark. One gold ramp (shadows lean orange-brown,
+# highlights paler cream, not greener); a two-tone bark handle (lit left, dark right).
 palette
-o family_work.0
-s family_work.1
-m family_work.2
-l family_work.3
-w family_work.4
-L bark.3
-M bark.2
-D bark.1
+0 #603510
+1 #8b5313
+2 #be7a13
+3 #f0a714
+4 #f7c23b
+5 #fbd774
+6 #feebb9
+a bark.3
+b bark.2
+c bark.1
 grid
 ................
-......lllllm....
-....lwwwllmms...
-...lmssssmmmmo..
-..ms.......mmso.
-.........LMDmso.
-........LMD.mso.
-.......LMD..mso.
-......LMD...mso.
-.....LMD....mso.
-....LMD.....mo..
-...LMD......mo..
-..LMD......so...
-.LMD.......o....
-.MD.............
+......111110....
+....114555440...
+..114565430340..
+.143111111.a440.
+.130......ab430.
+.10......ab3430.
+........ab.1420.
+.......ab..1330.
+......ab...1320.
+.....ab....120..
+....ab.....120..
+...ab.....120...
+..ab.....1220...
+.bc......100....
 ................

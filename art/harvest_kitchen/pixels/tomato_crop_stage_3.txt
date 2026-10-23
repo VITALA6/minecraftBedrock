@@ -1,0 +1,28 @@
+# tomato_crop_stage_3: a staked vine. The stem winds around a pale stake up to the top row,
+# compound leaves stick out in loose clusters, ripe tomatoes (item ramp) hang off both sides.
+palette
+d #1f4d2a   # vine, leaf shadow
+m #3a7f2c   # leaf
+l #6aab2d   # lit leaf
+s #b08a52   # stake
+D #b0182c   # tomato shadow
+R #e61f2c   # tomato
+h #f45a55   # tomato lit
+w #ffacb5   # specular
+grid
+.......lm.......
+......lmmd.lm...
+....lm.dsdlmmd..
+...lmmd.sd.mdd..
+...mdd.ds..d....
+..lm..ddsmlm....
+.lmmdmd.slmmmd..
+..mddhR.sd.ddd..
+...dhwRDs..d.hR.
+lm.dRRRDsd..hwRD
+mmd..DD.slm.RRRD
+.dddlm.dslmmdDD.
+..dlmmddsmdd....
+...ddhRds.d.....
+....hwRDsd......
+.....DD.sd......

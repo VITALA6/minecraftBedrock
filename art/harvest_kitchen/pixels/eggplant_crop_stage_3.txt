@@ -1,0 +1,27 @@
+# eggplant_crop_stage_3: a sturdy bush on dark purple stems, broad dusty leaves up to the top,
+# a violet flower, two glossy eggplants (item ramp) drooping under green caps.
+palette
+d #2a4a30   # leaf shadow
+m #4a7548   # leaf, cap
+l #7a9e68   # lit leaf
+D #3e205c   # stem, fruit shadow
+M #6f378f   # fruit
+L #a45fbd   # lit fruit
+H #cd9fdb   # gloss, flower
+grid
+..........lm....
+...lm....lmmmd..
+..lmmmd.lmmmmd..
+..mmdmdDmmmdd...
+...dd..D.dd.....
+.lmm...D.HH.....
+lmmmd.DD..D.....
+.dd.DD..DDDlmm..
+..mlm...D.lmmmmd
+..LMD...Dmlmdd..
+.LHMD...D.LD....
+.LHMMD.D.LHMD...
+.LMMMD.D.LMMD...
+..MMDD.D..MMD.lm
+...DD.lmD..D.lmd
+.......D.....dd.

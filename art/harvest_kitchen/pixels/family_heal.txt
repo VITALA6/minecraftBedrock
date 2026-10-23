@@ -1,25 +1,29 @@
-# family_heal (ui). Heal family: a red heart. Light from the top left (glint on the left lobe),
-# shadow along the bottom-right edge. Same 14x12 footprint as the other family icons.
+# family_heal (ui). Heal family: a red heart. Light from the top left: each lobe is a small sphere
+# (the left one carries the specular with a pale band round it), the body shades in slanted bands
+# toward the bottom-right point. Outline from the darkest two shades (lit top/left one step lighter
+# than the shadow side). Same 14x12 footprint as the other family icons.
 palette
-b family_heal.0
-d family_heal.1
-a family_heal.2
-e family_heal.3
-c family_heal.4
+0 #5f1116
+1 #8c171b
+2 #bb1b1b
+3 #e42b25
+4 #ec5b51
+5 #ed8682
+6 #f6c4c2
 grid
 ................
 ................
-..dddd....dddd..
-.daccad..daeaab.
-.daceaaddaaaaab.
-.deaaaaaaaaaadb.
-.daaaaaaaaaaadb.
-.daaaaaaaaaaddb.
-..daaaaaaaaddb..
-...daaaaaaddb...
-....daaaaddb....
-.....daaddb.....
-......dddb......
-.......bb.......
+..1111....1110..
+.145540..154320.
+.14654311443320.
+.14544324433220.
+.14543324332210.
+.14433243323110.
+..143324322110..
+...1432432110...
+....13243210....
+.....132310.....
+......1210......
+.......10.......
 ................
 ................

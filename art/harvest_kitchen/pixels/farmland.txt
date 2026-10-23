@@ -1,0 +1,36 @@
+# farmland (ingredients). Our own farmland: an isometric block of tilled soil, one row lower than
+# the crafting table cube (farmland is 15/16 of a block), the top ploughed into rows running
+# back-left to front-right (lit ridge crests, dark wet furrows), two green sprouts standing in the
+# furrows at the back and poking above the block, plain dirt sides with a few clods, lit on the
+# left. Warm red-brown soil (~17°) keeps it apart from the oak crafting table (~38°).
+palette
+K #1e110c   # outline, shadow side
+k #2f1c14   # outline, lit side
+F #24140d   # furrow, wet
+n #3a2218   # right side, under the lip
+d #523023   # right side dirt
+m #553326   # left side, under the lip; dark clods
+q #684030   # right side clods
+R #7e4934   # ridge
+l #84503c   # left side dirt
+r #a8684f   # ridge, lit
+p #96604a   # left side clods
+g #3a7f2c   # sprout stem / dark leaf
+G #6aab2d   # sprout leaf, lit
+grid
+................
+.........G.G....
+....G.Gkk.g.....
+.....gkFRkg.....
+...kkgrRFgRkk...
+.kkRFgRrrRFFRkk.
+.kmrrRFFRrrRFnK.
+.klmmrrRFFRnndK.
+.klllmmrrnndqqK.
+.klppllmndnnddK.
+.kllllmmddddqqK.
+.KKlppllddqqdKK.
+...KKlmldddKK...
+.....KKldKK.....
+.......KK.......
+................

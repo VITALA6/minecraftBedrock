@@ -1,29 +1,38 @@
-# fish_chowder_mix: raw cod chunks and potato cubes in the shared bowl (dark inside shows); the
-# cod's forked tail fin sticks straight up out of the middle (top centre is its place); spoon top right.
+# fish_chowder_mix: raw cod chunks (white flesh, tan shadow) and potato cubes in the shared bowl
+# (dark inside shows); the cod's forked tail fin sticks straight up out of the middle (top centre
+# is its place) in the cod item's tan ramp (pixels/cod.txt), lit on the left lobe, with at least
+# 1 px of gap from the grey spoon; the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-F #3a5276    # cod skin shadow (cool blue-grey)
-f #7f9cc0    # cod skin
-w #dbe6f0    # cod flesh / lit fin
-P #d9aa51    # potato side
-y #f8d086    # potato top
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+K #4a3220   # fin outline, shadow side (cod.txt)
+k #6a4a2c   # fin outline, lit side (cod.txt)
+M #ad8a5e   # fin / flesh shadow (cod.txt)
+H #dcc092   # fin, lit (cod.txt)
+w #f2ece0   # cod flesh
+y #f2d68a   # potato
+P #c49c4c   # potato, shaded
 grid
 ................
-....wf.fF....S..
-....wwffF...SD..
-.....wfF...SD...
-......wF..SD....
-.....DwFDSD.....
-...DDfwfSwfDD...
-..DDyPFDDfDyPD..
-..LwfDyPDwfDDD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+.............78.
+..kk....kK..789.
+..kHHMMMK..89...
+...kHMMK..89....
+....kMK..89.....
+....2kK28922....
+..2yP3w89MwM21..
+.21yPwM2wMyP431.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

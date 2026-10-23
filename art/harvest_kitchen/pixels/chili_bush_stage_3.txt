@@ -1,0 +1,27 @@
+# chili_bush_stage_3: an upright, forked bush with narrow glossy leaves up to the top row and
+# slim red pods (item ramp) hanging under the canopy, open in the middle.
+palette
+d #22502a   # stems, leaf shadow
+m #3f8a34   # leaf
+l #78c043   # lit leaf
+D #ac1717   # pod shadow
+M #e93b23   # pod
+L #fb765c   # lit pod
+H #ffa89a   # pod gloss
+grid
+.....lm...lm....
+..lm.mmd.lmmd...
+.lmmd..dd.mdd.lm
+..dd.lm.d..d.lmd
+....lmmdd.d.dd..
+.lm..dd.d.d.....
+lmmdd...d..d.lm.
+.dLM..d.d.lmmmd.
+..HD.d..d..dLM..
+..MD.LM.d.lm.HD.
+..M..HD.dlmmdMD.
+...D.MD.dmdd..M.
+.....M..d.....D.
+......D.d.lm....
+.......ddmd.....
+.......dd.......

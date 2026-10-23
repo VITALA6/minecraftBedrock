@@ -1,0 +1,33 @@
+# biome_cherry_grove (biomes). Cherry grove: one wide pink blossom tree, a broad umbrella canopy of
+# blossom clusters (each lit top left, dark outline, lit side one step lighter) with two lobes
+# hanging either side of a dark plum trunk, fallen petals on the grass below.
+palette
+0 #6b2e4a
+1 #993864
+2 #c8467f
+3 #df6d9a
+4 #ef95b6
+5 #f9bdd1
+t #6c4249
+T #432d32
+h #8bc954
+i #6cb43c
+j #396d26
+d #462e20
+grid
+................
+......1110......
+....11454310....
+..114554344310..
+.14554324543310.
+.14432345543210.
+.13421345433210.
+..013212432110..
+...0110tT0110...
+...0000tT0000...
+.......tT.......
+.......tT.......
+..hh4hitTih4hh..
+..jTjjTjjTjjTj..
+...dddddddddd...
+................

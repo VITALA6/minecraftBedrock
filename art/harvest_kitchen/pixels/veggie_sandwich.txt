@@ -1,31 +1,35 @@
 # veggie_sandwich (dishes). Hand-drawn: a triangle sandwich half lying flat, seen from the front:
-# the white top slice is a wedge rising to the back right (crust on its two back edges), and the
-# cut face in front shows the layers: crumb, cucumber slices (pale flesh, dark skin between
-# slices), tomato, crumb. White bread, a wedge silhouette (hearty_sandwich is a long golden sub
-# with a pick).
+# the white top slice is a wedge rising to the back right (crust on its two back edges, darker
+# to the right), its crumb broken by pores, and the cut face in front shows the layers: crumb,
+# cucumber slices (pale flesh with seeds, dark skin between slices), tomato, crumb. White bread,
+# a wedge silhouette (hearty_sandwich is a long golden sub with a pick).
 palette
-B #d39a3c   # crust, lit
-b #7a4a1c   # crust, shadow
-C #fff4d6   # crumb, lit (top face)
-c #dcc596   # crumb in shade (cut face)
-G #b4e07a   # cucumber flesh, warm light
-g #3f7a32   # cucumber skin, cool shadow
-T #f03a3a   # tomato, lit
-t #a81838   # tomato, cool shadow
+o #6a3e1c   # crust, darkest (right and bottom edge)
+b #94602a   # crust
+B #c08a40   # crust, lit (back edge)
+k #d8bc88   # crumb pores, cut face shade
+c #ead6aa   # crumb
+C #f6e8c8   # crumb, lit
+g #2e6a2e   # cucumber skin
+G #8cc260   # cucumber flesh
+v #c8e69a   # cucumber flesh, light seeds
+t #a01c34   # tomato, cool shadow
+T #dc3438   # tomato
+R #f8706a   # tomato, lit
 grid
 ................
 ................
-............BB..
-..........BBCb..
-........BBCCCb..
-......BBCCCCcCb.
-....BBCCCCCCcCb.
-..BBCCCCCCCCCcb.
-.BCCCCCCCCCCCcb.
-.cccccccccccccb.
-.GGGgGGGgGGGgGg.
-.TTTTTTTTTTTTtt.
-.cccccccccccccb.
-..bbbbbbbbbbbb..
+............Bb..
+..........BBCbo.
+........BBCcCbo.
+......BBCCkccbo.
+....BBCcCcckcbo.
+..BBCCkcCccckbo.
+.BCccCckcckckbo.
+.bkckkckkckkkbo.
+.gGvgGvgGvgGvgo.
+.tRTTtRTTtRTTto.
+.bckcckcckckkbo.
+..bbbbbbbbbbbo..
 ................
 ................

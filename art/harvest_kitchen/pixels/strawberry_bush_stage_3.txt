@@ -1,0 +1,29 @@
+# strawberry_bush_stage_3: three separate leaf stalks arch out of a low crown, each ending in a
+# 3-leaflet cluster (top at row 0), plus a young leaf; ripe berries (item ramp, yellow seeds, green
+# calyx) hang off two reddish runners just above the soil, the runners running off both edges.
+palette
+d #1f4630   # stalks, leaf shadow
+m #367a44   # leaf
+l #66ac52   # lit leaf
+D #9c205e   # berry shadow, runners
+M #e4407e   # berry
+L #fc7ea3   # lit berry
+H #ffaec2   # berry highlight
+s #ffdd53   # seeds
+grid
+......lmm.......
+....lmmmdlm.....
+....mdd.mdd.....
+.......d........
+.......d...lmm..
+.lm....d.lmmmdlm
+lmmlm..d.mdd.mdd
+mdd.m.d.....d...
+..d...d.....d...
+...d..d....d....
+....d.d...lm....
+.....d.d.dmd....
+.DlmD.dddd.DlmD.
+DLHMDDddddDLHMDD
+..sMD.dmmd..MsD.
+...D...dd....D..

@@ -1,30 +1,37 @@
-# chili_stew_mix: raw beef cubes, tomato and onion bits in the shared bowl; a whole chili lies over
-# the left rim, cap in the bowl and tip hanging outside (the left side is its place); spoon top right.
+# chili_stew_mix: raw beef cubes (pink, lit and shaded), tomato and onion bits in the shared bowl
+# (dark inside shows); a whole red chili lies over the left rim, green cap inside the bowl and
+# its tip hanging outside (the left side is its place); the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-d #9a1c1e    # chili shadow
-m #da341c    # chili body / tomato
-l #f5542a    # lit chili
-G leaf.4
-b #c24a5a    # raw beef
-o onion_flesh.4
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+d #a01818   # chili shadow
+m #d62a1a   # chili / tomato bit
+l #f2603e   # chili, lit
+G #4a8a2c   # chili cap
+b #e88890   # raw beef, lit
+B #b04256   # raw beef, shaded
+o #eee4d4   # onion bit
 grid
 ................
-.............S..
-............SD..
-...........SD...
-..........SD....
-....GDDDDSD.....
-..GGDbbDSomDD...
-llmDobdDDlmDDD..
-lmLDDDlmDbbdDD..
-ldLLLLLLLLLLMD..
-md.LMMMMMMMMD...
-md..MMMMMMMD....
-.d....DDDD......
-................
+.............78.
+............789.
+...........89...
+..........89....
+.........89.....
+...GG2228922....
+..GmlG3894o521..
+.mlldbBomd3bB31.
+mlld66555454431.
+mld55444434331..
+mld2453343231...
+md...243321.....
+d...21221111....
 ................
 ................

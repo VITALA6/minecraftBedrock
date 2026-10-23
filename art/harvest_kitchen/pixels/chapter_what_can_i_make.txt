@@ -1,31 +1,38 @@
 # chapter_what_can_i_make (ui). Recipe-book chapter "What can I make": a magnifying glass over a
-# bowl dish. Iron rim lit top left (2 px, dark on the bottom right), pale glass with a glint, a
-# tapering bowl (light rim, dark body and foot) under a stew dome inside, wooden handle.
+# bowl dish. A 2 px iron rim shaded round the ring (lit top left, dark bottom right), pale glass
+# with a diagonal glint top left and darker glass bottom right, a bowl with a stew dome seen
+# through it, an iron ferrule and a wooden handle running down to the bottom left.
 palette
-b iron.0
-c iron.1
-a iron.3
-d sugar.3
-e glass.3
-f glass.2
-i wood.3
-j wood.1
-o stew.3
+0 #44454c
+1 iron.1
+2 iron.2
+3 iron.3
+4 iron.4
+w #e6f1fb
+p glass.3
+q glass.2
+r glass.1
+t stew.3
+u stew.1
 B bowl.4
+b bowl.3
+d bowl.2
+H wood.3
+h wood.1
 grid
 ................
-.......aaaab....
-......aaaaacb...
-.....aacdeeccb..
-....aacdooofccb.
-....aaeooooofcb.
-....aajjjjjjjcb.
-....aaeBBBBBfcb.
-....bccfBBBfccb.
-.....bccfffccb..
-....ijbcccccb...
-...ijj.bbbbb....
-..ijj...........
-.ijj............
-.jj.............
+.......11111....
+.....114443300..
+.....14pwppq30..
+....14pwtttqq20.
+....14ptttuuq20.
+....14BBBBbbb20.
+....13qbbbddr20.
+....13qqbddrr20.
+.....03qqrrr20..
+....3002222200..
+...Hh..00000....
+..Hh............
+.Hh.............
+.h..............
 ................

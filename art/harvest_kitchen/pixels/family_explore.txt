@@ -1,29 +1,35 @@
-# family_explore (ui). Explore family: a green pocket compass. Chunky green rim lit from the top
-# left with a small bow on top; pale mint face with a glass glint top left, a north tick, and a
-# two-tone needle (green north, grey south) on a dark pivot. The face stays green-tinted so the
-# family green dominates.
+# family_explore (ui). Explore family: a green pocket compass. A knob on top, a green rim shaded
+# round the ring (lit top left, dark bottom right, outline from its darkest two shades), a curved
+# mint glass face in diagonal bands with one glint top left, a north tick, and a needle pointing
+# up-right: dark green north half, grey south half, on a dark pivot.
 palette
-k family_explore.0
-d family_explore.1
-m family_explore.2
-l family_explore.3
-w family_explore.4
-q #a9dcbd
-s iron.2
+0 #0d4a31
+1 #156640
+2 #208851
+3 #2bab60
+4 #3ecc72
+5 #6ad78e
+x #5ea180
+r #7ab897
+q #97ceaf
+p #b2e1c5
+w #cef3da
+s iron.1
+S iron.4
 grid
 ................
-.......md.......
-.....mllmmd.....
-...mlwllmmmdk...
-..mlmqqddqqmdk..
-.mlmqwwqqqdqmdk.
-.mlmqwqqqdkqmdk.
-.mlmqqqqdkqqmdk.
-.mlmqqqkkqqqmdk.
-.mdmqqssqqqqmdk.
-.mdmqssqqqqqddk.
-..dddqqqqqqddk..
-...kddddddddk...
-.....kkkkkk.....
-................
+.......31.......
+.....113210.....
+....15554430....
+...1522222230...
+..152pwppqq130..
+..152ppqq0r120..
+.152ppqq0rrx120.
+.152pqqSrrxx120.
+.142qqsrrxxx120.
+..142srrxxx120..
+..031rrxxxx120..
+...0311111120...
+....03322220....
+.....000000.....
 ................

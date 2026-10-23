@@ -1,32 +1,37 @@
 # strawberry_cake (dishes). Hand-drawn: a whole round cake in the same 3/4 view as vanilla
-# cake.png, with pale pink strawberry frosting dripping over the sponge side, a pink cream layer
-# through the middle, and three whole red strawberries on top (one at the back, two in front).
-# Wide low round shape (strawberry_cup is a footed glass, strawberry_jam a jar).
+# cake.png, with pale pink strawberry frosting on top (lit back, one gloss spot) dripping down
+# over the sponge side, a pale cream layer through the middle, pores in the sponge, and three
+# whole red strawberries on top (one at the back, two in front). Wide low round shape
+# (strawberry_cup is a footed glass, strawberry_jam a jar).
 palette
-a #fff0f6   # frosting highlight, pink cream layer
-b #f6b2da   # frosting
-c #c470a8   # frosting, cool shadow
-S #ff5068   # strawberry, lit
+A #7a2c58   # frosting, darkest (outline right/front)
+B #a8467a   # frosting outline, lit side
+C #c86c9c   # frosting side
+D #e094bc   # frosting top
+E #f2b8d4   # frosting, lit; cream layer
+F #fcdcea   # frosting gloss
+r #ff5a70   # strawberry, lit
 R #d42048   # strawberry
-D #8a1240   # strawberry, cool shadow
+x #8a1240   # strawberry, cool shadow
 G #4a9a2c   # leaf
-P #d27a3a   # sponge, lit
-p #a8532a   # sponge
-q #6a2c26   # sponge, cool shadow
+g #2e6a2a   # leaf, dark
+P #d8a050   # sponge, lit
+p #b87838   # sponge
+q #7a4424   # sponge pores, shadow
 grid
 ................
 ................
-....aaaGGbbb....
-..aaabSRRbbbbb..
-.aabbbRRDcbbbbc.
-.abbGbbDcbbGbbc.
-.abSRbbbbbSRbcc.
-.bbRDcbbbbRDccc.
-.abbbbbbbbbbbcc.
-.PbPPbbppbppcpq.
-.PPPPbpppppppqq.
-.aaaaaaaaaaaacq.
-.PPPpppppppppqq.
-.PPpppppppppppq.
-..qqqqqqqqqqqq..
+................
+.......gG.......
+....BBErRxBB....
+..BBEEERRxDDBB..
+.BEFEgGxGgDDDCB.
+.BEErRRrRxDDDCA.
+.BEERRxRxxEDDCA.
+.BDEDxEDxDDDDCA.
+.BCpCCpBCpCBpqA.
+.pCpPpBpPCpPpqA.
+.DEEDEEEDEEDDDA.
+.pPpqpPppqpPpqA.
+..AqqqqqqqqqqA..
 ................

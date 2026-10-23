@@ -1,0 +1,27 @@
+# chicken (ingredients). Our own raw chicken: a plucked bird on its back, plump breast below,
+# two drumsticks splayed up into a V with round knuckles, goose-bump pores on the pale skin.
+palette
+K #7a3c38   # outline, shadow side (cool)
+k #9a5650   # outline, lit side
+D #c88078   # shadow, pores
+M #e8a898   # mid (raw pink)
+L #f2bcae   # light
+H #f8d0c4   # highlight band, knuckles
+W #fde6de   # specular
+grid
+................
+...kk.......kk..
+..kHHk.....kHHk.
+...kHk.....kHk..
+....kLk...kLDk..
+....kHLk.kLMDk..
+...kLHLMkLMMDk..
+..kLHWHLMLMDDDk.
+.kLHHMLLMLDMDDK.
+.kLHLLMDLMMDMDK.
+.kLMLDMMLMDDDKK.
+..kLMMDMDDMDDK..
+...KDDMDDDKKK...
+....KKKKKKK.....
+................
+................

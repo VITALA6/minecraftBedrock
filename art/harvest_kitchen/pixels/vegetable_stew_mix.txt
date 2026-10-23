@@ -1,30 +1,37 @@
-# vegetable_stew_mix: tomato, carrot rounds, onion and potato bits in the shared bowl; a whole
-# carrot leans against the bowl's lower right outside, greens up (lower right is its place); spoon top right.
+# vegetable_stew_mix: carrot rounds and potato cubes in the shared bowl (dark inside
+# shows), each with a lit and a shaded pixel; a whole carrot leans against the bowl's lower right
+# outside, leafy top up (lower right is its place); the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-k carrot.1   # carrot shadow
-c carrot.3
-y carrot.4   # lit carrot / potato
-g leaf.3
-T tomato.2
-o onion_flesh.4
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+k #b65a1e   # carrot shadow
+K #7e3a16   # carrot outline
+c #ec8e2c   # carrot
+y #f8bc60   # carrot, lit
+g #6aae3a   # carrot leaves
+G #2e6a28   # carrot leaves, shaded
+p #f0d890   # potato / onion
 grid
 ................
-.............S..
-............SD..
-...........SD...
-..........SD....
-.....DDDDSD.....
-...DDTDoSDyDD...
-..DyDckDTTDoDDg.
-..LoTDDyDckDDgg.
-..LLLLLLLLLLMDyc
-...LMMMMMMMMDyk.
-....MMMMMMMDyc..
-......DDDD.ck...
-..........ck....
-..........k.....
+.............78.
+............789.
+...........89...
+..........89....
+.........89.....
+....22228922..gG
+..2pk3389yc5Ggg.
+.21ypk2pyc3pyck.
+.25666555454ycK.
+..2554444343yck.
+...245334323yck.
+.....243321.ck..
+....21221111ck..
+............k...
 ................

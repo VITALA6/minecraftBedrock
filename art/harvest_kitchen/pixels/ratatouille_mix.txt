@@ -1,30 +1,38 @@
-# ratatouille_mix: raw eggplant, tomato and cucumber pieces in the shared bowl; a whole cucumber
-# lies across it, its end out over the right rim below the spoon (upper right is its place); spoon top right.
+# ratatouille_mix: raw eggplant, tomato and cucumber pieces in the shared bowl (dark inside
+# shows), each with a lit and a shaded pixel; a whole cucumber lies across it, its end out over
+# the right rim below the spoon (upper right is its place), lit along its top with a darker
+# underside; the mix spoon leans out top right.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-S spoon_light
-a #23592d    # cucumber shadow
-c #347a2e    # cucumber skin
-l #5d9c30    # lit skin
-h #a6c84c    # highlight / cut flesh
-e eggplant.2
-T tomato.2
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+a #24502a   # cucumber, shaded underside
+c #3e7a30   # cucumber skin
+l #6aa23e   # cucumber skin, lit
+h #b4d478   # cucumber highlight / cut flesh
+e #8048a8   # eggplant piece
+E #42206a   # eggplant piece, shaded
+T #d4343a   # tomato piece
 grid
 ................
-.............S..
-............SD..
-...........SD..a
-..........SD.lhc
-.....DDDDSDlhcca
-...DDeDTSlhccaa.
-..DhcDeeDccaaD..
-..LDTDeDTDhcDD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+.............78.
+............789.
+...........89...
+..........89..cc
+.........89.clha
+....2222892cclaa
+..2eE3389clcaa..
+.21hcE2Te3Ehc31.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

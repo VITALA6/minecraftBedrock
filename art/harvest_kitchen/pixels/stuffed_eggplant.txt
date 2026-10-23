@@ -1,32 +1,37 @@
 # stuffed_eggplant (dishes). Hand-drawn: an eggplant half lying cut side up, a low boat on a
 # shallow diagonal (heavy end bottom left, green cap top right; flatter than the 45° eggplant).
-# Glossy purple skin wraps the front and the bottom, a pale flesh rim runs along the back edge,
-# and browned mutton mince with a few tomato and onion bits fills the boat.
+# A thin line of dark skin on the back edge, a pale flesh rim all round the cut face (shaded on
+# the front lip), browned mutton mince in chunks with a few tomato and onion bits, and the glossy
+# purple skin wrapping the front and the bottom (one gloss spot).
 palette
-e #ecdcac   # flesh rim
-m #a86848   # mince
-n #5e3024   # mince, cool shadow
-o #f0c850   # onion, warm light
-T #e8303a   # tomato
-H #a65ad0   # skin gloss, warm
-M #5a2a82   # skin
 D #2c1448   # skin, cool shadow
+M #4a2270   # skin outline
+s #6a3496   # skin
+H #9050c0   # skin, lit
+h #c48ae0   # skin gloss
+e #e6d4a4   # flesh rim
+f #b8a070   # flesh rim, front lip in shade
+n #5a2c20   # mince, shadow
+m #8e5236   # mince
+k #b47450   # mince, lit
+T #e03038   # tomato
+o #f0d070   # onion
 G leaf.4    # cap, light
 g leaf.1    # cap, dark
 grid
 ................
 ................
-..............g.
-............GGg.
-..........emGgD.
-........eemTmMD.
-......eemommnMD.
-....eemTmmmnMD..
-..eemmmmomnMDD..
-.emmTmmmmnMMD...
-.emmmmonnMMD....
-.HMMMMMMMMD.....
-..HMMMMMDD......
-...DDDDD........
+............gG..
+..........MMGGg.
+........MMeeGgD.
+......MMeekmfHD.
+....MMeekmTnfsD.
+..MMeekmmonfHsD.
+.MeekmTmnnfHhsD.
+.MekomkmnfHHsD..
+.MefkmnnfHssD...
+.sHfffffHssD....
+..sHHssssDD.....
+...DDDDDD.......
 ................
 ................

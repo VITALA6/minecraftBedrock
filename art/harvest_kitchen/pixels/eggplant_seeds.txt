@@ -1,30 +1,37 @@
-# eggplant_seeds: the long eggplant (same teardrop on the diagonal and skin colours as eggplant.txt)
-# cut in half lengthwise: cream flesh with a band of seeds down its middle, skin rim lit top left and
-# shadowed bottom right, green cap top right; two loose 2×2 seeds spilled bottom right.
+# eggplant_seeds: the eggplant (same teardrop, skin ramp and clasping cap as eggplant.txt) cut in
+# half lengthwise: cream flesh lit top left and dimming toward the thick skin bottom right, a
+# curved band of dark seeds in greener flesh down its middle, a lilac gloss on the lit skin rim;
+# two loose seeds spilled bottom right.
 palette
-K #1f1036   # deepest skin, indigo (eggplant.txt)
-D #3a1c5e   # skin shadow
-M #5a2a82   # skin
-L #8240a6   # lit skin
-F #f3e3b4   # flesh, lit
-f #d2b170   # flesh shadow, seed light side
-s #91703f   # seed
-g leaf.1    # dark leaf
-G leaf.4    # light leaf
+K #1b0f2e   # deepest skin, indigo (eggplant.txt)
+D #2a1744   # skin outline, lit side
+m #552b75   # skin, shadow side
+M #6f378f   # skin
+L #8b46aa   # skin rim, lit
+w #cd9fdb   # gloss (eggplant.txt)
+E #e4d2a0   # flesh, light
+F #d4bd84   # flesh
+f #b9a065   # flesh shadow
+e #a39a5c   # seed band, greener flesh
+s #5e4426   # seed
+T #a8834c   # loose seed, lit
+k #1c451c   # cap dark
+g #336a2b   # cap
+G #559735   # cap lit
 grid
 ................
-............g...
-...........GgG..
-.........GGgGg..
-........LGgGgK..
-.......LFFgMK...
-......LFFsfDK...
-.....LFFsFfDK...
-....LFFsFFfDK...
-...LFFsFFffDK...
-..LFFsFFffDK.Ff.
-..LFsFFffDDK.fs.
-..MFFFffDDK.....
-...MffDDDK..Ff..
-....DDKK....fs..
+............Gs..
+...........gGk..
+.........GgGgkk.
+........DGkgGkK.
+.......DLgFmkK..
+.....DDLEFemK...
+...DDLEEFsmK....
+..DLEEFesfmK....
+.DwEEFsefMmK....
+.DLEFsesfMmK.Ts.
+.DLFseffMmK..ss.
+.DLfffMmmK......
+..KmMmmKK..Ts...
+...KKKK....ss...
 ................

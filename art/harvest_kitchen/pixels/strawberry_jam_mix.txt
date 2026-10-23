@@ -1,31 +1,37 @@
-# strawberry_jam_mix: the jam's glass jar, open (no cloth lid yet), packed with whole raw
-# strawberries under a layer of sugar (no jam yet); one whole strawberry leans out over the
-# left of the mouth; the mix spoon stands in it, top right.
+# strawberry_jam_mix: the jam's glass jar, open (no cloth lid yet), packed with three whole raw
+# strawberries, irregularly placed 3x3 hearts (lit top left, a seed, cool shadow), with sugar in
+# small clusters between them (no jam yet); the glass has a dark cool outline and one lit streak
+# on the left. One whole strawberry leans out over the left of the mouth; the mix spoon stands in
+# it, top right.
 palette
-D bowl_dark   # spoon shadow (as on every mix)
-S spoon_light
-h #dcefff     # glass, lit
-e #7a9ec8     # glass, cool shadow
-w #f4f2ee     # sugar
-M #ea4a86     # strawberry
-k #a8266a     # strawberry shadow
-L #ff74a0     # strawberry, lit
-s #ffe27a     # seed
+7 spoon_light
+8 spoon_mid
+9 spoon_dark
+E #44607e     # glass outline
+e #7e9cbc     # glass, rim and shade
+h #c6dcee     # glass streak, lit
+w #f0eee8     # sugar
+c #c8c2b8     # sugar shadow
+k #9a2054     # strawberry shadow
+M #dc4078     # strawberry
+L #f87ca0     # strawberry, lit
+s #ffe08a     # seed
 G #4a9a2c     # leaf
+g #2a6428     # leaf, shaded
 grid
 ................
-.............S..
-..GG........SD..
-.GLMG......SD...
-.LsMk.....SD....
-.LMsk....SD.....
-..khwwwwSwwwe...
-...hwwwwwwwwe...
-..hwwLMwwLMwwe..
-..hLMsMkLMsMke..
-..hMsMkwMMMkwe..
-..hkMkLMskLMMe..
-..hwkkMsMkwMke..
-...ekkkkwkkke...
-....eeeeeeee....
+.............78.
+..Gg........789.
+.GLMg......89...
+.LsMk.....89....
+.LMskEEEE89.....
+..kkEwLM89wE....
+....EhheeeeE....
+...EhLMkwwceE...
+..EhwMskcwwceE..
+..EhcwkwLMkweE..
+..EhLMkcMskceE..
+..EeMskwwkcweE..
+...EekeeeeeeE...
+....EEEEEEEE....
 ................

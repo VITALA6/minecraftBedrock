@@ -1,28 +1,36 @@
-# tomato (produce). Hand-drawn: wide, slightly flattened fruit, star calyx with tips above the
-# shoulders, warm top-left shine, cool purple-red shadow bottom right.
+# tomato (produce). Hand-drawn: wide, flattened fruit with lobed shoulders and two rib creases,
+# still on its bent vine stalk (the knuckle, cut end top left) with small sepals curling back up
+# around it (no flat star calyx). 7-shade ramp turning only from cool crimson (shadow) to pale
+# red-pink (light); a small pink specular top left inside a light band; dark rim all round, one
+# step lighter on the lit side.
 palette
-K #4a0a22   # deepest shadow, cool purple-red
-D tomato.1  # shadow crimson
-R #e01e2c   # base red
-r #f42e30   # lit red, a touch warmer
-h #ff6c58   # highlight, warm
-w #ffd2a8   # specular
-g leaf.1    # dark leaf
-G leaf.4    # light leaf
+K #4d0e1c   # deepest, cool crimson (outline bottom right)
+D #7c1227   # shadow (outline top left)
+d #b0182c   # dark red, shadow band
+q #cb1a2c   # red between base and shadow band
+R #e61f2c   # base red
+r #ec3b3d   # lit red
+h #f45a55   # light
+p #fb7a74   # light band
+w #ffacb5   # specular, pale pink
+k #1f4a2a   # stalk/sepal dark
+g #2f7a32   # stalk/sepal mid
+G #6aab2d   # stalk/sepal light
+c #b6d27a   # cut end of the stalk
 grid
 ................
-........g.......
-....G..Gg..g....
-...rGGGGgggGD...
-..rhrrGgRggRRD..
-.rhhhrrGrRgRRDD.
-.rhwhrrrrRRRRRD.
-.rhhrrrRrRRRRDD.
-.rrhrrrrRRRRRDD.
-.rrrrrRrRRRRDDD.
-.RrrrRRRRRRRDDK.
-..RrRRRRRRRDDK..
-..DRRRRRRRRDDK..
-...KDDDDDDDDK...
-.....KKKKKK.....
+...cGg..........
+....gGg.........
+......Gg..G.....
+....G..gGGg.....
+..DDDGGgkkDDK...
+.DhpphDgkdrhdK..
+.DpwwphhrrRRddK.
+.DpwphhrrRRqddK.
+.DhpphrrRRrqdDK.
+.DrhhrrrRrqddDK.
+.DRRrrrRRqqddDK.
+..DRrrRRqqdDDK..
+...DRRqqddDDK...
+....KKKKKKKK....
 ................

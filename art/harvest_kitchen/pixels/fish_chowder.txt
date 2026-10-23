@@ -1,29 +1,38 @@
-# fish_chowder: smooth thick cream, nearly white, with a warm highlight streak top left, white
-# fish flakes (lit top, grey underside), a pink salmon flake and a fleck of dill.
-# The cream is kept desaturated so the lint sees no dominant hue (grey) next to the other flat soups.
+# fish_chowder: thick cream chowder domed two pixels over the rim, the lump leaning left: a tan
+# ring where it meets the back of the bowl, warm cream shades up to a warm white sheen top left,
+# a potato cube (lit top, shaded side, pale like the cream), a pink salmon flake (lit and shaded)
+# and a dill fleck. The cream stays below 25% HSL saturation (or above 92% lightness), so the lint
+# sees the garnish, not the cream, next to the golden onion and chicken soups.
 palette
-D bowl_dark
-M bowl_mid
-L bowl_light
-k #b4b0ac   # cream shadow (cool grey)
-w #e8e4dc   # cream
-h #fbfaf6   # highlight / fish flake (warm white)
-p #f08a68   # salmon flake
-g #5a9a30   # dill
+1 bowl_dark
+2 bowl_edge
+3 bowl_shade
+4 bowl_mid
+5 bowl_light
+6 bowl_hi
+a #9a8a74   # tan ring at the back of the bowl
+k #c4b8a4   # cream shadow
+c #dcd4c6   # cream
+w #f2eee6   # cream sheen (warm white)
+y #fcf6da   # potato cube top (pale yellow, lit; above 92% lightness)
+P #b4a68a   # potato cube side, shaded
+s #f29a84   # salmon flake
+S #b45e50   # salmon flake, shaded
+g #6aa840   # dill fleck
 grid
 ................
 ................
 ................
 ................
-................
-.....DDDDDD.....
-...DDhhwwwkDD...
-..DwhhwppwhhkD..
-..LwwwwgwkkkkD..
-..LLLLLLLLLLMD..
-...LMMMMMMMMD...
-....MMMMMMMD....
-......DDDD......
-................
+....aakka.......
+....acwwcyya....
+...kcwccckPPca..
+..2ccsSccgckk1..
+.2kcckccccckka1.
+.25666555454431.
+..255444434331..
+...2453343231...
+.....243321.....
+....21221111....
 ................
 ................

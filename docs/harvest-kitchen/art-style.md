@@ -2,10 +2,9 @@
 
 Rules for every 16×16 texture in the pack: item icons, UI icons and crop stages. They extend plan
 §4 (vanilla-like pixel art, family colours reserved for effect accents) and §4.5 (the pipeline).
-Item and UI icons are **hand-authored** text grids in `art/harvest_kitchen/pixels/<name>.txt`
+Icons and crop stages are **hand-authored** text grids in `art/harvest_kitchen/pixels/<name>.txt`
 (format and the per-icon art loop: `pixels/README.md`). `tools/gen-textures.mjs` uses a grid
-whenever one exists and falls back to its procedural drawing otherwise (crop stages, block faces,
-poster ingredients, biomes). `tools/lint-textures.mjs` checks the rules a script can measure (the
+whenever one exists and falls back to its procedural drawing otherwise (the pot's block faces). `tools/lint-textures.mjs` checks the rules a script can measure (the
 **lint** column). The rest is checked by eye on the review sheet.
 
 ```sh
@@ -25,28 +24,32 @@ node tools/lint-textures.mjs             # check it, and write generated/review_
 | **Long items run diagonally from bottom-left to top-right** (cucumber, chili, knife, pickaxe). | no                                    |
 | **No orphan pixels:** every pixel touches another pixel of the shape.                          | orphan pixels (no opaque 8-neighbour) |
 | **Clean line steps:** diagonal edges step evenly (1-1-1, 2-2-2, 1-2-1-2), with no lone jags.   | no                                    |
-| **No dither in fills:** each food piece is a 2×2+ cluster with a lit top-left pixel.           | no                                    |
+| **No checkerboard dither:** texture is 1–3 px clusters that follow the form (see Surface).     | no                                    |
 
 ### Shading and colour
 
-| Rule                                                                                                                                    | Lint                                      |
-| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| **No black outline.** The edge is a darker shade of the item's own colour.                                                              | no                                        |
-| **Light from the top left, everywhere.** Top and left edges are lighter than bottom and right edges, and highlights sit top-left.       | no                                        |
-| **No pillow shading.** Don't darken every edge evenly around a bright centre. The shadow side is the bottom right.                      | no                                        |
-| **4–6 colours per item** (a composite like a filled bowl may go up to 10, the vanilla maximum).                                         | colour count 3–10 (crop stages 3–8)       |
-| **Hue shifting:** shadows shift cool (toward blue or purple), highlights shift warm (toward yellow). A ramp is not one hue made darker. | no                                        |
-| **One dominant hue per item, and distinct across the set.** Two icons with a similar silhouette must not share a dominant hue.          | similar pairs (dominant hue + silhouette) |
-| **Enough value contrast:** the icon still reads in grayscale.                                                                           | grayscale range ≥ 80 of 255               |
-| **No semi-transparent pixels, no anti-aliasing:** every pixel is fully opaque or fully transparent.                                     | alpha is 0 or 255                         |
+| Rule                                                                                                                                                                                                                                                                         | Lint                                                     |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **Selective outline, never black:** every edge pixel is darker than the fill beside it, on every side, using the darkest 1–2 shades of the item's own ramp. The lit (top/left) edge is one step lighter than the shadow (bottom/right) edge, never lighter than the fill.    | edge/inner brightness ≤ 0.85                             |
+| **Light from the top left, everywhere.** The top-left of the _form_ is lighter than the bottom right, and highlights sit top-left, inside the outline.                                                                                                                       | no                                                       |
+| **No pillow shading.** Don't darken every edge evenly around a bright centre. The shadow side is the bottom right.                                                                                                                                                           | no                                                       |
+| **6–10 colours per single item, up to 16 for a composite** (filled bowl, sandwich, basket). Spend them on the main form's ramp first.                                                                                                                                        | colour count 3–16 (crop stages 3–8)                      |
+| **Deep main ramp:** the dominant hue gets **5–7 shades**, evenly spaced in value. Small parts (stem, cap) get 2–3 shades each.                                                                                                                                               | no (`ref-sheet.mjs` mainShades)                          |
+| **Gentle hue shifting:** the main ramp turns **≤ 25° end to end**. Shadows lean cool, mostly in the darkest 1–2 shades; mid-tones keep the item's own hue; highlights get **paler, not yellower** (≤ 10° warm). A tomato's highlight stays red-pink, never orange.           | no                                                       |
+| **One dominant hue per item, and distinct across the set.** Two icons with a similar silhouette must not share a dominant hue.                                                                                                                                               | similar pairs (dominant hue + silhouette)                |
+| **Enough value contrast, not harsh:** the icon reads in grayscale with a range of about **110–190** (up to ~205 for white or metal subjects, as in vanilla's iron ingot and bucket): highlights are tinted, not white, and only dark items reach near-black.                 | grayscale range ≥ 80 of 255                              |
+| **Surface, not flat fields:** no one-colour patch larger than **14 px**. Big areas are broken into 1–3 px clusters of neighbouring shades that describe the form: curved bands on round produce, layer lines on an onion, veins on leaves, pores on bread, chunks in a stew. | largest flat patch ≤ 14 px; detail ≥ 0.62 (`ui/` ≥ 0.50) |
+| **One specular highlight:** 1–4 px of the lightest shade on the most curved part, top-left of centre and at least 1 px inside the outline, with a light band around it.                                                                                                      | no                                                       |
+| **No semi-transparent pixels, no anti-aliasing:** every pixel is fully opaque or fully transparent.                                                                                                                                                                          | alpha is 0 or 255                                        |
 
 ### Families of items
 
 - **Bowl dishes share one bowl base.** Only the contents are drawn per dish, so the bowl reads as
   "a bowl dish" before the contents are noticed.
-- **Similar dishes differ by texture, not only by colour:** a smooth liquid (one flat colour with a
-  highlight streak) vs. a chunky stew (pieces with their own light and shadow) vs. a heap (a
-  mound that rises above the rim).
+- **Similar dishes differ by texture, not only by colour:** a smooth liquid (3–4 shades, a darker
+  ring where it meets the back of the bowl, 2–4 floating bits) vs. a chunky stew (pieces with
+  their own light and shadow pixel) vs. a heap (a mound that rises above the rim). Contents dome
+  **1–3 px above the rim**, so the dish reads as full at 1×.
 - **Mixes (D16) are one family:** the shared bowl with raw pieces inside (no broth, so the dark
   inside shows), one whole ingredient sticking out in a place or with a shape no other mix
   uses (the tomato ball and the eggplant bar share the top left), and a light
@@ -57,8 +60,106 @@ node tools/lint-textures.mjs             # check it, and write generated/review_
   cap or garnish the dish instead (onion soup wears a melted-cheese lid).
 - **Every seed has its own shape and its own colour.** No two seed icons share a seed sprite or a
   layout, and none looks like a vanilla seed.
+- **Fix a similar pair with a visible difference** (silhouette, garnish, pattern, value), never by
+  desaturating colours under the lint's 25% cutoff so they stop counting. Both times that was
+  tried (the bowl, the farmland soil) the icon read as stone or ash. Shadows of a warm material
+  may sit under 25% on their own merits (the bowl's two darkest shades).
+- **Block-item cubes share a silhouette by design** (`crafting_table`, `farmland`), so their tops
+  must differ in pattern at 1×: the crafting table's "#" grid against farmland's parallel furrows
+  with sprouts. Two 2:1 patterns of 2 px lines both turn into a checker.
 - Effect family colours (red heal, blue move, yellow work, green explore) stay reserved for the
   family icons and effect accents (plan §1.4).
+
+## Reference study (2026-10-23)
+
+Why do Farmer's Delight, Croptopia and Create icons read richer than ours? We studied their
+Java textures (FD 1.21.1-1.3.4, Create 6.0.10, Croptopia at `v4` 935ad80) next to vanilla and
+ours. They are references only: they live in the gitignored `art/references/mods/` (setup in
+`art/references/README.md`) and are never committed, copied, traced or shipped.
+
+```sh
+node tools/ref-sheet.mjs                 # reference sheet + metrics -> art/references/mods/sheets/
+node tools/ref-sheet.mjs --originality   # each of our icons vs its closest references (exit 1 = too close)
+node tools/ref-sheet.mjs --compare HEAD  # before/after sheet of our sprites -> generated/before_after.png
+```
+
+Medians over the compared icons (produce, seeds, prepared food, bowl dishes, tools; 25–42 each):
+
+| Source           | Colours | Main-hue shades | Hue families | Detail | Largest flat patch | Edge/inner | Edge TL−BR | Grey range | Hue shift |
+| ---------------- | ------- | --------------- | ------------ | ------ | ------------------ | ---------- | ---------- | ---------- | --------- |
+| Farmer's Delight | 12      | 7               | 3            | 0.81   | 7 px               | 0.64       | 44         | 171        | 5°        |
+| Croptopia        | 11      | 6               | 3            | 0.73   | 9 px               | 0.59       | 23         | 138        | 5°        |
+| Create           | 11      | 7               | 2            | 0.74   | 10 px              | 0.62       | 39         | 151        | 11°       |
+| vanilla          | 9       | 7               | 2            | 0.69   | 7 px               | 0.57       | 24         | 146        | 2°        |
+| Harvest Kitchen  | 9       | 4               | 4            | 0.57   | 18 px              | 0.83       | 74         | 187        | 14°       |
+
+After the 2D pass on all 117 icons and crop stages (same day, three art-director rounds), ours
+measured: 14 colours, 7 main-hue shades, detail 0.74, largest flat patch 7 px, edge/inner 0.67,
+edge TL−BR 39, grey range 179. Hue shift (16°) is still the strongest of the set, within our 25°
+rule.
+
+_Detail_: share of neighbouring pixel pairs that change colour. _Edge/inner_: brightness of the
+outline pixels over the inside. _Edge TL−BR_: how much brighter the top/left outline is than the
+bottom/right. Canvas fill and size were not the difference: our coverage (39%) and longest side
+(14 px) match theirs.
+
+What makes theirs read richer, and the rule each finding became (in the tables above):
+
+1. **Depth, not breadth, of colour.** They spend 6–7 shades on the main form and 2–3 hue
+   families in total; we spent 4 shades and 4 families, so our forms look cut from flat paper.
+   Rule: deep main ramp, 5–7 shades.
+2. **Surface everywhere.** Their largest one-colour patch is 7–10 px; ours is 18. Tomato skin
+   gets mottled bands, onions get curved layer lines, cabbage and lettuce get veins, stews get
+   chunks with their own light pixel. Rule: surface, not flat fields.
+3. **A dark edge all round.** Their outline is ~60% as bright as the inside on every side and
+   only slightly lighter top-left. Ours lit the top-left edge brighter than the fill, so the
+   silhouette dissolved there. Rule: selective outline.
+4. **Small specular, broad light.** One 1–4 px specular sits inside the shape on the curve,
+   surrounded by a lighter band; ours were large light areas touching the edge. Rule: one
+   specular highlight.
+5. **Gentle hue shift, paler highlights.** Their ramps turn only 2–11°; the darkest shade leans
+   cool (tomato shadow toward magenta) and the highlight gets paler. Ours turned 14° on average
+   (77° on the cucumber: green into yellow), and the tomato highlight went orange. Rule: gentle
+   hue shifting.
+6. **Compressed value range.** Grey range ~140–170 against our 187: tinted highlights, coloured
+   darks. Rule: contrast 110–190.
+7. **Bowl dishes are full.** Contents dome 1–3 px above the rim, liquids have 3–4 shades, a
+   back-rim shadow and floating bits. Ours had flat single-colour liquids (onion soup, fish
+   chowder).
+8. **Crops use the whole block.** Mature crops reach the top rows, have an irregular,
+   see-through silhouette with visible stems, leaves as 2–3 shade clusters, and produce with 3
+   shades + a highlight pixel. Ours were compact, symmetric round bushes.
+
+Where theirs is _not_ better, we keep our rules: our seeds stay distinct per crop (theirs are
+recoloured copies of one scatter), and our icons keep a 1–2 px margin and diagonal long items.
+
+### Crop stages
+
+| Rule                                                                                                                        | Lint |
+| --------------------------------------------------------------------------------------------------------------------------- | ---- |
+| **The mature stage uses the full height** (top 1–3 rows reached), stage 0 is a 4–6 px sprout, and each stage grows visibly. | no   |
+| **Irregular and see-through:** no symmetric round bush; gaps between leaves let the ground show; stems are visible.         | no   |
+| **Leaves are 2–3-shade clusters** with a lit top-left pixel; produce has 3 shades + a highlight pixel and its item's ramp.  | no   |
+| **Each crop has its own habit:** vine on a stake, bulbs with tall leaves, hanging pods, low runners.                        | no   |
+
+### Originality
+
+Ours must stay our own: no traced shapes, no copied palettes, no copied compositions.
+
+- Never open a reference while drawing an icon. Learn the rules from the sheet, then close it.
+- Our subjects, poses and details are our own choice: if a reference already shows the "obvious"
+  composition (a tomato with a star-shaped calyx, a soup with a carrot slice on top), pick
+  another.
+- `tools/ref-sheet.mjs --originality` compares each icon with every reference item, as drawn and
+  mirrored, shifted up to 1 px. It flags **traced** (silhouette overlap ≥ 0.85 with brightness
+  correlation ≥ 0.8 or ≥ 90% shared colour-region borders), **copied pixels** (≥ 12% same colour at
+  the same spot) and **copied palettes** (≥ 50% of our colours found exactly in one reference).
+  References that are recolours of a vanilla bowl item don't count: matching them means matching
+  vanilla. Calibration: icons drawn before the references were downloaded reach 0.78; a
+  hue-rotated copy scores 1.00 on region borders.
+- The art director checks every icon against its 4 closest references on
+  `art/references/mods/sheets/originality.png` and rejects anything that reads as the same
+  drawing, even when the script passes it.
 
 ## Linter
 
@@ -67,7 +168,10 @@ node tools/lint-textures.mjs             # check it, and write generated/review_
 | Check        | Applies to         | Fails when                                                                                                                                                                                    |
 | ------------ | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | alpha        | everything         | any pixel has 0 < alpha < 255                                                                                                                                                                 |
-| colours      | icons, crop stages | fewer than 3, or more than 10 (icons) or 8 (crop stages) distinct opaque colours                                                                                                              |
+| colours      | icons, crop stages | fewer than 3, or more than 16 (icons) or 8 (crop stages) distinct opaque colours                                                                                                              |
+| flat patch   | icons              | the largest 4-connected one-colour patch is over 14 px                                                                                                                                        |
+| edge         | icons              | edge pixels (opaque, with a transparent 4-neighbour) average over 0.85 of the inside pixels' brightness                                                                                       |
+| detail       | icons              | under 62% (`ui/`: 50%) of neighbouring opaque pixel pairs change colour. UI symbols are clean metal and paper: vanilla's bucket, map, ingots and compass score 0.54–0.59.                     |
 | bounding box | icons              | the longest side of the opaque area is under 10 or over 15 px                                                                                                                                 |
 | orphans      | icons, crop stages | an opaque pixel has no opaque 8-neighbour                                                                                                                                                     |
 | contrast     | icons, crop stages | grayscale (0.299 R + 0.587 G + 0.114 B) max − min is under 80                                                                                                                                 |
@@ -78,8 +182,10 @@ purpose, so they skip the bounding-box check. The pot face textures are opaque b
 get the alpha check.
 
 The linter exits with code 1 when anything fails. Thresholds are calibrated on vanilla 1.26.52
-icons: their grayscale range is 63–164 (most above 90), their longest side 12–15 px; most use 7–10
-colours, which sets the icon limit of 10.
+icons: their grayscale range is 63–164 (most above 90), their longest side 12–15 px. The colour,
+flat-patch, edge and detail limits come from the reference study below (Farmer's Delight and
+Croptopia items: median 13 colours, p90 flat patch 12–14 px, median edge/inner 0.54–0.66, p10
+detail 0.62–0.72).
 
 ## Review sheet
 

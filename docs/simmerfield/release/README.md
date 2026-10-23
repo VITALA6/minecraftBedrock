@@ -11,6 +11,7 @@ marked **TO VERIFY** in the files.
 | `curseforge.md` | Project fields (class, categories), summary, the full description with How to start, features, install steps, known conflicts, languages, credits and license placeholders, and the 1.0.0 file changelog. |
 | `mcpedl.md`     | The same content in simple formatting for MCPEDL, plus how MCPEDL now syncs projects from CurseForge and its rules (thumbnail, distribution setting, download hosts).                                     |
 | `logo-400.png`  | 400x400 project logo: the Cooking Pot on a campfire with a Tomato Soup and a Tomato, from the pack's own textures. Regenerate with `node tools/make-logo.mjs` (`--check` compares).                       |
+| `assets/`       | Six composed 1920x1080 CurseForge gallery images and the 720x340 MCPEDL thumbnail, from our own textures and Blockbench renders (list in `assets/README.md`). Regenerate with `npm run store-assets`.     |
 
 ## What the owner still has to supply
 
@@ -31,12 +32,20 @@ marked **TO VERIFY** in the files.
         tomatoes.
   - [ ] `TODO-gif-guide.gif`: flipping through the Kitchen Guide (shot 9; trailer.md calls it
         the Recipe Book)
+- [x] **Composed gallery images** (2026-10-24, no game needed): `assets/curseforge-1-cook.png` to
+      `assets/curseforge-6-recipe-flow.png` (cook, chop, cake, kitchen decor, crops and dishes,
+      recipe flow). Upload them to the CurseForge Images. They show the content, not gameplay, so
+      they don't replace the screenshots and GIFs.
 - [ ] **Screenshots** (placeholders `TODO-shot-*.png`): the 8 setups in `../marketing/trailer.md`,
       plus `TODO-shot-9-kitchen-decor.png` (a kitchen built from the decor blocks with the stove
       lit; not in trailer.md yet). Shot 7 (cake shared by three players) needs the multiplayer
-      test first.
-- [ ] **Banner** `TODO-banner.png` for the top of the description (optional).
-- [ ] **MCPEDL thumbnail:** 720x340 px, titled exactly `MCPEDL` in the CurseForge images.
+      test first. Until they exist, the composed images above can fill the gallery
+      (`assets/curseforge-4-kitchen.png` shows the decor blocks, `assets/curseforge-3-cake.png`
+      the cake), but real in-game shots are still needed.
+- [ ] **Banner** `TODO-banner.png` for the top of the description (optional). Not made yet;
+      `assets/curseforge-1-cook.png` could stand in.
+- [x] **MCPEDL thumbnail:** `assets/MCPEDL.png`, 720x340 px. When you upload it to the CurseForge
+      images, set its title to exactly `MCPEDL`.
 - [ ] **Links:** issues or feedback page, Discord or socials, portfolio site.
 - [ ] **The `.mcaddon`** from `npm run package` (named `Simmerfield-<hash>.mcaddon`).
 - [ ] **TO VERIFY items:** CurseForge summary limit (we used 150 as a safe target), Markdown vs

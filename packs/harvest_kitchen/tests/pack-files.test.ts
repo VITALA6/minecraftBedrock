@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { describe, it } from "node:test";
+import { COMPONENT_GUIDE_BOOK, ITEM_GUIDE_BOOK } from "../scripts/config";
 import { HK_ITEM_IDS } from "../scripts/discovery/unlock";
 import { readParams } from "../scripts/crops/growth-logic";
 import { CROPS } from "../scripts/data/crops";
@@ -10,6 +11,7 @@ import { EFFECT_ICONS, UI_ICONS, itemIcon } from "../scripts/data/icons";
 import { LIQUIDS } from "../scripts/data/liquids";
 import { CRAFTING_RECIPES, STATION_RECIPES, craftingJsonIds } from "../scripts/data/recipes";
 import { STATIONS, stationById } from "../scripts/data/stations";
+import { GUIDE_TOPICS } from "../scripts/guide/guide-pages";
 import {
   FACINGS,
   HALVES,
@@ -216,7 +218,7 @@ describe("crafting JSON against CRAFTING_RECIPES (the posters' copy)", () => {
 
   it("every shapeless recipe in the JSON is in the data, and every recipe uses the vanilla table", () => {
     const known = new Set(CRAFTING_RECIPES.flatMap((r) => craftingJsonIds(r).map((v) => v.id)));
-    const tools = ["hk:cooking_pot", "hk:cutting_board", "hk:recipe_poster"]; // not food
+    const tools = ["hk:cooking_pot", "hk:cutting_board", "hk:recipe_poster", "hk:guide_book"]; // not food
     for (const r of shapeless.values()) {
       const id = r.description.identifier;
       assert.ok(known.has(id) || tools.includes(id), `${id}: not in CRAFTING_RECIPES`);
@@ -687,6 +689,53 @@ describe("recipe poster (D15)", () => {
       .map(([id]) => id)
       .sort();
     assert.deepEqual(tagged, CROPS.map((crop) => crop.produce).sort());
+  });
+});
+
+describe("Kitchen Guide (guide/, ui/guide-screen.ts)", () => {
+  const lang = new Map(
+    read(`${RP}/texts/en_US.lang`)
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith("##"))
+      .map((line) => [line.slice(0, line.indexOf("=")), line.slice(line.indexOf("=") + 1)]),
+  );
+
+  it("is crafted shapeless from a book + a carrot, on the vanilla table, unlocked by either", () => {
+    const json = JSON.parse(read(`${BP}/recipes/guide_book.json`)) as Record<
+      string,
+      { tags: string[]; ingredients: unknown[]; unlock: unknown[]; result: unknown } | undefined
+    >;
+    const recipe = json["minecraft:recipe_shapeless"];
+    assert.ok(recipe);
+    assert.deepEqual(recipe.tags, ["crafting_table"]);
+    const book = [{ item: "minecraft:book" }, { item: "minecraft:carrot" }];
+    assert.deepEqual(recipe.ingredients, book);
+    assert.deepEqual(recipe.unlock, book);
+    assert.deepEqual(recipe.result, { item: ITEM_GUIDE_BOOK, count: 1 });
+  });
+
+  it("the item stacks to 1 and carries the component that opens the guide", () => {
+    const item = items.get(ITEM_GUIDE_BOOK);
+    assert.ok(item);
+    assert.deepEqual(Object.keys(item.components).sort(), [
+      COMPONENT_GUIDE_BOOK,
+      "minecraft:display_name",
+      "minecraft:icon",
+      "minecraft:max_stack_size",
+    ]);
+  });
+
+  it("every How to Play topic has a title, a text with %1$s as its only placeholder, an icon", () => {
+    assert.ok(GUIDE_TOPICS.length > 0);
+    assert.equal(new Set(GUIDE_TOPICS.map((topic) => topic.titleKey)).size, GUIDE_TOPICS.length);
+    for (const topic of GUIDE_TOPICS) {
+      assert.ok(lang.get(topic.titleKey), `${topic.titleKey} is missing from en_US.lang`);
+      const text = lang.get(topic.textKey);
+      assert.ok(text, `${topic.textKey} is missing from en_US.lang`);
+      assert.equal(text.match(/%(?!1\$s)/g), null, topic.textKey);
+      assert.ok(existsSync(`${RP}/${topic.icon}.png`), topic.icon);
+    }
   });
 });
 

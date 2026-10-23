@@ -740,6 +740,11 @@ function buildParts() {
     }),
   );
 
+  // Nav glyphs on the cover buttons (◀ ▶ ↶ ⌂), from the same bitmaps as the mockup text. JSON UI
+  // draws them as images: whether symbols render in a label depends on the glyph pages (S2).
+  const NAV = { nav_prev: "◀", nav_next: "▶", nav_back: "↶", nav_home: "⌂" };
+  for (const [name, ch] of Object.entries(NAV)) part(name, sprite(glyph(ch), { "#": C.ink }));
+
   // Tooltip (Minecraft-style dark box with a violet rim).
   {
     const im = img(12, 12, hex("#100010"));

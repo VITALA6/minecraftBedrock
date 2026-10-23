@@ -1,4 +1,9 @@
-import { ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_RECIPE_POSTER } from "../config";
+import {
+  ITEM_COOKING_POT,
+  ITEM_CUTTING_BOARD,
+  ITEM_GUIDE_BOOK,
+  ITEM_RECIPE_POSTER,
+} from "../config";
 import { CROPS } from "../data/crops";
 import { DISHES } from "../data/dishes";
 import { CRAFTING_RECIPES, CUTTING_RECIPES, STATION_RECIPES, recipeMaking } from "../data/recipes";
@@ -56,6 +61,7 @@ export const HK_ITEM_IDS: readonly string[] = [
     ITEM_RECIPE_POSTER,
     ITEM_COOKING_POT,
     ITEM_CUTTING_BOARD,
+    ITEM_GUIDE_BOOK,
   ]),
 ];
 

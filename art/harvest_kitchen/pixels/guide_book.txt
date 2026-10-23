@@ -1,0 +1,33 @@
+# guide_book (stations). Hand-drawn: the Kitchen Guide, a closed book seen from the front: a red
+# leather cover (brown made it a twin of the crafting table icon) with a lit spine and a dark
+# crease down its left side, cream page edges showing below and to the right (the page block sits
+# one pixel down-right of the cover), and a carrot on the cover (the item it's crafted from),
+# lying on the diagonal with its leaves top right. Light from the top left.
+palette
+H beet.3      # lit spine and top edge
+S beet.0      # spine crease, cover shadow edges
+C beet.1      # cover
+P cream.2     # page edges, right
+p cream.0     # page edges, bottom
+O carrot.3    # carrot
+o carrot.2    # carrot shadow and tip
+Y carrot.4    # carrot highlight
+G leaf.4      # carrot leaves
+g leaf.2      # carrot leaf shadow
+grid
+................
+..HSHHHHHHHHS...
+..HSHCCCCCCCSP..
+..HSHCCCCCCCSP..
+..HSHCCCCGCGSP..
+..HSHCCCCCgCSP..
+..HSHCCCYOgCSP..
+..HSHCCYOOoCSP..
+..HSHCCOOoCCSP..
+..HSHCYOoCCCSP..
+..HSHCOoCCCCSP..
+..HSHooCCCCCSP..
+..HSHCCCCCCCSP..
+..SSSSSSSSSSSp..
+...ppppppppppp..
+................

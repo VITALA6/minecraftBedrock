@@ -50,6 +50,7 @@ export const UI_ICONS = {
   board: "textures/hk/items/cutting_board",
   crafting: "textures/blocks/crafting_table_front",
   back: "textures/ui/arrow_left",
+  guide: "textures/hk/items/guide_book",
 } as const;
 
 /** Button icon for an item id, or undefined if none is known (validate.ts reports those). */

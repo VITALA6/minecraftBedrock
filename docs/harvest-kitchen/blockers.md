@@ -512,3 +512,36 @@ error). Not seen in game:
   match.
 - **Fallback:** if writing two states at once makes a part vanish, write them one tick apart; if
   the page state itself is the problem, cap the posters at 16 (drop the blank and two dishes).
+
+## B28. Kitchen Guide book (D19, untested)
+
+- **What:** `hk:guide_book` opens a book of `ActionFormData` pages (`ui/guide-screen.ts`) through
+  its item component's `onUse`/`onUseOn`. The pages use only a title, a body and icon buttons
+  (B11). None of it has run in game yet. The pre-D14 `ActionFormData` book it's based on did open.
+- **Test:**
+  1. In a new world (or after `/hk:debug reset` and a rejoin): chat shows the welcome, and the
+     inventory has the Kitchen Guide (red book icon) and a Recipe Poster.
+  2. Use the guide in the air and pointing at the ground: it opens once each time, on Home, with a
+     page-turn sound. Using it on the pot counts as a pot click (`Can't cook Kitchen Guide`).
+  3. How to Play: 14 topics with icons. Each topic's text has its line breaks, with no literal
+     `%1$s`. `Next: …` walks to the last topic, and `Back` goes back a page.
+  4. Survival, before finding crops: Hot and Cold Dishes show `???` rows. A `???` dish lists the
+     crops it needs and where their seeds drop. Finding a tomato unlocks Tomato Soup.
+  5. A dish page (Tomato Soup) has the effect and two steps in the body, then these buttons:
+     - `2 × Tomato`: opens the Tomato page.
+     - `1 × Bowl`: shows `A Minecraft item` in the action bar, and the page stays.
+     - `Makes: Tomato Soup Mix`.
+     - `Cooking Pot · ♨ fire · 5 s`: opens the Cooking Pot topic.
+     - The effect, which shows its hint, then `Back`.
+
+     Fish Chowder shows `Raw Cod / Raw Salmon`. Strawberry Cake mentions its slices.
+
+  6. Creative: every dish, crop and cut shows. What can I make? lists dishes after
+     `/hk:debug kit`, and shows `Nothing yet…` with an empty inventory.
+  7. A book + a carrot in the inventory grid make a Kitchen Guide. The Content Log has no
+     `kitchen guide failed` error.
+- **Fallbacks:**
+  - If `onUse` never fires in the air, add `minecraft:use_modifiers` to the item JSON, as B12
+    planned for the old book.
+  - If a button label is blank, wrap it in `hk.ui.text` like the item names.
+  - If a long chapter scrolls badly on a phone, split Hot Dishes by effect family.

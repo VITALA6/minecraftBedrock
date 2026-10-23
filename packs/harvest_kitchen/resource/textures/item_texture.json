@@ -59,6 +59,9 @@
     "hk_garden_salad": {
       "textures": "textures/hk/items/garden_salad"
     },
+    "hk_guide_book": {
+      "textures": "textures/hk/items/guide_book"
+    },
     "hk_hearty_sandwich": {
       "textures": "textures/hk/items/hearty_sandwich"
     },

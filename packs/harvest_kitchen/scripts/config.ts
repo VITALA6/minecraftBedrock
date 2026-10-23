@@ -58,6 +58,7 @@ export const ITEM_VEGGIE_SKEWER = "hk:veggie_skewer";
 export const ITEM_RECIPE_POSTER = "hk:recipe_poster"; // item and block share the id
 export const ITEM_COOKING_POT = "hk:cooking_pot"; // item and block share the id
 export const ITEM_CUTTING_BOARD = "hk:cutting_board"; // item and block share the id
+export const ITEM_GUIDE_BOOK = "hk:guide_book"; // the Kitchen Guide: use it to open the guide (guide/)
 
 // --- blocks --------------------------------------------------------------------------------------
 export const BLOCK_TOMATO_CROP = "hk:tomato_crop";
@@ -77,6 +78,7 @@ export const COMPONENT_CUTTING_STATION = "hk:cutting_station"; // block
 export const COMPONENT_CONTAINER_STATION = "hk:container_station"; // block; station from data/stations.ts
 export const COMPONENT_SLICED_DISH = "hk:sliced_dish"; // block
 export const COMPONENT_DISH = "hk:dish"; // item
+export const COMPONENT_GUIDE_BOOK = "hk:guide_book"; // item
 export const COMPONENT_RECIPE_POSTER = "hk:recipe_poster"; // block
 
 // --- block states (declared in each block's description.states) ----------------------------------
@@ -102,6 +104,8 @@ export const PLAYER_POSTER_GIVEN = "hk:poster_given";
 export const PLAYER_WELCOMED = "hk:welcomed";
 /** Player property: true once the player placed a poster (their first one shows the guide). */
 export const PLAYER_GUIDE_PLACED = "hk:guide_placed";
+/** Player property: true once the Kitchen Guide book was handed out (first join). */
+export const PLAYER_GUIDE_BOOK_GIVEN = "hk:guide_book_given";
 /** World property: debug "fast cooking" toggle (/hk:debug fast). */
 export const WORLD_DEBUG_FAST = "hk:debug_fast";
 
@@ -116,6 +120,7 @@ export const CHOP_MAX_DISTANCE = 4; // sneak-chop stops when the player is farth
 
 export const UNLOCK_TOAST_COOLDOWN_TICKS = 60; // "★ New recipe!" at most once per 3 s
 export const POSTER_USE_GAP_TICKS = 5; // one use per click, even if both poster parts report it
+export const GUIDE_OPEN_GAP_TICKS = 10; // one Kitchen Guide per click, even if onUse and onUseOn both fire
 export const POSTER_SYNC_RETRY_TICKS = 20; // a part placed late (chunk edge) is synced once more
 export const SLICE_BITE_GAP_TICKS = 10; // a held use button eats at most 2 slices per second
 export const PISTON_SETTLE_TICKS = 3; // a pushed block lands ~2 ticks after the piston fires

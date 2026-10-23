@@ -12,6 +12,7 @@ import { announceBuild, announceProblems, registerDebugCommand } from "./debug/d
 import { registerDish } from "./food/dish";
 import { registerDishSupport } from "./food/dish-support";
 import { registerSlicedDish } from "./food/sliced-dish";
+import { giveGuideBookOnce, registerGuideBook } from "./guide/guide-book";
 import { registerPosterEvents, registerRecipePoster } from "./posters/poster";
 import { registerPosterSupport } from "./posters/poster-support";
 import { registerContainerStation, registerStationEvents } from "./stations/container-station";
@@ -27,6 +28,7 @@ system.beforeEvents.startup.subscribe(
     registerSlicedDish(blockComponentRegistry);
     registerRecipePoster(blockComponentRegistry);
     registerDish(itemComponentRegistry);
+    registerGuideBook(itemComponentRegistry);
     registerDebugCommand(customCommandRegistry);
   },
 );
@@ -44,6 +46,7 @@ world.afterEvents.playerSpawn.subscribe(({ player, initialSpawn }) => {
     announceBuild(player);
     announceProblems(player);
     catchUpDiscovery(player);
+    giveGuideBookOnce(player);
   }, 40);
 });
 

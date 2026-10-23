@@ -29,7 +29,7 @@ import { readStation, storedSize } from "../stations/station-store";
 //   fast      toggles near-instant cooking (saved in the world)
 //   pot       prints the state of the station you're looking at
 //   validate  re-runs the data check and prints it to chat (the Content Log loses its tail)
-//   reset     forgets your discovered crops and that you got the starter poster
+//   reset     forgets your discovered crops and that you got the starter poster and guide book
 //
 // Custom commands register only in system.beforeEvents.startup, and their callbacks run in
 // restricted mode (@privilege no-restricted-execution on world changes), so every action is
@@ -50,6 +50,7 @@ const KIT_EXTRAS: readonly [string, number][] = [
   ["minecraft:wooden_hoe", 1],
   ["minecraft:water_bucket", 1],
   ["minecraft:paper", 2], // + any crop: a Recipe Poster
+  ["minecraft:book", 1], // + a carrot: a Kitchen Guide
 ];
 
 function kit(player: Player): void {

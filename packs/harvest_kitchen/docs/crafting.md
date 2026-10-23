@@ -28,3 +28,12 @@ You also get one free the first time you join.
 ```embed
 crafting id=hk:recipe_poster
 ```
+
+## Kitchen Guide
+
+A book and a carrot, also small enough for your inventory's crafting grid. Use it to open the guide:
+every recipe with its ingredients, the crops, and how to play. You get one free the first time you join.
+
+```embed
+crafting id=hk:guide_book
+```

@@ -2121,6 +2121,36 @@ def(
   "stations",
 );
 
+// The Kitchen Guide: a closed red book from the front, spine on the left, page edges below and
+// right (red, not brown: a brown book is a twin of the crafting table icon).
+def(
+  "items",
+  "guide_book",
+  () =>
+    rows(
+      `
+      ................
+      ..hdhhhhhhhhd...
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..hdlllllllldp..
+      ..dddddddddddp..
+      ...ppppppppppp..
+      ................`,
+      { h: c("beet", 3), l: c("beet", 1), d: c("beet", 0), p: c("cream", 1) },
+      "guide_book",
+    ),
+  "stations",
+);
+
 // --- UI icons --------------------------------------------------------------------------------------
 
 def(

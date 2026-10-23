@@ -2,6 +2,7 @@ import { system, world, type Player } from "@minecraft/server";
 import {
   ITEM_RECIPE_POSTER,
   PLAYER_FOUND_CROPS,
+  PLAYER_GUIDE_BOOK_GIVEN,
   PLAYER_GUIDE_PLACED,
   PLAYER_POSTER_GIVEN,
   PLAYER_WELCOMED,
@@ -28,7 +29,8 @@ import {
 //
 // A player's first join (catchUpDiscovery, on the initial spawn) hands out one Recipe Poster, whose
 // first placement shows the How to Start guide, and a two-line welcome in chat; each once per
-// player. The rules (crops of a dish, unlocking, the saved form) are in unlock.ts.
+// player. The Kitchen Guide book is handed out next to it (guide/guide-book.ts). The rules (crops
+// of a dish, unlocking, the saved form) are in unlock.ts.
 
 export function foundCrops(player: Player): Set<string> {
   return parseFound(player.getDynamicProperty(PLAYER_FOUND_CROPS));
@@ -50,13 +52,17 @@ export function markFound(player: Player, keys: readonly string[]): string[] {
   return result.unlocked;
 }
 
-/** Forgets what the player found, the starter poster, the welcome and the guide (for tests). */
+/**
+ * Forgets what the player found, the starter poster, the welcome, the poster guide and the Kitchen
+ * Guide book (for tests).
+ */
 export function resetDiscovery(player: Player): void {
   for (const key of [
     PLAYER_FOUND_CROPS,
     PLAYER_POSTER_GIVEN,
     PLAYER_WELCOMED,
     PLAYER_GUIDE_PLACED,
+    PLAYER_GUIDE_BOOK_GIVEN,
   ]) {
     player.setDynamicProperty(key, undefined);
   }

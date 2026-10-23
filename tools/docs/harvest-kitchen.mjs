@@ -23,7 +23,7 @@ async function loadPackData(root) {
         `export { STATIONS } from "${s}/data/stations";`,
         `export { HEAT_BLOCK_IDS } from "${s}/stations/heat";`,
         `export { HK_ITEM_IDS } from "${s}/discovery/unlock";`,
-        `export { ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_RECIPE_POSTER } from "${s}/config";`,
+        `export { ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_GUIDE_BOOK, ITEM_RECIPE_POSTER } from "${s}/config";`,
       ].join("\n"),
       resolveDir: root,
       loader: "ts",
@@ -208,6 +208,7 @@ export default async function harvestKitchen(ctx) {
     : prepared.has(id) ? "prepared"
     : stationItems.has(id) ? "station"
     : id === data.ITEM_RECIPE_POSTER ? "block"
+    : id === data.ITEM_GUIDE_BOOK ? "book"
     : null; // prettier-ignore
 
   function food(id) {

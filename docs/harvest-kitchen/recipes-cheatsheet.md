@@ -1,6 +1,6 @@
 # Harvest Kitchen: crafting cheat sheet (tools and blocks)
 
-Every crafting recipe whose result isn't food. All three are made on the **vanilla crafting table**
+Every crafting recipe whose result isn't food. All four are made on the **vanilla crafting table**
 (recipe tag `crafting_table`). Source: `packs/harvest_kitchen/behavior/recipes/`.
 `tests/pack-files.test.ts` ("station recipes unlock in the recipe book") keeps the unlock lists in
 step with the crops.
@@ -11,13 +11,15 @@ Not here:
 - The 10 mixes: food steps, also crafted on the vanilla crafting table (D16; they had their own
   Kitchen Table block until 2026-10-23).
 - Sliced and chopped ingredients: made on the Cutting Board, not crafted.
-- The Recipe Book: replaced by the Recipe Poster (D15).
+- The Recipe Book: replaced by the Recipe Poster (D15). (The Kitchen Guide below is a book again,
+  with recipes, D19.)
 
 | Block         | Recipe             | Grid        | Unlocks in the recipe book when you get…                                        |
 | ------------- | ------------------ | ----------- | ------------------------------------------------------------------------------- |
 | Cooking Pot   | shaped, 3 × 2      | 3 × 3 table | an iron ingot, a bowl, any Harvest Kitchen seed, or an onion                    |
 | Cutting Board | shaped, 3 × 1      | 3 × 3 table | any Harvest Kitchen seed, or an onion                                           |
 | Recipe Poster | shapeless, 2 items | 2 × 2 too   | any Harvest Kitchen crop (tomato, onion, cucumber, chili, strawberry, eggplant) |
+| Kitchen Guide | shapeless, 2 items | 2 × 2 too   | a book or a carrot                                                              |
 
 "Any Harvest Kitchen seed" is tomato, cucumber, chili pepper, strawberry or eggplant seeds. The
 onion has no seed; it's planted itself. In Creative every recipe is unlocked.
@@ -64,8 +66,19 @@ Paper + any Harvest Kitchen crop
 ```
 
 `minecraft:paper` + one item with the tag `hk:crops` (Tomato, Onion, Cucumber, Chili Pepper,
-Strawberry or Eggplant). One poster is also given free the first time a player picks up any
-Harvest Kitchen item.
+Strawberry or Eggplant). One poster is also given free the first time a player joins.
+
+## Kitchen Guide
+
+Shapeless: any slots, also the 2 × 2 grid in the inventory.
+
+```
+Book + Carrot
+```
+
+`minecraft:book` + `minecraft:carrot` make `hk:guide_book`, the Kitchen Guide; using it opens the
+guide (D19, `slice.md` "Kitchen Guide (D19)"). One
+guide is also given free the first time a player joins.
 
 ## Recipe book and Creative menu
 

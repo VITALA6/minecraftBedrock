@@ -4,9 +4,10 @@ Harvest Kitchen adds six new crops to Minecraft and a kitchen to cook them in. Y
 cut them, mix them and cook them into dishes. Every dish fills you up, and most of them also give
 you a helpful effect.
 
-When you join a world for the first time you get a [Recipe Poster](item:hk:recipe_poster). Hang
-it on a wall: the first page shows the whole journey below. Sneak and use the poster to flip to
-the recipes you have unlocked.
+When you join a world for the first time you get a [Kitchen Guide](item:hk:guide_book) and a
+[Recipe Poster](item:hk:recipe_poster). The guide is a book with every recipe and step; if you
+lose it, craft a new one from a book and a carrot. Hang the poster on a wall: its first page
+shows the whole journey below. Sneak and use the poster to flip to the recipes you have unlocked.
 
 ```embed
 loop
@@ -27,8 +28,8 @@ like the [jungle](biome:minecraft:jungle). Every seed can turn up anywhere, just
 1. Craft them into a [Tomato Soup Mix](recipe:hk:tomato_soup_mix) on the crafting table.
 2. Craft a [Cooking Pot](crafting:hk:cooking_pot) and put it on top of a
    [campfire](item:minecraft:campfire).
-3. Use the pot with the mix in your hand, wait a few seconds, then use the pot again to take
-   your soup out.
+3. Use the pot with the mix in your hand to put it in, then use it with an empty hand to start
+   cooking. Wait a few seconds and use it with an empty hand again to take your soup out.
 
 ## Unlocking recipes
 

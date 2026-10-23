@@ -1,6 +1,7 @@
 import {
   ITEM_COOKING_POT,
   ITEM_CUTTING_BOARD,
+  ITEM_GUIDE_BOOK,
   BLOCK_RECIPE_POSTER,
   ITEM_RECIPE_POSTER,
   STATE_FACING,
@@ -40,7 +41,7 @@ export interface Content {
   readonly stations: readonly ContainerStation[];
   readonly effects: Readonly<Record<string, EffectInfo>>;
   readonly families: Readonly<Record<string, FamilyInfo>>;
-  /** Items that exist outside any recipe (poster, pot, board). */
+  /** Items that exist outside any recipe (poster, pot, board, guide book). */
   readonly extraItems: readonly string[];
   /** Vanilla blocks the scripts name (grass, soils, heat). */
   readonly vanillaBlocks: readonly string[];
@@ -56,7 +57,7 @@ export const CONTENT: Content = {
   stations: STATIONS,
   effects: EFFECTS,
   families: FAMILIES,
-  extraItems: [ITEM_RECIPE_POSTER, ITEM_COOKING_POT, ITEM_CUTTING_BOARD],
+  extraItems: [ITEM_RECIPE_POSTER, ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_GUIDE_BOOK],
   vanillaBlocks: [...SEED_DROP_BLOCKS, ...SOIL_BLOCKS, ...HEAT_BLOCK_IDS],
   icon: itemIcon,
 };

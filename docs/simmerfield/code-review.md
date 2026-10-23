@@ -455,3 +455,84 @@ blockers.md B31–B36. Test: [`tests/round-6-release.md`](tests/round-6-release.
   entity (item drops included). The check is a single string compare.
 - `/wm_kitchen:debug` (agent A, release build) is out of this audit's scope. slice.md's "/wm_kitchen:debug"
   section still says `GameDirectors`, and agent A's change makes it `Admin`.
+
+## Round 7 overnight review (2026-10-24)
+
+A fresh read of `packs/simmerfield/scripts/` on top of `c1c8d07` (the trailer only for leaks, since
+it's compiled out of releases). Fixed and noted items from the two reviews above weren't
+re-reported. APIs were checked in the pinned `@minecraft/server` 2.10.0 and `@minecraft/server-ui`
+2.2.0 `.d.ts`.
+
+**Result:** no duplication path, no lost-item path in normal play, and no unbounded growth was
+found. Three small changes were made, all game-facing, so none of them has a unit test. Two
+needs-game questions went to blockers.md (B37, B38).
+
+### Fixes
+
+- **RV1. The sweep read each station block two or three times.** `sweepOne`
+  (`stations/station-engine.ts`) reads the block to check the station is still there. Then
+  `refreshVisuals`, and `save` for a cooking pot, read it again through `stationBlock`. Both now
+  take the block the sweep already has as an optional argument, and every other caller still
+  reads it fresh. No state is cached, so nothing needs invalidating (noted under B32).
+- **RV2. `/wm_kitchen:debug kit` stopped at the first decor id that didn't load.** The
+  `KIT_EXTRAS` hand-outs had no `try`, unlike the rest of the kit, so one unloaded id threw inside
+  the deferred run. That lost the rest of the kit and the summary line. The extras now go through
+  the same `give` helper, which names the bad id in chat and carries on
+  (`debug/debug-command.ts`).
+- **RV3. Stale comment:** `ui/pot-screen.ts` said "a pot of 8 items". The capacity is 4 mixes, so
+  the form offers at most 4 dishes.
+
+### Checked and fine
+
+- **Multiplayer:** every station change is still one synchronous read-modify-write. The choice
+  form re-validates after its `await` through `startCooking`, sneak actions re-read the block and
+  the hand when they run, and sneak-chop stops on leave or distance. The cake's last slice
+  removes the block, so a second player's bite in the same tick finds no cake. The stove and the
+  posters act on live block state.
+- **Player leaves:** every deferred path (`system.run`, `runTimeout`, form `await`) checks
+  `player.isValid`. Form promises go through `runForm` or the pot screen's `catch`, and
+  `PlayerQuit` is silent. `giveOrDrop` drops for an invalid player.
+- **Full inventory:** every hand-out (dish, take-all, chop output, starter poster, guide book,
+  poster refund, debug kit) goes through `giveOrDrop`, which drops whatever doesn't fit.
+  Containers returned when you eat (bowls) come from `using_converts_to` in the item JSON, which
+  vanilla drops when the inventory is full.
+- **Chunk unload:** the sweep checks `isChunkLoaded` and reads the block in a `try` (RA1).
+  Sneak-chop stops when its `getBlock` throws. The fx loop only touches entities, and the ghosts
+  only spawn particles near players. The heat refresh, the poster and cake support checks, and
+  `setChopping` all catch unloaded reads.
+- **`/reload`:** every subscription is made once at top level. Intervals and maps belong to the
+  script instance, and fx leftovers are removed on the first tick and on `worldLoad`. The station
+  sweep restarts only from `worldLoad` → B37.
+- **World reopen and the add-on removed:** station records are rebuilt from world properties.
+  Board knives are fixed by `fxBoardCheck`, and saved fx entities are removed on `entityLoad`.
+  Orphans are bounded: a record whose station id or dimension is unknown is skipped, not
+  deleted, so a downgrade keeps its data. Removal and re-adding are covered by B34.
+- **Growth over a long world:** world properties are one per station with contents, at most 4
+  item ids each (about 150–300 characters). They're deleted when the station empties, by a break
+  (`onPlayerBreak`/`onBreak`, explosions included), or by the sweep when the block is gone. The
+  pot is `immovable`. Player properties are one found list (at most 6 crop keys) and 5 flags. The
+  in-memory gate maps are one number per player. `itemName`'s cache is bounded by item types.
+  The poster's `dropped` map is pruned above 256 entries. fx `retryAt` is cleared when a pot
+  stops cooking.
+- **Before-event privilege:** `beforeOnPlayerPlace` (poster) and the three
+  `beforeEvents.playerInteractWithBlock` handlers only read (`getDynamicProperty`, `getGameMode`,
+  states) and set `cancel`/`permutationToPlace`. Every world change is deferred with `system.run`,
+  and so are the custom command callbacks.
+- **Noise in loops:** a failing spoon spawn warns at most every 40 ticks per pot (`fxStir` sets
+  its retry tick before it tries). A broken station record warns once and is then dropped from
+  the sweep. The sweep's per-station `catch` and the ghosts' per-update `catch` would repeat every
+  10 ticks, but only if a call threw every time. None of the calls they wrap does that for valid
+  data.
+
+### Not changed, noted
+
+- The poster's `beforeOnPlayerPlace` still builds `permutationToPlace` with
+  `BlockPermutation.resolve(getAllStates())`, the pattern CLAUDE.md warns about. That warning is
+  about rewriting a placed part. This is the permutation before placement, and it was seen
+  working in game on 2026-10-22 (B24), so it was left alone.
+- The board's fx knife can hang over a broken board for up to `knifeLifeTicks` (1 s) before the
+  fx loop removes it. That's cosmetic.
+- Trailer (test builds only): a `/reload` during a scene leaves `doDayLightCycle` off and the
+  camera set until `wm_kitchen:trailer stop` or the next join.
+- `tsc` currently fails on `packs/simmerfield/tests/pot-state.fuzz.test.ts:244` (TS7022/TS7024,
+  implicit `any`). That file is new from the parallel coverage agent, not from this review.

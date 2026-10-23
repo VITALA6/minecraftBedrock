@@ -15,7 +15,7 @@ import { potChoices } from "./pot-status";
 // The pot's only form (D15): when two or more dishes are possible, empty hand + use asks which one.
 // An ActionFormData titled with the station's name, one button per dish (its icon + "Cook <dish>"),
 // no body and no Close button (the form's own X closes it). Up to ~3 dishes fit without scrolling;
-// a pot of 8 items rarely allows more.
+// the pot holds 4 mixes (data/stations.ts capacity), so it offers at most 4.
 //
 // The form is a snapshot: a tap goes through startCooking, which re-validates against the pot as it
 // is now and says why if it can't ("It changed", "Needs fire below").

@@ -645,6 +645,10 @@ error). Not seen in game:
   `spill`, `clearStation` and `resetPlaced`), and refresh stations that aren't cooking only every
   4th sweep. Heat changes from players already arrive through `refreshAbove`.
 - **Decide:** after the stress run, whether this ships before the release or waits for a report.
+- **2026-10-24 (round 7 review):** the sweep now hands the station block it already read to
+  `refreshVisuals` and `save`, so each tracked station costs one `getBlock` per sweep instead of
+  two (three for a cooking pot). No state is cached, so nothing needs invalidating. The parsed
+  state cache above is still open.
 
 ## B33. Poster drops when one explosion breaks a row of posters (audit 2026-10-23, untested)
 
@@ -707,3 +711,43 @@ error). Not seen in game:
 - **Fallback:** depends on the finding. A duplicated or lost item is a release blocker.
 - **Decide:** which second client to use for future multiplayer checks (phone, or a second launcher
   instance).
+
+## B37. Cooking after `/reload` relies on `worldLoad` firing again (review 2026-10-24, untested)
+
+- **What:** the station sweep starts only from `world.afterEvents.worldLoad` (`main.ts` →
+  `startStationSweep` in `stations/station-engine.ts`). That one call re-reads the saved
+  stations, the fast flag, and starts the sweep and the ghost interval. The pinned 2.10.0 `.d.ts`
+  documents `worldLoad` with no text at all, so whether it fires again after `/reload` (the world
+  is already loaded then) isn't written anywhere. `fx/fx.ts` already hedges for this with a
+  first-tick `system.run` cleanup. The sweep doesn't.
+- **If it doesn't fire:** after `/reload`, nothing cooks, no ghosts show and no spoon stirs until
+  the world is left and re-entered. The saved contents are safe; only the timer stops. `/reload`
+  needs an operator, so this hits test sessions and servers, not normal play.
+- **Test:** [`tests/round-6-release.md`](tests/round-6-release.md) section F: start a cook, run
+  `/reload`, and the dish must finish. `/wm_kitchen:debug pot` must show the job's ticks counting
+  down.
+- **Proposed fix if it fails:** make `startStationSweep` idempotent: always merge
+  `findSavedStations()` into `tracked` and re-read the fast flag, but start the interval and
+  `startGhosts` only once (a module flag). Then also call it from a top-level `system.run` in
+  `main.ts`, inside `try` like `registerFx` does. Every call order is then safe. If the
+  first-tick call runs before the world is ready, it throws and `worldLoad` does the work. If it
+  finds nothing, the later `worldLoad` call still merges the saved stations.
+- **Decision (2026-10-24):** not applied blind. If `worldLoad` does fire after `/reload`, which
+  is likely, this would only add a second code path.
+
+## B38. A pot blown up by TNT: do its contents survive? (review 2026-10-24, untested)
+
+- **What:** a pot destroyed by an explosion spills from `onBreak` (`stations/container-station.ts`
+  → `spill`). The saved state is cleared first, and then the items are dropped right away, inside
+  the break callback. If the engine damages item entities **after** it has broken the blocks,
+  those freshly dropped mixes and dishes are destroyed by the same explosion, so a TNT next to a
+  full pot loses its contents. Vanilla chests drop their items after the entity damage, so they
+  survive. Our callback's place in that order isn't documented.
+- **Test:** put 4 mixes in a pot, or let one finish and leave the dish in it. Light TNT next to
+  it, in survival. Count the items on the ground: everything should be there, though some may be
+  thrown a few blocks.
+- **Proposed fix if they vanish:** in `onBreak` only (a player break has no explosion), clear the
+  state at once and drop the items on the next tick (`system.run`). Keep the clear-first order,
+  so nothing can be taken twice.
+- **Decision (2026-10-24):** not changed. Deferring the drop changes the normal break path, so it
+  shouldn't change without a test that shows the problem.

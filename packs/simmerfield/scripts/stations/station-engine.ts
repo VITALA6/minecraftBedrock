@@ -111,9 +111,15 @@ export function stationHot(ref: StationRef): boolean {
   return block !== undefined && isHot(ref, block);
 }
 
-/** Pushes the saved state (and the heat below) into the block states that drive the model. */
-export function refreshVisuals(ref: StationRef, state = readStation(ref)): void {
-  const block = stationBlock(ref);
+/**
+ * Pushes the saved state (and the heat below) into the block states that drive the model. The
+ * sweep passes the station block it already read, so a sweep reads each block once.
+ */
+export function refreshVisuals(
+  ref: StationRef,
+  state = readStation(ref),
+  block = stationBlock(ref),
+): void {
   if (!block) return;
   const { fill, phase, hot, liquid } = ref.station.states;
   const patch: Record<string, StateValue> = {};
@@ -130,12 +136,12 @@ export function refreshVisuals(ref: StationRef, state = readStation(ref)): void 
   if (phase && hot) fxStir(ref.dimension, ref.location, patch[phase] === "cooking" && patch[hot] === true); // prettier-ignore
 }
 
-function save(ref: StationRef, state: StationState): void {
+function save(ref: StationRef, state: StationState, block?: Block): void {
   writeStation(ref, state);
   clearMixHints(ref);
   if (isEmpty(state)) tracked.delete(stationKey(ref));
   else tracked.set(stationKey(ref), ref);
-  refreshVisuals(ref, state);
+  refreshVisuals(ref, state, block); // undefined: read it
 }
 
 // --- feedback -------------------------------------------------------------------------------------
@@ -400,7 +406,7 @@ function sweepOne(ref: StationRef): void {
   const state = readStation(ref);
   if (isEmpty(state)) {
     tracked.delete(stationKey(ref));
-    refreshVisuals(ref, state);
+    refreshVisuals(ref, state, block);
     return;
   }
 
@@ -408,13 +414,13 @@ function sweepOne(ref: StationRef): void {
   const step = job && sweepStep(job, isHot(ref, block), fast);
   if (step && step.kind !== "paused") {
     if (step.kind === "cooking") particle(ref.dimension, PARTICLE.steam, stationTop(ref));
-    save(ref, step.kind === "due" ? finish(ref, state) : { ...state, job: step.job });
+    save(ref, step.kind === "due" ? finish(ref, state) : { ...state, job: step.job }, block);
     return;
   }
   if (!job && sweepCount % STATION_SPARKLE_EVERY === 0 && phaseOf(ref.station, state) === "ready") {
     particle(ref.dimension, PARTICLE.sparkle, stationTop(ref));
   }
-  refreshVisuals(ref, state); // heat may have changed
+  refreshVisuals(ref, state, block); // heat may have changed
 }
 
 function sweep(): void {

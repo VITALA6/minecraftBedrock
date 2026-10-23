@@ -73,17 +73,19 @@ function kit(player: Player): void {
     }
   }
   const at = player.location;
-  // 8 of anything that stacks, 1 of dishes in bowls; what doesn't fit drops at your feet.
-  const give = (id: string) => {
+  // 8 of anything that stacks, 1 of dishes in bowls; what doesn't fit drops at your feet. An id
+  // that doesn't load is named in chat and the rest of the kit still comes.
+  const give = (id: string, count?: number) => {
     try {
-      giveOrDrop(player, id, Math.min(8, new ItemStack(id).maxAmount), player.dimension, at);
+      const n = count ?? Math.min(8, new ItemStack(id).maxAmount);
+      giveOrDrop(player, id, n, player.dimension, at);
     } catch {
       player.sendMessage(raw(`§c${id} isn't loaded`));
     }
   };
   for (const id of MOD_ITEM_IDS) give(id);
   for (const id of vanilla) give(id);
-  for (const [id, n] of KIT_EXTRAS) giveOrDrop(player, id, n, player.dimension, at);
+  for (const [id, n] of KIT_EXTRAS) give(id, n);
   player.sendMessage(
     t("wm_kitchen.debug.kit", MOD_ITEM_IDS.length + vanilla.size + KIT_EXTRAS.length),
   );

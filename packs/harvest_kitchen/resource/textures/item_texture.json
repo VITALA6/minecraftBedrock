@@ -2,6 +2,30 @@
   "resource_pack_name": "harvest_kitchen",
   "texture_name": "atlas.items",
   "texture_data": {
+    "hk_kitchen_counter": {
+      "textures": "textures/hk/items/kitchen_counter"
+    },
+    "hk_kitchen_sink": {
+      "textures": "textures/hk/items/kitchen_sink"
+    },
+    "hk_kitchen_stove": {
+      "textures": "textures/hk/items/kitchen_stove"
+    },
+    "hk_kitchen_cabinet": {
+      "textures": "textures/hk/items/kitchen_cabinet"
+    },
+    "hk_spice_shelf": {
+      "textures": "textures/hk/items/spice_shelf"
+    },
+    "hk_hanging_pan": {
+      "textures": "textures/hk/items/hanging_pan"
+    },
+    "hk_pickle_jar": {
+      "textures": "textures/hk/items/pickle_jar"
+    },
+    "hk_vegetable_basket": {
+      "textures": "textures/hk/items/vegetable_basket"
+    },
     "hk_chicken_soup": {
       "textures": "textures/hk/items/chicken_soup"
     },

@@ -17,6 +17,7 @@ import {
 } from "../config";
 import type { StationRecipe } from "../data/recipes";
 import { stationByBlock } from "../data/stations";
+import { fxStir, fxStopStir } from "../fx/fx";
 import { setStates, type StateValue } from "../lib/block-states";
 import { actionBar, particle, sound } from "../lib/feedback";
 import { consumeHeldItem, dropItems, getHeldItem, giveOrDrop } from "../lib/inventory";
@@ -124,6 +125,8 @@ export function refreshVisuals(ref: StationRef, state = readStation(ref)): void 
   } catch (error) {
     console.warn(`[harvest_kitchen] ${stationKey(ref)}: visual update failed: ${String(error)}`);
   }
+  // fx: the stirring spoon while cooking with heat (scripts/fx)
+  if (phase && hot) fxStir(ref.dimension, ref.location, patch[phase] === "cooking" && patch[hot] === true); // prettier-ignore
 }
 
 function save(ref: StationRef, state: StationState): void {
@@ -322,6 +325,7 @@ export function spill(ref: StationRef): void {
   clearStation(ref);
   clearMixHints(ref);
   tracked.delete(stationKey(ref));
+  fxStopStir(ref.dimension, ref.location); // fx: the spoon goes with the pot (scripts/fx)
   const center = {
     x: ref.location.x + 0.5,
     y: ref.location.y + 0.5,

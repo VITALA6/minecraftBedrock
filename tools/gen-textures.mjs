@@ -2151,6 +2151,42 @@ def(
   "stations",
 );
 
+// --- Kitchen decor (art/harvest_kitchen/models/_tools/make-kitchen-deco.mjs) ---------------------
+// Hand-authored grids only (pixels/<name>.txt); the procedural fallback is a flat placeholder tile.
+const DECO_PLACEHOLDER = `
+  ................
+  ................
+  ..bbbbbbbbbbbb..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ..baaaaaaaaaaa..
+  ................
+  ................`;
+for (const [name, ramp] of [
+  ["kitchen_counter", "wood"],
+  ["kitchen_cabinet", "wood"],
+  ["spice_shelf", "wood"],
+  ["kitchen_sink", "iron"],
+  ["kitchen_stove", "pot_iron"],
+  ["hanging_pan", "pot_copper"],
+  ["pickle_jar", "cucumber"],
+  ["vegetable_basket", "bread"],
+])
+  def(
+    "items",
+    name,
+    () => rows(DECO_PLACEHOLDER, { a: c(ramp, 1), b: c(ramp, -1) }, name),
+    "decor",
+  );
+
 // --- UI icons --------------------------------------------------------------------------------------
 
 def(
@@ -2400,6 +2436,36 @@ def(
         { b: c("leaf", 1), s: c("onion_flesh", -1) },
         "chapter_crops",
       ),
+    ),
+  "ui",
+);
+
+// A parchment scroll with an ink "?": "how to play". Hand-authored in pixels/chapter_how_to_play.txt;
+// this flat version is only the fallback.
+def(
+  "ui",
+  "chapter_how_to_play",
+  () =>
+    rows(
+      `
+      ................
+      ..bbbbbbbbbbbbb.
+      ..bbbbbbbbbbbbb.
+      ...WWWWWWWWWWW..
+      ...WWWkkkkkWWW..
+      ...WWkkWWWkkWW..
+      ...WWWWWWWkkWW..
+      ...WWWWWWkkWWW..
+      ...WWWWWkkWWWW..
+      ...WWWWWkkWWWW..
+      ...WWWWWWWWWWW..
+      ...WWWWWkkWWWW..
+      ...WWWWWWWWWWW..
+      ..bbbbbbbbbbbbb.
+      ..bbbbbbbbbbbbb.
+      ................`,
+      { b: c("wood", 2), W: c("cream", 1), k: c("bark", 0) },
+      "chapter_how_to_play",
     ),
   "ui",
 );

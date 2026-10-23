@@ -68,11 +68,19 @@ tools/
   gen-poster-block.mjs writes the recipe poster block JSON (permutations per poster/facing/half)
   lint-posters.mjs   checks the poster textures (alpha, size, icon scale, contrast)
   gen-ghost-atlas.mjs writes the ghost-ingredient particle atlas and particle JSON
+  gen-guide-ui.mjs   writes the Kitchen Guide's JSON UI book (ui/hk_guide/guide.json) from
+                   scripts/guide/book-layout.ts
+  gen-pot-flipbook.mjs writes the pot's boil flipbooks (liquid per colour, rim) and checks their
+                   terrain/flipbook registry entries
                    (all generators take --check, which the tests run)
 docs/              learning notes (00-setup, 01-custom-content, ...)
 art/<pack>/        art sources: pixels/ (hand-authored 16×16 icon grids), models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
                    Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
                    and final/ (hand-finished) textures. Copy into the pack's resource/ by hand.
+                   Generators that need Blockbench (`fx-blockbench.mjs`, `bb-export.mjs`, used by
+                   `make-kitchen-deco.mjs --export`) talk to a **running** Blockbench's MCP server
+                   (`http://localhost:3000/bb-mcp`, `BB_MCP` overrides; start it with `blockbench`).
+                   Run them one at a time (`flock <lockfile> node …`): they share one Blockbench.
 dist/              build output (gitignored)
 ```
 
@@ -110,6 +118,8 @@ Current packs:
 | `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet   |
 | `npm run posters`          | render recipe posters, regenerate the poster block, lint the posters     |
 | `npm run ghosts`           | regenerate the ghost-ingredient particle atlas and particle JSON         |
+| `npm run guide-ui`         | regenerate the Kitchen Guide's JSON UI book                              |
+| `npm run fx`               | regenerate the knife/spoon effect textures, animations and pot flipbooks |
 | `npm run uuid`             | print 5 fresh UUIDs (one new BP+RP+script pack needs exactly 5)          |
 
 Deploy once, then keep `npm run dev` running. It re-copies the deployed packs into the game after

@@ -206,45 +206,27 @@ function knifeTex() {
   for (let v = 0; v < 16; v++)
     for (let u = 0; u < 16; u++) cv.set(u, v, v >= 10 ? WOOD.m : STEEL.m);
   // top view, rows 0-2: v0 = cutting edge (north), v2 = spine (south); u = x + 6
+  // Art review (fx rework): the edge is one clean highlight line; the handle top is plain wood
+  // (body, a shaded bottom row) with a single rivet. The fx knife (make-fx-tools.mjs) copies this
+  // texture, so the knife that chops is the board's own.
   const top = {
-    0: {
-      0: STEEL.l,
-      1: STEEL.l,
-      2: STEEL.w,
-      3: STEEL.w,
-      4: STEEL.w,
-      5: STEEL.l,
-      6: STEEL.w,
-      7: STEEL.w,
-    },
+    0: Object.fromEntries([0, 1, 2, 3, 4, 5, 6, 7].map((u) => [u, STEEL.w])),
     1: {
       0: STEEL.w,
-      1: STEEL.m,
-      2: STEEL.m,
-      3: STEEL.l,
-      4: STEEL.m,
-      5: STEEL.m,
-      6: STEEL.m,
-      7: STEEL.m,
+      ...Object.fromEntries([1, 2, 3, 4, 5, 6, 7].map((u) => [u, STEEL.m])),
       8: STEEL.dd,
-      9: WOOD.l,
-      10: STEEL.m,
-      11: WOOD.l,
-      12: STEEL.m,
+      9: WOOD.m,
+      10: STEEL.d, // the rivet
+      11: WOOD.m,
+      12: WOOD.m,
     },
     2: {
       0: STEEL.m,
-      1: STEEL.d,
-      2: STEEL.d,
-      3: STEEL.d,
-      4: STEEL.d,
-      5: STEEL.d,
-      6: STEEL.d,
-      7: STEEL.d,
+      ...Object.fromEntries([1, 2, 3, 4, 5, 6, 7].map((u) => [u, STEEL.d])),
       8: STEEL.b,
-      9: WOOD.m,
-      10: WOOD.m,
-      11: WOOD.m,
+      9: WOOD.d,
+      10: WOOD.d,
+      11: WOOD.d,
       12: WOOD.d,
     },
   };

@@ -12,6 +12,7 @@ import { announceBuild, announceProblems, registerDebugCommand } from "./debug/d
 import { registerDish } from "./food/dish";
 import { registerDishSupport } from "./food/dish-support";
 import { registerSlicedDish } from "./food/sliced-dish";
+import { registerFx } from "./fx/fx";
 import { giveGuideBookOnce, registerGuideBook } from "./guide/guide-book";
 import { registerPosterEvents, registerRecipePoster } from "./posters/poster";
 import { registerPosterSupport } from "./posters/poster-support";
@@ -57,3 +58,4 @@ registerDiscovery();
 registerDishSupport();
 registerPosterEvents();
 registerPosterSupport();
+registerFx();

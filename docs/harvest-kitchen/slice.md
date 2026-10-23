@@ -13,27 +13,27 @@ eggplant and its 5 dishes, a second poster state, the mix hint ghost, release bu
 
 ## What's implemented
 
-| Feature           | How                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 6 crops           | Tomato, onion, cucumber, eggplant (`crop`: break to harvest) and chili, strawberry (`bush`: use to pick). One block component `hk:crop_growth` with a flat `type` param. Onion is its own seed.                                                                                                                                                                                                                                                                                                                                                                                           |
-| Bushes            | Mature (stage 3) + use with anything: drops 1–3 chili / 2–3 strawberries, falls back to stage 2, regrows. Bone meal on a young bush grows it. Planted on grass, dirt, coarse dirt, podzol or farmland (see decisions).                                                                                                                                                                                                                                                                                                                                                                    |
-| Seed drops        | Breaking short grass, tall grass, fern or large fern (not creative, not shears): one roll; each crop has 5 % in its biomes (`Dimension.getBiome()`) and 1 % anywhere else, so a break drops at most one HK seed.                                                                                                                                                                                                                                                                                                                                                                          |
-| Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber, Eggplant → 2 Sliced Eggplant. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                                                                                                                                   |
-| Station engine    | Generic container station from config (`data/stations.ts`): recipe list, capacity, heat rule, visual-state mapping. One `runInterval` (10 ticks) drives every station with contents. Cook time is stored as ticks left and only counts down with heat, so it pauses without heat and survives `/reload` (the active list is rebuilt at `worldLoad`).                                                                                                                                                                                                                                      |
-| Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                                                                                                                                                  |
-| Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`, `hk:liquid` (7 colours). Bone visibility shows the liquid level and the lid (cooking). The liquid shows what's in the pot (`liquidOf`: the matched dish's colour, else the main ingredient's, else clear water) with a glint when ready or done; the rim glows when hot; light 7 while cooking with heat. Generated permutations (`tools/gen-pot-block.mjs`). All materials `opaque`.                                                                                                                       |
-| Mixes             | D16: one item per pot dish, `hk:<dish>_mix` (stack 16, not food). The raw ingredients and the bowl or bottle are crafted on the crafting table; the pot cooks the mix (capacity 4 mixes; every mix of the chosen dish cooks at once).                                                                                                                                                                                                                                                                                                                                                     |
-| Pot interactions  | Exactly §2.3 with D15: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the choice form only when several are possible, says `Add <first missing>` (no form) when idle with items and `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills.                                                                                    |
-| Pot screen (D15)  | Only when two or more dishes are possible: an `ActionFormData` titled "Cooking Pot", one button per dish (its icon + `Cook <dish>`), no body, no Close button (the X closes it). Cold pot: fizz + `♨ Needs fire below` instead of the form. The tap goes through `startCooking`, which re-validates. See "Ghost ingredients and the choice form (D15)".                                                                                                                                                                                                                                   |
-| Mix hint          | D16: a raw ingredient used on the pot is refused with `✘ Make a mix first`, and the mixes it goes into float above that pot for 3 s, for that player only (even over an empty pot).                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Ghost ingredients | D15: within 6 blocks of a pot with contents, its closest recipe's missing items float above it as semi-transparent bobbing icons (one per missing item); ready → the dish icon(s) with gold sparkles; done → the dish, nearly solid; empty or cooking → nothing. Adding an item pops its ghost. Per-player particles from one interval, capped. See "Ghost ingredients and the choice form (D15)".                                                                                                                                                                                        |
-| Recipe posters    | `hk:recipe_poster` (D15, replaces the recipe book): a 2×1 wall poster (one `minecraft:multi_block`) showing one recipe: ingredients → result, station (+ flame), effect family badge. Page 0 is the "How to Start" guide (the whole loop); sneak + use cycles guide → the dishes the player has discovered → guide (all in creative; `Break grass to find seeds` when none); plain use names the dish and its effect. Crafted from paper + any HK crop (tag `hk:crops`); one is handed out on first join, and a player's first placed poster shows the guide. See "Recipe posters (D15)". |
-| Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; posters only cycle to unlocked dishes. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. First join: a two-line welcome in chat (`hk:welcomed`) and a Recipe Poster (`hk:poster_given`).                                                                                                                                                                                                                        |
-| Kitchen Guide     | D19: the `hk:guide_book` item opens a book of `ActionFormData` pages: How to Play (14 topics), What can I make?, Hot Dishes and Cold Dishes (a recipe page per dish, with its ingredients as icon buttons, the mix and pot steps and the effect), Cutting Board, Crops. Locked dishes show `???` (discovery, D3). One on first join (`hk:guide_book_given`); crafted from book + carrot. See "Kitchen Guide (D19)".                                                                                                                                                                       |
-| Dishes            | 18: the 13 MUST dishes plus 5 eggplant dishes (D17). Pot (each from its mix): tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam, stuffed eggplant, ratatouille, eggplant curry. Crafting (shapeless, vanilla table): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake, eggplant salad, veggie skewer. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                        |
-| Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Only placeable on top of a block; pops (dropping nothing) when the block below goes or a piston pushes it (B15). Generic `hk:sliced_dish` component.                                                                                                                                                 |
-| Validation        | `data/validate.ts` at `worldLoad`; results in the Content Log, via `/hk:debug validate`, and announced to operators on join if there are problems.                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| `/hk:debug`       | Operator-only custom command (see below).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| Feature           | How                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 6 crops           | Tomato, onion, cucumber, eggplant (`crop`: break to harvest) and chili, strawberry (`bush`: use to pick). One block component `hk:crop_growth` with a flat `type` param. Onion is its own seed.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Bushes            | Mature (stage 3) + use with anything: drops 1–3 chili / 2–3 strawberries, falls back to stage 2, regrows. Bone meal on a young bush grows it. Planted on grass, dirt, coarse dirt, podzol or farmland (see decisions).                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Seed drops        | Breaking short grass, tall grass, fern or large fern (not creative, not shears): one roll; each crop has 5 % in its biomes (`Dimension.getBiome()`) and 1 % anywhere else, so a break drops at most one HK seed.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber, Eggplant → 2 Sliced Eggplant. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                                                                                                                                                                                            |
+| Station engine    | Generic container station from config (`data/stations.ts`): recipe list, capacity, heat rule, visual-state mapping. One `runInterval` (10 ticks) drives every station with contents. Cook time is stored as ticks left and only counts down with heat, so it pauses without heat and survives `/reload` (the active list is rebuilt at `worldLoad`).                                                                                                                                                                                                                                                                                               |
+| Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                                                                                                                                                                                                           |
+| Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`, `hk:liquid` (7 colours). Bone visibility shows the liquid level and the lid (only while cooking is paused without heat, D21). While cooking over heat the liquid and rim use boil flipbooks (`tools/gen-pot-flipbook.mjs`) and a `hk:fx_spoon` stirs (`scripts/fx/`). The liquid shows what's in the pot (`liquidOf`: the matched dish's colour, else the main ingredient's, else clear water) with a glint when ready or done; the rim glows when hot; light 7 while cooking with heat. Generated permutations (`tools/gen-pot-block.mjs`). All materials `opaque`. |
+| Mixes             | D16: one item per pot dish, `hk:<dish>_mix` (stack 16, not food). The raw ingredients and the bowl or bottle are crafted on the crafting table; the pot cooks the mix (capacity 4 mixes; every mix of the chosen dish cooks at once).                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Pot interactions  | Exactly §2.3 with D15: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the choice form only when several are possible, says `Add <first missing>` (no form) when idle with items and `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills.                                                                                                                                             |
+| Pot screen (D15)  | Only when two or more dishes are possible: an `ActionFormData` titled "Cooking Pot", one button per dish (its icon + `Cook <dish>`), no body, no Close button (the X closes it). Cold pot: fizz + `♨ Needs fire below` instead of the form. The tap goes through `startCooking`, which re-validates. See "Ghost ingredients and the choice form (D15)".                                                                                                                                                                                                                                                                                            |
+| Mix hint          | D16: a raw ingredient used on the pot is refused with `✘ Make a mix first`, and the mixes it goes into float above that pot for 3 s, for that player only (even over an empty pot).                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| Ghost ingredients | D15: within 6 blocks of a pot with contents, its closest recipe's missing items float above it as semi-transparent bobbing icons (one per missing item); ready → the dish icon(s) with gold sparkles; done → the dish, nearly solid; empty or cooking → nothing. Adding an item pops its ghost. Per-player particles from one interval, capped. See "Ghost ingredients and the choice form (D15)".                                                                                                                                                                                                                                                 |
+| Recipe posters    | `hk:recipe_poster` (D15, replaces the recipe book): a 2×1 wall poster (one `minecraft:multi_block`) showing one recipe: ingredients → result, station (+ flame), effect family badge. Page 0 is the "How to Start" guide (the whole loop); sneak + use cycles guide → the dishes the player has discovered → guide (all in creative; `Break grass to find seeds` when none); plain use names the dish and its effect. Crafted from paper + any HK crop (tag `hk:crops`); one is handed out on first join, and a player's first placed poster shows the guide. See "Recipe posters (D15)".                                                          |
+| Discovery (D3)    | Found crops per player (`hk:found` dynamic property), from `playerInventoryItemChange`. A dish unlocks once all its HK crops are found; posters only cycle to unlocked dishes. `★ New recipe!` subtitle + page-turn, at most once per 3 s. Creative: all unlocked. First join: a two-line welcome in chat (`hk:welcomed`) and a Recipe Poster (`hk:poster_given`).                                                                                                                                                                                                                                                                                 |
+| Kitchen Guide     | D19: the `hk:guide_book` item opens a book of `ActionFormData` pages: How to Play (14 topics), What can I make?, Hot Dishes and Cold Dishes (a recipe page per dish, with its ingredients as icon buttons, the mix and pot steps and the effect), Cutting Board, Crops. Locked dishes show `???` (discovery, D3). One on first join (`hk:guide_book_given`); crafted from book + carrot. See "Kitchen Guide (D19)".                                                                                                                                                                                                                                |
+| Dishes            | 18: the 13 MUST dishes plus 5 eggplant dishes (D17). Pot (each from its mix): tomato soup, vegetable stew, chili stew, fish chowder (cod **or** salmon), chicken soup, onion soup, strawberry jam, stuffed eggplant, ratatouille, eggplant curry. Crafting (shapeless, vanilla table): garden salad, salsa, veggie sandwich, hearty sandwich, strawberry cup, strawberry cake, eggplant salad, veggie skewer. Effects via `hk:dish`; containers come back via `using_converts_to`.                                                                                                                                                                 |
+| Strawberry Cake   | Cake + 2 Strawberry. Item places block `hk:strawberry_cake`, state `hk:slices` 0–3 (slices eaten). Use = eat a slice at any hunger (3 food, saturation 0.4, Regeneration I 5 s), eat sound + chime + hearts; the 4th slice removes the block. Breaking drops nothing (no free cake). Only placeable on top of a block; pops (dropping nothing) when the block below goes or a piston pushes it (B15). Generic `hk:sliced_dish` component.                                                                                                                                                                                                          |
+| Validation        | `data/validate.ts` at `worldLoad`; results in the Content Log, via `/hk:debug validate`, and announced to operators on join if there are problems.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `/hk:debug`       | Operator-only custom command (see below).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 Dish table (food values are in the item JSON **and** `data/dishes.ts`; `tests/pack-files.test.ts`
 compares them, B17). Pot dishes also have a liquid colour (see "Pot liquid colours"):
@@ -177,6 +177,9 @@ scripts/
     discovery.ts             player property, first-join welcome + poster, toast
   guide/
     guide-pages.ts           D19 Kitchen Guide: How to Play topics (title, text, icon) (pure)
+    book-layout.ts           D20 contract with the JSON UI book: spreads, fixed button indexes,
+                             label headers (pure; tools/gen-guide-ui.mjs reads it)
+    guide-model.ts           every guide page as data, navigation, tabOf, makeable (pure)
     guide-book.ts            hk:guide_book item component (use opens the guide); first-join copy
   posters/
     poster-logic.ts          poster state <-> dish, textures, the discovered-recipe cycle, wall
@@ -186,8 +189,12 @@ scripts/
   ui/
     pot-status.ts            the pot's choice form buttons for a state (pure)
     pot-screen.ts            the pot's choice form (ActionFormData; only for 2+ possible dishes)
-    menu.ts                  ActionFormData with one action per button (the guide's pages)
-    guide-screen.ts          the Kitchen Guide's pages and navigation (D19)
+    book-form.ts             shows one guide page model as an ActionFormData (D20)
+    guide-screen.ts          reads the player, opens pages, follows the tapped slot (D19)
+  fx/
+    fx.ts                    D21 pot spoon and board knife effect entities: spawn, cleanup events
+    fx-config.ts             caps, lifetimes, knife yaw per board facing
+    fx-registry.ts           tracked effects, per-area caps, expiry (pure)
   debug/debug-command.ts     /hk:debug
   lib/                       block states, inventory, text (lang keys), feedback (sound/particle),
                              tick-gate (per-player rate limit: poster use, cake bites)
@@ -872,46 +879,102 @@ raw berries and sugar; the stuffed eggplant mix is a raw (bright purple) eggplan
 ramp `eggplant` (vanilla purple dye). Raw mutton and the stick are drawn for the posters
 (`generated/ingredients/`).
 
-## Kitchen Guide (D19)
+## Kitchen Guide (D19, D20)
 
-A book about the mod that shows recipes. The `hk:guide_book` item (a red cover with a carrot)
-opens a book of `ActionFormData` pages (`ui/guide-screen.ts`). It's the pre-D14 recipe book,
-brought back and updated for D16 mixes. Every row is an icon button: icons work (D11), and it
-shares one style with the pot's choice form. `Back` is always the last button, and the form's X
-closes the guide.
+A two-page book about the mod that shows recipes. The `hk:guide_book` item (a red cover with a
+carrot) opens it. Each page is an `ActionFormData` that our JSON UI draws as a book (D20):
+`resource/ui/server_form.json` swaps the vanilla form for `hk_guide.book` only when the title
+contains `§h§k`. Every other form stays vanilla.
 
-| Page             | Shows                                                                                                                                                                                    |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Home             | How to Play · What can I make? · Hot Dishes · Cold Dishes · Cutting Board · Crops                                                                                                        |
-| How to Play      | 14 topics (`guide/guide-pages.ts`): welcome, the loop, seeds, crops, bushes, board, mixes, pot, cooking, cold dishes, effects, poster, unlocking, a lost book. Next and Back             |
-| Hot / Cold       | One button per dish (family glyph, name and icon). It shows `???` and the locked icon until its crops are found. Hot also has `♨ Needs fire below` (tap: the heat blocks)                |
-| Dish             | Body: the effect, then the steps. Buttons: each raw ingredient (to its crop, the board or its dish; a vanilla item gives a hint), `Makes: <mix>`, the pot with its cook time, the effect |
-| Locked dish      | The crops it needs: found ones by name, the others as `??? · <where seeds drop>`                                                                                                         |
-| Cutting Board    | `Tomato → 2 × Sliced Tomato` per cut; `???` until the crop is found                                                                                                                      |
-| Crops / Crop     | Each crop with where its seeds drop. A crop page: where to find it, how to plant it, bush picking, its seed, its cut pieces and every dish that uses it                                  |
-| What can I make? | Dishes whose ingredients (or mix) are all in your inventory now; a mix counts for its pot dish                                                                                           |
+- **Contract** (`guide/book-layout.ts`):
+  - Four spreads, each picked by its title marker `§h§k§<n>§r`: recipe, list, text, crop.
+  - 40 buttons at fixed indexes: picture, grid or rows, result, cook, heading, footer, chips,
+    ◀ ▶ Back Home, 6 ribbons, subheading, uses.
+  - Every label starts with a 3-byte ASCII header (role + count), which the UI cuts with `%.Ns`.
+  - No `label()`, `header()` or `divider()` rows: they would shift the indexes.
+- **UI** (`resource/ui/hk_guide/guide.json`): generated by `tools/gen-guide-ui.mjs`
+  (`npm run guide-ui`; the tests run `--check`).
+  - Every indexed cell sits in one `collection_panel`. Under a plain panel, every cell read item 0:
+    that was the "no names, book icon everywhere" bug.
+  - Every label has a `max_size` and a clipping box, so long text ends in `...`.
+- **Pages** (`guide/guide-model.ts`, pure and unit-tested):
 
+  | Page             | Shows                                                                                                                                                                                               |
+  | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | Home             | Six chapters with own icons and progress: Hot Dishes, Cutting Board, Cold Dishes, Crops, What can I make? (with a count), How to Play                                                               |
+  | Hot / Cold       | Dishes with icons and names; locked ones as `???` silhouettes. ◀ ▶ page through the list                                                                                                            |
+  | Dish             | Effect family, effect and duration; station chip (`Pot + fire` or `Craft`); grid with counts → result, and for pot dishes → mix → `Cook N s` → dish; footer of ingredient names or `Find: <biomes>` |
+  | Crop             | Seed → 4 growth stages → produce; seed biomes and planting; `Used in` (cuts, then dishes, up to 12)                                                                                                 |
+  | Cutting Board    | Each cut; `???` until the crop is found                                                                                                                                                             |
+  | What can I make? | Dishes you can make from your inventory now, with servings: mixes carried plus mixes your raw ingredients make                                                                                      |
+  | How to Play      | 14 topics (`guide/guide-pages.ts`)                                                                                                                                                                  |
+
+- **Navigation, the same on every page:**
+  - ◀ ▶ move within the chapter: dish to dish, crop to crop, list page to list page.
+  - Back returns to the previous page and Home to Home.
+  - The ribbons jump to a chapter. The open ribbon is chosen by `tabOf(page)`.
 - **Getting one:**
-  - On first join every player gets one (`giveGuideBookOnce`, `hk:guide_book_given`), next to the
-    starter poster. Players from before the guide get one on their next join.
-  - Crafting: **book + carrot**, shapeless, which fits the inventory grid. The recipe unlocks on
-    either item.
-  - It's in the creative menu (Items) and in `/hk:debug kit`.
-- **Opening:** the item's custom component `hk:guide_book` (`guide/guide-book.ts`) opens it on
-  `onUse` and on `onUseOn`.
-  - It opens once per click (`TickGate`, `GUIDE_OPEN_GAP_TICKS`), a tick later, because forms
-    can't open in restricted execution.
-  - Interactable blocks take the click first.
-- **No `header()` or `divider()` rows:** nobody has tested whether they shift `selection` (B11).
-  So `ui/menu.ts` uses only the title, the body and buttons, and each page explains itself in its
-  body.
-- **Text:** every string is a lang key (`hk.guide.*`, `hk.ui.back`, `hk.ui.text`).
-  - Topic texts write `%1$s` where a line ends and are sent as `t(key, "\n")`. Vanilla reuses
-    `%1$s` the same way.
-  - Bare item names in buttons go through `hk.ui.text` (`%1$s`), as in the pre-D14 book.
-- **Tests** (`tests/pack-files.test.ts`): the recipe JSON, the item's components, and every topic's
-  title, text (`%1$s` only) and icon PNG. The lang tests check that every `hk.guide.*` key is
-  defined and used.
+  - Every player gets one on first join (`giveGuideBookOnce`, `hk:guide_book_given`), next to the
+    starter poster.
+  - Crafting: a **book + carrot**, shapeless.
+  - It's in the creative menu and in `/hk:debug kit`.
+- **Opening:**
+  - `onUse` and `onUseOn` of the `hk:guide_book` item component open it, once per click and a
+    tick later.
+  - Tapped ingredients open their crop page, the board or a hint in the action bar.
+- **Mockups:** `art/harvest_kitchen/mockups/render-book.mjs` renders real pages through
+  `layout()` and `buildPage()` into `art/harvest_kitchen/mockups/book_*.png`.
+- **Open points:** blockers.md B28; in-game test `tests/round-5-guide-fx-decor.md` steps 4–13.
+
+## Pot and board effects (D21)
+
+- **Boil:** while cooking over heat, the pot's liquid and rim use flipbooks: 8 frames of bubbles
+  per liquid colour, 4 frames of rim embers, 4 ticks per frame. They are made by
+  `tools/gen-pot-flipbook.mjs` from the still textures. The lid shows only while cooking is
+  paused without heat.
+- **Stirring spoon** (`hk:fx_spoon`):
+  - `refreshVisuals` in `station-engine.ts` calls `fxStir`, so it rides on the existing sweep.
+  - It leaves when the cook ends or pauses, when the pot spills or breaks, when no player is within
+    32 blocks, or when the chunk unloads.
+- **Chopping knife** (`hk:fx_knife`): `chopOnce` in `cutting-board.ts` calls `fxChop`. The knife
+  lives 1 s after the last chop and shows chop crumbs (`hk:chop_bits`) on each impact.
+  - It _is_ the board's knife: the same cubes and texture, picked up onto its edge
+    (`pick_up`), then rock-chopping (`chop`).
+  - While it lives, the board's state `hk:chopping` hides the resting knife
+    (`bone_visibility`).
+  - Every path that removes a knife clears the state. `fxBoardCheck` (on random tick and on use)
+    brings the knife back on a board left with the state stuck on.
+- **All motion is client animation.**
+- **Never kept:**
+  - The effects can't be summoned and have no spawn rules or loot.
+  - Physics are off and the hitbox is 0×0.
+  - They despawn by distance and by timer.
+  - `scripts/fx/fx.ts` removes any effect it doesn't own on world load, entity load and stray
+    spawns.
+- **Caps** (`FX_CAPS`): 4 knives, 4 spoons and 6 effects per 16×16 area, 32 in the world.
+- **Load:** one `runInterval` every 5 ticks, which runs only while effects exist.
+- **Art:**
+  - Model generator: `art/harvest_kitchen/models/_tools/make-fx-tools.mjs`.
+  - Blockbench export and renders: `fx-blockbench.mjs`, run under the Blockbench lock.
+  - `npm run fx` regenerates the textures and the flipbooks.
+- **Open points:** blockers.md B29; in-game test steps 14–28.
+
+## Kitchen decor (D22)
+
+Eight decorative blocks with no scripts: `hk:kitchen_counter`, `kitchen_cabinet`, `spice_shelf`,
+`kitchen_sink`, `kitchen_stove`, `hanging_pan`, `pickle_jar`, `vegetable_basket`.
+
+- Each one has a same-id `block_placer` item with a 2D icon and drops itself.
+- Facing: `cardinal_direction` + `y_rotation_offset` 180, with 4 transformation permutations.
+- The pan places only under a block; the jar and the basket only on top of one.
+- Recipes: `recipes-cheatsheet.md` "Kitchen decor".
+- Models and textures: `art/harvest_kitchen/models/_tools/make-kitchen-deco.mjs` (`--export` runs
+  Blockbench under the lock, `--install` copies into the pack, `--check`). The icons are pixel
+  grids.
+- The decor is in `/hk:debug kit` (`KIT_EXTRAS`), not in `HK_ITEM_IDS`: an id there counts as "has
+  an HK item" for discovery.
+- Tests: `tests/deco-blocks.test.ts`.
+- **Open points:** blockers.md B30; in-game test steps 29–37.
 
 ## /hk:debug
 

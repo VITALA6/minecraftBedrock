@@ -59,12 +59,33 @@ tile.hk:strawberry_cake.name=Strawberry Cake
 item.hk:strawberry_cake.name=Strawberry Cake
 tile.hk:recipe_poster.name=Recipe Poster
 item.hk:recipe_poster.name=Recipe Poster
+## Kitchen decor (purely decorative blocks; their items share the block id too).
+tile.hk:kitchen_counter.name=Kitchen Counter
+item.hk:kitchen_counter.name=Kitchen Counter
+tile.hk:kitchen_cabinet.name=Kitchen Cabinet
+item.hk:kitchen_cabinet.name=Kitchen Cabinet
+tile.hk:spice_shelf.name=Spice Shelf
+item.hk:spice_shelf.name=Spice Shelf
+tile.hk:kitchen_sink.name=Kitchen Sink
+item.hk:kitchen_sink.name=Kitchen Sink
+tile.hk:kitchen_stove.name=Kitchen Stove
+item.hk:kitchen_stove.name=Kitchen Stove
+tile.hk:hanging_pan.name=Hanging Pan
+item.hk:hanging_pan.name=Hanging Pan
+tile.hk:pickle_jar.name=Jar of Pickles
+item.hk:pickle_jar.name=Jar of Pickles
+tile.hk:vegetable_basket.name=Vegetable Basket
+item.hk:vegetable_basket.name=Vegetable Basket
 tile.hk:tomato_crop.name=Tomatoes
 tile.hk:onion_crop.name=Onions
 tile.hk:cucumber_crop.name=Cucumbers
 tile.hk:chili_bush.name=Chili Bush
 tile.hk:strawberry_bush.name=Strawberry Bush
 tile.hk:eggplant_crop.name=Eggplants
+
+## Station effects (scripts/fx): script-owned animation entities, never in a player's hands.
+entity.hk:fx_knife.name=Chopping Knife
+entity.hk:fx_spoon.name=Stirring Spoon
 
 ## Shared UI
 hk.ui.item_count=%1$s × %2$s
@@ -132,16 +153,15 @@ hk.guide.page=Page %1$s/%2$s
 hk.guide.locked=???
 hk.guide.locked_body=Find its crops to unlock it.
 hk.guide.find=Find: %1$s
-hk.guide.effect_line=%1$s · %2$s s
+hk.guide.effect_line=%1$s %2$s: %3$s, %4$s s
+hk.guide.effect_chip=%1$s %2$s s
 hk.guide.no_effect=Filling food
 hk.guide.sliced=Place it, then eat it a slice at a time (%1$s slices).
-hk.guide.hot_summary=Craft the mix, then cook it over fire.
-hk.guide.cold_summary=Craft it on a crafting table.
-hk.guide.seconds=%1$s s
+hk.guide.pot_fire=Pot + fire
 hk.guide.craft=Craft
 hk.guide.step_mix=1. Craft the mix
 hk.guide.step_craft=Craft it
-hk.guide.cook_seconds=2. Cook %1$s s
+hk.guide.cook_seconds=Cook %1$s s
 hk.guide.cook_hint=Use the pot with an empty hand to cook
 hk.guide.mix_hint=Craft it on a crafting table
 hk.guide.vanilla_item=A Minecraft item
@@ -157,6 +177,8 @@ hk.guide.plant_farmland=Plant it on farmland. Break it when fully grown.
 hk.guide.plant_soil=Plant it on grass, dirt or farmland.
 hk.guide.bush=A bush: use it when ripe to pick the fruit.
 hk.guide.used_in=Used in
+hk.guide.growth=Seed to harvest
+hk.guide.stage=Stage %1$s/%2$s
 
 ## How to Play topics (guide/guide-pages.ts). %1$s is a line break.
 hk.guide.topic.welcome=Welcome
@@ -215,4 +237,5 @@ hk.debug.validate=Data check: %1$s problem(s).
 hk.debug.fast_on=Fast cooking on.
 hk.debug.fast_off=Fast cooking off.
 hk.debug.reset=Discovery reset.
+hk.debug.fx=Effects: %1$s knife, %2$s spoon.
 hk.debug.problems=§eHarvest Kitchen: %1$s data problem(s). Run /hk:debug validate

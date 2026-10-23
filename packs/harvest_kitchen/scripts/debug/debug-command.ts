@@ -15,6 +15,7 @@ import { HK_ITEM_IDS } from "../discovery/unlock";
 import { CROPS } from "../data/crops";
 import { CRAFTING_RECIPES, STATION_RECIPES } from "../data/recipes";
 import { lastValidation, validateData } from "../data/validate";
+import { fxCounts } from "../fx/fx";
 import { getState, setState } from "../lib/block-states";
 import { giveOrDrop } from "../lib/inventory";
 import { raw, t } from "../lib/text";
@@ -23,13 +24,14 @@ import { ghostsFor, type GhostView } from "../stations/ghost-logic";
 import { phaseOf } from "../stations/station-logic";
 import { readStation, storedSize } from "../stations/station-store";
 
-// /hk:debug <kit|grow|fast|pot|validate|reset> — operator-only test helpers (plan §6):
+// /hk:debug <kit|grow|fast|pot|validate|reset|fx> — operator-only test helpers (plan §6):
 //   kit       every Harvest Kitchen item, the vanilla ingredients the recipes use, a campfire
 //   grow      matures Harvest Kitchen crops within DEBUG_GROW_RADIUS blocks
 //   fast      toggles near-instant cooking (saved in the world)
 //   pot       prints the state of the station you're looking at
 //   validate  re-runs the data check and prints it to chat (the Content Log loses its tail)
 //   reset     forgets your discovered crops and that you got the starter poster and guide book
+//   fx        counts the live pot/board effect entities (knife, spoon)
 //
 // Custom commands register only in system.beforeEvents.startup, and their callbacks run in
 // restricted mode (@privilege no-restricted-execution on world changes), so every action is
@@ -37,7 +39,7 @@ import { readStation, storedSize } from "../stations/station-store";
 
 const COMMAND = "hk:debug";
 const ACTION_ENUM = "hk:debug_action";
-const ACTIONS = ["kit", "grow", "fast", "pot", "validate", "reset"] as const;
+const ACTIONS = ["kit", "grow", "fast", "pot", "validate", "reset", "fx"] as const;
 type Action = (typeof ACTIONS)[number];
 
 function isAction(value: unknown): value is Action {
@@ -51,6 +53,15 @@ const KIT_EXTRAS: readonly [string, number][] = [
   ["minecraft:water_bucket", 1],
   ["minecraft:paper", 2], // + any crop: a Recipe Poster
   ["minecraft:book", 1], // + a carrot: a Kitchen Guide
+  // Kitchen decor: not in HK_ITEM_IDS, which counts as "has an HK item" for discovery.
+  ["hk:kitchen_counter", 1],
+  ["hk:kitchen_cabinet", 1],
+  ["hk:spice_shelf", 1],
+  ["hk:kitchen_sink", 1],
+  ["hk:kitchen_stove", 1],
+  ["hk:hanging_pan", 1],
+  ["hk:pickle_jar", 1],
+  ["hk:vegetable_basket", 1],
 ];
 
 function kit(player: Player): void {
@@ -170,6 +181,10 @@ function run(player: Player, action: Action): void {
     case "validate":
       player.sendMessage(t("hk.debug.build", __BUILD_ID__));
       return validate(player);
+    case "fx": {
+      const { knife, spoon } = fxCounts();
+      return player.sendMessage(t("hk.debug.fx", knife, spoon));
+    }
     case "reset":
       resetDiscovery(player);
       return player.sendMessage(t("hk.debug.reset"));
@@ -181,7 +196,7 @@ export function registerDebugCommand(registry: CustomCommandRegistry): void {
   registry.registerCommand(
     {
       name: COMMAND,
-      description: "Harvest Kitchen test helpers (kit, grow, fast, pot, validate, reset).",
+      description: "Harvest Kitchen test helpers (kit, grow, fast, pot, validate, reset, fx).",
       permissionLevel: CommandPermissionLevel.GameDirectors,
       // Operator-only already; works in worlds without cheats so test sessions need no setup.
       cheatsRequired: false,

@@ -21,6 +21,8 @@ Not here:
 | Recipe Poster | shapeless, 2 items | 2 × 2 too   | any Harvest Kitchen crop (tomato, onion, cucumber, chili, strawberry, eggplant) |
 | Kitchen Guide | shapeless, 2 items | 2 × 2 too   | a book or a carrot                                                              |
 
+The eight kitchen decor blocks (2026-10-23) are in their own section below.
+
 "Any Harvest Kitchen seed" is tomato, cucumber, chili pepper, strawberry or eggplant seeds. The
 onion has no seed; it's planted itself. In Creative every recipe is unlocked.
 
@@ -79,6 +81,27 @@ Book + Carrot
 `minecraft:book` + `minecraft:carrot` make `hk:guide_book`, the Kitchen Guide; using it opens the
 guide (D19, `slice.md` "Kitchen Guide (D19)"). One
 guide is also given free the first time a player joins.
+
+## Kitchen decor (2026-10-23)
+
+Decorative only: no scripts, and the stove doesn't heat the pot. All are shaped recipes on the
+3 × 3 table and unlock on the key ingredient **or** when you get a Cooking Pot or Cutting Board.
+Each one faces the player who places it. `.` = empty, `P` any planks, `-` any wooden slab.
+
+| Block            | Id                    | Grid                                                                        | Makes | Unlocks on                | Placement                   |
+| ---------------- | --------------------- | --------------------------------------------------------------------------- | ----- | ------------------------- | --------------------------- |
+| Kitchen Counter  | `hk:kitchen_counter`  | `S S S` / `P I P` / `P P P` (S smooth stone slab, I iron nugget)            | 2     | smooth stone slab         | anywhere                    |
+| Kitchen Cabinet  | `hk:kitchen_cabinet`  | `P P P` / `G I G` / `P P P` (G glass pane, I iron nugget)                   | 2     | glass pane                | anywhere                    |
+| Spice Shelf      | `hk:spice_shelf`      | `B C B` / `- - -` (B glass bottle, C chili pepper)                          | 1     | chili pepper              | anywhere                    |
+| Kitchen Sink     | `hk:kitchen_sink`     | `. I .` / `S C S` / `P P P` (I iron ingot, S smooth stone slab, C cauldron) | 1     | cauldron                  | anywhere; tap pokes 4 px up |
+| Kitchen Stove    | `hk:kitchen_stove`    | `I C I` / `I F I` (I iron ingot, C copper ingot, F furnace)                 | 1     | furnace                   | anywhere                    |
+| Hanging Pan      | `hk:hanging_pan`      | `C C N` / `C C .` (C copper ingot, N iron nugget)                           | 1     | copper ingot              | under a block only          |
+| Jar of Pickles   | `hk:pickle_jar`       | `G C G` / `. G .` (G glass, C cucumber)                                     | 1     | cucumber                  | on top of a block only      |
+| Vegetable Basket | `hk:vegetable_basket` | `T O C` / `S . S` / `S S S` (T tomato, O onion, C cucumber, S stick)        | 1     | tomato, onion or cucumber | on top of a block only      |
+
+No grid matches a vanilla 1.26.52.3 recipe (checked against all 1,881, mirrors and plank/slab
+variants included) or another HK recipe. The closest neighbour is the blast furnace
+(`I I I` / `I F I` / `s s s`) next to the stove.
 
 ## Recipe book and Creative menu
 

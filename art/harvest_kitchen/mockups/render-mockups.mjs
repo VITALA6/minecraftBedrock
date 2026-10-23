@@ -1381,11 +1381,11 @@ function main() {
   }
   console.log(`wrote ${Object.keys(PARTS).length} parts to ${path.relative(ROOT, PARTS_DIR)}/`);
 
-  save("book_dish_page.png", bookDishPage());
-  save("book_dish_page_locked.png", bookDishPageLocked());
-  save("book_chapter_index.png", bookChapterIndex());
-  save("book_home.png", bookHome());
-  save("book_what_can_i_make.png", bookWhatCanIMake());
+  save("concept_book_dish_page.png", bookDishPage());
+  save("concept_book_dish_page_locked.png", bookDishPageLocked());
+  save("concept_book_chapter_index.png", bookChapterIndex());
+  save("concept_book_home.png", bookHome());
+  save("concept_book_what_can_i_make.png", bookWhatCanIMake());
   save(
     "pot_screen.png",
     potScreen({
@@ -1420,4 +1420,7 @@ function main() {
   );
 }
 
-main();
+// Helpers for the sibling scripts (render-book.mjs).
+export { W, H, SCALE, hex, img, get, put, rect, blit, stretch, nine, tile, upscale, backdrop };
+
+if (import.meta.main) main();

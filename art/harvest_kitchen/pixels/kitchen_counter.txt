@@ -1,0 +1,32 @@
+# kitchen_counter (decor). Hand-drawn: the counter seen from the front and a little above, like
+# the cooking pot icon: a light stone top (lit far edge, shaded front lip), a dark gap under it, an
+# oak drawer with an iron pull, two panelled doors with copper knobs, a dark toe kick.
+# Light from the top left. The overhanging top and recessed toe kick set its silhouette apart.
+palette
+A #e3dfd2     # stone top, lit
+B #c1bfb8     # stone top
+C #97979c     # stone front lip
+x wood.0      # gaps and toe kick
+k wood.1      # door/drawer shadow edges
+d wood.2      # panel shadow
+m wood.3      # oak
+h wood.4      # lit edges
+i iron.4      # drawer pull
+o pot_copper.3 # knobs
+grid
+................
+................
+................
+.AAAAAAAAAAAAAB.
+.ABBBBBBBBBBBBC.
+.CCCCCCCCCCCCCC.
+..xxxxxxxxxxxx..
+..hhhhhhhhhhhk..
+..hmmmmiimmmmk..
+..hkkkkkkkkkkk..
+..xxxxxxxxxxxx..
+..hhhhhkhhhhhk..
+..hmdmokhommdk..
+..hmmmdkhmmmdk..
+...xxxxxxxxxx...
+................

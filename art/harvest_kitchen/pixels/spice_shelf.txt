@@ -1,0 +1,28 @@
+# spice_shelf (decor). Hand-drawn: a little open oak shelf, two rows of copper-lidded spice jars
+# (chili red, turmeric yellow, green herbs), open at the back.
+palette
+h wood.4      # lit board edges
+m wood.3      # oak
+k wood.1      # board shadow
+o pot_copper.3 # lids
+R chili.3     # chili flakes
+y flower_yellow.2 # turmeric
+G leaf.3      # herbs
+W glass.3     # glass glint
+grid
+................
+................
+.hhhhhhhhhhhhhh.
+.kkkkkkkkkkkkkk.
+..h.oo.oo.oo.k..
+..h.WR.yy.GG.k..
+..h.RR.yy.GG.k..
+..hhhhhhhhhhhk..
+..hkkkkkkkkkkk..
+..h.oo.oo.oo.k..
+..h.WG.Wy.RR.k..
+..h.GG.yy.RR.k..
+..hhhhhhhhhhhk..
+..kkkkkkkkkkkk..
+................
+................

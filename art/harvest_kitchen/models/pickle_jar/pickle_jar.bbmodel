@@ -1,0 +1,384 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "bedrock_block",
+    "box_uv": false
+  },
+  "name": "hk_pickle_jar",
+  "model_identifier": "hk.pickle_jar",
+  "front_gui_light": false,
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "jar",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -3,
+        0,
+        -3
+      ],
+      "to": [
+        3,
+        6,
+        3
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            5,
+            10,
+            11,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            5,
+            5,
+            11,
+            11
+          ],
+          "texture": 1,
+          "material_name": "top"
+        },
+        "down": {
+          "uv": [
+            5,
+            5,
+            11,
+            11
+          ],
+          "texture": 1,
+          "material_name": "top"
+        }
+      },
+      "type": "cube",
+      "uuid": "85005e15-facc-489e-af8b-eff3d6549f2f"
+    },
+    {
+      "name": "shoulder",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -2,
+        6,
+        -2
+      ],
+      "to": [
+        2,
+        7,
+        2
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            9,
+            10,
+            10
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            6,
+            9,
+            10,
+            10
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            6,
+            9,
+            10,
+            10
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            6,
+            9,
+            10,
+            10
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "22775f9d-cb74-45fc-a642-e116fb64fa1d"
+    },
+    {
+      "name": "lid",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -2,
+        7,
+        -2
+      ],
+      "to": [
+        2,
+        9,
+        2
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            7,
+            10,
+            9
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            6,
+            7,
+            10,
+            9
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            6,
+            7,
+            10,
+            9
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            6,
+            7,
+            10,
+            9
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            6,
+            6,
+            10,
+            10
+          ],
+          "texture": 1,
+          "material_name": "top"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "3f706edc-b84c-49bf-938f-7ac77f3adeaf"
+    }
+  ],
+  "groups": [
+    {
+      "name": "pickle_jar",
+      "uuid": "84712891-a8f3-48d7-a48a-0aabf05cc8ff",
+      "export": true,
+      "locked": false,
+      "scope": 0,
+      "selected": false,
+      "visibility": true,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 1,
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "autouv": 0,
+      "isOpen": false
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "84712891-a8f3-48d7-a48a-0aabf05cc8ff",
+      "isOpen": false,
+      "children": [
+        "85005e15-facc-489e-af8b-eff3d6549f2f",
+        "22775f9d-cb74-45fc-a642-e116fb64fa1d",
+        "3f706edc-b84c-49bf-938f-7ac77f3adeaf"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "pickle_jar_side",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "0",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "990e23f4-a98c-43e8-9bf2-23f961407214",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAdElEQVR4nGNYefjaf0oww6gBg9mAT1ub/9/siYZjkg3YkWkPx11e2qQb8OXn7/9Xnn6AY5IMQNdMlgFBjTL/79yY8N+rXwPM3rQ2jTQD8icr/zeplAMbAqJJNgCkySgT4gqQYSA22QbA2CTFQn7/MgyMTR0AKakqtDJ3uvsAAAAASUVORK5CYII="
+    },
+    {
+      "name": "pickle_jar_top",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "1",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "dffd567d-a509-4854-b409-d498b4770d9f",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAQElEQVR4nGO48vTDf0oww6gB2A348vM3VkySAZ+2Nv+/2RMNxjsy7Ul3AUwjCHd5aQ+AATCNMEyyAUM8HQwtAwDd/Ja4WtFIRwAAAABJRU5ErkJggg=="
+    }
+  ]
+}

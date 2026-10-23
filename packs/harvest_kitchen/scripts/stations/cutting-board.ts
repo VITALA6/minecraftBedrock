@@ -17,6 +17,7 @@ import {
 } from "../config";
 import { CROPS } from "../data/crops";
 import { findCuttingRecipe, type CuttingRecipe } from "../data/recipes";
+import { fxBoardCheck, fxChop } from "../fx/fx";
 import { actionBar, particle, sound } from "../lib/feedback";
 import { consumeHeldItem, distance, getHeldItem, giveOrDrop } from "../lib/inventory";
 import { t } from "../lib/text";
@@ -48,6 +49,7 @@ function chopOnce(player: Player, block: Block, recipe: CuttingRecipe): boolean 
   sound(block.dimension, SOUND.chop, top, { pitch: 1.1 + Math.random() * 0.2 });
   sound(block.dimension, SOUND.chopSquish, top, { volume: 0.4, pitch: 1.6 });
   particle(block.dimension, PARTICLE.bits, top, 4, 0.25, colorFor(recipe));
+  fxChop(block); // fx: the chopping knife (scripts/fx)
   return true;
 }
 
@@ -112,10 +114,15 @@ function startChopping(player: Player, block: Block): void {
 
 const cuttingStation: BlockCustomComponent = {
   onPlayerInteract({ block, player }) {
+    fxBoardCheck(block); // fx: a board never stays without its resting knife (scripts/fx)
     if (!player) return;
     const held = getHeldItem(player);
     if (player.isSneaking && held && findCuttingRecipe(held.typeId)) return; // before-event has it
     use(player, block);
+  },
+  // fx: shows the resting knife again if its chopping knife was lost (scripts/fx)
+  onRandomTick({ block }) {
+    fxBoardCheck(block);
   },
 };
 

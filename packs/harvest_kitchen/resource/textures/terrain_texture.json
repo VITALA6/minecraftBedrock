@@ -4,6 +4,28 @@
   "padding": 8,
   "num_mip_levels": 4,
   "texture_data": {
+    "hk_deco_oak": { "textures": "textures/hk/blocks/deco/deco_oak" },
+    "hk_kitchen_counter_front": { "textures": "textures/hk/blocks/deco/kitchen_counter_front" },
+    "hk_kitchen_counter_side": { "textures": "textures/hk/blocks/deco/kitchen_counter_side" },
+    "hk_kitchen_counter_top": { "textures": "textures/hk/blocks/deco/kitchen_counter_top" },
+    "hk_kitchen_sink_front": { "textures": "textures/hk/blocks/deco/kitchen_sink_front" },
+    "hk_kitchen_sink_top": { "textures": "textures/hk/blocks/deco/kitchen_sink_top" },
+    "hk_kitchen_sink_basin": { "textures": "textures/hk/blocks/deco/kitchen_sink_basin" },
+    "hk_kitchen_stove_front": { "textures": "textures/hk/blocks/deco/kitchen_stove_front" },
+    "hk_kitchen_stove_side": { "textures": "textures/hk/blocks/deco/kitchen_stove_side" },
+    "hk_kitchen_stove_top": { "textures": "textures/hk/blocks/deco/kitchen_stove_top" },
+    "hk_kitchen_cabinet_front": { "textures": "textures/hk/blocks/deco/kitchen_cabinet_front" },
+    "hk_kitchen_cabinet_side": { "textures": "textures/hk/blocks/deco/kitchen_cabinet_side" },
+    "hk_spice_shelf_jars": { "textures": "textures/hk/blocks/deco/spice_shelf_jars" },
+    "hk_hanging_pan_front": { "textures": "textures/hk/blocks/deco/hanging_pan_front" },
+    "hk_hanging_pan_side": { "textures": "textures/hk/blocks/deco/hanging_pan_side" },
+    "hk_pickle_jar_side": { "textures": "textures/hk/blocks/deco/pickle_jar_side" },
+    "hk_pickle_jar_top": { "textures": "textures/hk/blocks/deco/pickle_jar_top" },
+    "hk_vegetable_basket_side": { "textures": "textures/hk/blocks/deco/vegetable_basket_side" },
+    "hk_vegetable_basket_top": { "textures": "textures/hk/blocks/deco/vegetable_basket_top" },
+    "hk_vegetable_basket_produce": {
+      "textures": "textures/hk/blocks/deco/vegetable_basket_produce"
+    },
     "hk_chili_bush_stage_0": { "textures": "textures/hk/blocks/chili_bush_stage_0" },
     "hk_chili_bush_stage_1": { "textures": "textures/hk/blocks/chili_bush_stage_1" },
     "hk_chili_bush_stage_2": { "textures": "textures/hk/blocks/chili_bush_stage_2" },
@@ -40,6 +62,34 @@
     "hk_cooking_pot_side": { "textures": "textures/hk/blocks/cooking_pot_side" },
     "hk_cooking_pot_top": { "textures": "textures/hk/blocks/cooking_pot_top" },
     "hk_cooking_pot_top_hot": { "textures": "textures/hk/blocks/cooking_pot_top_hot" },
+    "hk_cooking_pot_top_boil": { "textures": "textures/hk/blocks/cooking_pot_top_boil" },
+    "hk_cooking_pot_liquid_water_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_water_boil"
+    },
+    "hk_cooking_pot_liquid_tomato_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_tomato_boil"
+    },
+    "hk_cooking_pot_liquid_chili_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_chili_boil"
+    },
+    "hk_cooking_pot_liquid_jam_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_jam_boil"
+    },
+    "hk_cooking_pot_liquid_stew_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_stew_boil"
+    },
+    "hk_cooking_pot_liquid_broth_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_broth_boil"
+    },
+    "hk_cooking_pot_liquid_cream_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_cream_boil"
+    },
+    "hk_cooking_pot_liquid_eggplant_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_eggplant_boil"
+    },
+    "hk_cooking_pot_liquid_curry_boil": {
+      "textures": "textures/hk/blocks/cooking_pot_liquid_curry_boil"
+    },
     "hk_cucumber_crop_stage_0": { "textures": "textures/hk/blocks/cucumber_crop_stage_0" },
     "hk_cucumber_crop_stage_1": { "textures": "textures/hk/blocks/cucumber_crop_stage_1" },
     "hk_cucumber_crop_stage_2": { "textures": "textures/hk/blocks/cucumber_crop_stage_2" },

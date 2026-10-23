@@ -1,0 +1,62 @@
+[
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_water_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_water_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_tomato_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_tomato_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_chili_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_chili_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_jam_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_jam_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_stew_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_stew_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_broth_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_broth_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_cream_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_cream_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_eggplant_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_eggplant_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_liquid_curry_boil",
+    "atlas_tile": "hk_cooking_pot_liquid_curry_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  },
+  {
+    "flipbook_texture": "textures/hk/blocks/cooking_pot_top_boil",
+    "atlas_tile": "hk_cooking_pot_top_boil",
+    "ticks_per_frame": 4,
+    "blend_frames": false
+  }
+]

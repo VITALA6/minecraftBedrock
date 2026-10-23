@@ -1,0 +1,36 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "hk:spice_shelf"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["BCB", "---"],
+    "key": {
+      "B": {
+        "item": "minecraft:glass_bottle"
+      },
+      "C": {
+        "item": "hk:chili_pepper"
+      },
+      "-": {
+        "tag": "minecraft:wooden_slabs"
+      }
+    },
+    "unlock": [
+      {
+        "item": "hk:chili_pepper"
+      },
+      {
+        "item": "hk:cooking_pot"
+      },
+      {
+        "item": "hk:cutting_board"
+      }
+    ],
+    "result": {
+      "item": "hk:spice_shelf",
+      "count": 1
+    }
+  }
+}

@@ -1,5 +1,29 @@
 {
   "format_version": [1, 1, 0],
+  "hk:kitchen_counter": {
+    "sound": "wood"
+  },
+  "hk:kitchen_cabinet": {
+    "sound": "wood"
+  },
+  "hk:spice_shelf": {
+    "sound": "wood"
+  },
+  "hk:kitchen_sink": {
+    "sound": "stone"
+  },
+  "hk:kitchen_stove": {
+    "sound": "metal"
+  },
+  "hk:hanging_pan": {
+    "sound": "lantern"
+  },
+  "hk:pickle_jar": {
+    "sound": "glass"
+  },
+  "hk:vegetable_basket": {
+    "sound": "wood"
+  },
   "hk:tomato_crop": {
     "sound": "grass"
   },

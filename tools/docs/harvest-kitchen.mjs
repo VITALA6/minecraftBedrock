@@ -200,6 +200,12 @@ export default async function harvestKitchen(ctx) {
   const seeds = new Set(data.CROPS.map((c) => c.seed).filter((id) => !produce.has(id)));
   const prepared = new Set(data.CUTTING_RECIPES.map((r) => r.output));
   const stationItems = new Set(data.STATIONS.map((s) => s.icon).concat(data.ITEM_CUTTING_BOARD));
+  // Kitchen decor: every other block-placing item (the cake is a dish, the poster a "block").
+  const placers = new Set(
+    [...itemJson]
+      .filter(([, components]) => components["minecraft:block_placer"])
+      .map(([id]) => id),
+  );
   const category = (id) =>
     dishes.has(id) ? "dish"
     : mixes.has(id) ? "mix"
@@ -209,6 +215,7 @@ export default async function harvestKitchen(ctx) {
     : stationItems.has(id) ? "station"
     : id === data.ITEM_RECIPE_POSTER ? "block"
     : id === data.ITEM_GUIDE_BOOK ? "book"
+    : placers.has(id) ? "decor"
     : null; // prettier-ignore
 
   function food(id) {
@@ -471,7 +478,8 @@ export default async function harvestKitchen(ctx) {
     {
       id: "crafting",
       title: "Crafting",
-      summary: "How to craft the Cooking Pot, the Cutting Board and the Recipe Poster.",
+      summary:
+        "How to craft the Cooking Pot, the Cutting Board, the Recipe Poster, the Kitchen Guide and the kitchen decor.",
       steps: null,
     },
   ];

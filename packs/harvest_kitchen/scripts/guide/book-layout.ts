@@ -20,6 +20,8 @@ export const SPREADS = {
   list: "§h§k§2§r",
   /** Left: title, big icon. Right: heading, then the body as a full page of text. */
   text: "§h§k§3§r",
+  /** Left: title, big icon, body. Right: heading, growth row → produce, subheading, USES slots. */
+  crop: "§h§k§4§r",
 } as const;
 
 export type Spread = keyof typeof SPREADS;
@@ -30,6 +32,10 @@ export const BOOK_MARKER = "§h§k";
 export const MARKER_BYTES = 12;
 
 export const LIST_ROWS = 7;
+/** Crop spread: the seed and the growth stages, left to right (BOOK.stages). */
+export const STAGE_SLOTS = 5;
+/** Crop spread: "Used in" slots, 2 rows of 6 (BOOK.uses). */
+export const USES = 12;
 
 /** Fixed button indexes. Content indexes are shared: a spread uses the ones it draws. */
 export const BOOK = {
@@ -39,7 +45,9 @@ export const BOOK = {
   grid: [1, 2, 3, 4, 5, 6, 7, 8, 9],
   /** List: the rows, top to bottom (the first LIST_ROWS of 1..). */
   rows: [1, 2, 3, 4, 5, 6, 7],
-  /** Recipe: what the grid makes (the mix of a hot dish, or the dish). */
+  /** Crop: the seed, then each growth stage. */
+  stages: [1, 2, 3, 4, 5],
+  /** Recipe: what the grid makes (the mix of a hot dish, or the dish). Crop: the produce. */
   result: 10,
   /** Recipe, hot dishes: the pot chip of the cook row. */
   cook: 11,
@@ -58,11 +66,15 @@ export const BOOK = {
   home: 20,
   /** Ribbons on the right edge, top to bottom (TABS). */
   tabs: [21, 22, 23, 24, 25, 26],
-  size: 27,
+  /** Crop, right page: the "Used in" heading (text). */
+  subheading: 27,
+  /** Crop, right page: what the crop is used in, row by row. */
+  uses: [28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
+  size: 40,
 } as const;
 
-/** The ribbons, in BOOK.tabs order. */
-export const TABS = ["hot", "cold", "board", "crops", "topics", "what"] as const;
+/** The ribbons, in BOOK.tabs order (and the chapters on Home, in the same order). */
+export const TABS = ["hot", "board", "cold", "crops", "what", "topics"] as const;
 export type Tab = (typeof TABS)[number];
 
 /**

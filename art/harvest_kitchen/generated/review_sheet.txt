@@ -8,7 +8,8 @@ prepared: sliced_tomato, sliced_cucumber, sliced_eggplant, chopped_onion
 dishes: tomato_soup, onion_soup, salsa, garden_salad, strawberry_cup, vegetable_stew, chili_stew, fish_chowder, chicken_soup, strawberry_jam, veggie_sandwich, hearty_sandwich, strawberry_cake, stuffed_eggplant, ratatouille, eggplant_curry, eggplant_salad, veggie_skewer
 mixes: tomato_soup_mix, chili_stew_mix, vegetable_stew_mix, fish_chowder_mix, chicken_soup_mix, onion_soup_mix, ratatouille_mix, eggplant_curry_mix, strawberry_jam_mix, stuffed_eggplant_mix
 stations: cooking_pot, cutting_board, recipe_poster, guide_book
-ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops, chapter_what_can_i_make, needs_heat
+decor: kitchen_counter, kitchen_cabinet, spice_shelf, kitchen_sink, kitchen_stove, hanging_pan, pickle_jar, vegetable_basket
+ui: family_heal, family_move, family_work, family_explore, locked, chapter_crops, chapter_how_to_play, chapter_what_can_i_make, needs_heat
 ingredients: bowl, carrot, potato, bread, beef, mutton, stick, chicken, cod, salmon, sugar, glass_bottle, cake, cooked_porkchop, book, short_grass, crafting_table, campfire, farmland
 biomes: biome_plains, biome_forest, biome_cherry_grove, biome_taiga, biome_savanna, biome_jungle, biome_badlands, biome_swamp, biome_river, biome_meadow
 
@@ -60,12 +61,21 @@ Per icon: colours, bounding box, grayscale range.
   cutting_board: 8 colours, 14x14, grey 177
   recipe_poster: 8 colours, 14x8, grey 205
   guide_book: 10 colours, 12x14, grey 201
+  kitchen_counter: 10 colours, 14x12, grey 148
+  kitchen_cabinet: 10 colours, 14x13, grey 155
+  spice_shelf: 7 colours, 14x12, grey 133
+  kitchen_sink: 10 colours, 14x13, grey 152
+  kitchen_stove: 8 colours, 10x13, grey 141
+  hanging_pan: 8 colours, 10x15, grey 166
+  pickle_jar: 10 colours, 10x12, grey 155
+  vegetable_basket: 10 colours, 14x13, grey 153
   family_heal: 5 colours, 14x12, grey 170
   family_move: 6 colours, 12x13, grey 188
   family_work: 8 colours, 14x14, grey 187
   family_explore: 7 colours, 14x13, grey 214
   locked: 6 colours, 12x14, grey 191
   chapter_crops: 9 colours, 14x14, grey 134
+  chapter_how_to_play: 8 colours, 14x13, grey 205
   chapter_what_can_i_make: 10 colours, 14x14, grey 184
   needs_heat: 9 colours, 14x14, grey 186
   bowl: 4 colours, 12x8, grey 216

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "hk:hanging_pan"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["CCN", "CC "],
+    "key": {
+      "C": {
+        "item": "minecraft:copper_ingot"
+      },
+      "N": {
+        "item": "minecraft:iron_nugget"
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:copper_ingot"
+      },
+      {
+        "item": "hk:cooking_pot"
+      },
+      {
+        "item": "hk:cutting_board"
+      }
+    ],
+    "result": {
+      "item": "hk:hanging_pan",
+      "count": 1
+    }
+  }
+}

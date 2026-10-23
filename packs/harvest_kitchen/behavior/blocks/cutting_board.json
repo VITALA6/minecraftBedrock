@@ -6,6 +6,9 @@
       "menu_category": {
         "category": "items"
       },
+      "states": {
+        "hk:chopping": [false, true]
+      },
       "traits": {
         "minecraft:placement_direction": {
           "enabled_states": ["minecraft:cardinal_direction"]
@@ -33,7 +36,10 @@
         "destroy_chance_modifier": 20
       },
       "minecraft:geometry": {
-        "identifier": "geometry.hk.cutting_board"
+        "identifier": "geometry.hk.cutting_board",
+        "bone_visibility": {
+          "knife": "q.block_state('hk:chopping') == false"
+        }
       },
       "minecraft:light_dampening": 0,
       "minecraft:map_color": "#a0773f",

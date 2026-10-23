@@ -8,7 +8,9 @@ import {
   LIST_ROWS,
   MARKER_BYTES,
   SPREADS,
+  STAGE_SLOTS,
   TABS,
+  USES,
   countField,
   header,
   slotLabel,
@@ -67,18 +69,23 @@ describe("book index map", () => {
     BOOK.back,
     BOOK.home,
     ...BOOK.tabs,
+    BOOK.subheading,
+    ...BOOK.uses,
   ];
 
-  it("covers 0..size-1 exactly once (the recipe spread uses every content index)", () => {
+  it("covers 0..size-1 exactly once", () => {
     assert.deepEqual(
       [...all].sort((a, b) => a - b),
       Array.from({ length: BOOK.size }, (_, i) => i),
     );
   });
 
-  it("list rows fit in the content indexes, and there is a ribbon per tab", () => {
+  it("list rows and crop stages reuse the grid's indexes; a ribbon per tab", () => {
     assert.ok(BOOK.rows.length >= LIST_ROWS);
-    for (const row of BOOK.rows) assert.ok(row > BOOK.icon && row < BOOK.result, `row ${row}`);
+    assert.equal(BOOK.stages.length, STAGE_SLOTS);
+    assert.equal(BOOK.uses.length, USES);
+    const grid = new Set<number>(BOOK.grid);
+    for (const index of [...BOOK.rows, ...BOOK.stages]) assert.ok(grid.has(index), `${index}`);
     assert.equal(BOOK.tabs.length, TABS.length);
   });
 
@@ -147,5 +154,74 @@ describe("generated JSON UI (tools/gen-guide-ui.mjs)", () => {
     );
     const missing = Array.from({ length: BOOK.size }, (_, i) => i).filter((i) => !drawn.has(i));
     assert.deepEqual(missing, []);
+  });
+
+  // The in-game bug of 2026-10-23: cells under a plain panel all read item 0 (every slot showed
+  // the book icon, no text, no open ribbon). Vanilla only nests explicit collection_index children
+  // in a stack_panel, grid or collection_panel.
+  it("every fixed-index cell sits directly in a form_buttons collection_panel, and only cells do", () => {
+    let checked = 0;
+    const walk = (node: unknown): void => {
+      if (Array.isArray(node)) return node.forEach(walk);
+      if (!node || typeof node !== "object") return;
+      const element = node as Record<string, unknown>;
+      const controls = element.controls;
+      if (Array.isArray(controls)) {
+        for (const entry of controls as Record<string, Record<string, unknown>>[]) {
+          const [name, child] = Object.entries(entry)[0] ?? [];
+          if (!name || !child) continue;
+          const indexed = child.collection_index !== undefined;
+          const inCollection = element.type === "collection_panel";
+          if (indexed) {
+            checked++;
+            assert.ok(inCollection, `${name} has a collection_index outside a collection_panel`);
+            assert.equal(element.collection_name, "form_buttons", name);
+          } else {
+            assert.ok(!inCollection, `${name} sits in a collection_panel without an index`);
+          }
+        }
+      }
+      Object.values(element).forEach(walk);
+    };
+    walk(guide);
+    assert.ok(checked >= BOOK.size);
+  });
+
+  it("each spread draws an index at most once, and never one the cover or ribbons draw", () => {
+    const book = guide.book as { controls: Record<string, Record<string, unknown>>[] };
+    const indexesOf = (node: unknown): number[] =>
+      [...JSON.stringify(node).matchAll(/"collection_index":(\d+)/g)].map((m) => Number(m[1]));
+    const frame = book.controls
+      .filter((entry) => "ribbons" in entry || "chrome" in entry)
+      .flatMap(indexesOf);
+    assert.equal(new Set(frame).size, frame.length);
+    for (const spread of Object.keys(SPREADS)) {
+      const entry = book.controls.find((c) => spread in c);
+      assert.ok(entry, `spread ${spread}`);
+      const own = indexesOf(entry);
+      assert.equal(new Set(own).size, own.length, spread);
+      assert.deepEqual(
+        own.filter((i) => frame.includes(i)),
+        [],
+        spread,
+      );
+    }
+  });
+
+  it("every label is bounded (max_size), so no text spills off the page", () => {
+    const unbounded: string[] = [];
+    const walk = (node: unknown, name: string): void => {
+      if (Array.isArray(node)) return node.forEach((child) => walk(child, name));
+      if (!node || typeof node !== "object") return;
+      const element = node as Record<string, unknown>;
+      // Labels are either typed here or derive from ink (name, headings); name's instances
+      // inherit its max_size. light's derivatives are "?" and the 2-character count.
+      const label = element.type === "label" || name.endsWith("@hk_guide.ink");
+      if (label && element.max_size === undefined) unbounded.push(name);
+      for (const [key, child] of Object.entries(element)) walk(child, key);
+    };
+    walk(guide, "guide");
+    assert.deepEqual(unbounded.sort(), ["ink", "light"]); // the bases
+    assert.ok(text.includes('"name@hk_guide.ink"'));
   });
 });

@@ -545,3 +545,56 @@ error). Not seen in game:
     planned for the old book.
   - If a button label is blank, wrap it in `hk.ui.text` like the item names.
   - If a long chapter scrolls badly on a phone, split Hot Dishes by effect family.
+- **Update 2026-10-23 (D20):** the guide is now drawn by our JSON UI book (D20), and its first
+  in-game look had no chapter names, the book icon on every row and ribbon, and no open ribbon.
+  - **Cause:** every fixed-index cell (`collection_index`) sat in a plain `panel`. Vanilla nests
+    explicit indexes only in a `stack_panel`, `grid` or `collection_panel`, so every cell read
+    collection item 0 (the Home picture, label without text).
+  - **Fix:** `tools/gen-guide-ui.mjs` puts every cell in one `collection_panel`. A test fails if an
+    index sits anywhere else.
+  - **Pages:** they are pure data now (`scripts/guide/guide-model.ts`), with a crop spread and a
+    `tabOf()` rule for the open ribbon.
+  - **Test:** steps 3–6 above are replaced by
+    [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 4–13.
+  - **Fallback:** if the book still shows item 0 everywhere, use a `stack_panel` per row of cells
+    (the choose_realm pattern) with padding panels for positions.
+
+## B29. Pot and board effects (D21, untested)
+
+- **What:** the pot liquid and rim use flipbook textures while cooking over heat
+  (`tools/gen-pot-flipbook.mjs`, `flipbook_textures.json`). A `hk:fx_spoon` entity stirs in a
+  cooking pot, and a `hk:fx_knife` entity chops on the board after each chop (`scripts/fx/`).
+  **The lid is now off while cooking over heat** and on only while paused without heat.
+  The board hides its resting knife while the effect knife chops (state `hk:chopping`).
+- **Assumed, not seen in game:**
+  1. Flipbook shortnames animate in a custom block's `material_instances`. Source: Bedrock Wiki
+     "Flipbook Textures", which uses a 1.26.50 block.
+  2. Knife yaw per board facing (`FX_BOARD_YAW`): entity yaw 0 faces south, and the model front
+     is −z. If east and west come out across the board, swap them.
+  3. A 0×0 `minecraft:custom_hit_test` makes the effects unclickable. If clicks land on them, the
+     station behind won't react.
+  4. `entityLoad` fires for effects saved with a chunk, and the start-up cleanup covers `/reload`.
+  5. The board can blink for one frame at pick-up: the state change and the spawn share a tick.
+  6. The board gets random ticks without extra JSON, as the pot does. If it doesn't, the check on
+     every use still restores a stuck knife.
+- **Not saved on purpose:** stable has no "don't save" flag, so the effects can't be summoned,
+  have no spawn rules, despawn by distance and by timer, and are removed by the script on world
+  load, entity load and stray spawns. Caps: `FX_CAPS` in `scripts/fx/fx-config.ts`.
+- **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 14–28.
+
+## B30. Kitchen decor blocks (D22, untested)
+
+- **What:** 8 decorative blocks (counter, cabinet, spice shelf, sink, stove, hanging pan, jar of
+  pickles, vegetable basket), no scripts. Recipes: `recipes-cheatsheet.md` "Kitchen decor".
+- **Assumed, not seen in game:**
+  1. **Facing:** `y_rotation_offset: 180` turns a north-built front toward the player (Bedrock
+     Wiki "N-Way Rotation"). If all eight face away, set it to 0, one line per block. The cutting
+     board has no offset (B9). Whichever of the two is wrong in game, fix the other to match.
+  2. **Hanging Pan:** `allowed_faces: ["down"]` means "on the underside of a block". If it pops
+     right after placing, as the poster's side filter did (B24), drop the filter.
+  3. The facing transformation also turns the collision and selection boxes (the shallow cabinet
+     and shelf).
+- **Known:**
+  - The sink's tap rises 4 px into the block above it.
+  - The stove doesn't heat the pot, by design (D22).
+- **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 29–37.

@@ -1,0 +1,33 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.hk.fx_knife.pick_up": {
+      "loop": "hold_on_last_frame",
+      "animation_length": 0.15,
+      "bones": { "knife": { "rotation": { "0.0": [0, 0, 0], "0.15": [90, 0, 0] } } }
+    },
+    "animation.hk.fx_knife.chop": {
+      "loop": true,
+      "animation_length": 0.5,
+      "bones": {
+        "chop": {
+          "rotation": {
+            "0.0": [0, 0, 0],
+            "0.18": [0, 0, 24],
+            "0.24": [0, 0, 26],
+            "0.3": [0, 0, 0],
+            "0.34": [0, 0, 3],
+            "0.4": [0, 0, 0]
+          },
+          "position": {
+            "0.0": [0, 0, 0],
+            "0.18": [0, 0.5, 0],
+            "0.24": [0, 0.5, 0],
+            "0.3": [0, 0, 0]
+          }
+        }
+      },
+      "particle_effects": { "0.3": { "effect": "chop", "locator": "edge" } }
+    }
+  }
+}

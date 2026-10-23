@@ -331,12 +331,20 @@ describe("same-id placer items (B3)", () => {
     .map((item) => item as unknown as PlacerJson)
     .filter((item) => item.components["minecraft:block_placer"]?.replace_block_item === true);
 
-  it("the pot, the board, the cake and the poster replace their block's item", () => {
+  it("the stations, the cake, the poster and the kitchen decor replace their block's item", () => {
     assert.deepEqual(placers.map((p) => p.description.identifier).sort(), [
       "hk:cooking_pot",
       "hk:cutting_board",
+      "hk:hanging_pan",
+      "hk:kitchen_cabinet",
+      "hk:kitchen_counter",
+      "hk:kitchen_sink",
+      "hk:kitchen_stove",
+      "hk:pickle_jar",
       "hk:recipe_poster",
+      "hk:spice_shelf",
       "hk:strawberry_cake",
+      "hk:vegetable_basket",
     ]);
   });
 
@@ -466,14 +474,19 @@ describe("cooking pot looks (tools/gen-pot-block.mjs)", () => {
               (withMaterials[0]?.components["minecraft:material_instances"] as
                 Materials | undefined) ?? base;
             const ready = ph === "ready" || ph === "done";
+            const boiling = ph === "cooking" && isHot; // flipbook looks (tests/fx-pot.test.ts)
             assert.equal(
               materials.liquid?.texture,
-              `hk_cooking_pot_liquid_${colour}${ready ? "_ready" : ""}`,
+              `hk_cooking_pot_liquid_${colour}${ready ? "_ready" : boiling ? "_boil" : ""}`,
               where,
             );
             assert.equal(
               materials.top?.texture,
-              isHot ? "hk_cooking_pot_top_hot" : "hk_cooking_pot_top",
+              boiling
+                ? "hk_cooking_pot_top_boil"
+                : isHot
+                  ? "hk_cooking_pot_top_hot"
+                  : "hk_cooking_pot_top",
               where,
             );
             const light: unknown = applied

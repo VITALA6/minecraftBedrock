@@ -1,14 +1,20 @@
 // Writes packs/harvest_kitchen/behavior/blocks/cooking_pot.json: the pot block with one
-// material permutation per liquid colour × ready look × hot rim.
+// material permutation per liquid colour × look (still, ready glint, boiling) × hot rim.
 //
 //   node tools/gen-pot-block.mjs           write the block JSON
 //   node tools/gen-pot-block.mjs --check   exit 1 if the file differs from what it would write
 //                                          (npm test runs this; see tests/pack-files.test.ts)
 //
 // Why generated: a permutation's minecraft:material_instances replaces the whole component, so
-// every combination of the liquid texture (hk:liquid, 7 colours), the ready glint (phase ready or
-// done) and the hot rim (hk:hot) needs its own full copy: 7 × 2 × 2 = 28 looks, 27 permutations
-// plus the base. Only the liquid and top textures change between them.
+// every combination of the liquid texture (hk:liquid, 9 colours), the ready glint (phase ready or
+// done), the hot rim (hk:hot) and the boil needs its own full copy. Per colour: still cold, still
+// hot, ready cold, ready hot, boiling (cooking + hot, always hot) = 5 looks, 9 × 5 = 45, so 44
+// permutations plus the base. Only the liquid and top textures change between them.
+//
+// Boiling (fx, agent B): while cooking over heat the liquid and the rim use flipbook textures
+// (tools/gen-pot-flipbook.mjs: <liquid>_boil bubbles, top_boil flickers) and the lid is off, so
+// the bubbles and the stirring spoon (scripts/fx) show. Cooking without heat is paused: lid on,
+// still liquid.
 //
 // The liquid ids and state names come from the pack's own data (data/liquids.ts, data/stations.ts),
 // bundled with esbuild, so the block can't drift from what the scripts set.
@@ -44,13 +50,21 @@ async function loadData() {
 }
 
 const material = (texture) => ({ texture, render_method: "opaque" });
-const liquidTexture = (liquid, ready) => `hk_cooking_pot_liquid_${liquid}${ready ? "_ready" : ""}`;
+const LOOK_SUFFIX = { still: "", ready: "_ready", boil: "_boil" };
+const liquidTexture = (liquid, look) => `hk_cooking_pot_liquid_${liquid}${LOOK_SUFFIX[look]}`;
+const topTexture = (look, hot) =>
+  look === "boil"
+    ? "hk_cooking_pot_top_boil"
+    : hot
+      ? "hk_cooking_pot_top_hot"
+      : "hk_cooking_pot_top";
 
-function materials(liquid, ready, hot) {
+/** look: "still" | "ready" (phase ready or done) | "boil" (phase cooking with heat). */
+function materials(liquid, look, hot) {
   return {
     "*": material("hk_cooking_pot_side"),
-    top: material(hot ? "hk_cooking_pot_top_hot" : "hk_cooking_pot_top"),
-    liquid: material(liquidTexture(liquid, ready)),
+    top: material(topTexture(look, hot)),
+    liquid: material(liquidTexture(liquid, look)),
     lid: material("hk_cooking_pot_lid"),
   };
 }
@@ -62,25 +76,30 @@ function blockJson({ LIQUIDS, DEFAULT_LIQUID, stationById }) {
   if (LIQUIDS[0] !== DEFAULT_LIQUID) throw new Error("the default liquid must come first");
 
   const q = (state) => `q.block_state('${state}')`;
-  const readyCondition = (ready) =>
-    ready
-      ? `(${READY_PHASES.map((p) => `${q(phase)} == '${p}'`).join(" || ")})`
-      : READY_PHASES.map((p) => `${q(phase)} != '${p}'`).join(" && ");
+  const isReady = `(${READY_PHASES.map((p) => `${q(phase)} == '${p}'`).join(" || ")})`;
+  const notReady = READY_PHASES.map((p) => `${q(phase)} != '${p}'`).join(" && ");
+  const boiling = `${q(phase)} == 'cooking' && ${q(hot)} == true`;
+  // Mutually exclusive per colour: exactly one applies to every state combination.
+  const LOOKS = [
+    { look: "still", hot: false, when: `${notReady} && ${q(hot)} == false` },
+    {
+      look: "still",
+      hot: true,
+      when: `${notReady} && ${q(phase)} != 'cooking' && ${q(hot)} == true`,
+    },
+    { look: "ready", hot: false, when: `${isReady} && ${q(hot)} == false` },
+    { look: "ready", hot: true, when: `${isReady} && ${q(hot)} == true` },
+    { look: "boil", hot: true, when: boiling },
+  ];
 
   const permutations = [];
   for (const colour of LIQUIDS) {
-    for (const ready of [false, true]) {
-      for (const isHot of [false, true]) {
-        if (colour === DEFAULT_LIQUID && !ready && !isHot) continue; // the base components
-        permutations.push({
-          condition: [
-            `${q(liquid)} == '${colour}'`,
-            readyCondition(ready),
-            `${q(hot)} == ${isHot}`,
-          ].join(" && "),
-          components: { "minecraft:material_instances": materials(colour, ready, isHot) },
-        });
-      }
+    for (const { look, hot: isHot, when } of LOOKS) {
+      if (colour === DEFAULT_LIQUID && look === "still" && !isHot) continue; // the base components
+      permutations.push({
+        condition: `${q(liquid)} == '${colour}' && ${when}`,
+        components: { "minecraft:material_instances": materials(colour, look, isHot) },
+      });
     }
   }
   permutations.push({
@@ -113,13 +132,14 @@ function blockJson({ LIQUIDS, DEFAULT_LIQUID, stationById }) {
             liquid_1: `${q(fill.name)} >= 1`,
             liquid_2: `${q(fill.name)} >= 2`,
             liquid_3: `${q(fill.name)} >= 3`,
-            lid: `${q(phase)} == 'cooking'`,
+            // paused (cooking without heat): lid on; boiling: lid off for the bubbles and spoon
+            lid: `${q(phase)} == 'cooking' && ${q(hot)} == false`,
           },
         },
         "minecraft:light_dampening": 0,
         "minecraft:light_emission": 0,
         "minecraft:map_color": "#b86a3c",
-        "minecraft:material_instances": materials(DEFAULT_LIQUID, false, false),
+        "minecraft:material_instances": materials(DEFAULT_LIQUID, "still", false),
         "minecraft:movable": { movement_type: "immovable" },
       },
       permutations,

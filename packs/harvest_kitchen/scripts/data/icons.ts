@@ -45,6 +45,7 @@ export const UI_ICONS = {
   locked: "textures/hk/ui/locked",
   crops: "textures/hk/ui/chapter_crops",
   whatCanIMake: "textures/hk/ui/chapter_what_can_i_make",
+  howToPlay: "textures/hk/ui/chapter_how_to_play",
   needsHeat: "textures/hk/ui/needs_heat",
   pot: "textures/hk/items/cooking_pot",
   board: "textures/hk/items/cutting_board",

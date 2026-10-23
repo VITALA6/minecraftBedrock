@@ -1,0 +1,31 @@
+# kitchen_sink (decor). Hand-drawn: a lower counter cabinet with a basin of blue water in the
+# stone top, an iron faucet rising behind it, and a red-and-cream tea towel on the left door.
+# The faucet and water make it read apart from the plain counter.
+palette
+I iron.4      # faucet, lit
+C #97979c     # faucet shadow, stone lip
+A #e3dfd2     # stone top, towel cream
+w glass.0     # water
+x wood.0      # gaps
+k wood.1      # shadows
+m wood.3      # oak
+h wood.4      # lit edges
+o pot_copper.3 # knob
+r tomato.1    # towel red
+grid
+................
+................
+......IIIIC.....
+......C..IC.....
+.........IC.....
+.........IC.....
+.AAAAAAAAAAAAAA.
+.AAAwwwwwwwwAAC.
+.CCCCCCCCCCCCCC.
+.xxxxxxxxxxxxxx.
+.hhhhhhkhhhhhhk.
+.hrArmmkhmmmmmk.
+.hArAmokhommmmk.
+.hrArmmkhmmmmmk.
+.xxxxxxxxxxxxxx.
+................

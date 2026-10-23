@@ -125,3 +125,40 @@ The renderer records every icon and text run it draws (position, scale, colours)
 measures those in the decoded PNGs (both halves stitched back together), so the readability
 checks follow the layout automatically. Why 64 texels per block and 2×1: `slice.md` "Texture
 resolution".
+
+## Block models and decor (D22)
+
+Rules for 3D blocks: the pot, board and cake, and the kitchen decor. They come from the first art
+review of the decor (2026-10-23).
+
+| Rule                                                                                                                                                                                 | Lint              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| **16 texels per block on every face**, as in vanilla. No stretched faces, except 1×1 flat-colour swatches on parts too thin to see.                                                  | no (review)       |
+| **Shared ramps:** wood uses the cutting board's oak, metal uses the pot's `pot_iron`/`pot_copper`, stone tops are calcite-like. Light comes from the top left on every face texture. | no                |
+| **Model the shape, don't paint it.** A rim, lip or door frame that should read from the side stands 1 px proud of its face. A pan painted on a flat slab reads as a paddle.          | no                |
+| **Round things are stepped:** a round outline is 3 stacked cubes with 2 px chamfers (e.g. 8×4, 6×6, 4×8), not 2.                                                                     | no                |
+| **Clean metal, no specks:** a metal face is a lit top and left row, a dark bottom and right row, and a flat middle. Scattered light or dark pixels read as noise or rust.            | no                |
+| **Small parts say what they are:** a hook is a bent J or a ring, not a cap on a stem (that reads as a nail).                                                                         | no                |
+| **Food on blocks uses the item icon's ramp** (tomato `#b41331 → #ffd2a8`), so a tomato in a basket matches the tomato item. Highlights warm toward yellow, never toward pink.        | no                |
+| **Faces the player** who places it (front built facing north in Blockbench), and it looks right next to vanilla oak planks, calcite, the furnace and the cauldron.                   | no (in-game test) |
+
+Item icons for blocks follow the icon rules above. Box-shaped blocks need different silhouettes:
+four of the decor icons first matched each other, or the farmland and crafting-table icons, on
+the similar-pair lint.
+
+## Animated effects (D21)
+
+| Rule                                                                                                                                                                                                                      | Lint                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| **Motion stays where the action is.** A flipbook animates only what moves (the liquid). Pixels the player sees on a static part (the pot rim) are identical in every frame; flicker there reads as glitter or z-fighting. | `fx-pot.test.ts` (strips)         |
+| **Flipbook frames use the still texture's own ramp:** bubbles grow, pop to a ring and fade within about 4 frames, staggered, with no new colours.                                                                         | `fx-pot.test.ts`                  |
+| **One of each object.** An effect that shows a tool the block already has (the board's knife) replaces it while it runs; it never adds a second copy.                                                                     | no                                |
+| **Effect models match the block's art:** the same ramps, the same 16 texels per block. A handle is a solid ramp with at most one rivet pixel, and a blade spine is one clean highlight line, never alternating pixels.    | no                                |
+| **Client animation, short and readable:** a chop rocks on the tip and snaps down with a small bounce, and the crumbs fire on contact. A stir is one slow circle with a bob.                                               | renders in `models/fx_*/renders/` |
+
+## Chapter icons (Kitchen Guide)
+
+The six chapter icons sit side by side on Home and the ribbons, so each needs its own silhouette.
+`chapter_crops` and `chapter_what_can_i_make` run diagonally. `chapter_how_to_play` leans the
+same way. Its first upright version was a plain capital "I" in silhouette and matched the
+cabinet icon on the similar-pair lint.

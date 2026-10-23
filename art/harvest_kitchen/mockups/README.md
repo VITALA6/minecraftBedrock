@@ -17,18 +17,42 @@ node art/harvest_kitchen/mockups/render-mockups.mjs
   mockups, it will stretch the same way in game.
 - Vanilla textures only end up inside the rendered PNGs. None are copied into the repo.
 
-## Mockups
+## The finished Kitchen Guide (D19/D20)
 
-| File                        | Shows                                                                                                 |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `book_dish_page.png`        | Tomato Soup page; the Tomato slot is selected and shows where tomatoes come from                      |
-| `book_dish_page_locked.png` | Chili Stew, locked: silhouettes, "?", and the "Find it!" hint                                         |
-| `book_chapter_index.png`    | Pot chapter: the station, the family legend, 7 dish tiles (2 locked), hover                           |
-| `book_home.png`             | Home: the big "What to make?" button and four chapter buttons                                         |
-| `book_what_can_i_make.png`  | What to make?: dishes you can make now, plus "Almost!" (+1 of one item)                               |
-| `pot_screen.png`            | 2 Tomato + Bowl over a lit fire → Tomato Soup, Cook enabled                                           |
-| `pot_screen_almost.png`     | Onion + Bread: "Almost!" +1 Onion, +1 Bowl → Onion Soup, Cook disabled                                |
-| `pot_screen_cold.png`       | Extra: same as the first pot screen, but with no fire. Unlit flame, Cook disabled, "Needs fire below" |
+```sh
+node art/harvest_kitchen/mockups/render-book.mjs
+```
+
+`render-book.mjs` draws the book the game draws, not a concept: the pages come from
+`scripts/guide/guide-model.ts` (`buildPage`, bundled with esbuild), every position and size from
+`layout()` in `tools/gen-guide-ui.mjs` (the same data `guide.json` is written from), the textures
+from the resource pack (with their 9-slice sidecars) and the game, and the text from the game's
+own font (`font/default8.png`) and lang files, cut with "..." at each label's box like JSON UI.
+The player is mid-game: tomato, onion and cucumber found, a few crops and bowls in the bag.
+Not drawn: hover tooltips and the controller focus frame.
+
+| File                       | Shows                                                                         |
+| -------------------------- | ----------------------------------------------------------------------------- |
+| `book_home.png`            | Home: the six chapters by name, with progress and the What can I make? count  |
+| `book_chapter.png`         | Hot Dishes, page 1 of 2: found dishes by name, locked ones as "?" silhouettes |
+| `book_dish_hot.png`        | Tomato Soup: effect family and duration, grid → mix, then pot → dish          |
+| `book_dish_cold.png`       | Garden Salad: grid → dish on the crafting table, ingredients named below      |
+| `book_dish_locked.png`     | Chili Stew, locked: silhouettes for the unfound chili, where to find it       |
+| `book_crop.png`            | Tomato: seed → 4 growth stages → tomato, seed biomes, "Used in"               |
+| `book_what_can_i_make.png` | What can I make?: dishes from the bag, with how many servings                 |
+
+## D13 concept mockups
+
+| File                                | Shows                                                                                                 |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `concept_book_dish_page.png`        | Tomato Soup page; the Tomato slot is selected and shows where tomatoes come from                      |
+| `concept_book_dish_page_locked.png` | Chili Stew, locked: silhouettes, "?", and the "Find it!" hint                                         |
+| `concept_book_chapter_index.png`    | Pot chapter: the station, the family legend, 7 dish tiles (2 locked), hover                           |
+| `concept_book_home.png`             | Home: the big "What to make?" button and four chapter buttons                                         |
+| `concept_book_what_can_i_make.png`  | What to make?: dishes you can make now, plus "Almost!" (+1 of one item)                               |
+| `pot_screen.png`                    | 2 Tomato + Bowl over a lit fire → Tomato Soup, Cook enabled                                           |
+| `pot_screen_almost.png`             | Onion + Bread: "Almost!" +1 Onion, +1 Bowl → Onion Soup, Cook disabled                                |
+| `pot_screen_cold.png`               | Extra: same as the first pot screen, but with no fire. Unlit flame, Cook disabled, "Needs fire below" |
 
 ### Why they look like this
 

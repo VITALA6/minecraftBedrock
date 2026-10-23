@@ -144,3 +144,25 @@ describe("shipped names", () => {
     assert.ok(ui.includes("§h§k"), "the book marker is still there");
   });
 });
+
+// LICENSE.txt ships in both packs; tools/package.mjs refuses to package without it, or when the
+// two differ or leave out a term (missingLicenseTerms). Same check here, on the source files.
+describe("license", () => {
+  it("is the same in both packs and says every term the store pages promise", () => {
+    const bp = readFileSync(`${PACK}/behavior/LICENSE.txt`, "utf8");
+    const rp = readFileSync(`${PACK}/resource/LICENSE.txt`, "utf8");
+    assert.equal(rp, bp, "behavior/ and resource/ LICENSE.txt differ");
+    const script = [
+      'import { readFileSync } from "node:fs";',
+      'import { missingLicenseTerms } from "./tools/package.mjs";',
+      `const text = readFileSync(${JSON.stringify(`${PACK}/behavior/LICENSE.txt`)}, "utf8");`,
+      "process.stdout.write(JSON.stringify(missingLicenseTerms(text)));",
+      'process.stdout.write("\\n" + JSON.stringify(missingLicenseTerms("Simmerfield")));',
+    ].join("\n");
+    const run = spawnSync("node", ["--input-type=module", "-e", script], { encoding: "utf8" });
+    assert.equal(run.status, 0, run.stderr);
+    const [missing, fromStub] = run.stdout.split("\n").map((line) => JSON.parse(line) as string[]);
+    assert.deepEqual(missing, []);
+    assert.equal(fromStub?.length, 6, "the check finds a missing term");
+  });
+});

@@ -8,3 +8,6 @@ art/references/mods/
 
 # trailer recordings and edits (raw video, never committed)
 /trailer/
+
+# the owner's private release checklist (Ukrainian, never committed)
+/docs/simmerfield/release/TODO-before-release.uk.md

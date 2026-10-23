@@ -16,8 +16,9 @@ marked **TO VERIFY** in the files.
 
 - [x] **Final name.** "Simmerfield" (D1, decided 2026-10-23). Store title "Simmerfield: Farming &
       Cooking", credited "by Wendermods".
-- [ ] **License.** Pick one in the CurseForge Authors Console and fill in the `[LICENSE]`
-      placeholders. For MCPEDL, set Project Distribution to allow third-party distribution.
+- [ ] **License.** All Rights Reserved, filled in on both pages; `LICENSE.txt` ships in both
+      packs (`npm run package` checks it). Still to do in the CurseForge Authors Console: pick
+      All Rights Reserved, and set Project Distribution to allow third-party distribution (MCPEDL).
 - [ ] **Credits.** "Made by Wendermods" is filled in. Still open: who made what, and whether to
       mention the AI-assisted pipeline (placeholders in both files).
 - [ ] **GIFs** (placeholders `TODO-gif-*.gif`), matched to the shots in

@@ -11,15 +11,15 @@ before you publish.
 
 ## Project fields
 
-| Field                 | Value                                                                                                                       |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| Name                  | Simmerfield: Farming & Cooking                                                                                              |
-| Class                 | Addons                                                                                                                      |
-| Main category         | Food                                                                                                                        |
-| Additional categories | Survival, Vanilla+                                                                                                          |
-| Logo                  | `logo-400.png` (this folder)                                                                                                |
-| License               | `[LICENSE: choose in the Authors Console]`. For the MCPEDL sync, set Project Distribution to allow third-party distribution |
-| Summary               | see below                                                                                                                   |
+| Field                 | Value                                                                                                |
+| --------------------- | ---------------------------------------------------------------------------------------------------- |
+| Name                  | Simmerfield: Farming & Cooking                                                                       |
+| Class                 | Addons                                                                                               |
+| Main category         | Food                                                                                                 |
+| Additional categories | Survival, Vanilla+                                                                                   |
+| Logo                  | `logo-400.png` (this folder)                                                                         |
+| License               | All Rights Reserved. For the MCPEDL sync, set Project Distribution to allow third-party distribution |
+| Summary               | see below                                                                                            |
 
 **Categories, checked on curseforge.com/minecraft-bedrock/addons on 2026-10-23.** The Addons
 filter lists: Armor, Tools, and Weapons; Cosmetics; Data Packs; Fantasy; Food; Horror; Magic;
@@ -221,7 +221,10 @@ growth, fast cooking and the state of a pot.
 
 ### License
 
-`[LICENSE: e.g. All Rights Reserved, or the license you pick in the Authors Console]`
+All Rights Reserved (Wendermods). Play it in your own worlds and on your own servers, and show it
+in videos, streams and screenshots. Please don't re-upload or redistribute it; link to this page
+instead. The full text is in `LICENSE.txt` inside both packs. Simmerfield is not affiliated with
+or endorsed by Mojang or Microsoft.
 
 Links (put these at the bottom, per CurseForge's moderation guidance):
 `[ISSUES / FEEDBACK LINK]` · `[DISCORD OR SOCIAL LINKS]` · `[PORTFOLIO SITE]`

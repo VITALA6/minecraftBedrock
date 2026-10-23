@@ -158,7 +158,10 @@ to the top. A global resource pack that changes menus can do the same.
 Made by Wendermods. Code, textures and models: [CREDITS]. Sounds are vanilla Minecraft sounds.
 [OPTIONAL: note on the AI-assisted pipeline.]
 
-License: [LICENSE]. Feedback and bug reports: [LINK].
+License: All Rights Reserved (Wendermods). Play it in your own worlds and on your own servers,
+and show it in videos, streams and screenshots. Please don't re-upload or redistribute it. The
+full text is in LICENSE.txt inside both packs. Not affiliated with Mojang or Microsoft.
+Feedback and bug reports: [LINK].
 
 ## Installation
 

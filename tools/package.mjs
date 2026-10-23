@@ -49,12 +49,42 @@ const FORBIDDEN = [
 // What must always ship: the license, in both packs (packs/simmerfield/*/LICENSE.txt).
 const REQUIRED = FOLDERS.map((folder) => `${folder}/LICENSE.txt`);
 
-/** Throws if any entry is a file that doesn't belong in a release, or a required file is missing. */
+// What the license must say (All Rights Reserved, by Wendermods; the store pages promise the
+// rest).
+const LICENSE_TERMS = [
+  ["the product name", /Simmerfield/],
+  ["the copyright holder", /Copyright \(c\) \d{4} Wendermods/],
+  ["all rights reserved", /all rights reserved/i],
+  ["no redistribution", /may be copied, modified, redistributed/],
+  ["own servers allowed", /on your own servers/],
+  ["videos and streams allowed", /show it in videos, live streams/],
+  [
+    "not affiliated with Mojang or Microsoft",
+    /not affiliated with or endorsed by Mojang or Microsoft/,
+  ],
+];
+
+/** The terms `text` (a LICENSE.txt) leaves out, by name; empty when it says everything. Line
+ *  breaks count as spaces. */
+export function missingLicenseTerms(text) {
+  const flat = text.replace(/\s+/g, " ");
+  return LICENSE_TERMS.filter(([, re]) => !re.test(flat)).map(([name]) => name);
+}
+
+/** Throws if any entry is a file that doesn't belong in a release, a required file is missing, or
+ *  the licenses differ or leave out a term. */
 function checkEntries(entries) {
   const bad = entries.filter((e) => FORBIDDEN.some((re) => re.test(e.name))).map((e) => e.name);
   if (bad.length > 0) throw new Error(`not for release: ${bad.join(", ")}`);
   const missing = REQUIRED.filter((name) => !entries.some((e) => e.name === name));
   if (missing.length > 0) throw new Error(`missing from release: ${missing.join(", ")}`);
+  const licenses = REQUIRED.map((name) =>
+    readFileSync(entries.find((e) => e.name === name).file, "utf8"),
+  );
+  if (licenses.some((text) => text !== licenses[0]))
+    throw new Error(`${REQUIRED.join(" and ")} differ`);
+  const terms = missingLicenseTerms(licenses[0]);
+  if (terms.length > 0) throw new Error(`LICENSE.txt doesn't say: ${terms.join(", ")}`);
 }
 
 /** A zip archive of `entries` (no zip64: throws past 4 GiB or 65535 entries). */

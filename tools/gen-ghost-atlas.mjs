@@ -1,27 +1,27 @@
-// Writes the Harvest Kitchen ghost particles (decision D15): the icon atlas and the three particle
+// Writes the Simmerfield ghost particles (decision D15): the icon atlas and the three particle
 // definitions that use it.
 //
 //   node tools/gen-ghost-atlas.mjs           write them
 //   node tools/gen-ghost-atlas.mjs --check   exit 1 if any file differs from what it would write
 //                                            (npm test runs this; see tests/ghosts.test.ts)
 //
-// Outputs (all path-addressed, so namespaced under hk/):
-//   packs/harvest_kitchen/resource/textures/hk/particle/ghost_atlas.png
-//   packs/harvest_kitchen/resource/particles/hk/ghost_icon.json      hk:ghost_icon
-//   packs/harvest_kitchen/resource/particles/hk/ghost_sparkle.json   hk:ghost_sparkle
-//   packs/harvest_kitchen/resource/particles/hk/ghost_pop.json       hk:ghost_pop
+// Outputs (all path-addressed, so namespaced under wm_kitchen/):
+//   packs/simmerfield/resource/textures/wm_kitchen/particle/ghost_atlas.png
+//   packs/simmerfield/resource/particles/wm_kitchen/ghost_icon.json      wm_kitchen:ghost_icon
+//   packs/simmerfield/resource/particles/wm_kitchen/ghost_sparkle.json   wm_kitchen:ghost_sparkle
+//   packs/simmerfield/resource/particles/wm_kitchen/ghost_pop.json       wm_kitchen:ghost_pop
 //
 // The cell list, the atlas layout, the Molang variable names and every tuning number (size,
 // lifetime, fade, bob, alpha) come from the pack's own modules (data/ghost-atlas.ts, config.ts,
 // stations/ghost-logic.ts), bundled with esbuild as tools/gen-pot-block.mjs does, so the texture,
 // the particle JSON and the script can't drift apart.
 //
-// Icons are our own art only: art/harvest_kitchen/final/<dir>/<name>.png when a hand-finished
-// version exists, else art/harvest_kitchen/generated/<dir>/<name>.png (hk:<name> -> items/,
+// Icons are our own art only: art/simmerfield/final/<dir>/<name>.png when a hand-finished
+// version exists, else art/simmerfield/generated/<dir>/<name>.png (wm_kitchen:<name> -> items/,
 // minecraft:<name> -> ingredients/). No Mojang textures. The star and puff cells are drawn here.
 // The atlas has no semi-transparent pixels: the ghosts' transparency is the particle's tint alpha
 // (particles_blend), not baked into the texture, so the texture linter's no-alpha rule still holds.
-// lint-textures.mjs doesn't read this file anyway (it checks art/harvest_kitchen/generated/).
+// lint-textures.mjs doesn't read this file anyway (it checks art/simmerfield/generated/).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -31,14 +31,14 @@ import * as prettier from "prettier";
 import { ROOT } from "./paths.mjs";
 import { decodePng, encodePng } from "./gen-textures.mjs";
 
-const RP = path.join(ROOT, "packs/harvest_kitchen/resource");
-const ART = path.join(ROOT, "art/harvest_kitchen");
-const PARTICLE_DIR = path.join(RP, "particles/hk");
+const RP = path.join(ROOT, "packs/simmerfield/resource");
+const ART = path.join(ROOT, "art/simmerfield");
+const PARTICLE_DIR = path.join(RP, "particles/wm_kitchen");
 /** Newest particle format_version vanilla 1.26.52.3 ships (vanilla_1.26.50 poplar leaves). */
 const FORMAT_VERSION = "1.26.50";
 
 async function loadData() {
-  const s = "./packs/harvest_kitchen/scripts";
+  const s = "./packs/simmerfield/scripts";
   const result = await build({
     stdin: {
       contents: [
@@ -66,12 +66,12 @@ async function loadData() {
 /** Our art for an item id: final/ first, then generated/. */
 export function iconSource(id) {
   const [ns, name] = id.split(":");
-  const rel = `${ns === "hk" ? "items" : "ingredients"}/${name}.png`;
+  const rel = `${ns === "wm_kitchen" ? "items" : "ingredients"}/${name}.png`;
   for (const dir of ["final", "generated"]) {
     const file = path.join(ART, dir, rel);
     if (existsSync(file)) return file;
   }
-  throw new Error(`no art for ${id}: expected art/harvest_kitchen/{final,generated}/${rel}`);
+  throw new Error(`no art for ${id}: expected art/simmerfield/{final,generated}/${rel}`);
 }
 
 const WHITE = [255, 255, 255, 255];
@@ -185,7 +185,7 @@ function uvBlock(data, uv) {
   return { texture_width: w, texture_height: h, uv, uv_size: [A.frame, A.frame] };
 }
 
-/** hk:ghost_icon: one floating icon, picked by variable.hk_icon, faded in and out, bobbing. */
+/** wm_kitchen:ghost_icon: one floating icon, picked by variable.wm_kitchen_icon, faded in and out, bobbing. */
 function ghostIcon(data) {
   const A = data.GHOST_ATLAS;
   const V = Object.fromEntries(
@@ -204,7 +204,7 @@ function ghostIcon(data) {
     "minecraft:emitter_shape_point": {},
     "minecraft:particle_lifetime_expression": { max_lifetime: life },
     "minecraft:particle_initial_speed": 0,
-    // The bob runs on world time (hk_phase is the time within one period at spawn), so the ghost
+    // The bob runs on world time (wm_kitchen_phase is the time within one period at spawn), so the ghost
     // re-spawned every update continues the same wave instead of restarting it.
     "minecraft:particle_motion_parametric": {
       relative_position: [
@@ -234,7 +234,7 @@ function ghostIcon(data) {
   });
 }
 
-/** hk:ghost_sparkle: two gold stars twinkling around a dish that's ready to cook. */
+/** wm_kitchen:ghost_sparkle: two gold stars twinkling around a dish that's ready to cook. */
 function ghostSparkle(data) {
   const life = num(data.GHOST_LIFETIME_SECONDS + 0.2);
   return effect(data, data.GHOST_PARTICLE.sparkle, {
@@ -260,7 +260,7 @@ function ghostSparkle(data) {
   });
 }
 
-/** hk:ghost_pop: a small white burst where a ghost was filled. */
+/** wm_kitchen:ghost_pop: a small white burst where a ghost was filled. */
 function ghostPop(data) {
   return effect(data, data.GHOST_PARTICLE.pop, {
     "minecraft:emitter_rate_instant": { num_particles: 6 },

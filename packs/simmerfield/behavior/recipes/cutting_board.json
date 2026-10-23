@@ -1,0 +1,42 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "wm_kitchen:cutting_board"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["S##"],
+    "key": {
+      "S": {
+        "item": "minecraft:stick"
+      },
+      "#": {
+        "tag": "minecraft:planks"
+      }
+    },
+    "unlock": [
+      {
+        "item": "wm_kitchen:tomato_seeds"
+      },
+      {
+        "item": "wm_kitchen:onion"
+      },
+      {
+        "item": "wm_kitchen:cucumber_seeds"
+      },
+      {
+        "item": "wm_kitchen:chili_pepper_seeds"
+      },
+      {
+        "item": "wm_kitchen:strawberry_seeds"
+      },
+      {
+        "item": "wm_kitchen:eggplant_seeds"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:cutting_board",
+      "count": 1
+    }
+  }
+}

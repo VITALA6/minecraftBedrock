@@ -1,0 +1,12 @@
+Simmerfield
+Copyright (c) 2026 Wendermods. All rights reserved.
+
+This add-on, including its code, textures, models, sounds and text, is the property of the
+copyright holder. No part of it may be copied, modified, redistributed, re-uploaded or sold, in
+whole or in part, without prior written permission from the copyright holder.
+
+You may download it from an official release page and use it in your own Minecraft worlds and
+on your own servers.
+
+Minecraft is a trademark of Mojang AB. This add-on is not affiliated with or endorsed by Mojang
+or Microsoft.

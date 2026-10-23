@@ -1,9 +1,9 @@
-// Packages Harvest Kitchen for install: a release build of the BP and RP, zipped into one
+// Packages Simmerfield for install: a release build of the BP and RP, zipped into one
 // .mcaddon (a zip whose top level holds both pack folders; opening it imports both packs).
 //
-//   node tools/package.mjs     -> dist/HarvestKitchen-<git short hash>.mcaddon
+//   node tools/package.mjs     -> dist/Simmerfield-<git short hash>.mcaddon
 //
-// The hash is the one baked into the build id (chat on join, Content Log, /hk:debug validate),
+// The hash is the one baked into the build id (chat on join, Content Log, /wm_kitchen:debug validate),
 // so a file and a running build can be matched. Uncommitted changes add "-dirty" to the name.
 // The zip is written here (no zip dependency): deflate from node:zlib, fixed timestamps and sorted
 // entries, so the same dist/ contents give the same bytes (the build id in main.js has the minute).
@@ -14,8 +14,8 @@ import zlib from "node:zlib";
 import { buildPack, gitHash } from "./build.mjs";
 import { DIST_DIR, ROOT } from "./paths.mjs";
 
-const PACK = "harvest_kitchen";
-const NAME = "HarvestKitchen";
+const PACK = "simmerfield";
+const NAME = "Simmerfield";
 const FOLDERS = [`${PACK}_BP`, `${PACK}_RP`];
 
 // 1980-01-01 00:00, the earliest DOS date: zip times carry no meaning here.
@@ -46,7 +46,7 @@ const FORBIDDEN = [
   /(^|\/)(tests?|docs)\//,
 ];
 
-// What must always ship: the license, in both packs (packs/harvest_kitchen/*/LICENSE.txt).
+// What must always ship: the license, in both packs (packs/simmerfield/*/LICENSE.txt).
 const REQUIRED = FOLDERS.map((folder) => `${folder}/LICENSE.txt`);
 
 /** Throws if any entry is a file that doesn't belong in a release, or a required file is missing. */

@@ -1,4 +1,4 @@
-// Cuts the Harvest Kitchen trailer from per-shot clips with ffmpeg (no other dependencies):
+// Cuts the Simmerfield trailer from per-shot clips with ffmpeg (no other dependencies):
 //
 //   node tools/edit-trailer.mjs --music <file>        every cut in the edit list -> dist/trailer/
 //   node tools/edit-trailer.mjs --only full,30s       just these cuts (ids from the edit list)
@@ -9,15 +9,15 @@
 // Options:
 //   --raw <dir>          clips folder (default trailer/raw): <scene>.mkv (.mp4, .mov, .webm also)
 //   --out <dir>          output folder (default dist/trailer)
-//   --edit <json>        edit list (default docs/harvest-kitchen/marketing/trailer-edit.json)
+//   --edit <json>        edit list (default docs/simmerfield/marketing/trailer-edit.json)
 //   --music <file>       music bed, trimmed to the cut and faded out (without it: game sound only)
 //   --music-volume <x>   music gain, default 0.7; --sfx-volume <x> game sound gain, default 1
 //   --font <file>        font for captions and the end card (default: fc-match "Inter:bold")
 //   --no-text            no captions or end-card text (trailer.md: the trailer works without)
 //   --no-detect          clips are already trimmed: scene time 0 is the clip's first frame
 //
-// Clips come from `/scriptevent hk:trailer <scene>` (packs/harvest_kitchen/scripts/trailer/,
-// recording workflow in docs/harvest-kitchen/marketing/recording-guide.md). Each take has a
+// Clips come from `/scriptevent wm_kitchen:trailer <scene>` (packs/simmerfield/scripts/trailer/,
+// recording workflow in docs/simmerfield/marketing/recording-guide.md). Each take has a
 // black marker (MARKER_SECONDS) before a HANDLE_SECONDS lead-in, so the tool finds scene time 0 by
 // itself with ffmpeg's blackdetect: offset = end of the first black run + HANDLE_SECONDS. A shot
 // can override it with "offset" (seconds into the clip where scene time 0 is).
@@ -40,8 +40,8 @@ import path from "node:path";
 import { build } from "esbuild";
 import { DIST_DIR, ROOT } from "./paths.mjs";
 
-const SCENES_TS = path.join(ROOT, "packs/harvest_kitchen/scripts/trailer/scenes.ts");
-const DEFAULT_EDIT = path.join(ROOT, "docs/harvest-kitchen/marketing/trailer-edit.json");
+const SCENES_TS = path.join(ROOT, "packs/simmerfield/scripts/trailer/scenes.ts");
+const DEFAULT_EDIT = path.join(ROOT, "docs/simmerfield/marketing/trailer-edit.json");
 const CLIP_EXTENSIONS = [".mkv", ".mp4", ".mov", ".webm"];
 const MAX_CAPTION_WORDS = 5;
 const TARGET_TOLERANCE = 0.05;

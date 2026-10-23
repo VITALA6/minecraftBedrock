@@ -1,0 +1,36 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "wm_kitchen:kitchen_cabinet"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["PPP", "GIG", "PPP"],
+    "key": {
+      "P": {
+        "tag": "minecraft:planks"
+      },
+      "G": {
+        "item": "minecraft:glass_pane"
+      },
+      "I": {
+        "item": "minecraft:iron_nugget"
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:glass_pane"
+      },
+      {
+        "item": "wm_kitchen:cooking_pot"
+      },
+      {
+        "item": "wm_kitchen:cutting_board"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:kitchen_cabinet",
+      "count": 2
+    }
+  }
+}

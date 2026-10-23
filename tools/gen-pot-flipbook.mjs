@@ -1,6 +1,6 @@
 // Writes the cooking pot's animated (flipbook) textures into the resource pack:
-//   textures/hk/blocks/cooking_pot_liquid_<colour>_boil.png   bubbling liquid, one per colour
-//   textures/hk/blocks/cooking_pot_top_boil.png               the hot rim, flickering
+//   textures/wm_kitchen/blocks/cooking_pot_liquid_<colour>_boil.png   bubbling liquid, one per colour
+//   textures/wm_kitchen/blocks/cooking_pot_top_boil.png               the hot rim, flickering
 //
 //   node tools/gen-pot-flipbook.mjs           write the PNGs
 //   node tools/gen-pot-flipbook.mjs --check   exit 1 if a PNG differs from what it would write, or
@@ -23,15 +23,15 @@
 import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { readPng, writePng } from "../art/harvest_kitchen/models/_tools/png.mjs";
+import { readPng, writePng } from "../art/simmerfield/models/_tools/png.mjs";
 import { ROOT } from "./paths.mjs";
 
-const RP = path.join(ROOT, "packs/harvest_kitchen/resource");
-const BLOCKS = path.join(RP, "textures/hk/blocks");
+const RP = path.join(ROOT, "packs/simmerfield/resource");
+const BLOCKS = path.join(RP, "textures/wm_kitchen/blocks");
 const S = 16;
 
-/** Liquid colours: the values of the pot's hk:liquid state (scripts/data/liquids.ts). */
-const LIQUIDS_TS = path.join(ROOT, "packs/harvest_kitchen/scripts/data/liquids.ts");
+/** Liquid colours: the values of the pot's wm_kitchen:liquid state (scripts/data/liquids.ts). */
+const LIQUIDS_TS = path.join(ROOT, "packs/simmerfield/scripts/data/liquids.ts");
 function liquids() {
   const src = readFileSync(LIQUIDS_TS, "utf8");
   const list = src.match(/export const LIQUIDS = \[([^\]]*)\]/);
@@ -67,7 +67,7 @@ function load(name) {
 
 // --- bubbling liquid ------------------------------------------------------------------------------
 
-// The liquid face shows u 3..12, v 3..12 of the texture (geometry.hk.cooking_pot, uv [13,13] size
+// The liquid face shows u 3..12, v 3..12 of the texture (geometry.wm_kitchen.cooking_pot, uv [13,13] size
 // [-10,-10]); row 3 is the back-wall shadow band. Bubbles stay inside u 4..11, v 5..11.
 //
 // One bubble's life, frame by frame (digits = ramp shade, 0 darkest .. 3 lightest; '.' = leave
@@ -185,8 +185,8 @@ export function flipbooks() {
   ];
 }
 
-const shortname = (name) => `hk_${name}`;
-const texturePath = (name) => `textures/hk/blocks/${name}`;
+const shortname = (name) => `wm_kitchen_${name}`;
+const texturePath = (name) => `textures/wm_kitchen/blocks/${name}`;
 
 /** The flipbook_textures.json entry for one strip. */
 export const flipbookEntry = ({ name, ticks }) => ({
@@ -235,7 +235,7 @@ function main() {
       encode(file, px);
       continue;
     }
-    const tmp = path.join(mkdtempSync(path.join(os.tmpdir(), "hk-flipbook-")), "check.png");
+    const tmp = path.join(mkdtempSync(path.join(os.tmpdir(), "wm_kitchen-flipbook-")), "check.png");
     encode(tmp, px);
     const same = existsSync(file) && readFileSync(file).equals(readFileSync(tmp));
     rmSync(path.dirname(tmp), { recursive: true });

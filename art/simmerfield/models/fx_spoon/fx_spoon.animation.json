@@ -1,0 +1,13 @@
+{
+  "format_version": "1.10.0",
+  "animations": {
+    "animation.wm_kitchen.fx_spoon.stir": {
+      "loop": true,
+      "animation_length": 2,
+      "bones": {
+        "stir": { "rotation": [0, "q.anim_time * -180", 0] },
+        "spoon": { "position": [0, "math.sin(q.anim_time * 360) * 0.4", 0] }
+      }
+    }
+  }
+}

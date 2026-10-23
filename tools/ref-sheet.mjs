@@ -1,5 +1,5 @@
-// Reference study and before/after sheets for Harvest Kitchen art
-// (docs/harvest-kitchen/art-style.md "Reference study").
+// Reference study and before/after sheets for Simmerfield art
+// (docs/simmerfield/art-style.md "Reference study").
 //
 //   node tools/ref-sheet.mjs                  reference sheet + metrics
 //   node tools/ref-sheet.mjs --compare <ref>  before/after sheet: our sprites at git <ref> vs now
@@ -10,7 +10,7 @@
 // The references are third-party textures (Farmer's Delight, Croptopia, Create). They are read
 // from the gitignored art/references/mods/rgba/ (set up as in art/references/README.md), and the
 // sheets that show them are written next to them, so none of it is committed or shipped.
-// The before/after sheet shows only our own art and goes to art/harvest_kitchen/generated/.
+// The before/after sheet shows only our own art and goes to art/simmerfield/generated/.
 // Plain Node, no dependencies.
 
 import { execFileSync } from "node:child_process";
@@ -29,8 +29,8 @@ import { canvas, drawSlot, drawText, labelLines, metrics } from "./lint-textures
 const ROOT = path.resolve(import.meta.dirname, "..");
 const REF_DIR = path.join(ROOT, "art/references/mods");
 const OUT_DIR = path.join(REF_DIR, "sheets");
-const GEN_DIR = path.join(ROOT, "art/harvest_kitchen/generated");
-const PACK_TEX = path.join(ROOT, "packs/harvest_kitchen/resource/textures/hk");
+const GEN_DIR = path.join(ROOT, "art/simmerfield/generated");
+const PACK_TEX = path.join(ROOT, "packs/simmerfield/resource/textures/wm_kitchen");
 const S = 16;
 
 const SOURCES = {
@@ -38,11 +38,11 @@ const SOURCES = {
   cr: "Croptopia",
   cc: "Create",
   v: "vanilla",
-  hk: "Harvest Kitchen",
+  wm_kitchen: "Simmerfield",
 };
 
 // What to compare, per group and source. fd/cr/cc paths are under rgba/<mod>/, v paths are
-// vanilla Bedrock texture paths, hk paths are under generated/ (or the pack's textures/hk/).
+// vanilla Bedrock texture paths, wm_kitchen paths are under generated/ (or the pack's textures/wm_kitchen/).
 const GROUPS = [
   {
     title: "produce",
@@ -61,7 +61,7 @@ const GROUPS = [
     ],
     cc: ["item/honeyed_apple", "item/chocolate_glazed_berries"],
     v: ["items/apple", "items/carrot", "items/potato", "items/beetroot", "items/sweet_berries"],
-    hk: [
+    wm_kitchen: [
       "items/tomato",
       "items/onion",
       "items/cucumber",
@@ -84,7 +84,7 @@ const GROUPS = [
       "item/garlic_seed",
     ],
     v: ["items/seeds_wheat", "items/seeds_pumpkin", "items/seeds_melon", "items/seeds_beetroot"],
-    hk: [
+    wm_kitchen: [
       "items/tomato_seeds",
       "items/cucumber_seeds",
       "items/chili_pepper_seeds",
@@ -130,7 +130,7 @@ const GROUPS = [
       "items/honey_bottle",
       "items/potion_bottle_empty",
     ],
-    hk: [
+    wm_kitchen: [
       "items/sliced_tomato",
       "items/sliced_cucumber",
       "items/sliced_eggplant",
@@ -178,7 +178,7 @@ const GROUPS = [
       "items/suspicious_stew",
       "items/bowl",
     ],
-    hk: [
+    wm_kitchen: [
       "items/tomato_soup",
       "items/onion_soup",
       "items/vegetable_stew",
@@ -221,7 +221,7 @@ const GROUPS = [
       "items/iron_hoe",
       "items/flint_and_steel",
     ],
-    hk: [
+    wm_kitchen: [
       "items/cooking_pot",
       "items/cutting_board",
       "items/guide_book",
@@ -252,7 +252,7 @@ const GROUPS = [
       "blocks/composter_side",
       "blocks/cauldron_side",
     ],
-    hk: [
+    wm_kitchen: [
       "blocks/deco/kitchen_counter_front",
       "blocks/deco/kitchen_cabinet_front",
       "blocks/deco/kitchen_sink_front",
@@ -288,7 +288,7 @@ const GROUPS = [
       "blocks/beetroots_stage_3",
       "blocks/sweet_berry_bush_stage3",
     ],
-    hk: [
+    wm_kitchen: [
       "blocks/tomato_crop_stage_3",
       "blocks/onion_crop_stage_3",
       "blocks/cucumber_crop_stage_3",
@@ -326,7 +326,7 @@ function loader() {
       }
     }
     const file =
-      src === "hk"
+      src === "wm_kitchen"
         ? [path.join(GEN_DIR, `${p}.png`), path.join(PACK_TEX, `${p}.png`)].find(existsSync)
         : path.join(REF_DIR, "rgba", MOD_DIRS[src], `${p}.png`);
     if (!file || !existsSync(file)) return null;
@@ -400,7 +400,7 @@ function groupSheet(group, rows) {
   let y = PAD + LINE_H + 10;
   for (const r of rows) {
     labelLines(SOURCES[r.src].replace(/[' ]/g, "_"), 17).forEach((line, n) =>
-      drawText(cv, PAD, y + n * LINE_H, line, r.src === "hk" ? [0x80, 0x10, 0x10] : RULE),
+      drawText(cv, PAD, y + n * LINE_H, line, r.src === "wm_kitchen" ? [0x80, 0x10, 0x10] : RULE),
     );
     r.cells.forEach((c, k) => {
       const x = PAD + LABEL_W + k * CELL;
@@ -494,7 +494,7 @@ function compareSheet(ref) {
   const groups = [];
   let changed = 0;
   for (const s of SPRITES) {
-    const rel = `art/harvest_kitchen/generated/${s.folder}/${s.name}.png`;
+    const rel = `art/simmerfield/generated/${s.folder}/${s.name}.png`;
     const file = path.join(ROOT, rel);
     if (!existsSync(file)) continue;
     const after = decodePng(readFileSync(file));

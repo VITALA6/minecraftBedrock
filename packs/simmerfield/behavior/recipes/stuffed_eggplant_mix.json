@@ -1,0 +1,32 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "wm_kitchen:stuffed_eggplant_mix"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "wm_kitchen:eggplant"
+      },
+      {
+        "item": "minecraft:mutton"
+      },
+      {
+        "item": "wm_kitchen:onion"
+      },
+      {
+        "item": "wm_kitchen:tomato"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "wm_kitchen:eggplant"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:stuffed_eggplant_mix",
+      "count": 1
+    }
+  }
+}

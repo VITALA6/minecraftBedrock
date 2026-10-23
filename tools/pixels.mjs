@@ -1,4 +1,4 @@
-// Hand-authored Harvest Kitchen pixel art: text grids -> PNG, plus the art-loop preview.
+// Hand-authored Simmerfield pixel art: text grids -> PNG, plus the art-loop preview.
 //
 //   node tools/pixels.mjs                         convert every grid into generated/<folder>/
 //   node tools/pixels.mjs --preview <name> [--refs apple,bread,carrot] [--out file.png]
@@ -7,7 +7,7 @@
 //                                                 write the procedural sprite as a starting grid
 //   node tools/pixels.mjs --vanilla [pattern]     list vanilla item textures (for --refs)
 //
-// A grid is art/harvest_kitchen/pixels/<name>.txt, where <name> is a sprite name from
+// A grid is art/simmerfield/pixels/<name>.txt, where <name> is a sprite name from
 // tools/gen-textures.mjs (tomato, tomato_soup_mix, family_heal, ...). Format:
 //
 //   # free comments
@@ -28,8 +28,8 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-export const PIXELS_DIR = path.join(ROOT, "art/harvest_kitchen/pixels");
-const GEN_DIR = path.join(ROOT, "art/harvest_kitchen/generated");
+export const PIXELS_DIR = path.join(ROOT, "art/simmerfield/pixels");
+const GEN_DIR = path.join(ROOT, "art/simmerfield/generated");
 const S = 16;
 
 export const gridFile = (name) => path.join(PIXELS_DIR, `${name}.txt`);
@@ -258,7 +258,7 @@ async function preview(sprite, refs, out) {
     }
     x += 12;
   }
-  const outFile = out ?? path.join(os.tmpdir(), `hk_pixels_${sprite.name}.png`);
+  const outFile = out ?? path.join(os.tmpdir(), `wm_kitchen_pixels_${sprite.name}.png`);
   writeFileSync(outFile, G.encodePng({ w: cv.w, h: cv.h, px: cv.px }));
   console.log(`preview: ${outFile}`);
 

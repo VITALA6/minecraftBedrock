@@ -1,0 +1,36 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "wm_kitchen:kitchen_counter"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["SSS", "PIP", "PPP"],
+    "key": {
+      "S": {
+        "item": "minecraft:smooth_stone_slab"
+      },
+      "P": {
+        "tag": "minecraft:planks"
+      },
+      "I": {
+        "item": "minecraft:iron_nugget"
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:smooth_stone_slab"
+      },
+      {
+        "item": "wm_kitchen:cooking_pot"
+      },
+      {
+        "item": "wm_kitchen:cutting_board"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:kitchen_counter",
+      "count": 2
+    }
+  }
+}

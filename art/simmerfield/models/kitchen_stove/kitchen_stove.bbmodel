@@ -1,0 +1,1480 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "bedrock_block",
+    "box_uv": false
+  },
+  "name": "wm_kitchen_kitchen_stove",
+  "model_identifier": "wm_kitchen.kitchen_stove",
+  "front_gui_light": false,
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "body",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        1,
+        -6
+      ],
+      "to": [
+        8,
+        15,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            1,
+            16,
+            15
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            1,
+            14,
+            15
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            1,
+            16,
+            15
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            1,
+            16,
+            15
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            2,
+            16,
+            16
+          ],
+          "texture": 2,
+          "material_name": "top"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            14
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "221d4099-5376-44e7-b6d0-7ebb8778d4dd"
+    },
+    {
+      "name": "foot_fl",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        6,
+        0,
+        -6
+      ],
+      "to": [
+        8,
+        1,
+        -4
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            12,
+            15,
+            14,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            15,
+            4,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            14,
+            12,
+            16,
+            14
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "1b720a0f-0706-4775-8e63-cec31526e8a4"
+    },
+    {
+      "name": "foot_fr",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        -6
+      ],
+      "to": [
+        -6,
+        1,
+        -4
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            12,
+            15,
+            14,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            15,
+            4,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            0,
+            12,
+            2,
+            14
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "4c76e3ac-975b-43c4-aeaf-2ac342897d93"
+    },
+    {
+      "name": "foot_bl",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        8,
+        1,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            14,
+            0,
+            16,
+            2
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "20dceb08-76d0-4404-99f7-c5b5e4bfcfda"
+    },
+    {
+      "name": "foot_br",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        6
+      ],
+      "to": [
+        -6,
+        1,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            15,
+            2,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            14,
+            15,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "f022a959-269c-45bb-90a9-c5f78a68ec78"
+    },
+    {
+      "name": "grate_front",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -6,
+        15,
+        -4
+      ],
+      "to": [
+        -1,
+        16,
+        1
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            0,
+            14,
+            1
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            7,
+            0,
+            12,
+            1
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            7,
+            1
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            4,
+            0,
+            9,
+            1
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            2,
+            4,
+            7,
+            9
+          ],
+          "texture": 2,
+          "material_name": "top"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "6d016834-fffd-45c5-a1a7-b0814c2ab37f"
+    },
+    {
+      "name": "grate_back",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        1,
+        15,
+        1
+      ],
+      "to": [
+        6,
+        16,
+        6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            0,
+            7,
+            1
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            2,
+            0,
+            7,
+            1
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            9,
+            0,
+            14,
+            1
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            9,
+            0,
+            14,
+            1
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            9,
+            9,
+            14,
+            14
+          ],
+          "texture": 2,
+          "material_name": "top"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "26ff57f3-d2b8-437a-853f-36455f510a8b"
+    },
+    {
+      "name": "door",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -7,
+        2,
+        -7
+      ],
+      "to": [
+        7,
+        10,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            6,
+            15,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            1,
+            6,
+            2,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            14,
+            6,
+            15,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            15,
+            6,
+            1,
+            7
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            15,
+            13,
+            1,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "8c6f640f-f31a-4791-b83e-be654f838e1e"
+    },
+    {
+      "name": "bar",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -6,
+        10,
+        -8
+      ],
+      "to": [
+        6,
+        11,
+        -7
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            5,
+            14,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            2,
+            5,
+            3,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            2,
+            5,
+            14,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "west": {
+          "uv": [
+            13,
+            5,
+            14,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            14,
+            5,
+            2,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            14,
+            5,
+            2,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "70309dcc-ea44-439e-afa7-37909cf72ed8"
+    },
+    {
+      "name": "bar_post_left",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        5,
+        10,
+        -7
+      ],
+      "to": [
+        6,
+        11,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "east": {
+          "uv": [
+            2,
+            5,
+            3,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            2,
+            5,
+            3,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            3,
+            5,
+            2,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "db26c6cf-d486-4d6b-beb3-3237b62d2fd1"
+    },
+    {
+      "name": "bar_post_right",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -6,
+        10,
+        -7
+      ],
+      "to": [
+        -5,
+        11,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "east": {
+          "uv": [
+            13,
+            5,
+            14,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            13,
+            5,
+            14,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            14,
+            5,
+            13,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "c0c1c438-6540-4442-8760-13027f514726"
+    },
+    {
+      "name": "knob_1",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        5,
+        12,
+        -7
+      ],
+      "to": [
+        6,
+        13,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            3,
+            3,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            2,
+            3,
+            3,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            2,
+            3,
+            3,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            3,
+            3,
+            2,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            3,
+            3,
+            2,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "ab624dd2-9615-4749-964b-d0306279cf61"
+    },
+    {
+      "name": "knob_2",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        3,
+        12,
+        -7
+      ],
+      "to": [
+        4,
+        13,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4,
+            3,
+            5,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            4,
+            3,
+            5,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            4,
+            3,
+            5,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            5,
+            3,
+            4,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            5,
+            3,
+            4,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "9303b737-b711-4eb8-b755-3dfb2eaef457"
+    },
+    {
+      "name": "knob_3",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -4,
+        12,
+        -7
+      ],
+      "to": [
+        -3,
+        13,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            11,
+            3,
+            12,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            11,
+            3,
+            12,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            11,
+            3,
+            12,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            12,
+            3,
+            11,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            12,
+            3,
+            11,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "e1eddb54-b3ab-4c73-8209-16e9bb381c3a"
+    },
+    {
+      "name": "knob_4",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -6,
+        12,
+        -7
+      ],
+      "to": [
+        -5,
+        13,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            13,
+            3,
+            14,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            13,
+            3,
+            14,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            13,
+            3,
+            14,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            14,
+            3,
+            13,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            14,
+            3,
+            13,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "0a4685fc-8d22-44da-a846-c2cdac24ccb6"
+    }
+  ],
+  "groups": [
+    {
+      "name": "kitchen_stove",
+      "uuid": "5840331f-619c-456a-984a-87a74bfbde4e",
+      "export": true,
+      "locked": false,
+      "scope": 0,
+      "selected": false,
+      "visibility": true,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 1,
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "autouv": 0,
+      "isOpen": false
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "5840331f-619c-456a-984a-87a74bfbde4e",
+      "isOpen": false,
+      "children": [
+        "221d4099-5376-44e7-b6d0-7ebb8778d4dd",
+        "1b720a0f-0706-4775-8e63-cec31526e8a4",
+        "4c76e3ac-975b-43c4-aeaf-2ac342897d93",
+        "20dceb08-76d0-4404-99f7-c5b5e4bfcfda",
+        "f022a959-269c-45bb-90a9-c5f78a68ec78",
+        "6d016834-fffd-45c5-a1a7-b0814c2ab37f",
+        "26ff57f3-d2b8-437a-853f-36455f510a8b",
+        "8c6f640f-f31a-4791-b83e-be654f838e1e",
+        "70309dcc-ea44-439e-afa7-37909cf72ed8",
+        "db26c6cf-d486-4d6b-beb3-3237b62d2fd1",
+        "c0c1c438-6540-4442-8760-13027f514726",
+        "ab624dd2-9615-4749-964b-d0306279cf61",
+        "9303b737-b711-4eb8-b755-3dfb2eaef457",
+        "e1eddb54-b3ab-4c73-8209-16e9bb381c3a",
+        "0a4685fc-8d22-44da-a846-c2cdac24ccb6"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "kitchen_stove_side",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "0",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "64c916d9-4e73-45c9-96b1-ea8ba9526916",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAbUlEQVR4nGNQVdX5TwlmKCys+U8JZvDzC/+PjI2Nrf6ji+HDGAbgwiDbsBqwI9P+PyUYpwtw2YjXCyD/E8IEDSA1LLAagCvOYVGHbNHAuADZMAZkWyl2AUwBIUwwJcJcQkxaYCAm7vFhBkqzMwDjA+dqf4PgMQAAAABJRU5ErkJggg=="
+    },
+    {
+      "name": "kitchen_stove_front",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "1",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "a163d0e1-59b8-40ee-963c-6ebd3b07f394",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAqUlEQVR4nGNQVdX5TwlmKCys+U8uNja2ghjg5xcO5iDTIPzh2TGwLTA+shoYhhtwsycahYYZcHJHH5yPrgZuAEhgR6Y9yRhuAIjxaWsz2CBiMEgzigtmzVpKMsYwAOZPYjFKIMIMICbetcSF8BsAYkepieDEyNGO1YCN9gz/b1cJgWlkNowmaABI4acjXmAMYyPTeA0A+Y+YJIxhAHryJAXDExLZBlCanQEOjwi94uFHqgAAAABJRU5ErkJggg=="
+    },
+    {
+      "name": "kitchen_stove_top",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "2",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "fdefb28d-29fe-43aa-afbf-584471035e7e",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAiklEQVR4nGMwNrb6Twlm8PMLJ0kDSD2yHrABhYU1ZGFVVR3SXYCMUQyYNWspCgZJ4vMGVgO6vLThTkNWhMsQuAEgBsgAZP8R4zUMF4AEQJrjDBVINwDmbGSMSxNWA3AFFL4AJjoa8QUwVgPQxXAFMEkuwBbAKAbgCwtcAUzQBcghjk0d2AAQQQkGAJA2yB+TD5WLAAAAAElFTkSuQmCC"
+    }
+  ]
+}

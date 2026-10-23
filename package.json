@@ -19,7 +19,7 @@
     "posters": "node tools/gen-posters.mjs && node tools/gen-poster-block.mjs && node tools/lint-posters.mjs",
     "docs:export": "node tools/docs-export.mjs",
     "uuid": "node -e \"for (let i = 0; i < 5; i++) console.log(crypto.randomUUID())\"",
-    "fx": "node art/harvest_kitchen/models/_tools/make-fx-tools.mjs && node tools/gen-pot-flipbook.mjs",
+    "fx": "node art/simmerfield/models/_tools/make-fx-tools.mjs && node tools/gen-pot-flipbook.mjs",
     "trailer:edit": "node tools/edit-trailer.mjs"
   },
   "dependencies": {

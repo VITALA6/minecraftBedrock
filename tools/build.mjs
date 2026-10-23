@@ -67,7 +67,7 @@ function checkJsonFiles(dir) {
   }
 }
 
-// Shown in game (chat on join, Content Log, /hk:debug validate) so a test session can tell
+// Shown in game (chat on join, Content Log, /wm_kitchen:debug validate) so a test session can tell
 // which build is running: deploy only copies files, a world keeps its scripts until re-entered
 // or /reload. "<git short hash>[+ if uncommitted changes] <local time>".
 export function gitHash() {
@@ -90,7 +90,7 @@ function buildId(hash = gitHash()) {
 
 // A release build compiles out what only test sessions want: scripts read __RELEASE__ (for
 // example, operators no longer get the build id and data-check count in chat on join), and every
-// console.log is dropped (see releaseOptions). /hk:debug stays, operator-only, in both.
+// console.log is dropped (see releaseOptions). /wm_kitchen:debug stays, operator-only, in both.
 const RELEASE = process.argv.includes("--release");
 
 // Release-only esbuild options. console.log is our info channel (build id, data-check count,

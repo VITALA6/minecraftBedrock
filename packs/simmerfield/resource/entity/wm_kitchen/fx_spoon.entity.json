@@ -1,0 +1,14 @@
+{
+  "format_version": "1.26.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "wm_kitchen:fx_spoon",
+      "materials": { "default": "entity_alphatest" },
+      "textures": { "default": "textures/wm_kitchen/entity/fx_spoon" },
+      "geometry": { "default": "geometry.wm_kitchen.fx_spoon" },
+      "animations": { "stir": "animation.wm_kitchen.fx_spoon.stir" },
+      "scripts": { "animate": ["stir"] },
+      "render_controllers": ["controller.render.wm_kitchen.fx"]
+    }
+  }
+}

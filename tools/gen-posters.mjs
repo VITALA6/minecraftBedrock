@@ -1,4 +1,4 @@
-// Renders the Harvest Kitchen recipe posters (D15): one 2×1 wall poster per dish plus the "How to
+// Renders the Simmerfield recipe posters (D15): one 2×1 wall poster per dish plus the "How to
 // Start" guide (the whole loop, seeds to dish), each written as two 64×64 block textures (left and
 // right half).
 //
@@ -16,8 +16,8 @@
 // block texture at 64 px (vanilla 1.26.50 ships the 64×64 straw_bed in atlas.terrain); its mip
 // levels only blur what the screen can't resolve anyway. Lint rules: art-style.md "Recipe posters".
 //
-// Art: only our own textures, from art/harvest_kitchen/generated/{items,ui,ingredients,blocks}
-// and the mockup parts (art/harvest_kitchen/mockups/parts/, drawn by render-mockups.mjs from our
+// Art: only our own textures, from art/simmerfield/generated/{items,ui,ingredients,blocks}
+// and the mockup parts (art/simmerfield/mockups/parts/, drawn by render-mockups.mjs from our
 // palette). No vanilla textures. A missing texture is drawn as a neutral "?" placeholder with a
 // warning. Text is limited to numbers and symbols (? → + × s), because baked text can't be
 // localized; the dish name comes from a lang key (plain use on the poster).
@@ -34,18 +34,18 @@ import { ROOT } from "./paths.mjs";
 export const TEXELS_PER_BLOCK = 64;
 export const POSTER_SIZE = { w: 2 * TEXELS_PER_BLOCK, h: TEXELS_PER_BLOCK };
 export const HALF_SIZE = TEXELS_PER_BLOCK;
-const RP = path.join(ROOT, "packs/harvest_kitchen/resource");
-export const PREVIEW_DIR = path.join(ROOT, "art/harvest_kitchen/poster_preview");
-const GEN = path.join(ROOT, "art/harvest_kitchen/generated");
-const PARTS_DIR = path.join(ROOT, "art/harvest_kitchen/mockups/parts");
-const PALETTE = JSON.parse(readFileSync(path.join(ROOT, "art/harvest_kitchen/palette.json"))).ramps;
+const RP = path.join(ROOT, "packs/simmerfield/resource");
+export const PREVIEW_DIR = path.join(ROOT, "art/simmerfield/poster_preview");
+const GEN = path.join(ROOT, "art/simmerfield/generated");
+const PARTS_DIR = path.join(ROOT, "art/simmerfield/mockups/parts");
+const PALETTE = JSON.parse(readFileSync(path.join(ROOT, "art/simmerfield/palette.json"))).ramps;
 
 // ---------------------------------------------------------------------------------------------
 // Pack data (the same modules the game runs)
 // ---------------------------------------------------------------------------------------------
 
 export async function loadPackData() {
-  const s = "./packs/harvest_kitchen/scripts";
+  const s = "./packs/simmerfield/scripts";
   const result = await build({
     stdin: {
       contents: [
@@ -427,10 +427,10 @@ function art(rel) {
   return im;
 }
 
-/** Our icon for an item id: hk:<name> -> items/<name>, minecraft:<name> -> ingredients/<name>. */
+/** Our icon for an item id: wm_kitchen:<name> -> items/<name>, minecraft:<name> -> ingredients/<name>. */
 function itemArt(id) {
   const [ns, name] = id.split(":");
-  return art(ns === "hk" ? `items/${name}` : `ingredients/${name}`);
+  return art(ns === "wm_kitchen" ? `items/${name}` : `ingredients/${name}`);
 }
 
 function part(name) {
@@ -802,12 +802,12 @@ function contactSheet(posters, cols, scale) {
   return sheet;
 }
 
-/** terrain_texture.json with exactly the poster halves' hk_poster_* entries (others untouched). */
+/** terrain_texture.json with exactly the poster halves' wm_kitchen_poster_* entries (others untouched). */
 async function updateTerrain(posters) {
   const file = path.join(RP, "textures/terrain_texture.json");
   const json = JSON.parse(readFileSync(file, "utf8"));
   const data = Object.fromEntries(
-    Object.entries(json.texture_data).filter(([key]) => !key.startsWith("hk_poster_")),
+    Object.entries(json.texture_data).filter(([key]) => !key.startsWith("wm_kitchen_poster_")),
   );
   for (const p of posters)
     for (const h of p.halves) data[h.texture.shortname] = { textures: h.texture.path };

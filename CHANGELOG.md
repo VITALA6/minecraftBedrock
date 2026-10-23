@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Harvest Kitchen are listed here. The format follows
+All notable changes to Simmerfield are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow the pack version in
 the manifests.
 
@@ -8,8 +8,7 @@ the manifests.
 
 ## 1.0.0 - 2026-10-23
 
-The first release of Harvest Kitchen: grow new crops, cut them, mix them and cook them into
-dishes.
+The first release of Simmerfield: grow new crops, cut them, mix them and cook them into dishes.
 
 ### Added
 
@@ -35,8 +34,8 @@ dishes.
     slice at a time.
   - Bowl dishes give the bowl back, and the skewer gives its stick back.
 - **Recipe Poster.** A two-block wall poster. Its first page shows how to get started; sneak and
-  use it to flip through the recipes you have unlocked. Crafted from paper and any Harvest
-  Kitchen crop.
+  use it to flip through the recipes you have unlocked. Crafted from paper and any Simmerfield
+  crop.
 - **Kitchen Guide.** A book with every recipe and its steps, the crops, and how to play. Crafted
   from a book and a carrot.
 - **Recipe unlocks.** Each crop you find unlocks the recipes that use it, on your poster, in the
@@ -49,5 +48,5 @@ dishes.
   Cooking Pot on top of it.
 - **Eight languages:** English, Ukrainian, Polish, German, Spanish, Brazilian Portuguese, French
   and Russian.
-- **`/hk:debug` for operators**, to help check a world: a kit of every item, instant crop
+- **`/wm_kitchen:debug` for operators**, to help check a world: a kit of every item, instant crop
   growth, fast cooking, and the state of a pot.

@@ -1,9 +1,9 @@
-// Harvest Kitchen texture generator (plan §4.5, steps 1 and 2). Plain Node, no dependencies.
+// Simmerfield texture generator (plan §4.5, steps 1 and 2). Plain Node, no dependencies.
 //
 //   node tools/gen-textures.mjs             draw every texture from palette.json
 //   node tools/gen-textures.mjs --palette   re-sample palette.json from the installed game first
 //
-// Output: art/harvest_kitchen/generated/ (never final/, which is hand touch-up).
+// Output: art/simmerfield/generated/ (never final/, which is hand touch-up).
 // --palette reads the vanilla resource packs of the installed game (MC_VERSIONS_DIR and
 // MC_GAME_VERSION override the defaults) and needs no network.
 
@@ -15,7 +15,7 @@ import zlib from "node:zlib";
 import { checkGridNames, gridFile, readGrid } from "./pixels.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const ART_DIR = path.join(ROOT, "art/harvest_kitchen");
+const ART_DIR = path.join(ROOT, "art/simmerfield");
 const OUT_DIR = path.join(ART_DIR, "generated");
 const PALETTE_FILE = path.join(ART_DIR, "palette.json");
 const POT_TEXTURES = path.join(ART_DIR, "models/cooking_pot/textures");
@@ -2151,7 +2151,7 @@ def(
   "stations",
 );
 
-// --- Kitchen decor (art/harvest_kitchen/models/_tools/make-kitchen-deco.mjs) ---------------------
+// --- Kitchen decor (art/simmerfield/models/_tools/make-kitchen-deco.mjs) ---------------------
 // Hand-authored grids only (pixels/<name>.txt); the procedural fallback is a flat placeholder tile.
 const DECO_PLACEHOLDER = `
   ................
@@ -3483,8 +3483,8 @@ function potTexture(name) {
 
 const sameColour = (a, b) => a && b && a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
 
-// Pot liquid colours, one per value of the pot's hk:liquid state (LIQUIDS in
-// packs/harvest_kitchen/scripts/data/liquids.ts; tests/pack-files.test.ts checks that every id has
+// Pot liquid colours, one per value of the pot's wm_kitchen:liquid state (LIQUIDS in
+// packs/simmerfield/scripts/data/liquids.ts; tests/pack-files.test.ts checks that every id has
 // both PNGs in the pack). `shades` replace the S8 liquid's four shades rank for rank (dark → light),
 // so every colour keeps the S8 ripples. `glint` colours the ready sparkle: its arms (default: the
 // lightest liquid shade) and its centre (default: the lightest cream). Tomato is the S8 texture.
@@ -4153,7 +4153,7 @@ function main() {
   );
 }
 
-/** A sprite's texture: its hand-authored grid (art/harvest_kitchen/pixels/<name>.txt) when one
+/** A sprite's texture: its hand-authored grid (art/simmerfield/pixels/<name>.txt) when one
  *  exists, else the procedural drawing (the fallback). `procedural: true` always draws. */
 export function renderSprite(sprite, { procedural = false } = {}) {
   if (!Object.keys(P).length) loadPalette();

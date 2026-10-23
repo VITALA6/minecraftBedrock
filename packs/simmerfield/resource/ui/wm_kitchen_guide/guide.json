@@ -1,0 +1,1950 @@
+{
+  "namespace": "wm_kitchen_guide",
+  "ink": { "type": "label", "color": [0.23, 0.15, 0.08], "shadow": false, "layer": 6 },
+  "light": { "type": "label", "color": [1, 1, 1], "shadow": true, "layer": 9 },
+  "name@wm_kitchen_guide.ink": {
+    "text": "#wm_kitchen_name",
+    "size": ["default", "default"],
+    "max_size": ["100%", 10],
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#form_button_text - ('%.3s' * #form_button_text))",
+        "target_property_name": "#wm_kitchen_name"
+      }
+    ]
+  },
+  "name_box": {
+    "type": "panel",
+    "clips_children": true,
+    "$name_anchor|default": "left_middle",
+    "controls": [
+      {
+        "label@wm_kitchen_guide.name": {
+          "anchor_from": "$name_anchor",
+          "anchor_to": "$name_anchor"
+        }
+      }
+    ]
+  },
+  "icon": {
+    "type": "image",
+    "$icon|default": [16, 16],
+    "size": "$icon",
+    "layer": 6,
+    "bindings": [
+      {
+        "binding_name": "#form_button_texture",
+        "binding_name_override": "#texture",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_texture_file_system",
+        "binding_name_override": "#texture_file_system",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "((not ((#texture = '') or (#texture = 'loading'))) and (not (('%.1s' * #form_button_text) = 'l')))",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "silhouette@wm_kitchen_guide.icon": {
+    "color": [0.1, 0.07, 0.05],
+    "bindings": [
+      {
+        "binding_name": "#form_button_texture",
+        "binding_name_override": "#texture",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_texture_file_system",
+        "binding_name_override": "#texture_file_system",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "((not ((#texture = '') or (#texture = 'loading'))) and (('%.1s' * #form_button_text) = 'l'))",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "question@wm_kitchen_guide.light": {
+    "text": "?",
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.1s' * #form_button_text) = 'l')",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "count@wm_kitchen_guide.light": {
+    "text": "#wm_kitchen_count",
+    "anchor_from": "bottom_right",
+    "anchor_to": "bottom_right",
+    "offset": [1, 1],
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "('§r' + (('%.3s' * #form_button_text) - ('%.1s' * #form_button_text)))",
+        "target_property_name": "#wm_kitchen_count"
+      }
+    ]
+  },
+  "flame": {
+    "type": "image",
+    "texture": "textures/wm_kitchen/ui/needs_heat",
+    "$flame|default": [9, 9],
+    "size": "$flame",
+    "anchor_from": "bottom_left",
+    "anchor_to": "bottom_left",
+    "offset": [-2, 2],
+    "layer": 9,
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(('%.1s' * #form_button_text) = 'h')",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "slot_content": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "controls": [
+      { "icon@wm_kitchen_guide.icon": {} },
+      { "silhouette@wm_kitchen_guide.silhouette": {} },
+      { "question@wm_kitchen_guide.question": {} },
+      { "count@wm_kitchen_guide.count": {} },
+      { "flame@wm_kitchen_guide.flame": {} }
+    ]
+  },
+  "highlight": {
+    "type": "image",
+    "texture": "textures/wm_kitchen/ui/book/slot_select",
+    "size": ["100% + 4px", "100% + 4px"],
+    "layer": 8
+  },
+  "tooltip@common.hover_text": {
+    "layer": 30,
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#form_button_text - ('%.3s' * #form_button_text))",
+        "target_property_name": "#hover_text"
+      }
+    ]
+  },
+  "slot_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [{ "content@wm_kitchen_guide.slot_content": {} }]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            { "highlight@wm_kitchen_guide.highlight": {} },
+            { "content@wm_kitchen_guide.slot_content": {} },
+            { "tooltip@wm_kitchen_guide.tooltip": {} }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [{ "content@wm_kitchen_guide.slot_content": { "offset": [0, 1] } }]
+        }
+      }
+    ]
+  },
+  "slot_cell": {
+    "type": "panel",
+    "$frame|default": "textures/wm_kitchen/ui/book/slot",
+    "controls": [
+      {
+        "bg": {
+          "type": "image",
+          "texture": "$frame",
+          "size": ["100%", "100%"],
+          "layer": 3,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not (('%.1s' * #form_button_text) = 'l'))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "bg_locked": {
+          "type": "image",
+          "texture": "textures/wm_kitchen/ui/book/slot_locked",
+          "size": ["100%", "100%"],
+          "layer": 3,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.1s' * #form_button_text) = 'l')",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      { "button@wm_kitchen_guide.slot_button": {} }
+    ]
+  },
+  "chip_content": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "layer": 6,
+    "controls": [
+      {
+        "icon_box": {
+          "type": "panel",
+          "size": [18, 16],
+          "anchor_from": "left_middle",
+          "anchor_to": "left_middle",
+          "offset": [2, 0],
+          "controls": [{ "slot@wm_kitchen_guide.slot_content": {} }]
+        }
+      },
+      {
+        "name@wm_kitchen_guide.name_box": {
+          "size": ["100% - 23px", 10],
+          "anchor_from": "left_middle",
+          "anchor_to": "left_middle",
+          "offset": [20, 0]
+        }
+      }
+    ]
+  },
+  "chip_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/chip",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.chip_content": {} }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/chip",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "highlight@wm_kitchen_guide.highlight": {} },
+            { "content@wm_kitchen_guide.chip_content": {} },
+            { "tooltip@wm_kitchen_guide.tooltip": {} }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/chip",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.chip_content": { "offset": [0, 1] } }
+          ]
+        }
+      }
+    ]
+  },
+  "chip_cell": { "type": "panel", "controls": [{ "button@wm_kitchen_guide.chip_button": {} }] },
+  "row_content": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "layer": 6,
+    "controls": [
+      {
+        "icon_box": {
+          "type": "panel",
+          "size": [18, 16],
+          "anchor_from": "left_middle",
+          "anchor_to": "left_middle",
+          "offset": [3, 0],
+          "controls": [{ "slot@wm_kitchen_guide.slot_content": {} }]
+        }
+      },
+      {
+        "name@wm_kitchen_guide.name_box": {
+          "size": ["100% - 28px", 10],
+          "anchor_from": "left_middle",
+          "anchor_to": "left_middle",
+          "offset": [24, 0]
+        }
+      }
+    ]
+  },
+  "row_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.row_content": {} }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book_hover",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "highlight@wm_kitchen_guide.highlight": {} },
+            { "content@wm_kitchen_guide.row_content": {} }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book_hover",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.row_content": { "offset": [0, 1] } }
+          ]
+        }
+      }
+    ]
+  },
+  "row_cell": { "type": "panel", "controls": [{ "button@wm_kitchen_guide.row_button": {} }] },
+  "text_cell": {
+    "type": "panel",
+    "clips_children": true,
+    "$align|default": "center",
+    "$ink|default": [0.23, 0.15, 0.08],
+    "controls": [
+      {
+        "label@wm_kitchen_guide.ink": {
+          "text": "#wm_kitchen_name",
+          "size": ["100%", "default"],
+          "max_size": ["100%", "100%"],
+          "text_alignment": "$align",
+          "color": "$ink",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_button_text - ('%.3s' * #form_button_text))",
+              "target_property_name": "#wm_kitchen_name"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "picture": {
+    "type": "panel",
+    "$icon": [48, 48],
+    "$flame": [16, 16],
+    "controls": [
+      { "icon@wm_kitchen_guide.icon": {} },
+      { "silhouette@wm_kitchen_guide.silhouette": {} },
+      { "question@wm_kitchen_guide.question": { "font_scale_factor": 2 } },
+      { "flame@wm_kitchen_guide.flame": {} }
+    ]
+  },
+  "cooked": {
+    "type": "panel",
+    "bindings": [
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "arrow": {
+          "type": "image",
+          "texture": "textures/wm_kitchen/ui/book/arrow_ink",
+          "size": [14, 10],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 8],
+          "layer": 6
+        }
+      },
+      {
+        "slot@wm_kitchen_guide.slot_cell": {
+          "size": [26, 26],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [14, 0],
+          "$frame": "textures/wm_kitchen/ui/book/slot_large"
+        }
+      }
+    ]
+  },
+  "nav_glyph_content": {
+    "type": "image",
+    "texture": "$glyph",
+    "size": "$glyph_size",
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "layer": 6
+  },
+  "nav_text_content": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "layer": 6,
+    "controls": [
+      {
+        "glyph": {
+          "type": "image",
+          "texture": "$glyph",
+          "size": [7, 7],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [6, 6]
+        }
+      },
+      {
+        "name@wm_kitchen_guide.name_box": {
+          "size": ["100% - 19px", 10],
+          "$name_anchor": "center",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [15, 4]
+        }
+      }
+    ]
+  },
+  "nav_glyph_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.nav_glyph_content": {} }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book_hover",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "highlight@wm_kitchen_guide.highlight": {} },
+            { "content@wm_kitchen_guide.nav_glyph_content": {} },
+            { "tooltip@wm_kitchen_guide.tooltip": {} }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book_hover",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.nav_glyph_content": { "offset": [0, 1] } }
+          ]
+        }
+      }
+    ]
+  },
+  "nav_text_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.nav_text_content": {} }
+          ]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book_hover",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "highlight@wm_kitchen_guide.highlight": {} },
+            { "content@wm_kitchen_guide.nav_text_content": {} }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book_hover",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.nav_text_content": { "offset": [0, 1] } }
+          ]
+        }
+      }
+    ]
+  },
+  "nav_glyph_cell": {
+    "type": "panel",
+    "controls": [
+      {
+        "dead": {
+          "type": "panel",
+          "alpha": 0.45,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.nav_glyph_content": {} }
+          ]
+        }
+      },
+      { "button@wm_kitchen_guide.nav_glyph_button": {} }
+    ]
+  },
+  "nav_text_cell": {
+    "type": "panel",
+    "controls": [
+      {
+        "dead": {
+          "type": "panel",
+          "alpha": 0.45,
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "bg": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/button_book",
+                "size": ["100%", "100%"],
+                "layer": 3
+              }
+            },
+            { "content@wm_kitchen_guide.nav_text_content": {} }
+          ]
+        }
+      },
+      { "button@wm_kitchen_guide.nav_text_button": {} }
+    ]
+  },
+  "ribbon_content": {
+    "type": "panel",
+    "size": ["100%", "100%"],
+    "controls": [
+      {
+        "inactive": {
+          "type": "panel",
+          "size": ["100%", "100%"],
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not (('%.1s' * #form_button_text) = 'a'))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "tab": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/ribbon_tab",
+                "size": [26, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "layer": 3
+              }
+            },
+            {
+              "icon@wm_kitchen_guide.icon": {
+                "$icon": [12, 12],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [9, 6]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "active": {
+          "type": "panel",
+          "size": ["100%", "100%"],
+          "bindings": [
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(('%.1s' * #form_button_text) = 'a')",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "tab": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/ribbon_tab_active",
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "layer": 3
+              }
+            },
+            {
+              "icon@wm_kitchen_guide.icon": {
+                "$icon": [12, 12],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [14, 6]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "ribbon_button@common.button": {
+    "$pressed_button_name": "button.form_button_click",
+    "size": ["100%", "100%"],
+    "bindings": [
+      { "binding_type": "collection_details", "binding_collection_name": "form_buttons" },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#form_button_text = '') or (('%.1s' * #form_button_text) = 'e')))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "default": {
+          "type": "panel",
+          "controls": [{ "content@wm_kitchen_guide.ribbon_content": {} }]
+        }
+      },
+      {
+        "hover": {
+          "type": "panel",
+          "controls": [
+            { "highlight@wm_kitchen_guide.highlight": {} },
+            { "content@wm_kitchen_guide.ribbon_content": {} },
+            { "tooltip@wm_kitchen_guide.tooltip": {} }
+          ]
+        }
+      },
+      {
+        "pressed": {
+          "type": "panel",
+          "controls": [{ "content@wm_kitchen_guide.ribbon_content": { "offset": [0, 1] } }]
+        }
+      }
+    ]
+  },
+  "ribbon_cell": { "type": "panel", "controls": [{ "button@wm_kitchen_guide.ribbon_button": {} }] },
+  "book": {
+    "type": "panel",
+    "size": [357, 200],
+    "anchor_from": "center",
+    "anchor_to": "center",
+    "layer": 2,
+    "bindings": [
+      { "binding_name": "#title_text", "binding_type": "global" },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not ((#title_text - '§h§k') = #title_text))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "ribbons": {
+          "type": "collection_panel",
+          "size": [357, 200],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "collection_name": "form_buttons",
+          "layer": 0,
+          "controls": [
+            {
+              "b21_ribbon_cell@wm_kitchen_guide.ribbon_cell": {
+                "collection_index": 21,
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [324, 14]
+              }
+            },
+            {
+              "b22_ribbon_cell@wm_kitchen_guide.ribbon_cell": {
+                "collection_index": 22,
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [324, 41]
+              }
+            },
+            {
+              "b23_ribbon_cell@wm_kitchen_guide.ribbon_cell": {
+                "collection_index": 23,
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [324, 68]
+              }
+            },
+            {
+              "b24_ribbon_cell@wm_kitchen_guide.ribbon_cell": {
+                "collection_index": 24,
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [324, 95]
+              }
+            },
+            {
+              "b25_ribbon_cell@wm_kitchen_guide.ribbon_cell": {
+                "collection_index": 25,
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [324, 122]
+              }
+            },
+            {
+              "b26_ribbon_cell@wm_kitchen_guide.ribbon_cell": {
+                "collection_index": 26,
+                "size": [33, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [324, 149]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "chrome": {
+          "type": "panel",
+          "size": [330, 200],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "layer": 10,
+          "controls": [
+            {
+              "image_0": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/book_cover",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "layer": 1
+              }
+            },
+            {
+              "image_1": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/page_left",
+                "size": [158, 164],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [8, 7],
+                "layer": 2
+              }
+            },
+            {
+              "image_2": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/page_right",
+                "size": [158, 164],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [164, 7],
+                "layer": 2
+              }
+            },
+            {
+              "image_3": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/parchment_grain",
+                "size": [145, 157],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [14, 10],
+                "layer": 3,
+                "tiled": true
+              }
+            },
+            {
+              "image_4": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/parchment_grain",
+                "size": [145, 157],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [171, 10],
+                "layer": 3,
+                "tiled": true
+              }
+            },
+            {
+              "image_5": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/book_gutter",
+                "size": [8, 166],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [160, 6],
+                "layer": 4
+              }
+            },
+            {
+              "image_6": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/divider",
+                "size": [100, 1],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [37, 26],
+                "layer": 5
+              }
+            },
+            {
+              "image_7": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/divider_gem",
+                "size": [11, 5],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [81, 24],
+                "layer": 6
+              }
+            },
+            {
+              "image_8": {
+                "type": "image",
+                "texture": "textures/wm_kitchen/ui/book/dish_halo",
+                "size": [64, 64],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [55, 31],
+                "layer": 5
+              }
+            },
+            {
+              "title_box": {
+                "type": "panel",
+                "size": [146, 10],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [14, 14],
+                "clips_children": true,
+                "controls": [
+                  {
+                    "title": {
+                      "type": "label",
+                      "color": [0.23, 0.15, 0.08],
+                      "shadow": false,
+                      "layer": 6,
+                      "text": "#wm_kitchen_title",
+                      "size": ["default", "default"],
+                      "max_size": ["100%", 10],
+                      "anchor_from": "center",
+                      "anchor_to": "center",
+                      "bindings": [
+                        { "binding_name": "#title_text", "binding_type": "global" },
+                        {
+                          "binding_type": "view",
+                          "source_property_name": "(#title_text - ('%.12s' * #title_text))",
+                          "target_property_name": "#wm_kitchen_title"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "cells": {
+                "type": "collection_panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "collection_name": "form_buttons",
+                "controls": [
+                  {
+                    "b0_picture@wm_kitchen_guide.picture": {
+                      "collection_index": 0,
+                      "size": [48, 48],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [63, 39]
+                    }
+                  },
+                  {
+                    "b17_nav_glyph_cell@wm_kitchen_guide.nav_glyph_cell": {
+                      "collection_index": 17,
+                      "size": [26, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [12, 176],
+                      "$glyph": "textures/wm_kitchen/ui/book/nav_prev",
+                      "$glyph_size": [4, 7]
+                    }
+                  },
+                  {
+                    "b19_nav_text_cell@wm_kitchen_guide.nav_text_cell": {
+                      "collection_index": 19,
+                      "size": [54, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [108, 176],
+                      "$glyph": "textures/wm_kitchen/ui/book/nav_back"
+                    }
+                  },
+                  {
+                    "b20_nav_text_cell@wm_kitchen_guide.nav_text_cell": {
+                      "collection_index": 20,
+                      "size": [54, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [166, 176],
+                      "$glyph": "textures/wm_kitchen/ui/book/nav_home"
+                    }
+                  },
+                  {
+                    "b18_nav_glyph_cell@wm_kitchen_guide.nav_glyph_cell": {
+                      "collection_index": 18,
+                      "size": [26, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [292, 176],
+                      "$glyph": "textures/wm_kitchen/ui/book/nav_next",
+                      "$glyph_size": [4, 7]
+                    }
+                  }
+                ]
+              }
+            },
+            { "close@common.close_button": { "layer": 40, "$close_button_offset": [-3, 3] } }
+          ]
+        }
+      },
+      {
+        "recipe": {
+          "type": "panel",
+          "size": [330, 200],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "layer": 20,
+          "bindings": [
+            { "binding_name": "#title_text", "binding_type": "global" },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#title_text - '§h§k§1§r') = #title_text))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "art": {
+                "type": "panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "controls": [
+                  {
+                    "body_box": {
+                      "type": "panel",
+                      "size": [142, 40],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [16, 99],
+                      "clips_children": true,
+                      "controls": [
+                        {
+                          "body": {
+                            "type": "label",
+                            "color": [0.23, 0.15, 0.08],
+                            "shadow": false,
+                            "layer": 6,
+                            "text": "#form_text",
+                            "size": ["100%", "default"],
+                            "max_size": ["100%", "100%"],
+                            "text_alignment": "center",
+                            "anchor_from": "top_left",
+                            "anchor_to": "top_left",
+                            "offset": [0, 0],
+                            "bindings": [{ "binding_name": "#form_text", "binding_type": "global" }]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "image_0": {
+                      "type": "image",
+                      "texture": "textures/wm_kitchen/ui/book/arrow_ink",
+                      "size": [14, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [244, 54],
+                      "layer": 6
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "cells": {
+                "type": "collection_panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "collection_name": "form_buttons",
+                "controls": [
+                  {
+                    "b15_chip_cell@wm_kitchen_guide.chip_cell": {
+                      "collection_index": 15,
+                      "size": [72, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [14, 143]
+                    }
+                  },
+                  {
+                    "b16_chip_cell@wm_kitchen_guide.chip_cell": {
+                      "collection_index": 16,
+                      "size": [72, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [88, 143]
+                    }
+                  },
+                  {
+                    "b13_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 13,
+                      "size": [150, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [168, 15],
+                      "$ink": [0.23, 0.15, 0.08],
+                      "$align": "center"
+                    }
+                  },
+                  {
+                    "b1_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 1,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [178, 29]
+                    }
+                  },
+                  {
+                    "b2_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 2,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [198, 29]
+                    }
+                  },
+                  {
+                    "b3_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 3,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [218, 29]
+                    }
+                  },
+                  {
+                    "b4_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 4,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [178, 49]
+                    }
+                  },
+                  {
+                    "b5_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 5,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [198, 49]
+                    }
+                  },
+                  {
+                    "b6_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 6,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [218, 49]
+                    }
+                  },
+                  {
+                    "b7_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 7,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [178, 69]
+                    }
+                  },
+                  {
+                    "b8_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 8,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [198, 69]
+                    }
+                  },
+                  {
+                    "b9_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 9,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [218, 69]
+                    }
+                  },
+                  {
+                    "b10_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 10,
+                      "size": [26, 26],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [264, 46],
+                      "$frame": "textures/wm_kitchen/ui/book/slot_large"
+                    }
+                  },
+                  {
+                    "b11_chip_cell@wm_kitchen_guide.chip_cell": {
+                      "collection_index": 11,
+                      "size": [78, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [172, 99]
+                    }
+                  },
+                  {
+                    "b12_cooked@wm_kitchen_guide.cooked": {
+                      "collection_index": 12,
+                      "size": [40, 26],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [252, 96]
+                    }
+                  },
+                  {
+                    "b14_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 14,
+                      "size": [142, 36],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [172, 129],
+                      "$ink": [0.52, 0.39, 0.25],
+                      "$align": "center"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "list": {
+          "type": "panel",
+          "size": [330, 200],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "layer": 20,
+          "bindings": [
+            { "binding_name": "#title_text", "binding_type": "global" },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#title_text - '§h§k§2§r') = #title_text))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "art": {
+                "type": "panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "controls": [
+                  {
+                    "body_box": {
+                      "type": "panel",
+                      "size": [142, 66],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [16, 99],
+                      "clips_children": true,
+                      "controls": [
+                        {
+                          "body": {
+                            "type": "label",
+                            "color": [0.23, 0.15, 0.08],
+                            "shadow": false,
+                            "layer": 6,
+                            "text": "#form_text",
+                            "size": ["100%", "default"],
+                            "max_size": ["100%", "100%"],
+                            "text_alignment": "center",
+                            "anchor_from": "top_left",
+                            "anchor_to": "top_left",
+                            "offset": [0, 0],
+                            "bindings": [{ "binding_name": "#form_text", "binding_type": "global" }]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "cells": {
+                "type": "collection_panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "collection_name": "form_buttons",
+                "controls": [
+                  {
+                    "b13_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 13,
+                      "size": [150, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [168, 15],
+                      "$ink": [0.23, 0.15, 0.08],
+                      "$align": "center"
+                    }
+                  },
+                  {
+                    "b1_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 1,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 27]
+                    }
+                  },
+                  {
+                    "b2_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 2,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 46]
+                    }
+                  },
+                  {
+                    "b3_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 3,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 65]
+                    }
+                  },
+                  {
+                    "b4_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 4,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 84]
+                    }
+                  },
+                  {
+                    "b5_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 5,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 103]
+                    }
+                  },
+                  {
+                    "b6_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 6,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 122]
+                    }
+                  },
+                  {
+                    "b7_row_cell@wm_kitchen_guide.row_cell": {
+                      "collection_index": 7,
+                      "size": [140, 18],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 141]
+                    }
+                  },
+                  {
+                    "b14_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 14,
+                      "size": [150, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [168, 161],
+                      "$ink": [0.52, 0.39, 0.25],
+                      "$align": "center"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "text": {
+          "type": "panel",
+          "size": [330, 200],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "layer": 20,
+          "bindings": [
+            { "binding_name": "#title_text", "binding_type": "global" },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#title_text - '§h§k§3§r') = #title_text))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "art": {
+                "type": "panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "controls": [
+                  {
+                    "body_box": {
+                      "type": "panel",
+                      "size": [140, 136],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [173, 29],
+                      "clips_children": true,
+                      "controls": [
+                        {
+                          "body": {
+                            "type": "label",
+                            "color": [0.23, 0.15, 0.08],
+                            "shadow": false,
+                            "layer": 6,
+                            "text": "#form_text",
+                            "size": ["100%", "default"],
+                            "max_size": ["100%", "100%"],
+                            "text_alignment": "left",
+                            "anchor_from": "top_left",
+                            "anchor_to": "top_left",
+                            "offset": [0, 0],
+                            "bindings": [{ "binding_name": "#form_text", "binding_type": "global" }]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "cells": {
+                "type": "collection_panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "collection_name": "form_buttons",
+                "controls": [
+                  {
+                    "b13_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 13,
+                      "size": [150, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [168, 15],
+                      "$ink": [0.52, 0.39, 0.25],
+                      "$align": "center"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "crop": {
+          "type": "panel",
+          "size": [330, 200],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [0, 0],
+          "layer": 20,
+          "bindings": [
+            { "binding_name": "#title_text", "binding_type": "global" },
+            {
+              "binding_type": "view",
+              "source_property_name": "(not ((#title_text - '§h§k§4§r') = #title_text))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "art": {
+                "type": "panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "controls": [
+                  {
+                    "body_box": {
+                      "type": "panel",
+                      "size": [142, 66],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [16, 99],
+                      "clips_children": true,
+                      "controls": [
+                        {
+                          "body": {
+                            "type": "label",
+                            "color": [0.23, 0.15, 0.08],
+                            "shadow": false,
+                            "layer": 6,
+                            "text": "#form_text",
+                            "size": ["100%", "default"],
+                            "max_size": ["100%", "100%"],
+                            "text_alignment": "center",
+                            "anchor_from": "top_left",
+                            "anchor_to": "top_left",
+                            "offset": [0, 0],
+                            "bindings": [{ "binding_name": "#form_text", "binding_type": "global" }]
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "image_0": {
+                      "type": "image",
+                      "texture": "textures/wm_kitchen/ui/book/arrow_ink",
+                      "size": [14, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [272, 34],
+                      "layer": 6
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "cells": {
+                "type": "collection_panel",
+                "size": [330, 200],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [0, 0],
+                "collection_name": "form_buttons",
+                "controls": [
+                  {
+                    "b13_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 13,
+                      "size": [150, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [168, 15],
+                      "$ink": [0.23, 0.15, 0.08],
+                      "$align": "center"
+                    }
+                  },
+                  {
+                    "b1_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 1,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [170, 29]
+                    }
+                  },
+                  {
+                    "b2_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 2,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [190, 29]
+                    }
+                  },
+                  {
+                    "b3_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 3,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [210, 29]
+                    }
+                  },
+                  {
+                    "b4_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 4,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [230, 29]
+                    }
+                  },
+                  {
+                    "b5_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 5,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [250, 29]
+                    }
+                  },
+                  {
+                    "b10_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 10,
+                      "size": [26, 26],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [288, 26],
+                      "$frame": "textures/wm_kitchen/ui/book/slot_large"
+                    }
+                  },
+                  {
+                    "b27_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 27,
+                      "size": [150, 10],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [168, 59],
+                      "$ink": [0.23, 0.15, 0.08],
+                      "$align": "center"
+                    }
+                  },
+                  {
+                    "b28_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 28,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [183, 71]
+                    }
+                  },
+                  {
+                    "b29_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 29,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [203, 71]
+                    }
+                  },
+                  {
+                    "b30_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 30,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [223, 71]
+                    }
+                  },
+                  {
+                    "b31_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 31,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [243, 71]
+                    }
+                  },
+                  {
+                    "b32_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 32,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [263, 71]
+                    }
+                  },
+                  {
+                    "b33_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 33,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [283, 71]
+                    }
+                  },
+                  {
+                    "b34_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 34,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [183, 91]
+                    }
+                  },
+                  {
+                    "b35_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 35,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [203, 91]
+                    }
+                  },
+                  {
+                    "b36_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 36,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [223, 91]
+                    }
+                  },
+                  {
+                    "b37_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 37,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [243, 91]
+                    }
+                  },
+                  {
+                    "b38_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 38,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [263, 91]
+                    }
+                  },
+                  {
+                    "b39_slot_cell@wm_kitchen_guide.slot_cell": {
+                      "collection_index": 39,
+                      "size": [20, 20],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [283, 91]
+                    }
+                  },
+                  {
+                    "b14_text_cell@wm_kitchen_guide.text_cell": {
+                      "collection_index": 14,
+                      "size": [142, 44],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [172, 117],
+                      "$ink": [0.52, 0.39, 0.25],
+                      "$align": "center"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

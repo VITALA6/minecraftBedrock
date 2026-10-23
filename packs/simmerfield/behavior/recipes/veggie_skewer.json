@@ -1,0 +1,32 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "wm_kitchen:veggie_skewer"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "minecraft:stick"
+      },
+      {
+        "item": "wm_kitchen:sliced_eggplant"
+      },
+      {
+        "item": "wm_kitchen:sliced_tomato"
+      },
+      {
+        "item": "wm_kitchen:chopped_onion"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "wm_kitchen:eggplant"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:veggie_skewer",
+      "count": 1
+    }
+  }
+}

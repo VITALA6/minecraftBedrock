@@ -9,7 +9,7 @@
 //     pages/<id>.md   prose pages; see "Pages" at the bottom for the reference syntax
 //
 // Conventions:
-// - Ids are the game's namespaced ids ("hk:tomato", "minecraft:bowl"); mod-defined ids that
+// - Ids are the game's namespaced ids ("wm_kitchen:tomato", "minecraft:bowl"); mod-defined ids that
 //   aren't game ids (crops, stations, families, pages) are plain snake_case ("tomato",
 //   "cooking_pot").
 // - Every id one record uses to point at another exists in the matching collection; the exporter
@@ -42,10 +42,10 @@ export interface ModDocs {
 }
 
 export interface ModInfo {
-  /** Folder name and URL slug: kebab-case ("harvest-kitchen"). */
+  /** Folder name and URL slug: kebab-case ("simmerfield"). */
   id: string;
   name: string;
-  /** The mod's id namespace ("hk"). */
+  /** The mod's id namespace ("wm_kitchen"). */
   namespace: string;
   /** Pack version, "1.0.0". */
   version: string;
@@ -223,9 +223,9 @@ export interface CraftingGrid {
 // "# Title" heading. It points at data instead of repeating it:
 //
 // - Inline links with a data scheme, readable in any Markdown viewer:
-//     [Tomato](item:hk:tomato)   [Cooking Pot](station:cooking_pot)   [Heal](family:heal)
-//     [Tomato](crop:tomato)      [Tomato Soup](recipe:hk:tomato_soup)  [Crops](page:crops)
-//     [Plains](biome:minecraft:plains)   [Cooking Pot](crafting:hk:cooking_pot)
+//     [Tomato](item:wm_kitchen:tomato)   [Cooking Pot](station:cooking_pot)   [Heal](family:heal)
+//     [Tomato](crop:tomato)      [Tomato Soup](recipe:wm_kitchen:tomato_soup)  [Crops](page:crops)
+//     [Plains](biome:minecraft:plains)   [Cooking Pot](crafting:wm_kitchen:cooking_pot)
 //   A docs site renders them as chips (icon + name) or links; the link text is the fallback.
 //
 // - Embedded blocks: a fenced code block with the info string `embed`, one directive inside:

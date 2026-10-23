@@ -1,0 +1,57 @@
+{
+  "format_version": [1, 1, 0],
+  "wm_kitchen:kitchen_counter": {
+    "sound": "wood"
+  },
+  "wm_kitchen:kitchen_cabinet": {
+    "sound": "wood"
+  },
+  "wm_kitchen:spice_shelf": {
+    "sound": "wood"
+  },
+  "wm_kitchen:kitchen_sink": {
+    "sound": "stone"
+  },
+  "wm_kitchen:kitchen_stove": {
+    "sound": "metal"
+  },
+  "wm_kitchen:hanging_pan": {
+    "sound": "lantern"
+  },
+  "wm_kitchen:pickle_jar": {
+    "sound": "glass"
+  },
+  "wm_kitchen:vegetable_basket": {
+    "sound": "wood"
+  },
+  "wm_kitchen:tomato_crop": {
+    "sound": "grass"
+  },
+  "wm_kitchen:onion_crop": {
+    "sound": "grass"
+  },
+  "wm_kitchen:cucumber_crop": {
+    "sound": "grass"
+  },
+  "wm_kitchen:chili_bush": {
+    "sound": "sweet_berry_bush"
+  },
+  "wm_kitchen:strawberry_bush": {
+    "sound": "sweet_berry_bush"
+  },
+  "wm_kitchen:cutting_board": {
+    "sound": "wood"
+  },
+  "wm_kitchen:cooking_pot": {
+    "sound": "copper"
+  },
+  "wm_kitchen:strawberry_cake": {
+    "sound": "cloth"
+  },
+  "wm_kitchen:recipe_poster": {
+    "sound": "wood"
+  },
+  "wm_kitchen:eggplant_crop": {
+    "sound": "grass"
+  }
+}

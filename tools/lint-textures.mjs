@@ -1,9 +1,9 @@
-// Checks the generated Harvest Kitchen textures against docs/harvest-kitchen/art-style.md and
+// Checks the generated Simmerfield textures against docs/simmerfield/art-style.md and
 // writes a review sheet.
 //
 //   node tools/lint-textures.mjs
 //
-// Reads art/harvest_kitchen/generated/{items,ui,blocks}/*.png (in the generator's sprite order),
+// Reads art/simmerfield/generated/{items,ui,blocks}/*.png (in the generator's sprite order),
 // prints every failed check, and writes generated/review_sheet.png + review_sheet.txt.
 // Exits with code 1 when anything fails. Plain Node, no dependencies.
 
@@ -21,7 +21,7 @@ import {
 import { gridFile } from "./pixels.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const GEN_DIR = path.join(ROOT, "art/harvest_kitchen/generated");
+const GEN_DIR = path.join(ROOT, "art/simmerfield/generated");
 const S = 16;
 
 // Calibrated on vanilla 1.26.52 icons (see art-style.md).
@@ -650,7 +650,7 @@ function main() {
   const index = [
     "Review sheet: per group, vanilla references (left), then each icon at 1x in a slot, 4x, 4x",
     "grayscale and 4x silhouette. Red frame = flagged by the linter. Hand-authored icons",
-    "(art/harvest_kitchen/pixels/) show the procedural drawing they replaced on the left.",
+    "(art/simmerfield/pixels/) show the procedural drawing they replaced on the left.",
     "",
     ...groups.map((g) => `${g.title}: ${g.items.map((t) => t.name).join(", ")}`),
     "",

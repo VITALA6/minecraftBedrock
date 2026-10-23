@@ -1,0 +1,870 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "bedrock_block",
+    "box_uv": false
+  },
+  "name": "wm_kitchen_kitchen_counter",
+  "model_identifier": "wm_kitchen.kitchen_counter",
+  "front_gui_light": false,
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "countertop",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        14,
+        -8
+      ],
+      "to": [
+        8,
+        16,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            2
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            2
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            2
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            2
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 2,
+          "material_name": "top"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 2,
+          "material_name": "top"
+        }
+      },
+      "type": "cube",
+      "uuid": "15c14148-bb87-48ac-98af-4d27aabf90fe"
+    },
+    {
+      "name": "carcass",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        -6
+      ],
+      "to": [
+        8,
+        14,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            2,
+            16,
+            16
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            2,
+            14,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            2,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            2,
+            2,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            14
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "181fc0a1-f901-47cd-a0e8-af2f0a45a2bc"
+    },
+    {
+      "name": "drawer",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -7,
+        10,
+        -7
+      ],
+      "to": [
+        7,
+        13,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            3,
+            15,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            1,
+            3,
+            2,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            14,
+            3,
+            15,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            15,
+            3,
+            1,
+            4
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            15,
+            5,
+            1,
+            6
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "7d2cb2ee-1705-4bfd-b0ff-8ae40bb47e4c"
+    },
+    {
+      "name": "door_left",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        0,
+        2,
+        -7
+      ],
+      "to": [
+        7,
+        9,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            7,
+            8,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            1,
+            7,
+            2,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "up": {
+          "uv": [
+            8,
+            7,
+            1,
+            8
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            8,
+            13,
+            1,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "cf751dc9-3664-486d-a4ee-4b8f4d5ba3a5"
+    },
+    {
+      "name": "door_right",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -7,
+        2,
+        -7
+      ],
+      "to": [
+        0,
+        9,
+        -6
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            7,
+            15,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            14,
+            7,
+            15,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            15,
+            7,
+            8,
+            8
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            15,
+            13,
+            8,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "b2665ac9-0b88-4ba7-a7a7-f6f0e1e4a4d0"
+    },
+    {
+      "name": "pull",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -2,
+        11,
+        -8
+      ],
+      "to": [
+        2,
+        12,
+        -7
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            4,
+            10,
+            5
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            6,
+            4,
+            7,
+            5
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            9,
+            4,
+            10,
+            5
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            10,
+            4,
+            6,
+            5
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            10,
+            4,
+            6,
+            5
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "b66df45f-32f8-45f6-99c0-97e5d79e61dd"
+    },
+    {
+      "name": "knob_left",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        1,
+        5,
+        -8
+      ],
+      "to": [
+        2,
+        6,
+        -7
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            10,
+            7,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            6,
+            10,
+            7,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            6,
+            10,
+            7,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            7,
+            10,
+            6,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            7,
+            10,
+            6,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "773bef16-01cf-4a10-992e-f75da76d7402"
+    },
+    {
+      "name": "knob_right",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -2,
+        5,
+        -8
+      ],
+      "to": [
+        -1,
+        6,
+        -7
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            10,
+            10,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            9,
+            10,
+            10,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            9,
+            10,
+            10,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            10,
+            10,
+            9,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            10,
+            10,
+            9,
+            11
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "9f80d812-6cdb-4401-8abf-1043baf3cd9a"
+    }
+  ],
+  "groups": [
+    {
+      "name": "kitchen_counter",
+      "uuid": "95832b4d-4361-4acd-ab71-7bc7bea387a1",
+      "export": true,
+      "locked": false,
+      "scope": 0,
+      "selected": false,
+      "visibility": true,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 1,
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "autouv": 0,
+      "isOpen": false
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "95832b4d-4361-4acd-ab71-7bc7bea387a1",
+      "isOpen": false,
+      "children": [
+        "15c14148-bb87-48ac-98af-4d27aabf90fe",
+        "181fc0a1-f901-47cd-a0e8-af2f0a45a2bc",
+        "7d2cb2ee-1705-4bfd-b0ff-8ae40bb47e4c",
+        "cf751dc9-3664-486d-a4ee-4b8f4d5ba3a5",
+        "b2665ac9-0b88-4ba7-a7a7-f6f0e1e4a4d0",
+        "b66df45f-32f8-45f6-99c0-97e5d79e61dd",
+        "773bef16-01cf-4a10-992e-f75da76d7402",
+        "9f80d812-6cdb-4401-8abf-1043baf3cd9a"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "kitchen_counter_side",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "0",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "b898d71a-81ab-40eb-89c9-12ad44be75b9",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAhElEQVR4nGN4fP/Sf0oww8H9O/6j47VrVmGI4ZJjODQ36T8lmGF9f+h/EAZxYGxCeH6LL5yNYsC0EkeCeMeUePwGgBTgwyeXZpNnAEieKANgCtE1E20AiI1uAEwNSQYgu4QsA5BdQpIBFMUCTAEhjGIAiEMJZqhLMv9PCWbwstL6TwkGACKnm/FsOC77AAAAAElFTkSuQmCC"
+    },
+    {
+      "name": "kitchen_counter_front",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "1",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "0981513e-8633-4a54-a814-c0abe9e119a3",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAuElEQVR4nGN4fP/Sf0oww8H9O/7D8No1q/4j8wnJTZ8+5z9DeoDOf0oww6G5Sf+vba0hGe+YEv+/LskcYQBIAITX94eC6SNHzvyfNWspGBcWIuRheFqJI8IAmACpGG4AiEEuBhtwcmk2VgxyGT45FAPmt/iiYFBYgJyJTw7DAFgIw8SQDcAmh9UAEB9kw82eaLgBIDayHE4DYAqQFeGTQzEAJoGMYQbgkiMqHeCTo0468LLS+k8JBgB4jouY08CSGQAAAABJRU5ErkJggg=="
+    },
+    {
+      "name": "kitchen_counter_top",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "2",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "bba8ff12-0c19-4906-a3f7-21f37c97d5dc",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAcUlEQVR4nGN4fP/Sf0oww6XzR/4f3L8DjteuWYXCR8fI8iA2hgGkYLINgOmBG4DsLGIMhKnHcAEh/xMVBiBBXAahayYpDLAZCjeA3JhAcQEuG/AFLnXTASkpkGwXoMcQXgNg4oTCCMULpIYHSlImFwMAz1M23OoU+xIAAAAASUVORK5CYII="
+    }
+  ]
+}

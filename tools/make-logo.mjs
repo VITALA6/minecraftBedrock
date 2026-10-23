@@ -1,12 +1,12 @@
 // Writes the 400×400 project logo for CurseForge and MCPEDL:
-//   docs/harvest-kitchen/release/logo-400.png
+//   docs/simmerfield/release/logo-400.png
 //
 //   node tools/make-logo.mjs           write the PNG
 //   node tools/make-logo.mjs --check   exit 1 if the PNG differs from what it would write
 //
-// Built only from our own 16×16 art: the pack's item textures (packs/harvest_kitchen/resource/
-// textures/hk/items/) and the campfire the recipe posters use (art/harvest_kitchen/generated/
-// ingredients/campfire.png, drawn from our grid in art/harvest_kitchen/pixels/campfire.txt).
+// Built only from our own 16×16 art: the pack's item textures (packs/simmerfield/resource/
+// textures/wm_kitchen/items/) and the campfire the recipe posters use (art/simmerfield/generated/
+// ingredients/campfire.png, drawn from our grid in art/simmerfield/pixels/campfire.txt).
 // Never anything from art/references/ (third-party, never shipped). Every icon is scaled by a
 // whole number with nearest-neighbour, so the pixels stay square and sharp: the Cooking Pot at
 // ×14 on a campfire at ×8, with a Tomato Soup and a Tomato at ×8 on either side (grow, cook,
@@ -21,9 +21,9 @@ import path from "node:path";
 import { decodePng, encodePng } from "./gen-textures.mjs";
 import { ROOT } from "./paths.mjs";
 
-const ITEMS = path.join(ROOT, "packs/harvest_kitchen/resource/textures/hk/items");
-const INGREDIENTS = path.join(ROOT, "art/harvest_kitchen/generated/ingredients");
-const OUT = path.join(ROOT, "docs/harvest-kitchen/release/logo-400.png");
+const ITEMS = path.join(ROOT, "packs/simmerfield/resource/textures/wm_kitchen/items");
+const INGREDIENTS = path.join(ROOT, "art/simmerfield/generated/ingredients");
+const OUT = path.join(ROOT, "docs/simmerfield/release/logo-400.png");
 
 const SIZE = 400;
 const CELL = 8; // background grid and the small icons' texel size

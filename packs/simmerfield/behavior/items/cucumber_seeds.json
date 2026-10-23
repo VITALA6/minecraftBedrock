@@ -1,0 +1,29 @@
+{
+  "format_version": "1.26.30",
+  "minecraft:item": {
+    "description": {
+      "identifier": "wm_kitchen:cucumber_seeds",
+      "menu_category": {
+        "category": "nature"
+      }
+    },
+    "components": {
+      "minecraft:display_name": {
+        "value": "item.wm_kitchen:cucumber_seeds.name"
+      },
+      "minecraft:icon": {
+        "textures": {
+          "default": "wm_kitchen_cucumber_seeds"
+        }
+      },
+      "minecraft:max_stack_size": 64,
+      "minecraft:block_placer": {
+        "block": "wm_kitchen:cucumber_crop",
+        "use_on": ["minecraft:farmland"]
+      },
+      "minecraft:tags": {
+        "tags": ["wm_kitchen:seeds"]
+      }
+    }
+  }
+}

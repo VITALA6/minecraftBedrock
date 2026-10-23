@@ -1,0 +1,32 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "wm_kitchen:salsa"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "wm_kitchen:sliced_tomato"
+      },
+      {
+        "item": "wm_kitchen:chopped_onion"
+      },
+      {
+        "item": "wm_kitchen:chili_pepper"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "wm_kitchen:chili_pepper"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:salsa",
+      "count": 1
+    }
+  }
+}

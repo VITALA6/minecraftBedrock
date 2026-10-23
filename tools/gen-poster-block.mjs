@@ -1,4 +1,4 @@
-// Writes packs/harvest_kitchen/behavior/blocks/recipe_poster.json: the 2×1 wall poster (D15) with
+// Writes packs/simmerfield/behavior/blocks/recipe_poster.json: the 2×1 wall poster (D15) with
 // one permutation per facing × half × recipe.
 //
 //   node tools/gen-poster-block.mjs           write the block JSON
@@ -7,9 +7,9 @@
 //
 // Why generated: a permutation's minecraft:material_instances replaces the whole component, and
 // whether a material permutation and a transformation permutation combine isn't proven (blockers
-// B16 relies on it for the pot), so every permutation carries both: 4 facings (hk:facing) × 2
-// halves (from the part number and cardinal direction) × the recipes (hk:poster within
-// hk:poster_page) = one full copy each, the first being the base.
+// B16 relies on it for the pot), so every permutation carries both: 4 facings (wm_kitchen:facing) × 2
+// halves (from the part number and cardinal direction) × the recipes (wm_kitchen:poster within
+// wm_kitchen:poster_page) = one full copy each, the first being the base.
 //
 // The poster is a minecraft:multi_block with 2 parts (horizontal multi-blocks are stable from
 // block format 1.26.50, Microsoft Learn "Create a Multi-Block"). That trait allows only one more
@@ -26,20 +26,20 @@ import { build } from "esbuild";
 import * as prettier from "prettier";
 import { ROOT } from "./paths.mjs";
 
-const OUT = path.join(ROOT, "packs/harvest_kitchen/behavior/blocks/recipe_poster.json");
+const OUT = path.join(ROOT, "packs/simmerfield/behavior/blocks/recipe_poster.json");
 
 /** The parts run 90° from the player's facing, i.e. along the wall they look at. */
 const Y_ROTATION_OFFSET = 90;
 
-/** Model front faces north; transformation rotation per hk:facing (as the cutting board). */
+/** Model front faces north; transformation rotation per wm_kitchen:facing (as the cutting board). */
 const ROTATION = { north: 0, west: 90, south: 180, east: 270 };
 
 async function loadData() {
   const result = await build({
     stdin: {
       contents: [
-        'export * from "./packs/harvest_kitchen/scripts/posters/poster-logic";',
-        'export { BLOCK_RECIPE_POSTER, COMPONENT_RECIPE_POSTER, STATE_POSTER, STATE_POSTER_PAGE, STATE_FACING } from "./packs/harvest_kitchen/scripts/config";',
+        'export * from "./packs/simmerfield/scripts/posters/poster-logic";',
+        'export { BLOCK_RECIPE_POSTER, COMPONENT_RECIPE_POSTER, STATE_POSTER, STATE_POSTER_PAGE, STATE_FACING } from "./packs/simmerfield/scripts/config";',
       ].join("\n"),
       resolveDir: ROOT,
       loader: "ts",
@@ -58,7 +58,7 @@ function blockJson(d) {
   if (d.POSTER_PAGES > d.POSTER_MAX_STATES) throw new Error(`${d.POSTER_COUNT} posters: too many`);
   const paged = d.POSTER_PAGES > 1;
   const q = (state) => `q.block_state('${state}')`;
-  /** The condition for poster `index`: hk:poster, and hk:poster_page once there are two pages. */
+  /** The condition for poster `index`: wm_kitchen:poster, and wm_kitchen:poster_page once there are two pages. */
   const indexCondition = (index) => {
     const { slot, page } = d.posterStates(index);
     const slotCondition = `${q(d.STATE_POSTER)} == ${slot}`;
@@ -134,17 +134,17 @@ function blockJson(d) {
         "minecraft:destructible_by_mining": { seconds_to_destroy: 0.5 },
         "minecraft:destructible_by_explosion": { explosion_resistance: 0.5 },
         "minecraft:flammable": { catch_chance_modifier: 30, destroy_chance_modifier: 60 },
-        "minecraft:geometry": { identifier: "geometry.hk.recipe_poster" },
+        "minecraft:geometry": { identifier: "geometry.wm_kitchen.recipe_poster" },
         "minecraft:light_dampening": 0,
         // Both parts drop nothing; posters/poster.ts drops one poster per break.
-        "minecraft:loot": "loot_tables/hk/blocks/nothing.json",
+        "minecraft:loot": "loot_tables/wm_kitchen/blocks/nothing.json",
         "minecraft:map_color": "#eedcb0",
         ...look(d.FACINGS[0], d.HALVES[0], 0),
         "minecraft:movable": { movement_type: "popped" },
         // No minecraft:placement_filter: re-checked on the trait's second part (placed against
         // no face) or after the script's state fix-up, it removed the poster right after placing
         // (2026-10-22). Floors and ceilings are refused in beforeOnPlayerPlace, and the wall
-        // going is handled by posters/poster-support.ts from hk:facing.
+        // going is handled by posters/poster-support.ts from wm_kitchen:facing.
       },
       permutations,
     },

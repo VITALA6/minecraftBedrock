@@ -51,17 +51,17 @@ types/             ambient globals the game provides (console); no DOM lib on pu
 tools/
   build.mjs        packs/ -> dist/<name>_BP, dist/<name>_RP (+ --watch)
   deploy.mjs       dist/ -> game development_* folders (copy, or --link)
-  package.mjs      release build of harvest_kitchen -> dist/HarvestKitchen-<hash>.mcaddon
+  package.mjs      release build of simmerfield -> dist/Simmerfield-<hash>.mcaddon
   docs-export.mjs  each mod's docs as data for the docs site -> dist/docs/<modId>/ (data.json,
                    schema.d.ts, 8× icons, pages/*.md); one adapter per mod in tools/docs/
                    (format: tools/docs/schema.d.ts), prose in packs/<name>/docs/*.md
   paths.mjs        shared paths (repo, dist, game dir)
   test.mjs         bundles packs/*/tests with esbuild, runs node --test (no @minecraft imports)
-  gen-textures.mjs Harvest Kitchen 16×16 textures -> art/harvest_kitchen/generated/: the
-                   hand-authored grid in art/harvest_kitchen/pixels/ when one exists, else the
+  gen-textures.mjs Simmerfield 16×16 textures -> art/simmerfield/generated/: the
+                   hand-authored grid in art/simmerfield/pixels/ when one exists, else the
                    procedural fallback from palette.json (--palette re-samples vanilla)
   pixels.mjs       pixel grids -> PNG; --preview <name> (8× next to vanilla, lint), --export
-  lint-textures.mjs checks generated/ against docs/harvest-kitchen/art-style.md, writes
+  lint-textures.mjs checks generated/ against docs/simmerfield/art-style.md, writes
                    generated/review_sheet.png
   ref-sheet.mjs    reference study vs Farmer's Delight/Croptopia/Create (gitignored
                    art/references/mods/, setup in art/references/README.md): sheets + metrics,
@@ -72,15 +72,15 @@ tools/
   gen-poster-block.mjs writes the recipe poster block JSON (permutations per poster/facing/half)
   lint-posters.mjs   checks the poster textures (alpha, size, icon scale, contrast)
   gen-ghost-atlas.mjs writes the ghost-ingredient particle atlas and particle JSON
-  gen-guide-ui.mjs   writes the Kitchen Guide's JSON UI book (ui/hk_guide/guide.json) from
+  gen-guide-ui.mjs   writes the Kitchen Guide's JSON UI book (ui/wm_kitchen_guide/guide.json) from
                    scripts/guide/book-layout.ts
   gen-pot-flipbook.mjs writes the pot's boil flipbooks (liquid per colour, rim) and checks their
                    terrain/flipbook registry entries
                    (all generators take --check, which the tests run)
-  make-logo.mjs    the 400×400 store logo from pack textures -> docs/harvest-kitchen/release/
+  make-logo.mjs    the 400×400 store logo from pack textures -> docs/simmerfield/release/
   edit-trailer.mjs ffmpeg trailer edit: trailer/raw/<scene>.mkv + --music -> dist/trailer/
-                   (full, 30 s, 15 s vertical); edit list docs/harvest-kitchen/marketing/
-                   trailer-edit.json, recording in docs/harvest-kitchen/marketing/recording-guide.md
+                   (full, 30 s, 15 s vertical); edit list docs/simmerfield/marketing/
+                   trailer-edit.json, recording in docs/simmerfield/marketing/recording-guide.md
 docs/              learning notes (00-setup, 01-custom-content, ...)
 art/<pack>/        art sources: pixels/ (hand-authored 16×16 icon grids), models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
                    Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
@@ -101,14 +101,16 @@ Current packs:
   listed in `myteam:ruby_block`'s JSON.
   - **Never activate `basics` and `scripting` on the same world**: same identifiers.
   - Stage 1 content fixes must be made in both packs.
-- `harvest_kitchen`: the product (farming + cooking), namespace placeholder `hk` instead of
-  `myteam`. Code notes in `docs/harvest-kitchen/slice.md`, plan in `docs/harvest-kitchen/plan.md`,
-  open issues in `docs/harvest-kitchen/blockers.md`, test scripts in `docs/harvest-kitchen/tests/`.
-  `/hk:debug <kit|grow|fast|pot|validate|reset|fx>` is the operator test kit (in every build;
-  `Admin` level, so command blocks can't run it). `/scriptevent hk:trailer <list|anchor|stage|
+- `simmerfield`: the product, **Simmerfield** (farming + cooking; store title "Simmerfield: Farming &
+  Cooking", by Wendermods). Final namespace `wm_kitchen` instead of `myteam` (was `hk` until
+  2026-10-23; worlds made before that hold `hk:` content that no longer exists, so test in a new
+  world). Pack UUIDs never changed. Code notes in `docs/simmerfield/slice.md`, plan in `docs/simmerfield/plan.md`,
+  open issues in `docs/simmerfield/blockers.md`, test scripts in `docs/simmerfield/tests/`.
+  `/wm_kitchen:debug <kit|grow|fast|pot|validate|reset|fx>` is the operator test kit (in every build;
+  `Admin` level, so command blocks can't run it). `/scriptevent wm_kitchen:trailer <list|anchor|stage|
 <scene>|still <n>|stop>` runs the trailer camera scenes (test builds only). Release notes in
-  `CHANGELOG.md`, store pages in `docs/harvest-kitchen/release/`, QA script for 1.0.0 in
-  `docs/harvest-kitchen/tests/round-6-release.md`. Lang files: en_US plus 7 translations;
+  `CHANGELOG.md`, store pages in `docs/simmerfield/release/`, QA script for 1.0.0 in
+  `docs/simmerfield/tests/round-6-release.md`. Lang files: en_US plus 7 translations;
   `tests/lang.test.ts` checks every language has every key.
   Pot dishes are two steps (D16): raw ingredients → a mix on the vanilla crafting table → the pot
   cooks the mix. (The Kitchen Table block was removed on 2026-10-23.)
@@ -119,7 +121,7 @@ Current packs:
 | -------------------------- | -------------------------------------------------------------------------------- |
 | `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`            |
 | `npm run build:release`    | `build` as a release (`__RELEASE__`): no join chat, no `console.log`, no trailer |
-| `npm run package`          | harvest_kitchen release as `dist/HarvestKitchen-<hash>.mcaddon`                  |
+| `npm run package`          | simmerfield release as `dist/Simmerfield-<hash>.mcaddon`                         |
 | `npm run docs:export`      | mod docs data for the docs site: `dist/docs/<modId>/` (not HTML)                 |
 | `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)           |
 | `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders         |
@@ -128,7 +130,7 @@ Current packs:
 | `npm run lint`             | eslint (type-aware for pack scripts)                                             |
 | `npm run format`           | prettier write (`format:check` to verify)                                        |
 | `npm test`                 | unit tests (`packs/*/tests/*.test.ts`, node:test; pure logic only)               |
-| `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet           |
+| `npm run textures`         | regenerate Simmerfield textures, lint them, write the review sheet               |
 | `npm run posters`          | render recipe posters, regenerate the poster block, lint the posters             |
 | `npm run ghosts`           | regenerate the ghost-ingredient particle atlas and particle JSON                 |
 | `npm run guide-ui`         | regenerate the Kitchen Guide's JSON UI book                                      |
@@ -162,8 +164,8 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
   - Hide the noise with `grep -v '\[verbose\]' <file> | grep -v '^$'`.
   - A broken definition usually causes follow-on errors, such as recipe or `blocks.json` errors
     for the missing block. Fix the first one.
-- **Check which build is running:** operators see `Harvest Kitchen build <hash> <time>` in chat
-  on join (also in the Content Log and `/hk:debug validate`; release builds only in the latter). Deploy only copies files; a world
+- **Check which build is running:** operators see `Simmerfield build <hash> <time>` in chat
+  on join (also in the Content Log and `/wm_kitchen:debug validate`; release builds only in the latter). Deploy only copies files; a world
   keeps its scripts until you leave and re-enter (or `/reload`, scripts only).
 - Override with the `MC_GAME_DIR` env var.
 - **Copy, not symlink (verified 2026-10-21, game 1.26.52.3):** the game didn't pick up symlinked
@@ -195,7 +197,7 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
 
 ## Conventions
 
-- **Namespace:** `myteam` is a placeholder until the publisher namespace is decided. Every custom
+- **Namespace:** `myteam` is a placeholder in the learning packs; Simmerfield uses `wm_kitchen`. Every custom
   identifier is namespaced and snake_case: `myteam:ruby_sword`, `myteam:goblin`. Never use
   `minecraft:` for new content. Prefix script-side keys the same way, including dynamic properties,
   scoreboard objectives, tags, and `/scriptevent` ids (`myteam:hello.greeted`). Renaming the

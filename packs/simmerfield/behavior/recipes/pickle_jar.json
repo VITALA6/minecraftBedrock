@@ -1,0 +1,33 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "wm_kitchen:pickle_jar"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["GCG", " G "],
+    "key": {
+      "G": {
+        "item": "minecraft:glass"
+      },
+      "C": {
+        "item": "wm_kitchen:cucumber"
+      }
+    },
+    "unlock": [
+      {
+        "item": "wm_kitchen:cucumber"
+      },
+      {
+        "item": "wm_kitchen:cooking_pot"
+      },
+      {
+        "item": "wm_kitchen:cutting_board"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:pickle_jar",
+      "count": 1
+    }
+  }
+}

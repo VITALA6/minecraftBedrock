@@ -1,0 +1,35 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "wm_kitchen:eggplant_curry_mix"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "wm_kitchen:eggplant"
+      },
+      {
+        "item": "wm_kitchen:chili_pepper"
+      },
+      {
+        "item": "wm_kitchen:onion"
+      },
+      {
+        "item": "minecraft:potato"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "wm_kitchen:eggplant"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:eggplant_curry_mix",
+      "count": 1
+    }
+  }
+}

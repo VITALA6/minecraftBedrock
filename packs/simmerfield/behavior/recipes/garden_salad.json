@@ -1,0 +1,35 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "wm_kitchen:garden_salad"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "wm_kitchen:sliced_tomato"
+      },
+      {
+        "item": "wm_kitchen:sliced_tomato"
+      },
+      {
+        "item": "wm_kitchen:sliced_cucumber"
+      },
+      {
+        "item": "minecraft:carrot"
+      },
+      {
+        "item": "minecraft:bowl"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "wm_kitchen:sliced_cucumber"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:garden_salad",
+      "count": 1
+    }
+  }
+}

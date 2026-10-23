@@ -1,4 +1,4 @@
-// Writes packs/harvest_kitchen/behavior/blocks/cooking_pot.json: the pot block with one
+// Writes packs/simmerfield/behavior/blocks/cooking_pot.json: the pot block with one
 // material permutation per liquid colour × look (still, ready glint, boiling) × hot rim.
 //
 //   node tools/gen-pot-block.mjs           write the block JSON
@@ -6,8 +6,8 @@
 //                                          (npm test runs this; see tests/pack-files.test.ts)
 //
 // Why generated: a permutation's minecraft:material_instances replaces the whole component, so
-// every combination of the liquid texture (hk:liquid, 9 colours), the ready glint (phase ready or
-// done), the hot rim (hk:hot) and the boil needs its own full copy. Per colour: still cold, still
+// every combination of the liquid texture (wm_kitchen:liquid, 9 colours), the ready glint (phase ready or
+// done), the hot rim (wm_kitchen:hot) and the boil needs its own full copy. Per colour: still cold, still
 // hot, ready cold, ready hot, boiling (cooking + hot, always hot) = 5 looks, 9 × 5 = 45, so 44
 // permutations plus the base. Only the liquid and top textures change between them.
 //
@@ -25,7 +25,7 @@ import { build } from "esbuild";
 import * as prettier from "prettier";
 import { ROOT } from "./paths.mjs";
 
-const OUT = path.join(ROOT, "packs/harvest_kitchen/behavior/blocks/cooking_pot.json");
+const OUT = path.join(ROOT, "packs/simmerfield/behavior/blocks/cooking_pot.json");
 const PHASES = ["idle", "ready", "cooking", "done"];
 const READY_PHASES = ["ready", "done"];
 
@@ -33,8 +33,8 @@ async function loadData() {
   const result = await build({
     stdin: {
       contents: [
-        'export { LIQUIDS, DEFAULT_LIQUID } from "./packs/harvest_kitchen/scripts/data/liquids";',
-        'export { stationById } from "./packs/harvest_kitchen/scripts/data/stations";',
+        'export { LIQUIDS, DEFAULT_LIQUID } from "./packs/simmerfield/scripts/data/liquids";',
+        'export { stationById } from "./packs/simmerfield/scripts/data/stations";',
       ].join("\n"),
       resolveDir: ROOT,
       loader: "ts",
@@ -51,21 +51,22 @@ async function loadData() {
 
 const material = (texture) => ({ texture, render_method: "opaque" });
 const LOOK_SUFFIX = { still: "", ready: "_ready", boil: "_boil" };
-const liquidTexture = (liquid, look) => `hk_cooking_pot_liquid_${liquid}${LOOK_SUFFIX[look]}`;
+const liquidTexture = (liquid, look) =>
+  `wm_kitchen_cooking_pot_liquid_${liquid}${LOOK_SUFFIX[look]}`;
 const topTexture = (look, hot) =>
   look === "boil"
-    ? "hk_cooking_pot_top_boil"
+    ? "wm_kitchen_cooking_pot_top_boil"
     : hot
-      ? "hk_cooking_pot_top_hot"
-      : "hk_cooking_pot_top";
+      ? "wm_kitchen_cooking_pot_top_hot"
+      : "wm_kitchen_cooking_pot_top";
 
 /** look: "still" | "ready" (phase ready or done) | "boil" (phase cooking with heat). */
 function materials(liquid, look, hot) {
   return {
-    "*": material("hk_cooking_pot_side"),
+    "*": material("wm_kitchen_cooking_pot_side"),
     top: material(topTexture(look, hot)),
     liquid: material(liquidTexture(liquid, look)),
-    lid: material("hk_cooking_pot_lid"),
+    lid: material("wm_kitchen_cooking_pot_lid"),
   };
 }
 
@@ -121,13 +122,13 @@ function blockJson({ LIQUIDS, DEFAULT_LIQUID, stationById }) {
         },
       },
       components: {
-        "hk:container_station": {},
+        "wm_kitchen:container_station": {},
         "minecraft:collision_box": { origin: [-7, 0, -7], size: [14, 10, 14] },
         "minecraft:selection_box": { origin: [-7, 0, -7], size: [14, 10, 14] },
         "minecraft:destructible_by_mining": { seconds_to_destroy: 2.0 },
         "minecraft:destructible_by_explosion": { explosion_resistance: 6 },
         "minecraft:geometry": {
-          identifier: "geometry.hk.cooking_pot",
+          identifier: "geometry.wm_kitchen.cooking_pot",
           bone_visibility: {
             liquid_1: `${q(fill.name)} >= 1`,
             liquid_2: `${q(fill.name)} >= 2`,

@@ -1,0 +1,778 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "bedrock_block",
+    "box_uv": false
+  },
+  "name": "wm_kitchen_kitchen_cabinet",
+  "model_identifier": "wm_kitchen.kitchen_cabinet",
+  "front_gui_light": false,
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "crown",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        15,
+        -3
+      ],
+      "to": [
+        8,
+        16,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            1
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            11,
+            1
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            1
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            5,
+            0,
+            16,
+            1
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            5,
+            16,
+            16
+          ],
+          "texture": 2,
+          "material_name": "oak"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            11
+          ],
+          "texture": 2,
+          "material_name": "oak"
+        }
+      },
+      "type": "cube",
+      "uuid": "1954036b-0025-40d0-b05f-64ae4da01f2e"
+    },
+    {
+      "name": "carcass",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        1,
+        -2
+      ],
+      "to": [
+        8,
+        15,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            1,
+            16,
+            15
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            1,
+            10,
+            15
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            1,
+            16,
+            15
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            6,
+            1,
+            16,
+            15
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        }
+      },
+      "type": "cube",
+      "uuid": "0a154778-088b-4980-b568-fe230a3fb2fa"
+    },
+    {
+      "name": "bottom",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        -3
+      ],
+      "to": [
+        8,
+        1,
+        8
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            15,
+            16,
+            16
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            15,
+            11,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            15,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            5,
+            15,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            5,
+            16,
+            16
+          ],
+          "texture": 2,
+          "material_name": "oak"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            11
+          ],
+          "texture": 2,
+          "material_name": "oak"
+        }
+      },
+      "type": "cube",
+      "uuid": "4c7453bf-70ad-40f3-b0b5-9d3eeebe5766"
+    },
+    {
+      "name": "door_left",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        0,
+        2,
+        -3
+      ],
+      "to": [
+        7,
+        14,
+        -2
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            1,
+            2,
+            8,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            1,
+            2,
+            2,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "up": {
+          "uv": [
+            8,
+            2,
+            1,
+            3
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            8,
+            13,
+            1,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "b28f91b2-de13-44f6-b073-9e3e48b681b4"
+    },
+    {
+      "name": "door_right",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -7,
+        2,
+        -3
+      ],
+      "to": [
+        0,
+        14,
+        -2
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            8,
+            2,
+            15,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            14,
+            2,
+            15,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            15,
+            2,
+            8,
+            3
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            15,
+            13,
+            8,
+            14
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "40639791-f694-4f65-8217-cf3c90234a0c"
+    },
+    {
+      "name": "knob_left",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        1,
+        7,
+        -4
+      ],
+      "to": [
+        2,
+        8,
+        -3
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            8,
+            7,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            6,
+            8,
+            7,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            6,
+            8,
+            7,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            7,
+            8,
+            6,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            7,
+            8,
+            6,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "21992d72-6b54-4b57-9f77-23e1863d8d4d"
+    },
+    {
+      "name": "knob_right",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "export": true,
+      "scope": 0,
+      "allow_mirror_modeling": true,
+      "from": [
+        -2,
+        7,
+        -4
+      ],
+      "to": [
+        -1,
+        8,
+        -3
+      ],
+      "autouv": 0,
+      "color": 1,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            9,
+            8,
+            10,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "east": {
+          "uv": [
+            9,
+            8,
+            10,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "texture": null
+        },
+        "west": {
+          "uv": [
+            9,
+            8,
+            10,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "up": {
+          "uv": [
+            10,
+            8,
+            9,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        },
+        "down": {
+          "uv": [
+            10,
+            8,
+            9,
+            9
+          ],
+          "texture": 1,
+          "material_name": "front"
+        }
+      },
+      "type": "cube",
+      "uuid": "650b68ca-493f-4968-a956-0dc302bd5772"
+    }
+  ],
+  "groups": [
+    {
+      "name": "kitchen_cabinet",
+      "uuid": "ccbca350-a345-4400-ab19-a0768e5a3891",
+      "export": true,
+      "locked": false,
+      "scope": 0,
+      "selected": false,
+      "visibility": true,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 1,
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "autouv": 0,
+      "isOpen": false
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "ccbca350-a345-4400-ab19-a0768e5a3891",
+      "isOpen": false,
+      "children": [
+        "1954036b-0025-40d0-b05f-64ae4da01f2e",
+        "0a154778-088b-4980-b568-fe230a3fb2fa",
+        "4c7453bf-70ad-40f3-b0b5-9d3eeebe5766",
+        "b28f91b2-de13-44f6-b073-9e3e48b681b4",
+        "40639791-f694-4f65-8217-cf3c90234a0c",
+        "21992d72-6b54-4b57-9f77-23e1863d8d4d",
+        "650b68ca-493f-4968-a956-0dc302bd5772"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "kitchen_cabinet_side",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "0",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "34f2ff86-4564-4422-ad47-5572315a9386",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAiElEQVR4nGO4trXmPyWYoS7J/D8lmOHk0uz/O6bE/1/fH/p/WonjfxD/0NwkMIbxQXLI8iD1IAziww2Y3+JLvgEgSVIMALFRDABpJsUAkFoMA2ACMA0UGQDik2QAcqBgMwDEJ8kA9DBANwBrNKIbgG4jyQYgxwpRCYmQAch86rqA4swEC3FyMQBzLJActd70oQAAAABJRU5ErkJggg=="
+    },
+    {
+      "name": "kitchen_cabinet_front",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "1",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "e67f6917-e7dd-462c-a1d5-ed34b952f2ad",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAzElEQVR4nGO4trXmP7n40Nyk/wzpATr/KcEMIFNOLs3GindMiccrV5dkjjAAxEHGKw9f+z+txBGvHIYBX37+/v/h2TGwgitPP6AYAJK72RONIodhAEjzyR19YBrdgP9xmf//y2jjNwAkicsFIM1bhOVwGwCTQMYwA3DJoRgAClVkDPIvzAAQG10ewwBsiQRmAC45DANAbBhe3x+KYgA2OawGgJyHzwCQPFYDYJqQMcwAXHJwA2CBgg3jkwMbAEvT5GCQXgbkwCEVg7wCAO24pY0oNjLlAAAAAElFTkSuQmCC"
+    },
+    {
+      "name": "deco_oak",
+      "path": "",
+      "folder": "",
+      "namespace": "",
+      "id": "2",
+      "group": "",
+      "scope": 0,
+      "width": 16,
+      "height": 16,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "file_format": "png",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "wrap_mode": "limited",
+      "pbr_channel": "color",
+      "fps": 7,
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "4ffc61b9-cd3f-48b7-a7b2-d8f04e7cf064",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAgElEQVR4nGM4uTT7PzquSzLHEMOFGXZMif+PjkEGrO8P/T+/xReOsakDYbgB+DQgy2EYMK3E8T8lmOHQ3KT/pGCQ95D5WA1A9w66GEEDSHIB1cIA3WRiMQOy30BsXBiXGgYYA5Z4SMX0SQf4wgcjKWNL1iADCOYFbJiYDEVxGAAAFEKNTw8OrVkAAAAASUVORK5CYII="
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "resource_pack_name": "simmerfield",
+  "texture_name": "atlas.items",
+  "texture_data": {
+    "wm_kitchen_kitchen_counter": {
+      "textures": "textures/wm_kitchen/items/kitchen_counter"
+    },
+    "wm_kitchen_kitchen_sink": {
+      "textures": "textures/wm_kitchen/items/kitchen_sink"
+    },
+    "wm_kitchen_kitchen_stove": {
+      "textures": "textures/wm_kitchen/items/kitchen_stove"
+    },
+    "wm_kitchen_kitchen_cabinet": {
+      "textures": "textures/wm_kitchen/items/kitchen_cabinet"
+    },
+    "wm_kitchen_spice_shelf": {
+      "textures": "textures/wm_kitchen/items/spice_shelf"
+    },
+    "wm_kitchen_hanging_pan": {
+      "textures": "textures/wm_kitchen/items/hanging_pan"
+    },
+    "wm_kitchen_pickle_jar": {
+      "textures": "textures/wm_kitchen/items/pickle_jar"
+    },
+    "wm_kitchen_vegetable_basket": {
+      "textures": "textures/wm_kitchen/items/vegetable_basket"
+    },
+    "wm_kitchen_chicken_soup": {
+      "textures": "textures/wm_kitchen/items/chicken_soup"
+    },
+    "wm_kitchen_chicken_soup_mix": {
+      "textures": "textures/wm_kitchen/items/chicken_soup_mix"
+    },
+    "wm_kitchen_chili_pepper": {
+      "textures": "textures/wm_kitchen/items/chili_pepper"
+    },
+    "wm_kitchen_chili_pepper_seeds": {
+      "textures": "textures/wm_kitchen/items/chili_pepper_seeds"
+    },
+    "wm_kitchen_chili_stew": {
+      "textures": "textures/wm_kitchen/items/chili_stew"
+    },
+    "wm_kitchen_chili_stew_mix": {
+      "textures": "textures/wm_kitchen/items/chili_stew_mix"
+    },
+    "wm_kitchen_chopped_onion": {
+      "textures": "textures/wm_kitchen/items/chopped_onion"
+    },
+    "wm_kitchen_cooking_pot": {
+      "textures": "textures/wm_kitchen/items/cooking_pot"
+    },
+    "wm_kitchen_cucumber": {
+      "textures": "textures/wm_kitchen/items/cucumber"
+    },
+    "wm_kitchen_cucumber_seeds": {
+      "textures": "textures/wm_kitchen/items/cucumber_seeds"
+    },
+    "wm_kitchen_cutting_board": {
+      "textures": "textures/wm_kitchen/items/cutting_board"
+    },
+    "wm_kitchen_eggplant": {
+      "textures": "textures/wm_kitchen/items/eggplant"
+    },
+    "wm_kitchen_eggplant_curry": {
+      "textures": "textures/wm_kitchen/items/eggplant_curry"
+    },
+    "wm_kitchen_eggplant_curry_mix": {
+      "textures": "textures/wm_kitchen/items/eggplant_curry_mix"
+    },
+    "wm_kitchen_eggplant_salad": {
+      "textures": "textures/wm_kitchen/items/eggplant_salad"
+    },
+    "wm_kitchen_eggplant_seeds": {
+      "textures": "textures/wm_kitchen/items/eggplant_seeds"
+    },
+    "wm_kitchen_fish_chowder": {
+      "textures": "textures/wm_kitchen/items/fish_chowder"
+    },
+    "wm_kitchen_fish_chowder_mix": {
+      "textures": "textures/wm_kitchen/items/fish_chowder_mix"
+    },
+    "wm_kitchen_garden_salad": {
+      "textures": "textures/wm_kitchen/items/garden_salad"
+    },
+    "wm_kitchen_guide_book": {
+      "textures": "textures/wm_kitchen/items/guide_book"
+    },
+    "wm_kitchen_hearty_sandwich": {
+      "textures": "textures/wm_kitchen/items/hearty_sandwich"
+    },
+    "wm_kitchen_onion": {
+      "textures": "textures/wm_kitchen/items/onion"
+    },
+    "wm_kitchen_onion_soup": {
+      "textures": "textures/wm_kitchen/items/onion_soup"
+    },
+    "wm_kitchen_onion_soup_mix": {
+      "textures": "textures/wm_kitchen/items/onion_soup_mix"
+    },
+    "wm_kitchen_ratatouille": {
+      "textures": "textures/wm_kitchen/items/ratatouille"
+    },
+    "wm_kitchen_ratatouille_mix": {
+      "textures": "textures/wm_kitchen/items/ratatouille_mix"
+    },
+    "wm_kitchen_recipe_poster": {
+      "textures": "textures/wm_kitchen/items/recipe_poster"
+    },
+    "wm_kitchen_salsa": {
+      "textures": "textures/wm_kitchen/items/salsa"
+    },
+    "wm_kitchen_sliced_cucumber": {
+      "textures": "textures/wm_kitchen/items/sliced_cucumber"
+    },
+    "wm_kitchen_sliced_eggplant": {
+      "textures": "textures/wm_kitchen/items/sliced_eggplant"
+    },
+    "wm_kitchen_sliced_tomato": {
+      "textures": "textures/wm_kitchen/items/sliced_tomato"
+    },
+    "wm_kitchen_strawberry": {
+      "textures": "textures/wm_kitchen/items/strawberry"
+    },
+    "wm_kitchen_strawberry_cake": {
+      "textures": "textures/wm_kitchen/items/strawberry_cake"
+    },
+    "wm_kitchen_strawberry_cup": {
+      "textures": "textures/wm_kitchen/items/strawberry_cup"
+    },
+    "wm_kitchen_strawberry_jam": {
+      "textures": "textures/wm_kitchen/items/strawberry_jam"
+    },
+    "wm_kitchen_strawberry_jam_mix": {
+      "textures": "textures/wm_kitchen/items/strawberry_jam_mix"
+    },
+    "wm_kitchen_strawberry_seeds": {
+      "textures": "textures/wm_kitchen/items/strawberry_seeds"
+    },
+    "wm_kitchen_stuffed_eggplant": {
+      "textures": "textures/wm_kitchen/items/stuffed_eggplant"
+    },
+    "wm_kitchen_stuffed_eggplant_mix": {
+      "textures": "textures/wm_kitchen/items/stuffed_eggplant_mix"
+    },
+    "wm_kitchen_tomato": {
+      "textures": "textures/wm_kitchen/items/tomato"
+    },
+    "wm_kitchen_tomato_seeds": {
+      "textures": "textures/wm_kitchen/items/tomato_seeds"
+    },
+    "wm_kitchen_tomato_soup": {
+      "textures": "textures/wm_kitchen/items/tomato_soup"
+    },
+    "wm_kitchen_tomato_soup_mix": {
+      "textures": "textures/wm_kitchen/items/tomato_soup_mix"
+    },
+    "wm_kitchen_vegetable_stew": {
+      "textures": "textures/wm_kitchen/items/vegetable_stew"
+    },
+    "wm_kitchen_vegetable_stew_mix": {
+      "textures": "textures/wm_kitchen/items/vegetable_stew_mix"
+    },
+    "wm_kitchen_veggie_sandwich": {
+      "textures": "textures/wm_kitchen/items/veggie_sandwich"
+    },
+    "wm_kitchen_veggie_skewer": {
+      "textures": "textures/wm_kitchen/items/veggie_skewer"
+    }
+  }
+}

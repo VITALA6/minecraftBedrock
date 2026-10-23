@@ -1,0 +1,241 @@
+pack.name=Simmerfield RP
+pack.description=Текстуры, модели и названия для Simmerfield.
+
+## Produce, seeds, prepared ingredients
+item.wm_kitchen:tomato.name=Помидор
+item.wm_kitchen:onion.name=Луковица
+item.wm_kitchen:cucumber.name=Огурец
+item.wm_kitchen:chili_pepper.name=Перец чили
+item.wm_kitchen:strawberry.name=Клубника
+item.wm_kitchen:eggplant.name=Баклажан
+item.wm_kitchen:tomato_seeds.name=Семена помидора
+item.wm_kitchen:cucumber_seeds.name=Семена огурца
+item.wm_kitchen:chili_pepper_seeds.name=Семена перца чили
+item.wm_kitchen:strawberry_seeds.name=Семена клубники
+item.wm_kitchen:eggplant_seeds.name=Семена баклажана
+item.wm_kitchen:sliced_tomato.name=Ломтики помидора
+item.wm_kitchen:chopped_onion.name=Нарезанный лук
+item.wm_kitchen:sliced_cucumber.name=Ломтики огурца
+item.wm_kitchen:sliced_eggplant.name=Ломтики баклажана
+
+## Mixes (made on the crafting table, cooked in the pot)
+item.wm_kitchen:tomato_soup_mix.name=Заготовка томатного супа
+item.wm_kitchen:vegetable_stew_mix.name=Заготовка овощного рагу
+item.wm_kitchen:chili_stew_mix.name=Заготовка рагу с чили
+item.wm_kitchen:fish_chowder_mix.name=Заготовка рыбной похлебки
+item.wm_kitchen:chicken_soup_mix.name=Заготовка куриного супа
+item.wm_kitchen:onion_soup_mix.name=Заготовка лукового супа
+item.wm_kitchen:strawberry_jam_mix.name=Заготовка клубничного варенья
+item.wm_kitchen:stuffed_eggplant_mix.name=Заготовка фаршированного баклажана
+item.wm_kitchen:ratatouille_mix.name=Заготовка рататуя
+item.wm_kitchen:eggplant_curry_mix.name=Заготовка карри из баклажанов
+
+## Dishes
+item.wm_kitchen:tomato_soup.name=Томатный суп
+item.wm_kitchen:vegetable_stew.name=Овощное рагу
+item.wm_kitchen:chili_stew.name=Рагу с чили
+item.wm_kitchen:fish_chowder.name=Рыбная похлебка
+item.wm_kitchen:chicken_soup.name=Куриный суп
+item.wm_kitchen:onion_soup.name=Луковый суп
+item.wm_kitchen:strawberry_jam.name=Клубничное варенье
+item.wm_kitchen:garden_salad.name=Овощной салат
+item.wm_kitchen:salsa.name=Сальса
+item.wm_kitchen:veggie_sandwich.name=Овощной сэндвич
+item.wm_kitchen:hearty_sandwich.name=Сытный сэндвич
+item.wm_kitchen:strawberry_cup.name=Клубника с сахаром
+item.wm_kitchen:stuffed_eggplant.name=Фаршированный баклажан
+item.wm_kitchen:ratatouille.name=Рататуй
+item.wm_kitchen:eggplant_curry.name=Карри из баклажанов
+item.wm_kitchen:eggplant_salad.name=Салат из баклажанов
+item.wm_kitchen:veggie_skewer.name=Овощной шашлык
+
+## Blocks. Pot, board, cake and poster items share the block id; both key forms are defined so the name
+## shows whichever one the game asks for.
+tile.wm_kitchen:cooking_pot.name=Кастрюля
+item.wm_kitchen:cooking_pot.name=Кастрюля
+tile.wm_kitchen:cutting_board.name=Разделочная доска
+item.wm_kitchen:cutting_board.name=Разделочная доска
+tile.wm_kitchen:strawberry_cake.name=Клубничный торт
+item.wm_kitchen:strawberry_cake.name=Клубничный торт
+tile.wm_kitchen:recipe_poster.name=Плакат с рецептами
+item.wm_kitchen:recipe_poster.name=Плакат с рецептами
+## Kitchen decor (purely decorative blocks; their items share the block id too).
+tile.wm_kitchen:kitchen_counter.name=Кухонная тумба
+item.wm_kitchen:kitchen_counter.name=Кухонная тумба
+tile.wm_kitchen:kitchen_cabinet.name=Кухонный шкафчик
+item.wm_kitchen:kitchen_cabinet.name=Кухонный шкафчик
+tile.wm_kitchen:spice_shelf.name=Полка со специями
+item.wm_kitchen:spice_shelf.name=Полка со специями
+tile.wm_kitchen:kitchen_sink.name=Кухонная мойка
+item.wm_kitchen:kitchen_sink.name=Кухонная мойка
+tile.wm_kitchen:kitchen_stove.name=Кухонная плита
+item.wm_kitchen:kitchen_stove.name=Кухонная плита
+tile.wm_kitchen:hanging_pan.name=Подвесная сковорода
+item.wm_kitchen:hanging_pan.name=Подвесная сковорода
+tile.wm_kitchen:pickle_jar.name=Банка солений
+item.wm_kitchen:pickle_jar.name=Банка солений
+tile.wm_kitchen:vegetable_basket.name=Корзина с овощами
+item.wm_kitchen:vegetable_basket.name=Корзина с овощами
+tile.wm_kitchen:tomato_crop.name=Помидоры
+tile.wm_kitchen:onion_crop.name=Репчатый лук
+tile.wm_kitchen:cucumber_crop.name=Огурцы
+tile.wm_kitchen:chili_bush.name=Куст чили
+tile.wm_kitchen:strawberry_bush.name=Куст клубники
+tile.wm_kitchen:eggplant_crop.name=Баклажаны
+
+## Station effects (scripts/fx): script-owned animation entities, never in a player's hands.
+entity.wm_kitchen:fx_knife.name=Кухонный нож
+entity.wm_kitchen:fx_spoon.name=Ложка для помешивания
+
+## Shared UI
+wm_kitchen.ui.item_count=%1$s × %2$s
+wm_kitchen.ui.busy=§eЗакройте чат и попробуйте еще раз.
+
+## Stations (action bar: at most 5 words)
+wm_kitchen.station.pot=Кастрюля
+wm_kitchen.station.full=§c✘ %1$s: нет места
+wm_kitchen.station.refuse=§c✘ Нельзя приготовить: %1$s
+wm_kitchen.station.needs_mix=§c✘ Сначала сделайте заготовку
+wm_kitchen.station.no_heat=§e♨ Нужен огонь снизу
+wm_kitchen.station.ready_one=§a✔ %1$s
+wm_kitchen.station.ready_more=§a✔ %1$s и еще %2$s
+wm_kitchen.station.progress=♨ %1$s
+wm_kitchen.station.done=§a✔ Готово: %1$s!
+wm_kitchen.station.add_hint=Добавьте ингредиенты
+wm_kitchen.station.next=§eДобавьте: %1$s
+wm_kitchen.station.gone=§c✘ Этого уже нет
+wm_kitchen.station.changed=§e✘ Что-то изменилось, попробуйте еще раз
+wm_kitchen.station.needs=§c✘ Нужно %1$s × %2$s
+
+## Pot screen (only when several dishes are possible)
+wm_kitchen.pot.cook=Приготовить: %1$s
+
+## Cutting board
+wm_kitchen.board.refuse=§c✘ Это нельзя нарезать
+wm_kitchen.board.hint=Возьмите овощ в руку
+
+## Recipe posters (action bar: at most 5 words, besides the dish name)
+wm_kitchen.poster.dish=%1$s · %2$s %3$s %4$s с
+wm_kitchen.poster.dish_plain=%1$s · Сытная еда
+wm_kitchen.poster.guide=Как начать · Красться + использовать: следующий рецепт
+wm_kitchen.poster.none=Ломайте траву, чтобы найти семена
+wm_kitchen.poster.look=Смотрите прямо на стену
+wm_kitchen.poster.no_room=Нужна стена в 2 блока
+wm_kitchen.welcome.title=§6★ Добро пожаловать в Simmerfield!§r Ломайте траву ради семян, выращивайте культуры и готовьте блюда с эффектами.
+wm_kitchen.welcome.poster=Вы получили §eКулинарную книгу§r (используйте, чтобы читать) и §eПлакат с рецептами§r (повесьте на стену).
+wm_kitchen.toast.new_recipe=§e★ Новый рецепт!
+
+## Kitchen Guide (ui/guide-screen.ts): a book drawn by resource/ui/wm_kitchen_guide/guide.json. Titles,
+## row names and chips are short: about 18 characters fit a title or a row, 8 a chip.
+item.wm_kitchen:guide_book.name=Кулинарная книга
+wm_kitchen.ui.back=Назад
+wm_kitchen.guide.home=Начало
+wm_kitchen.guide.prev_page=Предыдущая страница
+wm_kitchen.guide.next_page=Следующая страница
+wm_kitchen.guide.title=Кулинарная книга
+wm_kitchen.guide.home_body=Выращивайте культуры, нарезайте, смешивайте и готовьте из них блюда. Выберите раздел или нажмите закладку справа.
+wm_kitchen.guide.chapters=Разделы
+wm_kitchen.guide.chapter_count=%1$s · %2$s/%3$s
+wm_kitchen.guide.how_to_play=Как играть
+wm_kitchen.guide.topics=Темы
+wm_kitchen.guide.topics_body=Всё о Simmerfield шаг за шагом. Читайте по порядку или выберите тему.
+wm_kitchen.guide.topic_n=%1$s / %2$s
+wm_kitchen.guide.what=Что приготовить?
+wm_kitchen.guide.what_body=Блюда, которые можно приготовить из того, что у вас есть сейчас.
+wm_kitchen.guide.nothing=Пока ничего. Возьмите ингредиенты какого-нибудь рецепта и загляните снова.
+wm_kitchen.guide.can_make=Можно приготовить: %1$s
+wm_kitchen.guide.hot=Горячие блюда
+wm_kitchen.guide.cold=Холодные блюда
+wm_kitchen.guide.hot_body=Сделайте заготовку на верстаке, а затем сварите ее в кастрюле с огнем снизу.
+wm_kitchen.guide.cold_body=Создаются на верстаке. Кастрюля не нужна.
+wm_kitchen.guide.found=Найдено: %1$s/%2$s
+wm_kitchen.guide.page=Страница %1$s/%2$s
+wm_kitchen.guide.locked=???
+wm_kitchen.guide.locked_body=Найдите нужные культуры, чтобы открыть рецепт.
+wm_kitchen.guide.find=Ищите: %1$s
+wm_kitchen.guide.effect_line=%1$s %2$s: %3$s, %4$s с
+wm_kitchen.guide.effect_chip=%1$s %2$s с
+wm_kitchen.guide.no_effect=Сытная еда
+wm_kitchen.guide.sliced=Поставьте его и ешьте по кусочку (кусочков: %1$s).
+wm_kitchen.guide.pot_fire=+ огонь
+wm_kitchen.guide.craft=Верстак
+wm_kitchen.guide.step_mix=1. Сделайте заготовку
+wm_kitchen.guide.step_craft=Как сделать
+wm_kitchen.guide.cook_seconds=Варить %1$s с
+wm_kitchen.guide.cook_hint=Используйте кастрюлю пустой рукой, чтобы готовить
+wm_kitchen.guide.mix_hint=Сделайте это на верстаке
+wm_kitchen.guide.vanilla_item=Предмет из Minecraft
+wm_kitchen.guide.board=Разделочная доска
+wm_kitchen.guide.board_body=Возьмите овощ и используйте доску, чтобы нарезать его. Используйте крадучись, чтобы нарезать всю стопку.
+wm_kitchen.guide.cuts=Что можно нарезать
+wm_kitchen.guide.board_hint=%1$s: возьмите в руку и используйте доску
+wm_kitchen.guide.crops=Культуры
+wm_kitchen.guide.crops_body=Ломайте траву, чтобы найти семена. Каждую культуру легче найти там, где она любит расти.
+wm_kitchen.guide.where=Семена: %1$s.
+wm_kitchen.guide.crop_unknown=Ломайте там траву, чтобы найти семена.
+wm_kitchen.guide.plant_farmland=Сажайте на пашню. Ломайте, когда полностью вырастет.
+wm_kitchen.guide.plant_soil=Сажайте на блок травы, землю или пашню.
+wm_kitchen.guide.bush=Куст: когда созреет, используйте для сбора плодов.
+wm_kitchen.guide.used_in=Где пригодится
+wm_kitchen.guide.growth=От семени до урожая
+wm_kitchen.guide.stage=Стадия %1$s/%2$s
+
+## How to Play topics (guide/guide-pages.ts). %1$s is a line break.
+wm_kitchen.guide.topic.welcome=Добро пожаловать
+wm_kitchen.guide.text.welcome=Simmerfield добавляет шесть новых культур и кухню, где из них можно готовить. Выращивайте культуры, нарезайте, смешивайте и готовьте из них блюда.%1$s%1$sКаждое блюдо утоляет голод, а большинство еще и дает полезный эффект.
+wm_kitchen.guide.topic.loop=Кухонный цикл
+wm_kitchen.guide.text.loop=1. Ломайте траву ради семян%1$s2. Выращивайте культуры%1$s3. Нарежьте их на разделочной доске%1$s4. Сделайте заготовку на верстаке%1$s5. Сварите ее в кастрюле над огнем%1$s6. Приятного аппетита!
+wm_kitchen.guide.topic.seeds=Поиск семян
+wm_kitchen.guide.text.seeds=Ломайте траву или папоротник, и иногда будут выпадать семена. У каждой культуры есть любимые места (см. «Культуры»), но любые семена могут найтись где угодно, просто реже.%1$s%1$sНожницы и творческий режим семян не дают.
+wm_kitchen.guide.topic.farmland=Выращивание
+wm_kitchen.guide.text.farmland=Сажайте семена помидора, огурца и баклажана на пашню, как пшеницу. У лука семян нет: сажайте саму луковицу.%1$s%1$sСломайте созревшую культуру, чтобы получить урожай и семена. Костная мука ускоряет рост.
+wm_kitchen.guide.topic.bushes=Кусты
+wm_kitchen.guide.text.bushes=Перец чили и клубника растут на кустах. Сажайте их семена на блок травы, землю или пашню.%1$s%1$sКогда куст созреет, используйте его, чтобы собрать плоды. Куст останется и даст урожай снова.
+wm_kitchen.guide.topic.board=Разделочная доска
+wm_kitchen.guide.text.board=Создайте ее из палки и двух досок, положив их в ряд.%1$s%1$sВозьмите помидор, луковицу, огурец или баклажан и используйте доску, чтобы нарезать. Используйте крадучись, чтобы нарезать всю стопку.
+wm_kitchen.guide.topic.mixes=Заготовки
+wm_kitchen.guide.text.mixes=Горячие блюда начинаются с заготовки. Создайте ее из сырых ингредиентов на верстаке, обычно добавив миску.%1$s%1$sКнига рецептов верстака показывает все заготовки, которые вы открыли.
+wm_kitchen.guide.topic.pot=Кастрюля
+wm_kitchen.guide.text.pot=Создайте ее из пяти железных слитков и миски. Она готовит только с жаром снизу: на костре, огне, лаве, блоке магмы или включенной кухонной плите.%1$s%1$sИспользуйте кастрюлю с заготовкой в руке, чтобы положить ее. Крадучись можно добавить всю стопку.
+wm_kitchen.guide.topic.cooking=Готовка
+wm_kitchen.guide.text.cooking=В кастрюлю помещаются четыре заготовки, и все заготовки одного блюда варятся вместе.%1$s%1$sИспользуйте ее пустой рукой, чтобы начать готовить. Когда всё готово, снова используйте ее пустой рукой, чтобы забрать блюда.
+wm_kitchen.guide.topic.cold=Холодные блюда
+wm_kitchen.guide.text.cold=Салатам, сальсе, сэндвичам, шашлыку и клубничным сладостям кастрюля не нужна: создавайте их на верстаке.%1$s%1$sПоставьте клубничный торт и используйте его, чтобы съесть кусочек.
+wm_kitchen.guide.topic.effects=Эффекты
+wm_kitchen.guide.text.effects=Большинство блюд дает эффект на какое-то время. Его цвет подсказывает, какой именно:%1$s%1$s§c❤ Красный§r лечит%1$s§9▶ Синий§r помогает двигаться%1$s§e■ Желтый§r ускоряет добычу%1$s§a● Зеленый§r помогает исследовать
+wm_kitchen.guide.topic.poster=Плакат с рецептами
+wm_kitchen.guide.text.poster=Создайте его из бумаги и любой культуры Simmerfield, а затем повесьте на стену шириной 2 блока.%1$s%1$sИспользуйте его, чтобы увидеть блюдо и его эффект. Используйте крадучись, чтобы перейти к следующему рецепту.
+wm_kitchen.guide.topic.unlocking=Открытие рецептов
+wm_kitchen.guide.text.unlocking=Каждая новая найденная культура открывает рецепты с ней: в этой книге, на плакате с рецептами и в книге рецептов верстака. До тех пор они показаны как ???.%1$s%1$sВ творческом режиме открыто всё.
+wm_kitchen.guide.topic.lost=Потеряли книгу?
+wm_kitchen.guide.text.lost=Создайте новую из книги и моркови. Рецепт помещается в малую сетку создания в вашем инвентаре.%1$s%1$sПриятной готовки!
+
+## Effect families (plan §1.4)
+wm_kitchen.family.heal=Лечение
+wm_kitchen.family.heal.hint=§c❤ Красная еда лечит
+wm_kitchen.family.move=Движение
+wm_kitchen.family.move.hint=§9▶ Синяя еда помогает двигаться
+wm_kitchen.family.work=Работа
+wm_kitchen.family.work.hint=§e■ Желтая еда ускоряет добычу
+wm_kitchen.family.explore=Исследование
+wm_kitchen.family.explore.hint=§a● Зеленая еда помогает исследовать
+
+## Where seeds drop (short biome hints)
+wm_kitchen.crop.where.tomato=Равнины, леса
+wm_kitchen.crop.where.onion=Равнины, тайга, саванна
+wm_kitchen.crop.where.cucumber=Равнины, леса, реки
+wm_kitchen.crop.where.chili=Джунгли, саванна, пустоши
+wm_kitchen.crop.where.strawberry=Луга, цветочный лес, вишневая роща
+wm_kitchen.crop.where.eggplant=Саванна, равнины
+
+## /wm_kitchen:debug (operator test helper)
+wm_kitchen.debug.kit=Набор: выдано видов предметов: %1$s.
+wm_kitchen.debug.build=§7Simmerfield, сборка %1$s
+wm_kitchen.debug.grow=Выросло культур: %1$s.
+wm_kitchen.debug.pot_none=Посмотрите на кастрюлю.
+wm_kitchen.debug.validate=Проверка данных, проблем: %1$s.
+wm_kitchen.debug.fast_on=Быстрая готовка включена.
+wm_kitchen.debug.fast_off=Быстрая готовка выключена.
+wm_kitchen.debug.reset=Открытия сброшены.
+wm_kitchen.debug.fx=Эффекты: ножей — %1$s, ложек — %2$s.
+wm_kitchen.debug.problems=§eSimmerfield: проблем в данных — %1$s. Выполните /wm_kitchen:debug validate

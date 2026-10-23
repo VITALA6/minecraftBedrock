@@ -1,0 +1,18 @@
+{
+  "format_version": "1.26.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "wm_kitchen:fx_knife",
+      "materials": { "default": "entity_alphatest" },
+      "textures": { "default": "textures/wm_kitchen/entity/fx_knife" },
+      "geometry": { "default": "geometry.wm_kitchen.fx_knife" },
+      "animations": {
+        "pick_up": "animation.wm_kitchen.fx_knife.pick_up",
+        "chop": "animation.wm_kitchen.fx_knife.chop"
+      },
+      "scripts": { "animate": ["pick_up", "chop"] },
+      "render_controllers": ["controller.render.wm_kitchen.fx"],
+      "particle_effects": { "chop": "wm_kitchen:chop_bits" }
+    }
+  }
+}

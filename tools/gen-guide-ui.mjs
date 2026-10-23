@@ -1,11 +1,11 @@
 // Writes the Kitchen Guide's JSON UI book (D19/D20, the D13 look): resource/ui/server_form.json,
-// resource/ui/_ui_defs.json and resource/ui/hk_guide/guide.json.
+// resource/ui/_ui_defs.json and resource/ui/wm_kitchen_guide/guide.json.
 //
 //   node tools/gen-guide-ui.mjs           write the files
 //   node tools/gen-guide-ui.mjs --check   exit 1 if a file differs from what it would write
 //                                         (npm test runs this; see tests/guide-ui.test.ts)
 //
-// How it works (docs/harvest-kitchen/spikes/s9-json-ui.md has the research):
+// How it works (docs/simmerfield/spikes/s9-json-ui.md has the research):
 // - server_form.json redefines server_form.long_form as a panel holding the vanilla dialog (its 8
 //   properties copied from vanilla 1.26.52; re-check them on every game update) and our book.
 //   The vanilla dialog hides when the form title contains BOOK_MARKER; the book shows instead.
@@ -20,7 +20,7 @@
 // - Text never spills: every label is one of `name` (one line, cut with "..." at its box), the
 //   body (max_size of its page area) or a heading; each sits in a clips_children box.
 // - layout() is the single source of every position and size: the JSON below and the mockups
-//   (art/harvest_kitchen/mockups/render-book.mjs) are both drawn from it.
+//   (art/simmerfield/mockups/render-book.mjs) are both drawn from it.
 //
 // The index map, the markers and the roles come from book-layout.ts, bundled with esbuild, so the
 // layout can't drift from what the scripts send.
@@ -31,14 +31,14 @@ import { build } from "esbuild";
 import * as prettier from "prettier";
 import { ROOT } from "./paths.mjs";
 
-const UI_DIR = path.join(ROOT, "packs/harvest_kitchen/resource/ui");
-export const T = "textures/hk/ui/book";
-export const FLAME = "textures/hk/ui/needs_heat";
+const UI_DIR = path.join(ROOT, "packs/simmerfield/resource/ui");
+export const T = "textures/wm_kitchen/ui/book";
+export const FLAME = "textures/wm_kitchen/ui/needs_heat";
 
 export async function loadLayout() {
   const result = await build({
     stdin: {
-      contents: 'export * from "./packs/harvest_kitchen/scripts/guide/book-layout";',
+      contents: 'export * from "./packs/simmerfield/scripts/guide/book-layout";',
       resolveDir: ROOT,
       loader: "ts",
     },
@@ -225,24 +225,24 @@ const at = (x, y) => ({ anchor_from: "top_left", anchor_to: "top_left", offset: 
 function guideUi(d) {
   const { SPREADS, BOOK_MARKER, MARKER_BYTES } = d;
   const placed = layout(d);
-  const ui = { namespace: "hk_guide" };
+  const ui = { namespace: "wm_kitchen_guide" };
 
   // Text. `name` is one line of the button's display text: as wide as its text up to its box,
   // then cut with "..." (the vanilla button label rule); the box clips whatever still spills.
   ui.ink = { type: "label", color: INK, shadow: false, layer: 6 };
   ui.light = { type: "label", color: [1, 1, 1], shadow: true, layer: 9 };
-  ui["name@hk_guide.ink"] = {
-    text: "#hk_name",
+  ui["name@wm_kitchen_guide.ink"] = {
+    text: "#wm_kitchen_name",
     size: ["default", "default"],
     max_size: ["100%", LINE],
-    bindings: [coll(TEXT), view(display, "#hk_name")],
+    bindings: [coll(TEXT), view(display, "#wm_kitchen_name")],
   };
   ui.name_box = {
     type: "panel",
     clips_children: true,
     "$name_anchor|default": "left_middle",
     controls: [
-      { "label@hk_guide.name": { anchor_from: "$name_anchor", anchor_to: "$name_anchor" } },
+      { "label@wm_kitchen_guide.name": { anchor_from: "$name_anchor", anchor_to: "$name_anchor" } },
     ],
   };
 
@@ -254,20 +254,20 @@ function guideUi(d) {
     layer: 6,
     bindings: [...texture, view(`(${hasTexture} and (not ${is("l")}))`, "#visible")],
   };
-  ui["silhouette@hk_guide.icon"] = {
+  ui["silhouette@wm_kitchen_guide.icon"] = {
     color: [0.1, 0.07, 0.05],
     bindings: [...texture, view(`(${hasTexture} and ${is("l")})`, "#visible")],
   };
-  ui["question@hk_guide.light"] = {
+  ui["question@wm_kitchen_guide.light"] = {
     text: "?",
     bindings: [coll(TEXT), view(is("l"), "#visible")],
   };
-  ui["count@hk_guide.light"] = {
-    text: "#hk_count",
+  ui["count@wm_kitchen_guide.light"] = {
+    text: "#wm_kitchen_count",
     anchor_from: "bottom_right",
     anchor_to: "bottom_right",
     offset: [1, 1],
-    bindings: [coll(TEXT), view(count, "#hk_count")],
+    bindings: [coll(TEXT), view(count, "#wm_kitchen_count")],
   };
   ui.flame = {
     type: "image",
@@ -284,11 +284,11 @@ function guideUi(d) {
     type: "panel",
     size: ["100%", "100%"],
     controls: [
-      { "icon@hk_guide.icon": {} },
-      { "silhouette@hk_guide.silhouette": {} },
-      { "question@hk_guide.question": {} },
-      { "count@hk_guide.count": {} },
-      { "flame@hk_guide.flame": {} },
+      { "icon@wm_kitchen_guide.icon": {} },
+      { "silhouette@wm_kitchen_guide.silhouette": {} },
+      { "question@wm_kitchen_guide.question": {} },
+      { "count@wm_kitchen_guide.count": {} },
+      { "flame@wm_kitchen_guide.flame": {} },
     ],
   };
 
@@ -317,9 +317,9 @@ function guideUi(d) {
           type: "panel",
           controls: [
             ...bg(true),
-            { "highlight@hk_guide.highlight": {} },
+            { "highlight@wm_kitchen_guide.highlight": {} },
             { [`content@${content}`]: {} },
-            ...(tooltip ? [{ "tooltip@hk_guide.tooltip": {} }] : []),
+            ...(tooltip ? [{ "tooltip@wm_kitchen_guide.tooltip": {} }] : []),
           ],
         },
       },
@@ -340,7 +340,7 @@ function guideUi(d) {
   });
 
   // Slots: an item frame (empty frame when unused, darker when locked) and the button.
-  ui["slot_button@common.button"] = button(() => [], "hk_guide.slot_content");
+  ui["slot_button@common.button"] = button(() => [], "wm_kitchen_guide.slot_content");
   ui.slot_cell = {
     type: "panel",
     "$frame|default": `${T}/slot`,
@@ -349,7 +349,7 @@ function guideUi(d) {
       {
         bg_locked: fill(`${T}/slot_locked`, { bindings: [coll(TEXT), view(is("l"), "#visible")] }),
       },
-      { "button@hk_guide.slot_button": {} },
+      { "button@wm_kitchen_guide.slot_button": {} },
     ],
   };
 
@@ -361,12 +361,12 @@ function guideUi(d) {
       anchor_from: "left_middle",
       anchor_to: "left_middle",
       offset: [x, 0],
-      controls: [{ "slot@hk_guide.slot_content": {} }],
+      controls: [{ "slot@wm_kitchen_guide.slot_content": {} }],
     },
   });
   /** The name, from `x` to the right edge minus `right`, one line. */
   const nameBox = (x, right) => ({
-    "name@hk_guide.name_box": {
+    "name@wm_kitchen_guide.name_box": {
       size: [`100% - ${x + right}px`, LINE],
       anchor_from: "left_middle",
       anchor_to: "left_middle",
@@ -383,9 +383,9 @@ function guideUi(d) {
   };
   ui["chip_button@common.button"] = button(
     () => [{ bg: fill(`${T}/chip`) }],
-    "hk_guide.chip_content",
+    "wm_kitchen_guide.chip_content",
   );
-  ui.chip_cell = { type: "panel", controls: [{ "button@hk_guide.chip_button": {} }] };
+  ui.chip_cell = { type: "panel", controls: [{ "button@wm_kitchen_guide.chip_button": {} }] };
 
   // List rows: a parchment button with the icon (and its count) and the name.
   ui.row_content = {
@@ -396,10 +396,10 @@ function guideUi(d) {
   };
   ui["row_button@common.button"] = button(
     (hover) => [{ bg: fill(`${T}/${hover ? "button_book_hover" : "button_book"}`) }],
-    "hk_guide.row_content",
+    "wm_kitchen_guide.row_content",
     { tooltip: false },
   );
-  ui.row_cell = { type: "panel", controls: [{ "button@hk_guide.row_button": {} }] };
+  ui.row_cell = { type: "panel", controls: [{ "button@wm_kitchen_guide.row_button": {} }] };
 
   // Text cells (headings, footers): the display text, wrapped to the box, "..." past its height.
   ui.text_cell = {
@@ -409,14 +409,18 @@ function guideUi(d) {
     "$ink|default": INK,
     controls: [
       {
-        "label@hk_guide.ink": {
-          text: "#hk_name",
+        "label@wm_kitchen_guide.ink": {
+          text: "#wm_kitchen_name",
           size: ["100%", "default"],
           max_size: ["100%", "100%"],
           text_alignment: "$align",
           color: "$ink",
           ...at(0, 0),
-          bindings: [coll(TEXT), view(display, "#hk_name"), view(`(not ${empty})`, "#visible")],
+          bindings: [
+            coll(TEXT),
+            view(display, "#wm_kitchen_name"),
+            view(`(not ${empty})`, "#visible"),
+          ],
         },
       },
     ],
@@ -428,10 +432,10 @@ function guideUi(d) {
     $icon: [48, 48],
     $flame: [16, 16],
     controls: [
-      { "icon@hk_guide.icon": {} },
-      { "silhouette@hk_guide.silhouette": {} },
-      { "question@hk_guide.question": { font_scale_factor: 2 } },
-      { "flame@hk_guide.flame": {} },
+      { "icon@wm_kitchen_guide.icon": {} },
+      { "silhouette@wm_kitchen_guide.silhouette": {} },
+      { "question@wm_kitchen_guide.question": { font_scale_factor: 2 } },
+      { "flame@wm_kitchen_guide.flame": {} },
     ],
   };
 
@@ -443,7 +447,13 @@ function guideUi(d) {
       {
         arrow: { type: "image", texture: `${T}/arrow_ink`, size: [14, 10], ...at(0, 8), layer: 6 },
       },
-      { "slot@hk_guide.slot_cell": { size: [26, 26], ...at(14, 0), $frame: `${T}/slot_large` } },
+      {
+        "slot@wm_kitchen_guide.slot_cell": {
+          size: [26, 26],
+          ...at(14, 0),
+          $frame: `${T}/slot_large`,
+        },
+      },
     ],
   };
 
@@ -464,7 +474,7 @@ function guideUi(d) {
     controls: [
       { glyph: { type: "image", texture: "$glyph", size: [7, 7], ...at(6, 6) } },
       {
-        "name@hk_guide.name_box": {
+        "name@wm_kitchen_guide.name_box": {
           size: ["100% - 19px", LINE],
           $name_anchor: "center",
           ...at(15, 4),
@@ -473,8 +483,8 @@ function guideUi(d) {
     ],
   };
   const navBg = (hover) => [{ bg: fill(`${T}/${hover ? "button_book_hover" : "button_book"}`) }];
-  ui["nav_glyph_button@common.button"] = button(navBg, "hk_guide.nav_glyph_content");
-  ui["nav_text_button@common.button"] = button(navBg, "hk_guide.nav_text_content", {
+  ui["nav_glyph_button@common.button"] = button(navBg, "wm_kitchen_guide.nav_glyph_content");
+  ui["nav_text_button@common.button"] = button(navBg, "wm_kitchen_guide.nav_text_content", {
     tooltip: false,
   });
   const navCell = (content, buttonName) => ({
@@ -488,11 +498,11 @@ function guideUi(d) {
           controls: [...navBg(false), { [`content@${content}`]: {} }],
         },
       },
-      { [`button@hk_guide.${buttonName}`]: {} },
+      { [`button@wm_kitchen_guide.${buttonName}`]: {} },
     ],
   });
-  ui.nav_glyph_cell = navCell("hk_guide.nav_glyph_content", "nav_glyph_button");
-  ui.nav_text_cell = navCell("hk_guide.nav_text_content", "nav_text_button");
+  ui.nav_glyph_cell = navCell("wm_kitchen_guide.nav_glyph_content", "nav_glyph_button");
+  ui.nav_text_cell = navCell("wm_kitchen_guide.nav_text_content", "nav_text_button");
 
   // Ribbons: plum bookmarks with the chapter's icon; the open chapter's (role a) sticks out
   // further. The name is the tooltip; Home lists every chapter by name.
@@ -510,7 +520,7 @@ function guideUi(d) {
           layer: 3,
         },
       },
-      { "icon@hk_guide.icon": { $icon: [12, 12], ...at(active ? 14 : 9, 6) } },
+      { "icon@wm_kitchen_guide.icon": { $icon: [12, 12], ...at(active ? 14 : 9, 6) } },
     ],
   });
   ui.ribbon_content = {
@@ -518,14 +528,14 @@ function guideUi(d) {
     size: ["100%", "100%"],
     controls: [{ inactive: ribbonLook(false) }, { active: ribbonLook(true) }],
   };
-  ui["ribbon_button@common.button"] = button(() => [], "hk_guide.ribbon_content");
-  ui.ribbon_cell = { type: "panel", controls: [{ "button@hk_guide.ribbon_button": {} }] };
+  ui["ribbon_button@common.button"] = button(() => [], "wm_kitchen_guide.ribbon_content");
+  ui.ribbon_cell = { type: "panel", controls: [{ "button@wm_kitchen_guide.ribbon_button": {} }] };
 
   // --- placing ------------------------------------------------------------------------------------
 
   const full = { size: [COVER.w, COVER.h], ...at(0, 0) };
   const cellJson = (c) => ({
-    [`b${c.index}_${c.template}@hk_guide.${c.template}`]: {
+    [`b${c.index}_${c.template}@wm_kitchen_guide.${c.template}`]: {
       collection_index: c.index,
       size: [c.w, c.h],
       ...at(c.x, c.y),
@@ -619,14 +629,17 @@ function guideUi(d) {
                   color: INK,
                   shadow: false,
                   layer: 6,
-                  text: "#hk_title",
+                  text: "#wm_kitchen_title",
                   size: ["default", "default"],
                   max_size: ["100%", LINE],
                   anchor_from: "center",
                   anchor_to: "center",
                   bindings: [
                     { binding_name: "#title_text", binding_type: "global" },
-                    view(`(#title_text - ('%.${MARKER_BYTES}s' * #title_text))`, "#hk_title"),
+                    view(
+                      `(#title_text - ('%.${MARKER_BYTES}s' * #title_text))`,
+                      "#wm_kitchen_title",
+                    ),
                   ],
                 },
               },
@@ -678,7 +691,7 @@ function serverForm(d) {
             ],
           },
         },
-        { "hk_guide_book@hk_guide.book": {} },
+        { "wm_kitchen_guide_book@wm_kitchen_guide.book": {} },
       ],
     },
   };
@@ -686,8 +699,11 @@ function serverForm(d) {
 
 const OUTPUTS = (d) => [
   { file: path.join(UI_DIR, "server_form.json"), json: serverForm(d) },
-  { file: path.join(UI_DIR, "_ui_defs.json"), json: { ui_defs: ["ui/hk_guide/guide.json"] } },
-  { file: path.join(UI_DIR, "hk_guide/guide.json"), json: guideUi(d) },
+  {
+    file: path.join(UI_DIR, "_ui_defs.json"),
+    json: { ui_defs: ["ui/wm_kitchen_guide/guide.json"] },
+  },
+  { file: path.join(UI_DIR, "wm_kitchen_guide/guide.json"), json: guideUi(d) },
 ];
 
 async function main() {

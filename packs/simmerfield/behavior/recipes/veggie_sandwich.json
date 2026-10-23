@@ -1,0 +1,29 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shapeless": {
+    "description": {
+      "identifier": "wm_kitchen:veggie_sandwich"
+    },
+    "tags": ["crafting_table"],
+    "ingredients": [
+      {
+        "item": "minecraft:bread"
+      },
+      {
+        "item": "wm_kitchen:sliced_tomato"
+      },
+      {
+        "item": "wm_kitchen:sliced_cucumber"
+      }
+    ],
+    "unlock": [
+      {
+        "item": "wm_kitchen:sliced_cucumber"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:veggie_sandwich",
+      "count": 1
+    }
+  }
+}

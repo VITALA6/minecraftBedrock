@@ -1,0 +1,1415 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:block": {
+    "description": {
+      "identifier": "wm_kitchen:recipe_poster",
+      "menu_category": { "category": "items" },
+      "states": {
+        "wm_kitchen:poster": { "values": { "min": 0, "max": 15 } },
+        "wm_kitchen:poster_page": { "values": { "min": 0, "max": 1 } },
+        "wm_kitchen:facing": ["north", "south", "east", "west"]
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": ["minecraft:cardinal_direction"],
+          "y_rotation_offset": 90
+        },
+        "minecraft:multi_block": {
+          "enabled_states": ["minecraft:multi_block_part"],
+          "parts": 2,
+          "direction": "north"
+        }
+      }
+    },
+    "components": {
+      "wm_kitchen:recipe_poster": {},
+      "minecraft:collision_box": { "origin": [-8, 0, 7], "size": [16, 16, 1] },
+      "minecraft:selection_box": { "origin": [-8, 0, 7], "size": [16, 16, 1] },
+      "minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
+      "minecraft:destructible_by_explosion": { "explosion_resistance": 0.5 },
+      "minecraft:flammable": { "catch_chance_modifier": 30, "destroy_chance_modifier": 60 },
+      "minecraft:geometry": { "identifier": "geometry.wm_kitchen.recipe_poster" },
+      "minecraft:light_dampening": 0,
+      "minecraft:loot": "loot_tables/wm_kitchen/blocks/nothing.json",
+      "minecraft:map_color": "#eedcb0",
+      "minecraft:material_instances": {
+        "*": { "texture": "wm_kitchen_poster_how_to_start_left", "render_method": "opaque" }
+      },
+      "minecraft:transformation": { "rotation": [0, 0, 0] },
+      "minecraft:movable": { "movement_type": "popped" }
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "wm_kitchen_poster_stuffed_eggplant_right",
+              "render_method": "opaque"
+            }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'north' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 0, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "wm_kitchen_poster_stuffed_eggplant_right",
+              "render_method": "opaque"
+            }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'south' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'east') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'west'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 180, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "wm_kitchen_poster_stuffed_eggplant_right",
+              "render_method": "opaque"
+            }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'east' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 270, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_stuffed_eggplant_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_left", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_how_to_start_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_tomato_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_vegetable_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 3 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chili_stew_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 4 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_fish_chowder_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 5 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_chicken_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 6 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_onion_soup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 7 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_jam_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 8 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "wm_kitchen_poster_stuffed_eggplant_right",
+              "render_method": "opaque"
+            }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 9 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_ratatouille_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 10 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_curry_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 11 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_garden_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 12 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_salsa_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 13 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 14 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_hearty_sandwich_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 15 && q.block_state('wm_kitchen:poster_page') == 0 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cup_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 0 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_strawberry_cake_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 1 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_eggplant_salad_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('wm_kitchen:facing') == 'west' && q.block_state('wm_kitchen:poster') == 2 && q.block_state('wm_kitchen:poster_page') == 1 && ((q.block_state('minecraft:multi_block_part') == 0 && q.block_state('minecraft:cardinal_direction') == 'north') || (q.block_state('minecraft:multi_block_part') == 1 && q.block_state('minecraft:cardinal_direction') == 'south'))",
+        "components": {
+          "minecraft:material_instances": {
+            "*": { "texture": "wm_kitchen_poster_veggie_skewer_right", "render_method": "opaque" }
+          },
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "format_version": "1.26.50",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "wm_kitchen:kitchen_stove"
+    },
+    "tags": ["crafting_table"],
+    "pattern": ["ICI", "IFI"],
+    "key": {
+      "I": {
+        "item": "minecraft:iron_ingot"
+      },
+      "C": {
+        "item": "minecraft:copper_ingot"
+      },
+      "F": {
+        "item": "minecraft:furnace"
+      }
+    },
+    "unlock": [
+      {
+        "item": "minecraft:furnace"
+      },
+      {
+        "item": "wm_kitchen:cooking_pot"
+      },
+      {
+        "item": "wm_kitchen:cutting_board"
+      }
+    ],
+    "result": {
+      "item": "wm_kitchen:kitchen_stove",
+      "count": 1
+    }
+  }
+}

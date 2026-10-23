@@ -1,8 +1,8 @@
 # Art references (study only)
 
-Third-party textures we study for quality, never copy (`docs/harvest-kitchen/art-style.md`
+Third-party textures we study for quality, never copy (`docs/simmerfield/art-style.md`
 "Reference study"). Everything they produce lives in `mods/`, which is gitignored: never
-commit it, never copy a file from it into `packs/` or `art/harvest_kitchen/`, and keep it out of
+commit it, never copy a file from it into `packs/` or `art/simmerfield/`, and keep it out of
 any build.
 
 ## Setup

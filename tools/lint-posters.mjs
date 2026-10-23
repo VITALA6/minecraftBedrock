@@ -1,4 +1,4 @@
-// Checks the recipe poster textures against docs/harvest-kitchen/art-style.md ("Recipe posters").
+// Checks the recipe poster textures against docs/simmerfield/art-style.md ("Recipe posters").
 //
 //   node tools/lint-posters.mjs        (npm run posters runs it after tools/gen-posters.mjs)
 //
@@ -17,7 +17,7 @@ import { decodePng } from "./gen-textures.mjs";
 import { HALF_SIZE, POSTER_SIZE, TEXELS_PER_BLOCK, renderAll } from "./gen-posters.mjs";
 import { ROOT } from "./paths.mjs";
 
-const RP = path.join(ROOT, "packs/harvest_kitchen/resource");
+const RP = path.join(ROOT, "packs/simmerfield/resource");
 
 export const POSTER_LIMITS = {
   /**
@@ -125,7 +125,8 @@ function checkTerrain(posters, say) {
     }
   }
   for (const key of Object.keys(entries)) {
-    if (key.startsWith("hk_poster_") && !want.has(key)) say(`terrain_texture.json: orphan ${key}`);
+    if (key.startsWith("wm_kitchen_poster_") && !want.has(key))
+      say(`terrain_texture.json: orphan ${key}`);
   }
   if (terrain.num_mip_levels !== 4 || terrain.padding !== 8) {
     say("terrain_texture.json: the posters assume num_mip_levels 4 and padding 8 (vanilla)");

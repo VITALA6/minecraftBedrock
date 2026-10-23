@@ -272,7 +272,7 @@ says `off`, or run it again).
 
 ## F. Save, quit and /reload (round 5 steps 20 and 27)
 
-**26. Mid-cook and mid-chop**
+**26. Mid-cook and mid-chop** (also B37)
 
 - Do: `/gamemode c`. Start a cook, save and quit, and reopen. Start a cook and run `/reload`.
   Chop once, and within 1 s run `/reload`.
@@ -286,6 +286,14 @@ says `off`, or run it again).
 - Do: start a cook, fly more than 40 blocks away, and come back.
 - Expect: the spoon is gone while you're away and back when you return if the pot still cooks. No
   items have popped out of the pot.
+- [ ] Notes:
+
+**27a. TNT next to a full pot (B38, added 2026-10-24)**
+
+- Do: `/gamemode s`. Put 4 mixes in a pot on a campfire (don't start it), and leave a finished
+  dish in a second pot. Place TNT next to each and light it, then stand well back.
+- Expect: every mix and dish is on the ground afterwards (some thrown a few blocks), like a
+  chest's contents. If any are missing, note how many: B38 has the fix.
 - [ ] Notes:
 
 ## G. Stress: 32 pots and about 400 crops (B32, B35)

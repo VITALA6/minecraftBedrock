@@ -376,8 +376,11 @@ function kitchen_sink_basin() {
   return cv;
 }
 
-/** Stove front: control panel with copper knobs and a dial, copper bar, oven door with a glow. */
-function kitchen_stove_front() {
+/**
+ * Stove front: control panel with copper knobs and a dial, copper bar, oven door. Lit (hk:lit,
+ * the model's own texture) the window glows with fire; off it's dark glass with a cold glint.
+ */
+function kitchen_stove_front(lit = true) {
   const r = rng(301);
   const cv = canvas(IRON.d);
   fill(cv, [0, 0, 16, 1], IRON.k); // burner edges (y 15..16)
@@ -410,11 +413,17 @@ function kitchen_stove_front() {
   raised(cv, [1, 6, 15, 14], { fillC: IRON.d, hi: IRON.l, lo: IRON.dd });
   // window rows 8..12, u 4..12: frame groove, then glass with fire light at the bottom
   sunk(cv, [3, 8, 13, 13], { fillC: FIRE.k, hi: IRON.m, lo: IRON.k });
-  fill(cv, [4, 9, 12, 10], FIRE.d);
-  fill(cv, [4, 10, 12, 11], FIRE.m);
-  fill(cv, [4, 11, 12, 12], FIRE.l);
-  for (const u of [5, 8, 10]) cv.set(u, 10, FIRE.l);
-  for (const u of [5, 6, 8, 10]) cv.set(u, 11, FIRE.hi);
+  if (lit) {
+    fill(cv, [4, 9, 12, 10], FIRE.d);
+    fill(cv, [4, 10, 12, 11], FIRE.m);
+    fill(cv, [4, 11, 12, 12], FIRE.l);
+    for (const u of [5, 8, 10]) cv.set(u, 10, FIRE.l);
+    for (const u of [5, 6, 8, 10]) cv.set(u, 11, FIRE.hi);
+  } else {
+    fill(cv, [4, 11, 12, 12], IRON.k); // cold oven floor
+    cv.set(5, 9, IRON.d); // a faint diagonal reflection
+    cv.set(6, 10, IRON.d);
+  }
   cv.set(4, 9, IRON.l); // glass glint, top left
   fill(cv, [1, 14, 15, 15], IRON.dd);
   fill(cv, [0, 15, 16, 16], IRON.k); // feet
@@ -1105,6 +1114,7 @@ const DRAW = {
   kitchen_sink_top,
   kitchen_sink_basin,
   kitchen_stove_front,
+  kitchen_stove_front_off: () => kitchen_stove_front(false),
   kitchen_stove_side,
   kitchen_stove_top,
   kitchen_cabinet_front,

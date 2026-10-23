@@ -11,6 +11,9 @@
           "enabled_states": ["minecraft:cardinal_direction"],
           "y_rotation_offset": 180
         }
+      },
+      "states": {
+        "hk:lit": [false, true]
       }
     },
     "components": {
@@ -39,14 +42,16 @@
           "render_method": "opaque"
         },
         "front": {
-          "texture": "hk_kitchen_stove_front",
+          "texture": "hk_kitchen_stove_front_off",
           "render_method": "opaque"
         },
         "top": {
           "texture": "hk_kitchen_stove_top",
           "render_method": "opaque"
         }
-      }
+      },
+      "hk:stove": {},
+      "minecraft:light_emission": 0
     },
     "permutations": [
       {
@@ -78,6 +83,26 @@
         "components": {
           "minecraft:transformation": {
             "rotation": [0, 270, 0]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('hk:lit') == true",
+        "components": {
+          "minecraft:light_emission": 13,
+          "minecraft:material_instances": {
+            "*": {
+              "texture": "hk_kitchen_stove_side",
+              "render_method": "opaque"
+            },
+            "front": {
+              "texture": "hk_kitchen_stove_front",
+              "render_method": "opaque"
+            },
+            "top": {
+              "texture": "hk_kitchen_stove_top",
+              "render_method": "opaque"
+            }
           }
         }
       }

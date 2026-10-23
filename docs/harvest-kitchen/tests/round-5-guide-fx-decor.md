@@ -87,7 +87,8 @@ screenshot helps for the book, the effects and the block facing). Open points:
     → one spoon at most, never a frozen or duplicate one. `/hk:debug fx` →
     `Effects: 0 knife, 1 spoon` while cooking, `0, 0` after.
 21. `/summon hk:fx_spoon` and `/summon hk:fx_knife`.
-    → refused (not summonable). No spawn eggs for them in the creative menu.
+    → each appears for at most a tick and is removed (the script removes effects it didn't
+    spawn). No spawn eggs for them in the creative menu.
 22. Look at the pot from the side while it cooks.
     → the spoon handle doesn't poke through the rim.
 
@@ -134,11 +135,17 @@ screenshot helps for the book, the effects and the block facing). Open points:
     cabinet.
     → textures as sharp as vanilla blocks, no flickering faces at the sink basin or the doors.
     The sink tap reaches 4 px into the block above it.
-35. Put the Cooking Pot on the Kitchen Stove and add a mix.
-    → it does **not** cook (the stove is decoration; the pot still needs a fire under it).
-36. `/gamemode s`, break each decor block.
+35. Place a Kitchen Stove: its oven window is dark and it gives no light. Use it.
+    → `fire.ignite` sound, the window glows orange and the block lights up the room. Use it again:
+    fizz, dark window, no light.
+36. Sneak and put the Cooking Pot on the stove (an unsneaking click switches the stove instead),
+    add a Tomato Soup Mix and use the pot.
+    → with the stove off: `♨ Needs fire below`, cold rim. Switch the stove on: the rim goes hot
+    and the pot cooks (bubbles and spoon). Switch it off mid-cook: the lid goes on and cooking
+    pauses, as with a put-out campfire. Save and quit, reopen: the stove keeps its on/off state.
+37. `/gamemode s`, break each decor block.
     → each drops itself. Then craft each one from
     [`../recipes-cheatsheet.md`](../recipes-cheatsheet.md) "Kitchen decor": the recipe book shows
     them once you hold a Cooking Pot or the key ingredient.
-37. Content Log file, whole session: no errors for the 8 decor blocks, their geometry, textures
+38. Content Log file, whole session: no errors for the 8 decor blocks, their geometry, textures
     or recipes, nor for the effect entities.

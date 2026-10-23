@@ -577,9 +577,13 @@ error). Not seen in game:
   5. The board can blink for one frame at pick-up: the state change and the spawn share a tick.
   6. The board gets random ticks without extra JSON, as the pot does. If it doesn't, the check on
      every use still restores a stuck knife.
-- **Not saved on purpose:** stable has no "don't save" flag, so the effects can't be summoned,
-  have no spawn rules, despawn by distance and by timer, and are removed by the script on world
-  load, entity load and stray spawns. Caps: `FX_CAPS` in `scripts/fx/fx-config.ts`.
+- **Not saved on purpose:** stable has no "don't save" flag. The effects have no spawn rules and
+  despawn by distance and by timer. The script removes them on world load and entity load, and
+  removes any effect it didn't spawn itself the next tick. Caps: `FX_CAPS` in
+  `scripts/fx/fx-config.ts`.
+- **Seen in game (2026-10-23):** with `is_summonable: false`, every spoon spawn failed with
+  `'hk:fx_spoon' is not summonable`. The flag also blocks the script's own `spawnEntity`, not
+  only `/summon`, so both effects are summonable now; a `/summon` one is removed the next tick.
 - **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 14–28.
 
 ## B30. Kitchen decor blocks (D22, untested)
@@ -596,5 +600,7 @@ error). Not seen in game:
      and shelf).
 - **Known:**
   - The sink's tap rises 4 px into the block above it.
-  - The stove doesn't heat the pot, by design (D22).
-- **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 29–37.
+  - The stove heats a pot only while lit (`hk:lit`, toggled by using it, `stations/stove.ts`).
+    Assumed: like a furnace, a click without sneaking switches the stove rather than placing the
+    held block, so the pot goes on with sneak.
+- **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 29–38.

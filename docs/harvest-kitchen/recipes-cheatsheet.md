@@ -84,7 +84,8 @@ guide is also given free the first time a player joins.
 
 ## Kitchen decor (2026-10-23)
 
-Decorative only: no scripts, and the stove doesn't heat the pot. All are shaped recipes on the
+Decorative, except the stove: use it to switch it on, and while lit it heats a pot on top and
+gives light (`hk:lit`, D22). All are shaped recipes on the
 3 × 3 table and unlock on the key ingredient **or** when you get a Cooking Pot or Cutting Board.
 Each one faces the player who places it. `.` = empty, `P` any planks, `-` any wooden slab.
 

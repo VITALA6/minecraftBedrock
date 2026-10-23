@@ -176,11 +176,13 @@ describe("fx entities (scripts/fx)", () => {
   });
 
   for (const id of FX_ENTITY_TYPES) {
-    it(`${id}: never natural, never summoned, no loot, can't be hit, pushed or hurt`, () => {
+    it(`${id}: never natural, summonable for the script, no loot, can't be hit, pushed or hurt`, () => {
       const entity = behaviors.get(id)?.["minecraft:entity"];
       assert.ok(entity, `behavior/entities defines ${id}`);
       assert.equal(entity.description.is_spawnable, false, "no spawn egg");
-      assert.equal(entity.description.is_summonable, false, "/summon refuses it");
+      // is_summonable false also makes Dimension.spawnEntity throw (seen in game 2026-10-23), so it
+      // stays true; fx.ts removes any fx entity it didn't spawn itself (entitySpawn).
+      assert.equal(entity.description.is_summonable, true, "the script can spawn it");
       const c = entity.components;
       assert.equal(c["minecraft:loot"], undefined);
       assert.equal(c["minecraft:pushable_by_entity"], undefined);

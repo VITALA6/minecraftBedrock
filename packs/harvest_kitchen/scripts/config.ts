@@ -71,6 +71,7 @@ export const BLOCK_COOKING_POT = "hk:cooking_pot";
 export const BLOCK_CUTTING_BOARD = "hk:cutting_board";
 export const BLOCK_STRAWBERRY_CAKE = "hk:strawberry_cake";
 export const BLOCK_RECIPE_POSTER = "hk:recipe_poster"; // a 2×1 wall multi-block (posters/)
+export const BLOCK_KITCHEN_STOVE = "hk:kitchen_stove"; // decor that heats a pot while lit (D22)
 
 // --- custom components (listed in JSON, registered in system.beforeEvents.startup) ---------------
 export const COMPONENT_CROP_GROWTH = "hk:crop_growth"; // block
@@ -80,6 +81,7 @@ export const COMPONENT_SLICED_DISH = "hk:sliced_dish"; // block
 export const COMPONENT_DISH = "hk:dish"; // item
 export const COMPONENT_GUIDE_BOOK = "hk:guide_book"; // item
 export const COMPONENT_RECIPE_POSTER = "hk:recipe_poster"; // block
+export const COMPONENT_STOVE = "hk:stove"; // block: use switches the kitchen stove on and off
 
 // --- block states (declared in each block's description.states) ----------------------------------
 export const STATE_GROWTH = "hk:growth"; // crops and bushes, 0..max_stage
@@ -92,6 +94,7 @@ export const STATE_POSTER = "hk:poster"; // recipe poster: 0 blank, 1.. dish, 0.
 export const STATE_POSTER_PAGE = "hk:poster_page"; // recipe poster: which 16 posters hk:poster counts in
 export const STATE_FACING = "hk:facing"; // recipe poster: north|south|east|west, out of the wall
 export const STATE_CARDINAL = "minecraft:cardinal_direction"; // placement_direction trait
+export const STATE_LIT = "hk:lit"; // kitchen stove: switched on (heat for the pot above, light)
 
 // --- dynamic properties --------------------------------------------------------------------------
 /** World property per non-empty station: "hk:st:<station>:<dimension>:<x>,<y>,<z>" -> JSON. */
@@ -167,6 +170,7 @@ export const SOUND = {
   done: "note.bell",
   pop: "random.pop",
   fizz: "random.fizz",
+  ignite: "fire.ignite",
   tap: "random.click",
   chop: "hit.wood",
   chopSquish: "mob.slime.squish",

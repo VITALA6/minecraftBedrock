@@ -164,7 +164,9 @@ describe("kitchen decor blocks", () => {
           enabled_states: ["minecraft:cardinal_direction"],
           y_rotation_offset: 180,
         });
-        const perms = block.permutations as Permutation[];
+        const perms = (block.permutations as Permutation[]).filter((p) =>
+          p.condition.includes("minecraft:cardinal_direction"),
+        );
         const want: Record<string, number> = { north: 0, west: 90, south: 180, east: 270 };
         assert.equal(perms.length, 4);
         for (const [dir, deg] of Object.entries(want)) {
@@ -230,6 +232,32 @@ describe("kitchen decor blocks", () => {
       });
     });
   }
+
+  it("the kitchen stove switches on and off (hk:lit): light and a glowing window only when lit", () => {
+    const block = obj(json(`${BP}/blocks/kitchen_stove.json`)["minecraft:block"], "stove");
+    const description = obj(block.description, "description");
+    assert.deepEqual(obj(description.states, "states")["hk:lit"], [false, true]);
+    const components = obj(block.components, "components");
+    assert.deepEqual(components["hk:stove"], {}, "the use toggle (scripts/stations/stove.ts)");
+    assert.equal(components["minecraft:light_emission"], 0);
+    const base = obj(components["minecraft:material_instances"], "materials");
+    assert.equal(obj(base.front, "front").texture, "hk_kitchen_stove_front_off");
+    const lit = (block.permutations as { condition: string; components: Json }[]).find(
+      (p) => p.condition === "q.block_state('hk:lit') == true",
+    );
+    assert.ok(lit, "a lit permutation");
+    assert.equal(lit.components["minecraft:light_emission"], 13);
+    const litMaterials = obj(lit.components["minecraft:material_instances"], "lit materials");
+    assert.deepEqual(Object.keys(litMaterials).sort(), Object.keys(base).sort(), "same materials");
+    for (const [name, m] of Object.entries(litMaterials)) {
+      const mat = obj(m, name);
+      const want = name === "front" ? "hk_kitchen_stove_front" : obj(base[name], name).texture;
+      assert.equal(mat.texture, want, name);
+      assert.equal(mat.render_method, "opaque", name);
+      checkTexture(terrain, String(mat.texture), `kitchen_stove lit.${name}`);
+    }
+    checkTexture(terrain, "hk_kitchen_stove_front_off", "kitchen_stove.front (off)");
+  });
 
   it("no two deco recipes share a grid (pattern + ingredients)", () => {
     const grids = DECO.map((id) => {

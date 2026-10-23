@@ -12,6 +12,9 @@
     "hk_kitchen_sink_top": { "textures": "textures/hk/blocks/deco/kitchen_sink_top" },
     "hk_kitchen_sink_basin": { "textures": "textures/hk/blocks/deco/kitchen_sink_basin" },
     "hk_kitchen_stove_front": { "textures": "textures/hk/blocks/deco/kitchen_stove_front" },
+    "hk_kitchen_stove_front_off": {
+      "textures": "textures/hk/blocks/deco/kitchen_stove_front_off"
+    },
     "hk_kitchen_stove_side": { "textures": "textures/hk/blocks/deco/kitchen_stove_side" },
     "hk_kitchen_stove_top": { "textures": "textures/hk/blocks/deco/kitchen_stove_top" },
     "hk_kitchen_cabinet_front": { "textures": "textures/hk/blocks/deco/kitchen_cabinet_front" },

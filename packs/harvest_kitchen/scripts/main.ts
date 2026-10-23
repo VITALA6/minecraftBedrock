@@ -19,6 +19,7 @@ import { registerPosterSupport } from "./posters/poster-support";
 import { registerContainerStation, registerStationEvents } from "./stations/container-station";
 import { registerCuttingBoard, registerCuttingBoardEvents } from "./stations/cutting-board";
 import { startStationSweep } from "./stations/station-engine";
+import { registerStove } from "./stations/stove";
 
 // Custom components and commands can only be registered during startup.
 system.beforeEvents.startup.subscribe(
@@ -26,6 +27,7 @@ system.beforeEvents.startup.subscribe(
     registerCropGrowth(blockComponentRegistry);
     registerCuttingBoard(blockComponentRegistry);
     registerContainerStation(blockComponentRegistry);
+    registerStove(blockComponentRegistry);
     registerSlicedDish(blockComponentRegistry);
     registerRecipePoster(blockComponentRegistry);
     registerDish(itemComponentRegistry);

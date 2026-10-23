@@ -4,7 +4,7 @@
     "description": {
       "identifier": "hk:fx_knife",
       "is_spawnable": false,
-      "is_summonable": false,
+      "is_summonable": true,
       "spawn_category": "misc"
     },
     "component_groups": { "hk:expired": { "minecraft:instant_despawn": {} } },

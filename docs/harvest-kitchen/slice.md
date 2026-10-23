@@ -20,7 +20,7 @@ eggplant and its 5 dishes, a second poster state, the mix hint ghost, release bu
 | Seed drops        | Breaking short grass, tall grass, fern or large fern (not creative, not shears): one roll; each crop has 5 % in its biomes (`Dimension.getBiome()`) and 1 % anywhere else, so a break drops at most one HK seed.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Cutting board     | Tomato → 2 Sliced Tomato, Onion → 2 Chopped Onion, Cucumber → 2 Sliced Cucumber, Eggplant → 2 Sliced Eggplant. Chop sound + bits in the crop's colour. Sneak + use chops the held stack, one every 6 ticks, stops past 4 blocks, on item switch, or if the board goes. Wrong item: thud, puff, `✘ Can't cut that`. Empty hand: tap, `Hold a vegetable`.                                                                                                                                                                                                                                                                                            |
 | Station engine    | Generic container station from config (`data/stations.ts`): recipe list, capacity, heat rule, visual-state mapping. One `runInterval` (10 ticks) drives every station with contents. Cook time is stored as ticks left and only counts down with heat, so it pauses without heat and survives `/reload` (the active list is rebuilt at `worldLoad`).                                                                                                                                                                                                                                                                                               |
-| Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                                                                                                                                                                                                           |
+| Heat (D5)         | Lit campfire, lit soul campfire (`extinguished` state), fire, soul fire, magma, lava/flowing lava, lit Kitchen Stove (`hk:lit`) directly below. Cached in the `hk:hot` state for the hot rim; refreshed by the sweep, on use, on random ticks, and when a heat block is placed, broken or interacted with below a pot.                                                                                                                                                                                                                                                                                                                             |
 | Cooking pot       | S8 model. States `hk:fill` 0–3, `hk:phase` idle/ready/cooking/done, `hk:hot`, `hk:liquid` (7 colours). Bone visibility shows the liquid level and the lid (only while cooking is paused without heat, D21). While cooking over heat the liquid and rim use boil flipbooks (`tools/gen-pot-flipbook.mjs`) and a `hk:fx_spoon` stirs (`scripts/fx/`). The liquid shows what's in the pot (`liquidOf`: the matched dish's colour, else the main ingredient's, else clear water) with a glint when ready or done; the rim glows when hot; light 7 while cooking with heat. Generated permutations (`tools/gen-pot-block.mjs`). All materials `opaque`. |
 | Mixes             | D16: one item per pot dish, `hk:<dish>_mix` (stack 16, not food). The raw ingredients and the bowl or bottle are crafted on the crafting table; the pot cooks the mix (capacity 4 mixes; every mix of the chosen dish cooks at once).                                                                                                                                                                                                                                                                                                                                                                                                              |
 | Pot interactions  | Exactly §2.3 with D15: add one / sneak adds the stack; refusals; chime + `✔ Dish` when a new dish becomes possible; empty hand auto-cooks the only possible dish, opens the choice form only when several are possible, says `Add <first missing>` (no form) when idle with items and `Add ingredients` when empty; `♨ ■■■□□` while cooking (or `♨ Needs fire below` when paused); done → dish into your hand or inventory, anyone can collect; sneak + empty hand takes everything out; break spills.                                                                                                                                             |
@@ -946,7 +946,9 @@ contains `§h§k`. Every other form stays vanilla.
     brings the knife back on a board left with the state stuck on.
 - **All motion is client animation.**
 - **Never kept:**
-  - The effects can't be summoned and have no spawn rules or loot.
+  - The effects have no spawn rules or loot. They stay summonable, because `is_summonable: false`
+    also blocks the script's `spawnEntity`; any effect the script didn't spawn is removed the next
+    tick.
   - Physics are off and the hitbox is 0×0.
   - They despawn by distance and by timer.
   - `scripts/fx/fx.ts` removes any effect it doesn't own on world load, entity load and stray
@@ -961,8 +963,15 @@ contains `§h§k`. Every other form stays vanilla.
 
 ## Kitchen decor (D22)
 
-Eight decorative blocks with no scripts: `hk:kitchen_counter`, `kitchen_cabinet`, `spice_shelf`,
-`kitchen_sink`, `kitchen_stove`, `hanging_pan`, `pickle_jar`, `vegetable_basket`.
+Eight decorative blocks: `hk:kitchen_counter`, `kitchen_cabinet`, `spice_shelf`, `kitchen_sink`,
+`kitchen_stove`, `hanging_pan`, `pickle_jar`, `vegetable_basket`. Only the stove has a script.
+
+- **Stove:**
+  - `hk:stove` (`stations/stove.ts`) switches `hk:lit` on each use, a tick later because
+    `setPermutation` is restricted, with `fire.ignite` or `random.fizz`.
+  - It then refreshes the pot above (`refreshAbove`).
+  - While lit, a permutation swaps the oven window to the glowing texture and sets light 13.
+    `heat.ts` counts it only while `hk:lit` is true.
 
 - Each one has a same-id `block_placer` item with a 2D icon and drops itself.
 - Facing: `cardinal_direction` + `y_rotation_offset` 180, with 4 transformation permutations.
@@ -974,7 +983,7 @@ Eight decorative blocks with no scripts: `hk:kitchen_counter`, `kitchen_cabinet`
 - The decor is in `/hk:debug kit` (`KIT_EXTRAS`), not in `HK_ITEM_IDS`: an id there counts as "has
   an HK item" for discovery.
 - Tests: `tests/deco-blocks.test.ts`.
-- **Open points:** blockers.md B30; in-game test steps 29–37.
+- **Open points:** blockers.md B30; in-game test steps 29–38.
 
 ## /hk:debug
 

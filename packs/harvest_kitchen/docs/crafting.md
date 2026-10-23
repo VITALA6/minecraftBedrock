@@ -40,13 +40,14 @@ crafting id=hk:guide_book
 
 ## Kitchen decor
 
-Eight blocks for building a kitchen. They do nothing on their own, and each one turns to face you
-when you place it.
+Eight blocks for building a kitchen. Each one turns to face you when you place it, and all but
+the stove are only decoration.
 
 - **Kitchen Counter** and **Kitchen Cabinet** come two at a time. Hang cabinets on the wall, at
   least two blocks above a sink so the tap fits.
-- **Spice Shelf**, **Kitchen Sink** and **Kitchen Stove** are full kitchen pieces. The stove is
-  only decoration: the Cooking Pot still needs a fire under it.
+- **Spice Shelf** and **Kitchen Sink** are decoration.
+- **Kitchen Stove** heats a Cooking Pot on top of it while it's lit. Use the stove to switch it
+  on or off; it glows and gives light while it's on. Sneak to put the pot on it.
 - **Hanging Pan** goes on the underside of a block, like a ceiling or a cabinet.
 - **Jar of Pickles** and **Vegetable Basket** stand on top of a block, such as a counter.
 

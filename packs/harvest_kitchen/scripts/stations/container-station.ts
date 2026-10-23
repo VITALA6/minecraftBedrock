@@ -104,7 +104,7 @@ const containerStation: BlockCustomComponent = {
 };
 
 /** Refreshes the hot/cold look of a station directly above `block` (or two above, for fire). */
-function refreshAbove(block: Block): void {
+export function refreshAbove(block: Block): void {
   for (const steps of [1, 2]) {
     try {
       const above = block.above(steps);

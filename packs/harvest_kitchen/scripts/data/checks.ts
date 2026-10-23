@@ -2,10 +2,12 @@ import {
   ITEM_COOKING_POT,
   ITEM_CUTTING_BOARD,
   ITEM_GUIDE_BOOK,
+  BLOCK_KITCHEN_STOVE,
   BLOCK_RECIPE_POSTER,
   ITEM_RECIPE_POSTER,
   STATE_FACING,
   STATE_GROWTH,
+  STATE_LIT,
   STATE_POSTER,
   STATE_POSTER_PAGE,
   STATE_SLICES,
@@ -58,7 +60,11 @@ export const CONTENT: Content = {
   effects: EFFECTS,
   families: FAMILIES,
   extraItems: [ITEM_RECIPE_POSTER, ITEM_COOKING_POT, ITEM_CUTTING_BOARD, ITEM_GUIDE_BOOK],
-  vanillaBlocks: [...SEED_DROP_BLOCKS, ...SOIL_BLOCKS, ...HEAT_BLOCK_IDS],
+  vanillaBlocks: [
+    ...SEED_DROP_BLOCKS,
+    ...SOIL_BLOCKS,
+    ...HEAT_BLOCK_IDS.filter((id) => id.startsWith("minecraft:")),
+  ],
   icon: itemIcon,
 };
 
@@ -255,6 +261,7 @@ export function referencedBlocks(
     where: "recipe poster",
     states: [STATE_POSTER, STATE_POSTER_PAGE, STATE_FACING],
   });
+  refs.push({ id: BLOCK_KITCHEN_STOVE, where: "kitchen stove (heat)", states: [STATE_LIT] });
   for (const id of content.vanillaBlocks)
     refs.push({ id, where: "vanilla block list", states: [] });
   return refs;

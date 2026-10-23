@@ -21,6 +21,7 @@ const over = (typeId: string, states: States = {}) =>
 describe("heat rule (D5)", () => {
   it("lists exactly the heat blocks", () => {
     assert.deepEqual([...HEAT_BLOCK_IDS].sort(), [
+      "hk:kitchen_stove",
       "minecraft:campfire",
       "minecraft:fire",
       "minecraft:flowing_lava",
@@ -33,6 +34,13 @@ describe("heat rule (D5)", () => {
 
   it("every heat block counts when it has no extinguished state", () => {
     for (const id of HEAT_BLOCK_IDS) assert.equal(isHeat(id, {}), true, id);
+  });
+
+  it("the kitchen stove counts only while it's switched on (hk:lit, D22)", () => {
+    assert.equal(isHeat("hk:kitchen_stove", { "hk:lit": true }), true);
+    assert.equal(isHeat("hk:kitchen_stove", { "hk:lit": false }), false);
+    assert.equal(hasHeatBelow(over("hk:kitchen_stove", { "hk:lit": true })), true);
+    assert.equal(hasHeatBelow(over("hk:kitchen_stove", { "hk:lit": false })), false);
   });
 
   it("a lit campfire counts, an extinguished one doesn't", () => {

@@ -44,7 +44,8 @@ import { FxRegistry, ownerKey, type FxEntry, type FxSpot } from "./fx-registry";
 // The board hides its resting knife (state hk:chopping) while its fx knife lives: every path
 // that removes or forgets a knife shows it again, and fxBoardCheck (the board's random tick and
 // every use) fixes a board left knifeless by a knife lost while its chunk was unloading.
-// The entity JSON adds: not summonable, no spawn egg or spawn rules, no loot, no collision, no
+// The entity JSON adds: no spawn egg or spawn rules (it must stay summonable: is_summonable false
+// also blocks Dimension.spawnEntity, seen in game 2026-10-23), no loot, no collision, no
 // hitbox, no damage, no physics, not pushable, and a despawn when no player is near.
 //
 // Work: no per-tick or per-block timers. One fx loop (FX_TIMING.loopTicks) runs only while fx

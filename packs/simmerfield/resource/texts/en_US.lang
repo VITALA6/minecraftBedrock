@@ -202,7 +202,7 @@ wm_kitchen.guide.text.cooking=The pot holds four mixes and cooks every mix of on
 wm_kitchen.guide.topic.cold=Cold dishes
 wm_kitchen.guide.text.cold=Salads, salsa, sandwiches, the skewer and the strawberry treats need no pot: craft them on a crafting table.%1$s%1$sPlace a Strawberry Cake and use it to eat a slice.
 wm_kitchen.guide.topic.effects=Effects
-wm_kitchen.guide.text.effects=Most dishes give an effect for a while. Its colour tells you what kind:%1$s%1$s§c❤ Red§r heals you%1$s§9▶ Blue§r moves you%1$s§e■ Yellow§r digs faster%1$s§a● Green§r helps you explore
+wm_kitchen.guide.text.effects=Most dishes give an effect for a while. Its color tells you what kind:%1$s%1$s§c❤ Red§r heals you%1$s§9▶ Blue§r moves you%1$s§e■ Yellow§r speeds up digging%1$s§a● Green§r helps you explore
 wm_kitchen.guide.topic.poster=Recipe Poster
 wm_kitchen.guide.text.poster=Craft it from paper and any Simmerfield crop, then hang it on a wall 2 blocks wide.%1$s%1$sUse it to see the dish and its effect. Sneak and use to turn to the next recipe.
 wm_kitchen.guide.topic.unlocking=Unlocking recipes
@@ -216,23 +216,23 @@ wm_kitchen.family.heal.hint=§c❤ Red food heals you
 wm_kitchen.family.move=Move
 wm_kitchen.family.move.hint=§9▶ Blue food moves you
 wm_kitchen.family.work=Work
-wm_kitchen.family.work.hint=§e■ Yellow food digs faster
+wm_kitchen.family.work.hint=§e■ Yellow food speeds up digging
 wm_kitchen.family.explore=Explore
-wm_kitchen.family.explore.hint=§a● Green food helps explore
+wm_kitchen.family.explore.hint=§a● Green food helps you explore
 
 ## Where seeds drop (short biome hints)
 wm_kitchen.crop.where.tomato=Plains, forests
 wm_kitchen.crop.where.onion=Plains, taiga, savanna
 wm_kitchen.crop.where.cucumber=Plains, forests, rivers
 wm_kitchen.crop.where.chili=Jungle, savanna, badlands
-wm_kitchen.crop.where.strawberry=Meadow, flower forest, cherry
+wm_kitchen.crop.where.strawberry=Meadow, flower forest, cherry grove
 wm_kitchen.crop.where.eggplant=Savanna, plains
 
 ## /wm_kitchen:debug (operator test helper)
 wm_kitchen.debug.kit=Kit: %1$s item types given.
 wm_kitchen.debug.build=§7Simmerfield build %1$s
 wm_kitchen.debug.grow=Grew %1$s crops.
-wm_kitchen.debug.pot_none=Look at a cooking pot.
+wm_kitchen.debug.pot_none=Look at a Cooking Pot.
 wm_kitchen.debug.validate=Data check: %1$s problem(s).
 wm_kitchen.debug.fast_on=Fast cooking on.
 wm_kitchen.debug.fast_off=Fast cooking off.

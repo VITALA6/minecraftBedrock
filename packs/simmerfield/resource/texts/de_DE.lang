@@ -104,7 +104,7 @@ wm_kitchen.station.done=§a✔ %1$s ist fertig!
 wm_kitchen.station.add_hint=Zutaten hinzufügen
 wm_kitchen.station.next=§e%1$s hinzufügen
 wm_kitchen.station.gone=§c✘ Das ist weg
-wm_kitchen.station.changed=§e✘ Etwas hat sich geändert, versuch es noch mal
+wm_kitchen.station.changed=§e✘ Geändert, bitte erneut versuchen
 wm_kitchen.station.needs=§c✘ Braucht %1$s × %2$s
 
 ## Pot screen (only when several dishes are possible)
@@ -112,16 +112,16 @@ wm_kitchen.pot.cook=%1$s kochen
 
 ## Cutting board
 wm_kitchen.board.refuse=§c✘ Das kann man nicht schneiden
-wm_kitchen.board.hint=Nimm ein Gemüse in die Hand
+wm_kitchen.board.hint=Nimm Gemüse in die Hand
 
 ## Recipe posters (action bar: at most 5 words, besides the dish name)
 wm_kitchen.poster.dish=%1$s · %2$s %3$s %4$s s
 wm_kitchen.poster.dish_plain=%1$s · Macht satt
 wm_kitchen.poster.guide=Erste Schritte · Schleichen + Benutzen: nächstes Rezept
-wm_kitchen.poster.none=Baue Gras ab, um Samen zu finden
+wm_kitchen.poster.none=Für Samen Gras abbauen
 wm_kitchen.poster.look=Schau direkt auf die Wand
 wm_kitchen.poster.no_room=Braucht eine 2 Blöcke breite Wand
-wm_kitchen.welcome.title=§6★ Willkommen bei Simmerfield!§r Baue Gras ab für Samen, baue Pflanzen an und koche Gerichte mit Effekten.
+wm_kitchen.welcome.title=§6★ Willkommen bei Simmerfield!§r Baue Gras ab, um Samen zu finden, pflanze sie an und koche Gerichte mit Effekten.
 wm_kitchen.welcome.poster=Du hast ein §eKochbuch§r (benutze es zum Lesen) und ein §eRezeptposter§r (häng es an eine Wand) bekommen.
 wm_kitchen.toast.new_recipe=§e★ Neues Rezept!
 
@@ -140,7 +140,7 @@ wm_kitchen.guide.how_to_play=So wird gespielt
 wm_kitchen.guide.topics=Themen
 wm_kitchen.guide.topics_body=Alles über Simmerfield, Schritt für Schritt. Lies der Reihe nach oder wähle ein Thema.
 wm_kitchen.guide.topic_n=%1$s / %2$s
-wm_kitchen.guide.what=Was koche ich?
+wm_kitchen.guide.what=Was kann ich kochen?
 wm_kitchen.guide.what_body=Gerichte, die du jetzt aus deinem Inventar machen kannst.
 wm_kitchen.guide.nothing=Noch nichts. Nimm die Zutaten eines Rezepts mit und schau noch mal nach.
 wm_kitchen.guide.can_make=Machbar: %1$s
@@ -167,7 +167,7 @@ wm_kitchen.guide.mix_hint=An einer Werkbank herstellen
 wm_kitchen.guide.vanilla_item=Ein Minecraft-Gegenstand
 wm_kitchen.guide.board=Schneidebrett
 wm_kitchen.guide.board_body=Nimm ein Gemüse und benutze das Brett, um es zu schneiden. Schleiche dabei, um den ganzen Stapel zu schneiden.
-wm_kitchen.guide.cuts=Was es schneidet
+wm_kitchen.guide.cuts=Was man schneiden kann
 wm_kitchen.guide.board_hint=%1$s in die Hand nehmen und das Brett benutzen
 wm_kitchen.guide.crops=Pflanzen
 wm_kitchen.guide.crops_body=Baue Gras ab, um Samen zu finden. Jede Pflanze findest du leichter an den Orten, die sie mag.
@@ -182,11 +182,11 @@ wm_kitchen.guide.stage=Phase %1$s/%2$s
 
 ## How to Play topics (guide/guide-pages.ts). %1$s is a line break.
 wm_kitchen.guide.topic.welcome=Willkommen
-wm_kitchen.guide.text.welcome=Simmerfield fügt sechs neue Pflanzen und eine Küche hinzu, in der du sie kochst. Baue die Pflanzen an, schneide sie, mische sie und koche daraus Gerichte.%1$s%1$sJedes Gericht macht satt, und die meisten geben dir auch einen nützlichen Effekt.
+wm_kitchen.guide.text.welcome=Simmerfield bringt sechs neue Pflanzen und eine Küche, in der du sie zubereitest. Baue die Pflanzen an, schneide sie, mische sie und koche daraus Gerichte.%1$s%1$sJedes Gericht macht satt, und die meisten geben dir auch einen nützlichen Effekt.
 wm_kitchen.guide.topic.loop=Der Küchenkreislauf
-wm_kitchen.guide.text.loop=1. Baue Gras ab für Samen%1$s2. Baue die Pflanzen an%1$s3. Schneide sie auf einem Schneidebrett%1$s4. Stelle an einer Werkbank eine Mischung her%1$s5. Koche sie in einem Kochtopf über Feuer%1$s6. Guten Appetit!
+wm_kitchen.guide.text.loop=1. Baue Gras ab und finde Samen%1$s2. Baue die Pflanzen an%1$s3. Schneide sie auf einem Schneidebrett%1$s4. Stelle an einer Werkbank eine Mischung her%1$s5. Koche sie in einem Kochtopf über Feuer%1$s6. Guten Appetit!
 wm_kitchen.guide.topic.seeds=Samen finden
-wm_kitchen.guide.text.seeds=Baue Gras oder Farn ab, und manchmal findest du einen Samen. Jede Pflanze mag bestimmte Orte (siehe Pflanzen), aber jeder Samen kann überall auftauchen, nur seltener.%1$s%1$sScheren und der Kreativmodus finden keine.
+wm_kitchen.guide.text.seeds=Baue Gras oder Farn ab, und manchmal findest du einen Samen. Jede Pflanze mag bestimmte Orte (siehe Pflanzen), aber jeder Samen kann überall auftauchen, nur seltener.%1$s%1$sMit einer Schere oder im Kreativmodus findest du keine.
 wm_kitchen.guide.topic.farmland=Pflanzen anbauen
 wm_kitchen.guide.text.farmland=Pflanze Tomaten-, Gurken- und Auberginensamen auf Ackerboden, wie Weizen. Zwiebeln haben keine Samen: Pflanze die Zwiebel selbst.%1$s%1$sBaue eine ausgewachsene Pflanze ab, um Ernte und Samen zu bekommen. Knochenmehl hilft beim Wachsen.
 wm_kitchen.guide.topic.bushes=Sträucher
@@ -198,26 +198,26 @@ wm_kitchen.guide.text.mixes=Warme Gerichte beginnen als Mischung. Stelle sie an 
 wm_kitchen.guide.topic.pot=Kochtopf
 wm_kitchen.guide.text.pot=Stelle ihn aus fünf Eisenbarren und einer Schüssel her. Er kocht nur mit Hitze darunter: Lagerfeuer, Feuer, Lava, Magmablock oder ein brennender Küchenherd.%1$s%1$sBenutze den Topf mit einer Mischung in der Hand, um sie hineinzulegen. Schleiche für den ganzen Stapel.
 wm_kitchen.guide.topic.cooking=Kochen
-wm_kitchen.guide.text.cooking=Der Topf fasst vier Mischungen und kocht alle Mischungen eines Gerichts auf einmal.%1$s%1$sBenutze ihn mit leerer Hand, um mit dem Kochen zu beginnen. Wenn alles fertig ist, benutze ihn wieder mit leerer Hand, um deine Gerichte zu nehmen.
+wm_kitchen.guide.text.cooking=Der Topf fasst vier Mischungen und kocht alle Mischungen eines Gerichts auf einmal.%1$s%1$sBenutze ihn mit leerer Hand, um mit dem Kochen zu beginnen. Wenn alles fertig ist, benutze ihn wieder mit leerer Hand, um deine Gerichte herauszunehmen.
 wm_kitchen.guide.topic.cold=Kalte Küche
 wm_kitchen.guide.text.cold=Salate, Salsa, Sandwiches, der Spieß und die Erdbeerleckereien brauchen keinen Topf: Stelle sie an einer Werkbank her.%1$s%1$sStell einen Erdbeerkuchen auf und benutze ihn, um ein Stück zu essen.
 wm_kitchen.guide.topic.effects=Effekte
-wm_kitchen.guide.text.effects=Die meisten Gerichte geben eine Zeit lang einen Effekt. Seine Farbe zeigt dir, welche Art:%1$s%1$s§c❤ Rot§r heilt dich%1$s§9▶ Blau§r bewegt dich%1$s§e■ Gelb§r lässt dich schneller abbauen%1$s§a● Grün§r hilft beim Erkunden
+wm_kitchen.guide.text.effects=Die meisten Gerichte geben dir eine Zeit lang einen Effekt. An der Farbe erkennst du die Art:%1$s%1$s§c❤ Rot§r heilt dich%1$s§9▶ Blau§r hilft bei der Bewegung%1$s§e■ Gelb§r lässt dich schneller abbauen%1$s§a● Grün§r hilft beim Erkunden
 wm_kitchen.guide.topic.poster=Rezeptposter
 wm_kitchen.guide.text.poster=Stelle es aus Papier und einer beliebigen Simmerfield-Pflanze her und häng es an eine 2 Blöcke breite Wand.%1$s%1$sBenutze es, um das Gericht und seinen Effekt zu sehen. Schleiche dabei, um zum nächsten Rezept zu blättern.
 wm_kitchen.guide.topic.unlocking=Rezepte freischalten
 wm_kitchen.guide.text.unlocking=Jede neue Pflanze, die du findest, schaltet die Rezepte damit frei: in diesem Buch, auf deinem Rezeptposter und im Rezeptbuch der Werkbank. Bis dahin erscheinen sie als ???.%1$s%1$sIm Kreativmodus ist alles freigeschaltet.
 wm_kitchen.guide.topic.lost=Buch verloren?
-wm_kitchen.guide.text.lost=Stelle ein neues aus einem Buch und einer Karotte her. Das passt ins kleine Herstellungsraster in deinem Inventar.%1$s%1$sViel Spaß beim Kochen!
+wm_kitchen.guide.text.lost=Stelle ein neues aus einem Buch und einer Karotte her. Das passt ins kleine Handwerksfeld in deinem Inventar.%1$s%1$sViel Spaß beim Kochen!
 
 ## Effect families (plan §1.4)
-wm_kitchen.family.heal=Heilen
+wm_kitchen.family.heal=Heilung
 wm_kitchen.family.heal.hint=§c❤ Rotes Essen heilt dich
-wm_kitchen.family.move=Bewegen
-wm_kitchen.family.move.hint=§9▶ Blaues Essen bewegt dich
-wm_kitchen.family.work=Arbeiten
-wm_kitchen.family.work.hint=§e■ Gelbes Essen: schneller abbauen
-wm_kitchen.family.explore=Erkunden
+wm_kitchen.family.move=Bewegung
+wm_kitchen.family.move.hint=§9▶ Blaues Essen hilft bei der Bewegung
+wm_kitchen.family.work=Arbeit
+wm_kitchen.family.work.hint=§e■ Gelbes Essen lässt dich schneller abbauen
+wm_kitchen.family.explore=Erkundung
 wm_kitchen.family.explore.hint=§a● Grünes Essen hilft beim Erkunden
 
 ## Where seeds drop (short biome hints)

@@ -5,7 +5,7 @@ pack.description=Tekstury, modele i nazwy dla Simmerfield.
 item.wm_kitchen:tomato.name=Pomidor
 item.wm_kitchen:onion.name=Cebula
 item.wm_kitchen:cucumber.name=Ogórek
-item.wm_kitchen:chili_pepper.name=Chili
+item.wm_kitchen:chili_pepper.name=Papryczka chili
 item.wm_kitchen:strawberry.name=Truskawka
 item.wm_kitchen:eggplant.name=Bakłażan
 item.wm_kitchen:tomato_seeds.name=Nasiona pomidora
@@ -122,7 +122,7 @@ wm_kitchen.poster.none=Niszcz trawę, aby znaleźć nasiona
 wm_kitchen.poster.look=Patrz prosto na ścianę
 wm_kitchen.poster.no_room=Potrzebna ściana na 2 bloki
 wm_kitchen.welcome.title=§6★ Witaj w Simmerfield!§r Niszcz trawę, by zdobyć nasiona, uprawiaj rośliny i gotuj dania z efektami.
-wm_kitchen.welcome.poster=Masz §eKsiążkę kucharską§r (użyj jej, aby czytać) i §ePlakat z przepisami§r (powieś go na ścianie).
+wm_kitchen.welcome.poster=Dostajesz §eksiążkę kucharską§r (użyj jej, aby ją przeczytać) i §eplakat z przepisami§r (powieś go na ścianie).
 wm_kitchen.toast.new_recipe=§e★ Nowy przepis!
 
 ## Kitchen Guide (ui/guide-screen.ts): a book drawn by resource/ui/wm_kitchen_guide/guide.json. Titles,
@@ -196,19 +196,19 @@ wm_kitchen.guide.text.board=Wytwórz ją z patyka i dwóch desek ułożonych w r
 wm_kitchen.guide.topic.mixes=Mieszanki
 wm_kitchen.guide.text.mixes=Ciepłe dania zaczynają się od mieszanki. Wytwórz ją z surowych składników na stole rzemieślniczym, zwykle z miską.%1$s%1$sPrzepiśnik stołu rzemieślniczego pokazuje każdą odblokowaną mieszankę.
 wm_kitchen.guide.topic.pot=Garnek
-wm_kitchen.guide.text.pot=Wytwórz go z pięciu sztabek żelaza i miski. Gotuje tylko z ciepłem od spodu: nad ogniskiem, ogniem, lawą, blokiem magmy lub włączoną kuchenką.%1$s%1$sUżyj garnka z mieszanką w ręce, aby ją włożyć. Podczas skradania dodasz cały stos.
+wm_kitchen.guide.text.pot=Wytwórz go z pięciu sztabek żelaza i miski. Gotuje tylko wtedy, gdy ma pod sobą źródło ciepła: ognisko, ogień, lawę, blok magmy lub włączoną kuchenkę.%1$s%1$sUżyj garnka z mieszanką w ręce, aby ją włożyć. Podczas skradania dodasz cały stos.
 wm_kitchen.guide.topic.cooking=Gotowanie
 wm_kitchen.guide.text.cooking=Garnek mieści cztery mieszanki i gotuje naraz wszystkie mieszanki jednego dania.%1$s%1$sUżyj go pustą ręką, aby zacząć gotować. Gdy skończy, znów użyj go pustą ręką, aby zabrać dania.
 wm_kitchen.guide.topic.cold=Zimne dania
 wm_kitchen.guide.text.cold=Sałatki, salsa, kanapki, szaszłyk i truskawkowe przysmaki nie wymagają garnka: wytwórz je na stole rzemieślniczym.%1$s%1$sPostaw ciasto truskawkowe i użyj go, aby zjeść kawałek.
 wm_kitchen.guide.topic.effects=Efekty
-wm_kitchen.guide.text.effects=Większość dań daje efekt na jakiś czas. Kolor mówi, jakiego rodzaju:%1$s%1$s§c❤ Czerwony§r leczy%1$s§9▶ Niebieski§r pomaga w ruchu%1$s§e■ Żółty§r przyspiesza kopanie%1$s§a● Zielony§r pomaga odkrywać
+wm_kitchen.guide.text.effects=Większość dań daje efekt na jakiś czas. Kolor pokazuje jego rodzaj:%1$s%1$s§c❤ Czerwony§r leczy%1$s§9▶ Niebieski§r pomaga w ruchu%1$s§e■ Żółty§r przyspiesza kopanie%1$s§a● Zielony§r pomaga odkrywać
 wm_kitchen.guide.topic.poster=Plakat z przepisami
 wm_kitchen.guide.text.poster=Wytwórz go z papieru i dowolnej rośliny z Simmerfield, a potem powieś na ścianie szerokiej na 2 bloki.%1$s%1$sUżyj go, aby zobaczyć danie i jego efekt. Użyj podczas skradania, aby przejść do następnego przepisu.
 wm_kitchen.guide.topic.unlocking=Odblokowywanie
 wm_kitchen.guide.text.unlocking=Każda nowo znaleziona roślina odblokowuje przepisy, które jej używają: w tej książce, na plakacie z przepisami i w przepiśniku stołu rzemieślniczego. Do tego czasu widać je jako ???.%1$s%1$sW trybie kreatywnym wszystko jest odblokowane.
 wm_kitchen.guide.topic.lost=Zgubiona książka?
-wm_kitchen.guide.text.lost=Wytwórz nową z książki i marchewki. Zmieści się w małej siatce wytwarzania w ekwipunku.%1$s%1$sMiłego gotowania!
+wm_kitchen.guide.text.lost=Wytwórz nową z książki i marchewki. Zmieści się w małej siatce tworzenia w ekwipunku.%1$s%1$sMiłego gotowania!
 
 ## Effect families (plan §1.4)
 wm_kitchen.family.heal=Leczenie
@@ -229,11 +229,11 @@ wm_kitchen.crop.where.strawberry=Łąka, kwiecisty las, wiśniowy gaj
 wm_kitchen.crop.where.eggplant=Sawanna, równina
 
 ## /wm_kitchen:debug (operator test helper)
-wm_kitchen.debug.kit=Zestaw: wydano rodzajów przedmiotów: %1$s.
+wm_kitchen.debug.kit=Zestaw wydany, rodzaje przedmiotów: %1$s.
 wm_kitchen.debug.build=§7Simmerfield, kompilacja %1$s
 wm_kitchen.debug.grow=Wyrosło roślin: %1$s.
 wm_kitchen.debug.pot_none=Spójrz na garnek.
-wm_kitchen.debug.validate=Sprawdzenie danych, problemów: %1$s.
+wm_kitchen.debug.validate=Sprawdzanie danych, problemy: %1$s.
 wm_kitchen.debug.fast_on=Szybkie gotowanie włączone.
 wm_kitchen.debug.fast_off=Szybkie gotowanie wyłączone.
 wm_kitchen.debug.reset=Odkrycia zresetowane.

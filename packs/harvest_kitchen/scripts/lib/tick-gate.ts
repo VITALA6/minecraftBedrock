@@ -19,3 +19,25 @@ export class TickGate {
     return true;
   }
 }
+
+/**
+ * One action per press: lets a key through only if that key wasn't seen for `minGap` ticks, and
+ * remembers every attempt, refused ones included. A button the game repeats while it's held
+ * (every few ticks) therefore acts once, however long it's held; the next press, after a pause of
+ * `minGap`+ ticks, acts again. Unlike TickGate, a steady stream of repeats never gets through.
+ *
+ * Used for the Kitchen Stove (a held button must not flicker it on and off) and the pot's choice
+ * form (a held button must not ask for a second form while the first is opening).
+ */
+export class PressGate {
+  private readonly last = new Map<string, number>();
+
+  constructor(private readonly minGap: number) {}
+
+  /** True if `key` wasn't seen in the last `minGap` ticks. Always remembers `tick`. */
+  press(key: string, tick: number): boolean {
+    const last = this.last.get(key);
+    this.last.set(key, tick);
+    return last === undefined || tick - last >= this.minGap;
+  }
+}

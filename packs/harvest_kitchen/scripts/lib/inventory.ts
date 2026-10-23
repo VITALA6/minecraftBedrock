@@ -61,7 +61,9 @@ export function dropItems(dimension: Dimension, location: Vector3, typeId: strin
 
 /**
  * Puts `count` of `typeId` in the player's hand if it's empty, else in the inventory; whatever
- * doesn't fit drops at `dropAt`. Never loses items: anything not placed is dropped.
+ * doesn't fit drops at `dropAt`. Never loses items: anything not placed is dropped, and a player
+ * who left in the meantime (a deferred hand-out) gets it all dropped at `dropAt` instead of an
+ * error halfway through.
  */
 export function giveOrDrop(
   player: Player,
@@ -71,6 +73,10 @@ export function giveOrDrop(
   dropAt: Vector3,
   preferHand = false,
 ) {
+  if (!player.isValid) {
+    dropItems(dimension, dropAt, typeId, count);
+    return;
+  }
   const stackSize = new ItemStack(typeId).maxAmount;
   let left = count;
 

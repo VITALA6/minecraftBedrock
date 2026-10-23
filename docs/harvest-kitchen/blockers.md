@@ -604,3 +604,106 @@ error). Not seen in game:
     Assumed: like a furnace, a click without sneaking switches the stove rather than placing the
     held block, so the pot goes on with sneak.
 - **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 29–38.
+
+## B31. One action per press: the stove and the pot's choice form (audit 2026-10-23, untested)
+
+- **What:** block component events have no `isFirstEvent` (B13). If the game repeats
+  `onPlayerInteract` while use is held, every repeat would switch the stove again, so it flickers
+  on and off. On the pot, repeats that arrive before the choice form is up would each ask for
+  another form, which the game refuses with a `Close chat, then try again.` line.
+- **Applied:** `PressGate` (`scripts/lib/tick-gate.ts:32`) treats attempts less than 8 ticks apart
+  as one press. It's used in `stations/stove.ts:40` (`STOVE_PRESS_GAP_TICKS`) and
+  `ui/pot-screen.ts:50` (`POT_FORM_PRESS_GAP_TICKS`). Tests: "press gate" in
+  `tests/tick-gate.test.ts`.
+- **Why it can't be settled offline:** whether the game repeats component interactions at all,
+  and how fast. If it doesn't, the gate is harmless.
+- **Test:** [`tests/round-6-release.md`](tests/round-6-release.md) steps 15 and 23.
+- **Fallback:** if a deliberate fast double-click on the stove is swallowed and that feels wrong,
+  lower the gap to 5.
+- **Decide:** B13's "switch the cake to a debounce" is now one line: use `PressGate` in
+  `food/sliced-dish.ts` instead of `TickGate`.
+
+## B32. Station sweep cost with many pots (CR11, untested)
+
+- **What:** every 10 ticks, the sweep (`stations/station-engine.ts:379` `sweepOne`) does this for
+  each tracked station, meaning any pot with contents, forgotten leftovers and uncollected dishes
+  included:
+  - one `getDynamicProperty` and a `JSON.parse`;
+  - `getBlock`, the block below and `getAllStates`;
+  - `possibleRecipes` twice (phase and liquid colour).
+
+  A cooking pot also writes its JSON back (`save`, `:133`) and calls `fxStir`. The ghost update
+  (every 10 ticks) filters every tracked pot by distance for each player, but reads state only for
+  pots within 6 blocks.
+
+- **Why not changed now:** for 30 pots it's a few hundred cheap calls a second. A cache of the
+  parsed state is a correctness risk (it must be invalidated on every write path), so it should
+  wait for a measurement.
+- **Test:** [`tests/round-6-release.md`](tests/round-6-release.md) steps 28–35: the 10 s cook of
+  32 pots must take about 10 s, with no watchdog warnings in the Content Log.
+- **Fallback if it lags:** cache the parsed state in `tracked` (set in `save`, dropped in
+  `spill`, `clearStation` and `resetPlaced`), and refresh stations that aren't cooking only every
+  4th sweep. Heat changes from players already arrive through `refreshAbove`.
+- **Decide:** after the stress run, whether this ships before the release or waits for a report.
+
+## B33. Poster drops when one explosion breaks a row of posters (audit 2026-10-23, untested)
+
+- **What:** `dropOnce` (`posters/poster.ts:208`) drops one poster per break and marks the broken
+  part and its 4 horizontal neighbours for 2 ticks, so the other part's event doesn't drop a
+  second one. If one explosion breaks 3 or more posters hanging side by side, a part of the next
+  poster can land inside a mark, depending on the order of the events, and that poster drops
+  nothing. One poster is lost; nothing is duplicated.
+- **Why not fixed:** the clean fix marks only the other part of the same poster. At break time the
+  block is already air, and the code deliberately doesn't assume which side the second part lands
+  on (B24).
+- **Test:** hang 3 posters side by side on one wall in survival and blow the wall up with TNT.
+  Count the posters dropped: 3 is right, and 2 means this happened.
+- **Fallback:** mark only the neighbours along the wall, using the facing from
+  `brokenBlockPermutation`'s `hk:facing`, or accept it as rare.
+- **Decide:** fix it or accept it.
+
+## B34. Adding the add-on to an existing world, and removing it (untested)
+
+- **What:** this is expected but hasn't been seen.
+  - **Adding:** no experiment is needed. Each player gets the welcome, a Recipe Poster and the
+    Kitchen Guide on their next join, once each (player properties). Grass in old chunks starts
+    dropping seeds.
+  - **Removing:** the world should still load. Bedrock usually shows blocks from a missing pack as
+    unknown blocks and keeps them. HK items and the effect entities are probably dropped by the
+    game. The dynamic properties (station contents, discovery) stay in the save, unread.
+  - **Re-adding:** blocks the game kept come back with their saved contents. If a pot's position
+    now holds another block (it was broken while the pack was missing, which drops nothing), the
+    sweep spills the saved contents there. The contents come back once, not twice.
+- **Why it can't be settled offline:** how the game treats missing blocks, items and entities
+  isn't in the Script API docs.
+- **Test:** [`tests/round-6-release.md`](tests/round-6-release.md) steps 51–54.
+- **Fallback:** none in code unless the world fails to load. If HK items vanish on removal, say so
+  in the store text and the README ("removing the add-on deletes its items and blocks").
+- **Decide:** the store text wording, after the test.
+
+## B35. Effect caps in a big kitchen (by design, untested)
+
+- **What:** `FX_CAPS` (`fx/fx-config.ts:27`) allows 4 spoons and 4 knives per 16 × 16 area (6
+  effects of both kinds), and 32 in the world. In a kitchen with 6 pots cooking in one area, 2 of
+  them cook with no spoon. The bubbling flipbook still shows. A pot without a spoon asks again
+  every 40 ticks.
+- **Why:** the caps keep entity counts bounded on phones. They weren't measured.
+- **Test:** [`tests/round-6-release.md`](tests/round-6-release.md) step 30.
+- **Fallback:** raise `perAreaKind.spoon` (and `perArea`) to 8 if the frame rate holds.
+- **Decide:** whether a pot without a spoon reads as a bug in a big kitchen.
+
+## B36. Two players (LAN), untested
+
+- **What the code assumes:**
+  - Discovery, the Kitchen Guide, the starter items and poster cycling are per player
+    (player dynamic properties).
+  - Ghosts are per-player particles (`Player.spawnParticle`), so each player sees their own row,
+    facing them.
+  - Spoons, knives, block states, the stove and `✔ … is ready!` (players within 8 blocks) are
+    shared.
+  - Every station change is a synchronous read-modify-write, and form taps re-validate. Nothing
+    in code has run with two players yet.
+- **Test:** [`tests/round-6-release.md`](tests/round-6-release.md) steps 40–50.
+- **Fallback:** depends on the finding. A duplicated or lost item is a release blocker.
+- **Decide:** which second client to use for future multiplayer checks (phone, or a second launcher
+  instance).

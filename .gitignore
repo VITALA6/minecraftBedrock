@@ -5,3 +5,6 @@ dist/
 
 # reference-only third-party mods (never committed, never shipped)
 art/references/mods/
+
+# trailer recordings and edits (raw video, never committed)
+/trailer/

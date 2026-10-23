@@ -1,0 +1,241 @@
+pack.name=Harvest Kitchen RP
+pack.description=Texturas, modelos y nombres para Harvest Kitchen.
+
+## Produce, seeds, prepared ingredients
+item.hk:tomato.name=Tomate
+item.hk:onion.name=Cebolla
+item.hk:cucumber.name=Pepino
+item.hk:chili_pepper.name=Guindilla
+item.hk:strawberry.name=Fresa
+item.hk:eggplant.name=Berenjena
+item.hk:tomato_seeds.name=Semillas de tomate
+item.hk:cucumber_seeds.name=Semillas de pepino
+item.hk:chili_pepper_seeds.name=Semillas de guindilla
+item.hk:strawberry_seeds.name=Semillas de fresa
+item.hk:eggplant_seeds.name=Semillas de berenjena
+item.hk:sliced_tomato.name=Tomate cortado
+item.hk:chopped_onion.name=Cebolla picada
+item.hk:sliced_cucumber.name=Pepino cortado
+item.hk:sliced_eggplant.name=Berenjena cortada
+
+## Mixes (made on the crafting table, cooked in the pot)
+item.hk:tomato_soup_mix.name=Mezcla para sopa de tomate
+item.hk:vegetable_stew_mix.name=Mezcla para estofado de verdura
+item.hk:chili_stew_mix.name=Mezcla para chili con carne
+item.hk:fish_chowder_mix.name=Mezcla para sopa de pescado
+item.hk:chicken_soup_mix.name=Mezcla para sopa de pollo
+item.hk:onion_soup_mix.name=Mezcla para sopa de cebolla
+item.hk:strawberry_jam_mix.name=Mezcla para mermelada de fresa
+item.hk:stuffed_eggplant_mix.name=Mezcla para berenjena rellena
+item.hk:ratatouille_mix.name=Mezcla para ratatouille
+item.hk:eggplant_curry_mix.name=Mezcla para curry de berenjena
+
+## Dishes
+item.hk:tomato_soup.name=Sopa de tomate
+item.hk:vegetable_stew.name=Estofado de verdura
+item.hk:chili_stew.name=Chili con carne
+item.hk:fish_chowder.name=Sopa de pescado
+item.hk:chicken_soup.name=Sopa de pollo
+item.hk:onion_soup.name=Sopa de cebolla
+item.hk:strawberry_jam.name=Mermelada de fresa
+item.hk:garden_salad.name=Ensalada mixta
+item.hk:salsa.name=Salsa
+item.hk:veggie_sandwich.name=Sándwich vegetal
+item.hk:hearty_sandwich.name=Sándwich completo
+item.hk:strawberry_cup.name=Fresas con azúcar
+item.hk:stuffed_eggplant.name=Berenjena rellena
+item.hk:ratatouille.name=Ratatouille
+item.hk:eggplant_curry.name=Curry de berenjena
+item.hk:eggplant_salad.name=Berenjena aliñada
+item.hk:veggie_skewer.name=Brocheta vegetal
+
+## Blocks. Pot, board, cake and poster items share the block id; both key forms are defined so the name
+## shows whichever one the game asks for.
+tile.hk:cooking_pot.name=Olla
+item.hk:cooking_pot.name=Olla
+tile.hk:cutting_board.name=Tabla de cortar
+item.hk:cutting_board.name=Tabla de cortar
+tile.hk:strawberry_cake.name=Pastel de fresa
+item.hk:strawberry_cake.name=Pastel de fresa
+tile.hk:recipe_poster.name=Póster de recetas
+item.hk:recipe_poster.name=Póster de recetas
+## Kitchen decor (purely decorative blocks; their items share the block id too).
+tile.hk:kitchen_counter.name=Encimera
+item.hk:kitchen_counter.name=Encimera
+tile.hk:kitchen_cabinet.name=Armario de cocina
+item.hk:kitchen_cabinet.name=Armario de cocina
+tile.hk:spice_shelf.name=Especiero
+item.hk:spice_shelf.name=Especiero
+tile.hk:kitchen_sink.name=Fregadero
+item.hk:kitchen_sink.name=Fregadero
+tile.hk:kitchen_stove.name=Fogón
+item.hk:kitchen_stove.name=Fogón
+tile.hk:hanging_pan.name=Sartén colgante
+item.hk:hanging_pan.name=Sartén colgante
+tile.hk:pickle_jar.name=Tarro de pepinillos
+item.hk:pickle_jar.name=Tarro de pepinillos
+tile.hk:vegetable_basket.name=Cesta de verduras
+item.hk:vegetable_basket.name=Cesta de verduras
+tile.hk:tomato_crop.name=Tomates
+tile.hk:onion_crop.name=Cebollas
+tile.hk:cucumber_crop.name=Pepinos
+tile.hk:chili_bush.name=Arbusto de guindilla
+tile.hk:strawberry_bush.name=Arbusto de fresa
+tile.hk:eggplant_crop.name=Berenjenas
+
+## Station effects (scripts/fx): script-owned animation entities, never in a player's hands.
+entity.hk:fx_knife.name=Cuchillo de cocina
+entity.hk:fx_spoon.name=Cuchara para remover
+
+## Shared UI
+hk.ui.item_count=%1$s × %2$s
+hk.ui.busy=§eCierra el chat y vuelve a intentarlo.
+
+## Stations (action bar: at most 5 words)
+hk.station.pot=Olla
+hk.station.full=§c✘ %1$s: no cabe más
+hk.station.refuse=§c✘ No se puede cocinar: %1$s
+hk.station.needs_mix=§c✘ Primero haz una mezcla
+hk.station.no_heat=§e♨ Necesita fuego debajo
+hk.station.ready_one=§a✔ %1$s
+hk.station.ready_more=§a✔ %1$s y %2$s más
+hk.station.progress=♨ %1$s
+hk.station.done=§a✔ ¡Listo: %1$s!
+hk.station.add_hint=Añade ingredientes
+hk.station.next=§eAñade: %1$s
+hk.station.gone=§c✘ Ya no está
+hk.station.changed=§e✘ Algo ha cambiado, inténtalo de nuevo
+hk.station.needs=§c✘ Necesita %1$s × %2$s
+
+## Pot screen (only when several dishes are possible)
+hk.pot.cook=Cocinar: %1$s
+
+## Cutting board
+hk.board.refuse=§c✘ Eso no se puede cortar
+hk.board.hint=Coge una verdura
+
+## Recipe posters (action bar: at most 5 words, besides the dish name)
+hk.poster.dish=%1$s · %2$s %3$s %4$s s
+hk.poster.dish_plain=%1$s · Comida saciante
+hk.poster.guide=Cómo empezar · Agacharse + usar: siguiente receta
+hk.poster.none=Rompe hierba para encontrar semillas
+hk.poster.look=Mira la pared de frente
+hk.poster.no_room=Necesita una pared de 2 bloques
+hk.welcome.title=§6★ ¡Te damos la bienvenida a Harvest Kitchen!§r Rompe hierba para conseguir semillas, cultiva y cocina platos con efectos.
+hk.welcome.poster=Tienes una §eGuía de cocina§r (úsala para leerla) y un §ePóster de recetas§r (cuélgalo en una pared).
+hk.toast.new_recipe=§e★ ¡Nueva receta!
+
+## Kitchen Guide (ui/guide-screen.ts): a book drawn by resource/ui/hk_guide/guide.json. Titles,
+## row names and chips are short: about 18 characters fit a title or a row, 8 a chip.
+item.hk:guide_book.name=Guía de cocina
+hk.ui.back=Atrás
+hk.guide.home=Inicio
+hk.guide.prev_page=Página anterior
+hk.guide.next_page=Página siguiente
+hk.guide.title=Guía de cocina
+hk.guide.home_body=Cultiva, corta, mezcla y cocina platos. Elige un capítulo o usa las cintas de la derecha.
+hk.guide.chapters=Capítulos
+hk.guide.chapter_count=%1$s · %2$s/%3$s
+hk.guide.how_to_play=Cómo se juega
+hk.guide.topics=Temas
+hk.guide.topics_body=Todo sobre Harvest Kitchen, paso a paso. Lee en orden o elige un tema.
+hk.guide.topic_n=%1$s / %2$s
+hk.guide.what=¿Qué puedo cocinar?
+hk.guide.what_body=Platos que puedes preparar con lo que llevas ahora.
+hk.guide.nothing=Nada por ahora. Lleva los ingredientes de una receta y vuelve a mirar.
+hk.guide.can_make=Puedes preparar: %1$s
+hk.guide.hot=Calientes
+hk.guide.cold=Fríos
+hk.guide.hot_body=Fabrica una mezcla en una mesa de trabajo y cocínala en una olla con fuego debajo.
+hk.guide.cold_body=Se fabrican en una mesa de trabajo. No necesitan olla.
+hk.guide.found=Descubiertos: %1$s/%2$s
+hk.guide.page=Página %1$s/%2$s
+hk.guide.locked=???
+hk.guide.locked_body=Encuentra sus cultivos para desbloquearlo.
+hk.guide.find=Busca: %1$s
+hk.guide.effect_line=%1$s %2$s: %3$s, %4$s s
+hk.guide.effect_chip=%1$s %2$s s
+hk.guide.no_effect=Comida saciante
+hk.guide.sliced=Colócalo y cómelo porción a porción (%1$s porciones).
+hk.guide.pot_fire=+ fuego
+hk.guide.craft=Fabricar
+hk.guide.step_mix=1. Fabrica la mezcla
+hk.guide.step_craft=Fabricación
+hk.guide.cook_seconds=Cuece %1$ss
+hk.guide.cook_hint=Usa la olla con la mano vacía para cocinar
+hk.guide.mix_hint=Fabrícalo en una mesa de trabajo
+hk.guide.vanilla_item=Un objeto de Minecraft
+hk.guide.board=Tabla de cortar
+hk.guide.board_body=Coge una verdura y usa la tabla para cortarla. Agáchate y úsala para cortar toda la pila.
+hk.guide.cuts=Qué corta
+hk.guide.board_hint=Con %1$s en la mano, usa la tabla
+hk.guide.crops=Cultivos
+hk.guide.crops_body=Rompe hierba para encontrar semillas. Cada cultivo es más fácil de encontrar en los lugares que prefiere.
+hk.guide.where=Semillas: %1$s.
+hk.guide.crop_unknown=Rompe hierba allí para encontrar sus semillas.
+hk.guide.plant_farmland=Plántalo en terreno de cultivo. Rómpelo cuando haya crecido del todo.
+hk.guide.plant_soil=Plántalo en hierba, tierra o terreno de cultivo.
+hk.guide.bush=Arbusto: cuando madure, úsalo para cosechar.
+hk.guide.used_in=Se usa en
+hk.guide.growth=De semilla a cosecha
+hk.guide.stage=Fase %1$s/%2$s
+
+## How to Play topics (guide/guide-pages.ts). %1$s is a line break.
+hk.guide.topic.welcome=Bienvenida
+hk.guide.text.welcome=Harvest Kitchen añade seis cultivos nuevos y una cocina para prepararlos. Cultívalos, córtalos, mézclalos y cocínalos en platos.%1$s%1$sTodos los platos te sacian y la mayoría también te da un efecto útil.
+hk.guide.topic.loop=El ciclo de la cocina
+hk.guide.text.loop=1. Rompe hierba para conseguir semillas%1$s2. Haz crecer los cultivos%1$s3. Córtalos en una tabla de cortar%1$s4. Fabrica una mezcla en una mesa de trabajo%1$s5. Cuécela en una olla sobre el fuego%1$s6. ¡A comer!
+hk.guide.topic.seeds=Buscar semillas
+hk.guide.text.seeds=Rompe hierba o helechos y a veces encontrarás una semilla. Cada cultivo prefiere ciertos lugares (consulta Cultivos), pero cualquier semilla puede salir en cualquier parte, aunque con menos frecuencia.%1$s%1$sLas tijeras y el modo creativo no dan semillas.
+hk.guide.topic.farmland=Cultivar
+hk.guide.text.farmland=Planta semillas de tomate, pepino y berenjena en terreno de cultivo, como el trigo. La cebolla no tiene semillas: planta la propia cebolla.%1$s%1$sRompe un cultivo maduro para obtener la cosecha y las semillas. El polvo de hueso acelera su crecimiento.
+hk.guide.topic.bushes=Arbustos
+hk.guide.text.bushes=Las guindillas y las fresas crecen en arbustos. Planta sus semillas en hierba, tierra o terreno de cultivo.%1$s%1$sCuando un arbusto esté maduro, úsalo para recoger el fruto. El arbusto se queda y vuelve a dar fruto.
+hk.guide.topic.board=Tabla de cortar
+hk.guide.text.board=Fabrícala con un palo y dos tablones en fila.%1$s%1$sCoge un tomate, una cebolla, un pepino o una berenjena y usa la tabla para cortarlo. Agáchate y úsala para cortar toda la pila.
+hk.guide.topic.mixes=Mezclas
+hk.guide.text.mixes=Los platos calientes empiezan como una mezcla. Fabrica los ingredientes crudos, normalmente con un cuenco, en una mesa de trabajo.%1$s%1$sEl libro de recetas de la mesa de trabajo muestra todas las mezclas que has desbloqueado.
+hk.guide.topic.pot=Olla
+hk.guide.text.pot=Fabrícala con cinco lingotes de hierro y un cuenco. Solo cocina con calor debajo: una fogata, fuego, lava, un bloque de magma o un fogón encendido.%1$s%1$sUsa la olla con una mezcla en la mano para echarla. Agáchate para añadir toda la pila.
+hk.guide.topic.cooking=Cocinar
+hk.guide.text.cooking=La olla admite cuatro mezclas y cocina a la vez todas las mezclas de un mismo plato.%1$s%1$sÚsala con la mano vacía para empezar a cocinar. Cuando termine, vuelve a usarla con la mano vacía para sacar los platos.
+hk.guide.topic.cold=Platos fríos
+hk.guide.text.cold=Las ensaladas, la salsa, los sándwiches, la brocheta y los dulces de fresa no necesitan olla: fabrícalos en una mesa de trabajo.%1$s%1$sColoca un pastel de fresa y úsalo para comerte una porción.
+hk.guide.topic.effects=Efectos
+hk.guide.text.effects=La mayoría de los platos dan un efecto durante un tiempo. Su color indica de qué tipo es:%1$s%1$s§c❤ Rojo§r te cura%1$s§9▶ Azul§r te mueve%1$s§e■ Amarillo§r excava más rápido%1$s§a● Verde§r te ayuda a explorar
+hk.guide.topic.poster=Póster de recetas
+hk.guide.text.poster=Fabrícalo con papel y cualquier cultivo de Harvest Kitchen, y cuélgalo en una pared de 2 bloques de ancho.%1$s%1$sÚsalo para ver el plato y su efecto. Agáchate y úsalo para pasar a la siguiente receta.
+hk.guide.topic.unlocking=Desbloquear recetas
+hk.guide.text.unlocking=Cada cultivo nuevo que encuentres desbloquea las recetas que lo usan: en esta guía, en tu póster de recetas y en el libro de recetas de la mesa de trabajo. Hasta entonces aparecen como ???.%1$s%1$sEn el modo creativo todo está desbloqueado.
+hk.guide.topic.lost=¿Guía perdida?
+hk.guide.text.lost=Fabrica una nueva con un libro y una zanahoria. Cabe en la cuadrícula pequeña de fabricación de tu inventario.%1$s%1$s¡A cocinar!
+
+## Effect families (plan §1.4)
+hk.family.heal=Curar
+hk.family.heal.hint=§c❤ La comida roja te cura
+hk.family.move=Moverse
+hk.family.move.hint=§9▶ La comida azul te mueve
+hk.family.work=Trabajar
+hk.family.work.hint=§e■ La comida amarilla excava más rápido
+hk.family.explore=Explorar
+hk.family.explore.hint=§a● La comida verde ayuda a explorar
+
+## Where seeds drop (short biome hints)
+hk.crop.where.tomato=Llanura, bosque
+hk.crop.where.onion=Llanura, taiga, sabana
+hk.crop.where.cucumber=Llanura, bosque, río
+hk.crop.where.chili=Jungla, sabana, páramo
+hk.crop.where.strawberry=Prado, bosque de flores, cerezal
+hk.crop.where.eggplant=Sabana, llanura
+
+## /hk:debug (operator test helper)
+hk.debug.kit=Kit: se han dado %1$s tipos de objetos.
+hk.debug.build=§7Harvest Kitchen, versión %1$s
+hk.debug.grow=Han crecido %1$s cultivos.
+hk.debug.pot_none=Mira a una olla.
+hk.debug.validate=Comprobación de datos: %1$s problema(s).
+hk.debug.fast_on=Cocina rápida activada.
+hk.debug.fast_off=Cocina rápida desactivada.
+hk.debug.reset=Descubrimientos restablecidos.
+hk.debug.fx=Efectos: %1$s cuchillo(s), %2$s cuchara(s).
+hk.debug.problems=§eHarvest Kitchen: %1$s problema(s) de datos. Ejecuta /hk:debug validate

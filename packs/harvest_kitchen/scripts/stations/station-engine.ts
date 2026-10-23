@@ -35,6 +35,7 @@ import {
   progressCells,
   spillContents,
   startJob,
+  stationPresence,
   sweepStep,
   takeAllItems,
   type NextIngredient,
@@ -366,14 +367,28 @@ function finish(ref: StationRef, state: StationState): StationState {
   return result.state;
 }
 
+/** Whatever block is at the station's position; undefined if it can't be read (unloaded). */
+function blockAtStation(ref: StationRef): Block | undefined {
+  try {
+    return ref.dimension.getBlock(ref.location);
+  } catch {
+    return undefined;
+  }
+}
+
 function sweepOne(ref: StationRef): void {
   if (!ref.dimension.isChunkLoaded(ref.location)) return;
-  const block = stationBlock(ref);
-  if (!block) {
+  const found = blockAtStation(ref);
+  // isChunkLoaded can be true where getBlock still returns undefined (a chunk at the edge of the
+  // ticking area): only a block that is really something else counts as the station gone.
+  const presence = stationPresence(found?.typeId, ref.station.block);
+  if (presence === "unknown" || !found) return;
+  if (presence === "gone") {
     // Replaced without a break event (e.g. /setblock): give the contents back to the world.
     spill(ref);
     return;
   }
+  const block = found;
   const state = readStation(ref);
   if (isEmpty(state)) {
     tracked.delete(stationKey(ref));

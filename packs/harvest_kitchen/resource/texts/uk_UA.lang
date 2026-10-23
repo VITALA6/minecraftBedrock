@@ -1,0 +1,241 @@
+pack.name=Harvest Kitchen RP
+pack.description=Текстури, моделі й назви для Harvest Kitchen.
+
+## Produce, seeds, prepared ingredients
+item.hk:tomato.name=Помідор
+item.hk:onion.name=Цибуля
+item.hk:cucumber.name=Огірок
+item.hk:chili_pepper.name=Перець чилі
+item.hk:strawberry.name=Полуниця
+item.hk:eggplant.name=Баклажан
+item.hk:tomato_seeds.name=Насіння помідора
+item.hk:cucumber_seeds.name=Насіння огірка
+item.hk:chili_pepper_seeds.name=Насіння перцю чилі
+item.hk:strawberry_seeds.name=Насіння полуниці
+item.hk:eggplant_seeds.name=Насіння баклажана
+item.hk:sliced_tomato.name=Нарізаний помідор
+item.hk:chopped_onion.name=Посічена цибуля
+item.hk:sliced_cucumber.name=Нарізаний огірок
+item.hk:sliced_eggplant.name=Нарізаний баклажан
+
+## Mixes (made on the crafting table, cooked in the pot)
+item.hk:tomato_soup_mix.name=Заготовка томатного супу
+item.hk:vegetable_stew_mix.name=Заготовка овочевого рагу
+item.hk:chili_stew_mix.name=Заготовка рагу з чилі
+item.hk:fish_chowder_mix.name=Заготовка рибної юшки
+item.hk:chicken_soup_mix.name=Заготовка курячого супу
+item.hk:onion_soup_mix.name=Заготовка цибулевого супу
+item.hk:strawberry_jam_mix.name=Заготовка полуничного варення
+item.hk:stuffed_eggplant_mix.name=Заготовка фаршированого баклажана
+item.hk:ratatouille_mix.name=Заготовка рататую
+item.hk:eggplant_curry_mix.name=Заготовка каррі з баклажанів
+
+## Dishes
+item.hk:tomato_soup.name=Томатний суп
+item.hk:vegetable_stew.name=Овочеве рагу
+item.hk:chili_stew.name=Рагу з чилі
+item.hk:fish_chowder.name=Рибна юшка
+item.hk:chicken_soup.name=Курячий суп
+item.hk:onion_soup.name=Цибулевий суп
+item.hk:strawberry_jam.name=Полуничне варення
+item.hk:garden_salad.name=Овочевий салат
+item.hk:salsa.name=Сальса
+item.hk:veggie_sandwich.name=Овочевий сендвіч
+item.hk:hearty_sandwich.name=Ситний сендвіч
+item.hk:strawberry_cup.name=Полуниця з цукром
+item.hk:stuffed_eggplant.name=Фарширований баклажан
+item.hk:ratatouille.name=Рататуй
+item.hk:eggplant_curry.name=Каррі з баклажанів
+item.hk:eggplant_salad.name=Салат з баклажанів
+item.hk:veggie_skewer.name=Овочевий шашлик
+
+## Blocks. Pot, board, cake and poster items share the block id; both key forms are defined so the name
+## shows whichever one the game asks for.
+tile.hk:cooking_pot.name=Каструля
+item.hk:cooking_pot.name=Каструля
+tile.hk:cutting_board.name=Обробна дошка
+item.hk:cutting_board.name=Обробна дошка
+tile.hk:strawberry_cake.name=Полуничний торт
+item.hk:strawberry_cake.name=Полуничний торт
+tile.hk:recipe_poster.name=Плакат із рецептами
+item.hk:recipe_poster.name=Плакат із рецептами
+## Kitchen decor (purely decorative blocks; their items share the block id too).
+tile.hk:kitchen_counter.name=Кухонна тумба
+item.hk:kitchen_counter.name=Кухонна тумба
+tile.hk:kitchen_cabinet.name=Кухонна шафка
+item.hk:kitchen_cabinet.name=Кухонна шафка
+tile.hk:spice_shelf.name=Полиця зі спеціями
+item.hk:spice_shelf.name=Полиця зі спеціями
+tile.hk:kitchen_sink.name=Кухонна мийка
+item.hk:kitchen_sink.name=Кухонна мийка
+tile.hk:kitchen_stove.name=Кухонна плита
+item.hk:kitchen_stove.name=Кухонна плита
+tile.hk:hanging_pan.name=Підвісна сковорідка
+item.hk:hanging_pan.name=Підвісна сковорідка
+tile.hk:pickle_jar.name=Банка огірків
+item.hk:pickle_jar.name=Банка огірків
+tile.hk:vegetable_basket.name=Кошик з овочами
+item.hk:vegetable_basket.name=Кошик з овочами
+tile.hk:tomato_crop.name=Помідори
+tile.hk:onion_crop.name=Цибуля
+tile.hk:cucumber_crop.name=Огірки
+tile.hk:chili_bush.name=Кущ чилі
+tile.hk:strawberry_bush.name=Кущ полуниці
+tile.hk:eggplant_crop.name=Баклажани
+
+## Station effects (scripts/fx): script-owned animation entities, never in a player's hands.
+entity.hk:fx_knife.name=Кухонний ніж
+entity.hk:fx_spoon.name=Ложка для помішування
+
+## Shared UI
+hk.ui.item_count=%1$s × %2$s
+hk.ui.busy=§eЗакрийте чат і спробуйте ще раз.
+
+## Stations (action bar: at most 5 words)
+hk.station.pot=Каструля
+hk.station.full=§c✘ %1$s: немає місця
+hk.station.refuse=§c✘ Не можна приготувати: %1$s
+hk.station.needs_mix=§c✘ Спершу зробіть заготовку
+hk.station.no_heat=§e♨ Потрібен вогонь знизу
+hk.station.ready_one=§a✔ %1$s
+hk.station.ready_more=§a✔ %1$s і ще %2$s
+hk.station.progress=♨ %1$s
+hk.station.done=§a✔ Готово: %1$s!
+hk.station.add_hint=Додайте інгредієнти
+hk.station.next=§eДодайте: %1$s
+hk.station.gone=§c✘ Цього вже немає
+hk.station.changed=§e✘ Щось змінилося, спробуйте ще раз
+hk.station.needs=§c✘ Потрібно %1$s × %2$s
+
+## Pot screen (only when several dishes are possible)
+hk.pot.cook=Приготувати: %1$s
+
+## Cutting board
+hk.board.refuse=§c✘ Це не можна нарізати
+hk.board.hint=Візьміть овоч у руку
+
+## Recipe posters (action bar: at most 5 words, besides the dish name)
+hk.poster.dish=%1$s · %2$s %3$s %4$s с
+hk.poster.dish_plain=%1$s · Ситна їжа
+hk.poster.guide=Як почати · Крастися + використати: наступний рецепт
+hk.poster.none=Ламайте траву, щоб знайти насіння
+hk.poster.look=Дивіться прямо на стіну
+hk.poster.no_room=Потрібна стіна у 2 блоки
+hk.welcome.title=§6★ Вітаємо в Harvest Kitchen!§r Ламайте траву заради насіння, вирощуйте культури й готуйте страви з ефектами.
+hk.welcome.poster=Ви отримали §eКулінарну книгу§r (використайте її, щоб читати) і §eПлакат із рецептами§r (повісьте його на стіну).
+hk.toast.new_recipe=§e★ Новий рецепт!
+
+## Kitchen Guide (ui/guide-screen.ts): a book drawn by resource/ui/hk_guide/guide.json. Titles,
+## row names and chips are short: about 18 characters fit a title or a row, 8 a chip.
+item.hk:guide_book.name=Кулінарна книга
+hk.ui.back=Назад
+hk.guide.home=Зміст
+hk.guide.prev_page=Попередня сторінка
+hk.guide.next_page=Наступна сторінка
+hk.guide.title=Кулінарна книга
+hk.guide.home_body=Вирощуйте культури, нарізайте, змішуйте й готуйте з них страви. Оберіть розділ або скористайтеся закладками праворуч.
+hk.guide.chapters=Розділи
+hk.guide.chapter_count=%1$s · %2$s/%3$s
+hk.guide.how_to_play=Як грати
+hk.guide.topics=Теми
+hk.guide.topics_body=Усе про Harvest Kitchen крок за кроком. Читайте по порядку або оберіть тему.
+hk.guide.topic_n=%1$s / %2$s
+hk.guide.what=Що приготувати?
+hk.guide.what_body=Страви, які можна приготувати з того, що у вас є зараз.
+hk.guide.nothing=Поки нічого. Візьміть інгредієнти якогось рецепта й загляньте знову.
+hk.guide.can_make=Можна приготувати: %1$s
+hk.guide.hot=Гарячі страви
+hk.guide.cold=Холодні страви
+hk.guide.hot_body=Зробіть заготовку на верстаку, а потім зваріть її в каструлі з вогнем знизу.
+hk.guide.cold_body=Створюються на верстаку. Каструля не потрібна.
+hk.guide.found=Знайдено: %1$s/%2$s
+hk.guide.page=Сторінка %1$s/%2$s
+hk.guide.locked=???
+hk.guide.locked_body=Знайдіть потрібні культури, щоб відкрити рецепт.
+hk.guide.find=Шукайте: %1$s
+hk.guide.effect_line=%1$s %2$s: %3$s, %4$s с
+hk.guide.effect_chip=%1$s %2$s с
+hk.guide.no_effect=Ситна їжа
+hk.guide.sliced=Поставте його й їжте по шматочку (шматочків: %1$s).
+hk.guide.pot_fire=+ вогонь
+hk.guide.craft=Верстак
+hk.guide.step_mix=1. Зробіть заготовку
+hk.guide.step_craft=Як зробити
+hk.guide.cook_seconds=Варіть %1$s с
+hk.guide.cook_hint=Використайте каструлю порожньою рукою, щоб готувати
+hk.guide.mix_hint=Зробіть це на верстаку
+hk.guide.vanilla_item=Предмет із Minecraft
+hk.guide.board=Обробна дошка
+hk.guide.board_body=Візьміть овоч і використайте дошку, щоб нарізати його. Використайте крадучись, щоб нарізати весь стек.
+hk.guide.cuts=Що можна нарізати
+hk.guide.board_hint=%1$s: візьміть у руку й використайте дошку
+hk.guide.crops=Культури
+hk.guide.crops_body=Ламайте траву, щоб знайти насіння. Кожну культуру легше знайти там, де вона любить рости.
+hk.guide.where=Насіння: %1$s.
+hk.guide.crop_unknown=Ламайте там траву, щоб знайти насіння.
+hk.guide.plant_farmland=Садіть на ґрунт. Ламайте, коли повністю виросте.
+hk.guide.plant_soil=Садіть на блок із травою, землю чи ґрунт.
+hk.guide.bush=Кущ: використайте його, коли дозріє, щоб зібрати плоди.
+hk.guide.used_in=Де знадобиться
+hk.guide.growth=Від насіння до врожаю
+hk.guide.stage=Стадія %1$s/%2$s
+
+## How to Play topics (guide/guide-pages.ts). %1$s is a line break.
+hk.guide.topic.welcome=Ласкаво просимо
+hk.guide.text.welcome=Harvest Kitchen додає шість нових культур і кухню, де з них можна готувати. Вирощуйте культури, нарізайте, змішуйте й готуйте з них страви.%1$s%1$sКожна страва вас наситить, а більшість ще й дасть корисний ефект.
+hk.guide.topic.loop=Кухонний цикл
+hk.guide.text.loop=1. Ламайте траву заради насіння%1$s2. Вирощуйте культури%1$s3. Нарізайте їх на обробній дошці%1$s4. Зробіть заготовку на верстаку%1$s5. Зваріть її в каструлі над вогнем%1$s6. Смакуйте!
+hk.guide.topic.seeds=Пошук насіння
+hk.guide.text.seeds=Ламайте траву чи папороть, і часом випадатиме насіння. Кожна культура має улюблені місця (див. «Культури»), але будь-яке насіння може трапитися будь-де, просто рідше.%1$s%1$sНожиці й творчий режим насіння не дають.
+hk.guide.topic.farmland=Вирощування
+hk.guide.text.farmland=Садіть насіння помідора, огірка й баклажана на ґрунт, як пшеницю. Цибуля насіння не має: садіть саму цибулю.%1$s%1$sЗламайте дозрілу культуру, щоб отримати врожай і насіння. Кісткове борошно прискорює ріст.
+hk.guide.topic.bushes=Кущі
+hk.guide.text.bushes=Перець чилі й полуниця ростуть на кущах. Садіть їхнє насіння на блок із травою, землю чи ґрунт.%1$s%1$sКоли кущ дозріє, використайте його, щоб зібрати плоди. Кущ залишиться й родитиме знову.
+hk.guide.topic.board=Обробна дошка
+hk.guide.text.board=Створіть її з палиці й двох дерев’яних дощок, поклавши їх у ряд.%1$s%1$sВізьміть помідор, цибулю, огірок чи баклажан і використайте дошку, щоб нарізати. Використайте крадучись, щоб нарізати весь стек.
+hk.guide.topic.mixes=Заготовки
+hk.guide.text.mixes=Гарячі страви починаються із заготовки. Створіть її із сирих інгредієнтів на верстаку, зазвичай додавши миску.%1$s%1$sКнига рецептів верстака показує всі заготовки, які ви відкрили.
+hk.guide.topic.pot=Каструля
+hk.guide.text.pot=Створіть її з п’яти залізних злитків і миски. Вона готує лише з жаром знизу: на багатті, вогні, лаві, блоці магми чи ввімкненій кухонній плиті.%1$s%1$sВикористайте каструлю із заготовкою в руці, щоб покласти її. Крадучись можна додати весь стек.
+hk.guide.topic.cooking=Готування
+hk.guide.text.cooking=Каструля вміщує чотири заготовки й варить усі заготовки однієї страви разом.%1$s%1$sВикористайте її порожньою рукою, щоб почати готувати. Коли все готово, знову використайте її порожньою рукою, щоб забрати страви.
+hk.guide.topic.cold=Холодні страви
+hk.guide.text.cold=Салатам, сальсі, сендвічам, шашлику й полуничним ласощам каструля не потрібна: створюйте їх на верстаку.%1$s%1$sПоставте полуничний торт і використайте його, щоб з’їсти шматочок.
+hk.guide.topic.effects=Ефекти
+hk.guide.text.effects=Більшість страв дає ефект на якийсь час. Його колір підказує, який саме:%1$s%1$s§c❤ Червоний§r лікує%1$s§9▶ Синій§r допомагає рухатися%1$s§e■ Жовтий§r пришвидшує копання%1$s§a● Зелений§r допомагає досліджувати
+hk.guide.topic.poster=Плакат із рецептами
+hk.guide.text.poster=Створіть його з паперу й будь-якої культури Harvest Kitchen, а потім повісьте на стіну завширшки 2 блоки.%1$s%1$sВикористайте його, щоб побачити страву та її ефект. Використайте крадучись, щоб перейти до наступного рецепта.
+hk.guide.topic.unlocking=Відкриття рецептів
+hk.guide.text.unlocking=Кожна нова культура, яку ви знайдете, відкриває рецепти з нею: у цій книзі, на плакаті з рецептами й у книзі рецептів верстака. Доти вони позначені як ???.%1$s%1$sУ творчому режимі відкрито все.
+hk.guide.topic.lost=Загубили книгу?
+hk.guide.text.lost=Створіть нову з книги й моркви. Рецепт поміщається в малу сітку створення у вашому інвентарі.%1$s%1$sПриємного куховарення!
+
+## Effect families (plan §1.4)
+hk.family.heal=Лікування
+hk.family.heal.hint=§c❤ Червона їжа лікує
+hk.family.move=Рух
+hk.family.move.hint=§9▶ Синя їжа допомагає рухатися
+hk.family.work=Робота
+hk.family.work.hint=§e■ Жовта їжа пришвидшує копання
+hk.family.explore=Дослідження
+hk.family.explore.hint=§a● Зелена їжа допомагає досліджувати
+
+## Where seeds drop (short biome hints)
+hk.crop.where.tomato=Рівнини, ліси
+hk.crop.where.onion=Рівнини, тайга, савана
+hk.crop.where.cucumber=Рівнини, ліси, річки
+hk.crop.where.chili=Джунглі, савана, пустища
+hk.crop.where.strawberry=Луги, квітковий ліс, вишневий гай
+hk.crop.where.eggplant=Савана, рівнини
+
+## /hk:debug (operator test helper)
+hk.debug.kit=Набір: видано %1$s видів предметів.
+hk.debug.build=§7Harvest Kitchen, збірка %1$s
+hk.debug.grow=Виросло культур: %1$s.
+hk.debug.pot_none=Подивіться на каструлю.
+hk.debug.validate=Перевірка даних, проблем: %1$s.
+hk.debug.fast_on=Швидке готування ввімкнено.
+hk.debug.fast_off=Швидке готування вимкнено.
+hk.debug.reset=Відкриття скинуто.
+hk.debug.fx=Ефекти: ножів — %1$s, ложок — %2$s.
+hk.debug.problems=§eHarvest Kitchen: проблем у даних — %1$s. Виконайте /hk:debug validate

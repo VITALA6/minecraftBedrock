@@ -1,7 +1,7 @@
 // Builds every pack in packs/ into dist/<name>_BP and dist/<name>_RP.
 //
 //   node tools/build.mjs             one-off build (a test build)
-//   node tools/build.mjs --release   one-off release build: no test-session chat output
+//   node tools/build.mjs --release   one-off release build: no test-session chat, no console.log
 //   node tools/build.mjs --watch     rebuild on any change under packs/ (test builds)
 //
 // Per pack:
@@ -89,9 +89,42 @@ function buildId(hash = gitHash()) {
 }
 
 // A release build compiles out what only test sessions want: scripts read __RELEASE__ (for
-// example, operators no longer get the build id and data-check count in chat on join; both stay
-// in the Content Log). /hk:debug stays, operator-only, in both.
+// example, operators no longer get the build id and data-check count in chat on join), and every
+// console.log is dropped (see releaseOptions). /hk:debug stays, operator-only, in both.
 const RELEASE = process.argv.includes("--release");
+
+// Release-only esbuild options. console.log is our info channel (build id, data-check count,
+// leftover fx count): useful in a test session, noise in a player's Content Log. console.warn
+// and console.error report real failures (a missing dish entry, a failed form), so they stay:
+// that's why this marks console.log `pure` rather than using `drop: ["console"]`, which would
+// take warn/error with it. A pure call whose result is unused is removed by minifySyntax; its
+// arguments are still evaluated if they could have side effects (a template literal), which is
+// what a no-op logger would do too. minifySyntax also deletes `if (!__RELEASE__) ...` branches
+// outright, and with them every import only that dead code used (when the imported module has
+// no top-level side effects). Names and whitespace stay unminified so Content Log stack traces
+// stay readable.
+const releaseOptions = { pure: ["console.log"], minifySyntax: true };
+
+/** esbuild options for a pack's scripts/main.ts, minus the output (buildPack writes it to the BP;
+ *  tests/release.test.ts bundles it in memory to check what a release leaves in). */
+export function scriptOptions(name, { release = RELEASE, hash } = {}) {
+  const manifest = path.join(PACKS_DIR, name, "behavior", "manifest.json");
+  return {
+    entryPoints: [path.join(PACKS_DIR, name, "scripts", "main.ts")],
+    bundle: true,
+    format: "esm",
+    platform: "neutral",
+    target: "es2022",
+    // Game-provided modules stay as imports; everything else is bundled in.
+    external: scriptModuleDependencies(manifest),
+    define: {
+      __BUILD_ID__: JSON.stringify(buildId(hash)),
+      __RELEASE__: JSON.stringify(release),
+    },
+    logLevel: "warning",
+    ...(release ? releaseOptions : {}),
+  };
+}
 
 /** Builds one pack into dist/. `hash` is the git hash baked into the build id (tools/package.mjs
  *  passes the one it puts in the file name). */
@@ -106,25 +139,14 @@ export async function buildPack(name, { release = RELEASE, hash } = {}) {
   const behaviorDir = path.join(src, "behavior");
   if (existsSync(behaviorDir)) {
     checkJsonFiles(behaviorDir);
-    const external = scriptModuleDependencies(path.join(behaviorDir, "manifest.json"));
+    // Checked even for packs without scripts: a stray module_name dependency is still wrong.
+    scriptModuleDependencies(path.join(behaviorDir, "manifest.json"));
     await cp(behaviorDir, bpOut, { recursive: true });
 
-    const entry = path.join(src, "scripts", "main.ts");
-    if (existsSync(entry)) {
+    if (existsSync(path.join(src, "scripts", "main.ts"))) {
       await build({
-        entryPoints: [entry],
+        ...scriptOptions(name, { release, hash }),
         outfile: path.join(bpOut, "scripts", "main.js"),
-        bundle: true,
-        format: "esm",
-        platform: "neutral",
-        target: "es2022",
-        // Game-provided modules stay as imports; everything else is bundled in.
-        external,
-        define: {
-          __BUILD_ID__: JSON.stringify(buildId(hash)),
-          __RELEASE__: JSON.stringify(release),
-        },
-        logLevel: "warning",
       });
     }
   }

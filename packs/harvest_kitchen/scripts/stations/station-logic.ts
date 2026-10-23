@@ -432,6 +432,21 @@ export function takeAllItems(
   return { items, state: EMPTY };
 }
 
+/**
+ * What the sweep found where a tracked station should be:
+ *   here     the station block: sweep it
+ *   gone     a different block (replaced without a break event, e.g. /setblock): spill
+ *   unknown  no block could be read (`typeId` undefined: an unloaded or non-ticking chunk, or the
+ *            read threw): leave it alone and look again next sweep. Spilling here would drop the
+ *            contents next to a pot that is still there.
+ */
+export type StationPresence = "here" | "gone" | "unknown";
+
+export function stationPresence(typeId: string | undefined, stationBlock: string): StationPresence {
+  if (typeId === undefined) return "unknown";
+  return typeId === stationBlock ? "here" : "gone";
+}
+
 /** What a break drops: every ingredient (a running job's included) and a finished dish. */
 export function spillContents(state: StationState): [string, number][] {
   const drops = Object.entries(state.items);

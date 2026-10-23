@@ -249,7 +249,10 @@ Cannot replace the block item.`; vanilla 1.26.50 ships a same-id item for its da
   **(untested)**
 - **Release builds (D18):** `npm run build:release` (`tools/build.mjs --release`) defines
   `__RELEASE__` true; `debug/debug-command.ts` then sends no join chat (build id, data-check
-  count). The Content Log keeps both, and `/hk:debug` (operator-only) works in every build.
+  count), and esbuild drops every `console.log` (build id line, data-check summary);
+  `console.warn`/`console.error` stay. `/hk:debug` works in every build, operators only: it
+  registers as `Admin` (operators, not command blocks) and the callback also requires a player
+  source with `commandPermissionLevel >= GameDirectors`.
   `DEBUG_POSTERS` and its per-step chat are gone. Deploy the normal build for test sessions.
 - **Mixes are pure JSON (D16).** The vanilla crafting screen does the matching, the recipe book
   and the "what's missing" display, so there's no form and no JSON UI (D13). The pot side is
@@ -276,10 +279,19 @@ request for unknown variable`. It now gets `setVector3("variable.direction", up)
 - **Cook time is ticks left, saved every sweep.** No wall-clock deadline: it pauses without heat
   and while the game is paused. One `runInterval` for all stations; stations without contents
   aren't tracked (idle empty pots refresh their look on use, place, random tick and heat changes).
+  The sweep spills a tracked station only when a **different block** stands at its position
+  (`stationPresence` in `station-logic.ts`). Where no block can be read (an unloaded or
+  non-ticking chunk, where `getBlock` returns `undefined` even if `isChunkLoaded` said yes) it
+  waits for the next sweep (audit 2026-10-23).
 - **Finished dishes stay in the pot** as `out` until collected (no auto-delivery). Collecting
   clears the saved state first, then gives (hand first, then inventory, then drop).
 - **Concurrency.** Every action is a synchronous read-modify-write in one tick. Forms re-read the
-  station after `await` and refuse with `✘ It changed, try again` or `✘ It's gone`.
+  station after `await` and refuse with `✘ It changed, try again` or `✘ It's gone`. A hand-out to
+  a player who left in the meantime drops at the station (`giveOrDrop`).
+- **One action per press** where a held use button could repeat it (B13, B31): the cake has a
+  bite gate (`TickGate`, one slice per 0.5 s); the stove switch and the pot's choice form have a
+  press gate (`PressGate`, `lib/tick-gate.ts`): repeats less than 8 ticks apart count as the same
+  press, so a held button switches the stove once and asks for one form.
 - **Sneak + use** goes through `world.beforeEvents.playerInteractWithBlock`: for the pot when the
   hand is empty or holds an ingredient, for the board when it holds something cuttable. The
   event is cancelled (no vanilla placement) and the action runs next tick (`system.run`, since
@@ -381,7 +393,7 @@ request for unknown variable`. It now gets `setVector3("variable.direction", up)
   `afterEvents.playerPlaceBlock` / `playerBreakBlock` with `blockTypes`; `playerInteractWithBlock`
   after; `playerLeave`, `playerSpawn`; `CustomCommandRegistry.registerCommand` / `registerEnum`
   (both `@privilege early-execution-allowed`), `CustomCommandParamType.Enum`,
-  `CommandPermissionLevel.GameDirectors`, `cheatsRequired`; `CustomCommandOrigin.sourceEntity`;
+  `CommandPermissionLevel.Admin`, `cheatsRequired`; `CustomCommandOrigin.sourceEntity` / `sourceType`;
   block component hooks `onPlayerInteract`, `onPlace`, `onRandomTick`, `onPlayerBreak`,
   `onBreak` (`brokenBlockPermutation`); item component `onUse`, `onUseOn`, `onConsume`;
   `EntityComponentTypes.Hunger` / `Saturation` (`EntityAttributeComponent.setCurrentValue`);
@@ -665,8 +677,9 @@ The pot's only form, and only when two or more dishes are possible right now (`c
 an `ActionFormData` titled with the station name, one button per dish (its icon +
 `Cook <dish>`), no body, no Close button (the form's X). A full pot allows at most 4 dishes, so
 it never scrolls on PC (blockers.md B23 for phones). Cold pot: fizz + `♨ Needs fire below`
-instead of opening it. The form is a snapshot; the tap goes through `startCooking`, which
-re-validates. Every other case has no form (`routeUse`): one dish cooks at once, idle with items
+instead of opening it. One form per press (`POT_FORM_PRESS_GAP_TICKS`): repeats of a held use
+button don't ask for a second form while the first is opening. The form is a snapshot; the tap
+goes through `startCooking`, which re-validates. Every other case has no form (`routeUse`): one dish cooks at once, idle with items
 says `Add <first missing>` (lang `hk.station.next`, e.g. "Add 2 × Tomato"; the ghosts show the
 rest), empty says `Add ingredients`. Taking one ingredient type out is gone with the old screen;
 sneak + empty hand takes everything out.
@@ -968,7 +981,9 @@ Eight decorative blocks: `hk:kitchen_counter`, `kitchen_cabinet`, `spice_shelf`,
 
 - **Stove:**
   - `hk:stove` (`stations/stove.ts`) switches `hk:lit` on each use, a tick later because
-    `setPermutation` is restricted, with `fire.ignite` or `random.fizz`.
+    `setPermutation` is restricted, with `fire.ignite` or `random.fizz`. Once per press
+    (`STOVE_PRESS_GAP_TICKS`): a held use button doesn't flicker it. Two players switching it in
+    the same tick cancel out, like a lever.
   - It then refreshes the pot above (`refreshAbove`).
   - While lit, a permutation swaps the oven window to the glowing texture and sets light 13.
     `heat.ts` counts it only while `hk:lit` is true.

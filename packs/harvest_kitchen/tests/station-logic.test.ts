@@ -21,6 +21,7 @@ import {
   sneakHandles,
   spillContents,
   startJob,
+  stationPresence,
   sweepStep,
   takeAllItems,
   type StationJob,
@@ -500,6 +501,23 @@ describe("spill on break", () => {
 
   it("drops nothing when empty", () => {
     assert.deepEqual(spillContents(EMPTY), []);
+  });
+});
+
+describe("the sweep finds the station gone (audit 2026-10-23)", () => {
+  it("sweeps a station that is still there", () => {
+    assert.equal(stationPresence(pot.block, pot.block), "here");
+  });
+
+  it("spills only where a different block really stands (/setblock, /fill)", () => {
+    assert.equal(stationPresence("minecraft:air", pot.block), "gone");
+    assert.equal(stationPresence("minecraft:stone", pot.block), "gone");
+  });
+
+  it("leaves a station alone when no block could be read (unloaded or non-ticking chunk)", () => {
+    // isChunkLoaded can be true while getBlock returns undefined: spilling then would drop the
+    // contents next to a pot that is still there.
+    assert.equal(stationPresence(undefined, pot.block), "unknown");
   });
 });
 

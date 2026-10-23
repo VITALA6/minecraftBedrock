@@ -77,6 +77,10 @@ tools/
   gen-pot-flipbook.mjs writes the pot's boil flipbooks (liquid per colour, rim) and checks their
                    terrain/flipbook registry entries
                    (all generators take --check, which the tests run)
+  make-logo.mjs    the 400×400 store logo from pack textures -> docs/harvest-kitchen/release/
+  edit-trailer.mjs ffmpeg trailer edit: trailer/raw/<scene>.mkv + --music -> dist/trailer/
+                   (full, 30 s, 15 s vertical); edit list docs/harvest-kitchen/marketing/
+                   trailer-edit.json, recording in docs/harvest-kitchen/marketing/recording-guide.md
 docs/              learning notes (00-setup, 01-custom-content, ...)
 art/<pack>/        art sources: pixels/ (hand-authored 16×16 icon grids), models/<name>/ (.bbmodel, .geo.json, textures, renders/) from
                    Blockbench MCP, models/_tools/ (model generators); generated/ (script output)
@@ -100,31 +104,37 @@ Current packs:
 - `harvest_kitchen`: the product (farming + cooking), namespace placeholder `hk` instead of
   `myteam`. Code notes in `docs/harvest-kitchen/slice.md`, plan in `docs/harvest-kitchen/plan.md`,
   open issues in `docs/harvest-kitchen/blockers.md`, test scripts in `docs/harvest-kitchen/tests/`.
-  `/hk:debug <kit|grow|fast|pot|validate|reset>` is the operator test kit (in every build).
+  `/hk:debug <kit|grow|fast|pot|validate|reset|fx>` is the operator test kit (in every build;
+  `Admin` level, so command blocks can't run it). `/scriptevent hk:trailer <list|anchor|stage|
+<scene>|still <n>|stop>` runs the trailer camera scenes (test builds only). Release notes in
+  `CHANGELOG.md`, store pages in `docs/harvest-kitchen/release/`, QA script for 1.0.0 in
+  `docs/harvest-kitchen/tests/round-6-release.md`. Lang files: en_US plus 7 translations;
+  `tests/lang.test.ts` checks every language has every key.
   Pot dishes are two steps (D16): raw ingredients → a mix on the vanilla crafting table → the pot
   cooks the mix. (The Kitchen Table block was removed on 2026-10-23.)
 
 ## Commands
 
-| Command                    | What it does                                                             |
-| -------------------------- | ------------------------------------------------------------------------ |
-| `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`    |
-| `npm run build:release`    | `build` as a release (`__RELEASE__`): no test-session chat on join       |
-| `npm run package`          | harvest_kitchen release as `dist/HarvestKitchen-<hash>.mcaddon`          |
-| `npm run docs:export`      | mod docs data for the docs site: `dist/docs/<modId>/` (not HTML)         |
-| `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)   |
-| `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders |
-| `npm run deploy -- --link` | symlink instead of copy (not picked up by the game, see below)           |
-| `npm run typecheck`        | `tsc` only                                                               |
-| `npm run lint`             | eslint (type-aware for pack scripts)                                     |
-| `npm run format`           | prettier write (`format:check` to verify)                                |
-| `npm test`                 | unit tests (`packs/*/tests/*.test.ts`, node:test; pure logic only)       |
-| `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet   |
-| `npm run posters`          | render recipe posters, regenerate the poster block, lint the posters     |
-| `npm run ghosts`           | regenerate the ghost-ingredient particle atlas and particle JSON         |
-| `npm run guide-ui`         | regenerate the Kitchen Guide's JSON UI book                              |
-| `npm run fx`               | regenerate the knife/spoon effect textures, animations and pot flipbooks |
-| `npm run uuid`             | print 5 fresh UUIDs (one new BP+RP+script pack needs exactly 5)          |
+| Command                    | What it does                                                                     |
+| -------------------------- | -------------------------------------------------------------------------------- |
+| `npm run build`            | type-check (tsc), check every pack `.json` parses, build into `dist/`            |
+| `npm run build:release`    | `build` as a release (`__RELEASE__`): no join chat, no `console.log`, no trailer |
+| `npm run package`          | harvest_kitchen release as `dist/HarvestKitchen-<hash>.mcaddon`                  |
+| `npm run docs:export`      | mod docs data for the docs site: `dist/docs/<modId>/` (not HTML)                 |
+| `npm run dev`              | watch `packs/` and rebuild on change (no type-check; refreshes copies)           |
+| `npm run deploy`           | copy `dist/*_BP` and `dist/*_RP` into the game's `development_*` folders         |
+| `npm run deploy -- --link` | symlink instead of copy (not picked up by the game, see below)                   |
+| `npm run typecheck`        | `tsc` only                                                                       |
+| `npm run lint`             | eslint (type-aware for pack scripts)                                             |
+| `npm run format`           | prettier write (`format:check` to verify)                                        |
+| `npm test`                 | unit tests (`packs/*/tests/*.test.ts`, node:test; pure logic only)               |
+| `npm run textures`         | regenerate Harvest Kitchen textures, lint them, write the review sheet           |
+| `npm run posters`          | render recipe posters, regenerate the poster block, lint the posters             |
+| `npm run ghosts`           | regenerate the ghost-ingredient particle atlas and particle JSON                 |
+| `npm run guide-ui`         | regenerate the Kitchen Guide's JSON UI book                                      |
+| `npm run fx`               | regenerate the knife/spoon effect textures, animations and pot flipbooks         |
+| `npm run trailer:edit`     | cut the trailer from recorded clips (`--music <file>`, `--dry-run`)              |
+| `npm run uuid`             | print 5 fresh UUIDs (one new BP+RP+script pack needs exactly 5)                  |
 
 Deploy once, then keep `npm run dev` running. It re-copies the deployed packs into the game after
 every rebuild, so after a rebuild you just run `/reload` in game. It reloads scripts and functions only. Changes to manifests,
@@ -153,7 +163,7 @@ BP JSON content, or resource packs need you to leave and re-enter the world.
   - A broken definition usually causes follow-on errors, such as recipe or `blocks.json` errors
     for the missing block. Fix the first one.
 - **Check which build is running:** operators see `Harvest Kitchen build <hash> <time>` in chat
-  on join (also in the Content Log and `/hk:debug validate`). Deploy only copies files; a world
+  on join (also in the Content Log and `/hk:debug validate`; release builds only in the latter). Deploy only copies files; a world
   keeps its scripts until you leave and re-enter (or `/reload`, scripts only).
 - Override with the `MC_GAME_DIR` env var.
 - **Copy, not symlink (verified 2026-10-21, game 1.26.52.3):** the game didn't pick up symlinked

@@ -188,7 +188,7 @@ whatever doesn't fit. There are three exceptions:
 
 ### CR11. The sweep re-parses every tracked station each 10 ticks (clear-fix, later)
 
-**Status: open, deferred to M4** (the 200-pot measurement).
+**Status: open, deferred to M4** (the 200-pot measurement). → B32, measured first in round 6 (`tests/round-6-release.md` steps 28–35).
 
 - **Where:** `stations/station-engine.ts:387` `sweepOne`.
 - **Scenario:** stations that are idle with leftovers, ready, or done stay tracked forever. Each
@@ -344,3 +344,114 @@ angle, fixed with one line.**
   - Permutation-level `minecraft:loot` and `transformation` follow vanilla (shelf mushroom).
   - Food items' `start_using`/`use_modifiers` follow vanilla's apple.
   - The pot is `immovable`, so pistons can't strand its data.
+
+## Release audit (2026-10-23)
+
+Audited against the working tree on top of `d1dd4a3` (branch `harvest-kitchen-mvp`). Scope:
+`packs/harvest_kitchen/scripts/` except `debug/`, `main.ts` and `trailer/`, plus the fx entity
+JSON. Five areas: multiplayer races, item duplication, chunk unload, `/reload`, and performance.
+APIs were checked in the pinned `@minecraft/server` 2.10.0 `.d.ts`.
+
+**Result:** no duplication path and no lost-item path in normal play. Three small fixes were
+applied (RA1–RA3, all **clear-fix**), plus one hardening (RA4). Six open points went to
+blockers.md B31–B36. Test: [`tests/round-6-release.md`](tests/round-6-release.md).
+
+### Fixes
+
+- **RA1. The sweep could spill a pot that was still there.**
+  - **Where:** `stations/station-engine.ts` `sweepOne` (was `:369`).
+  - **Problem:** it spilled whenever `stationBlock` returned `undefined`, and that covers two
+    cases: a different block, and no block read at all. The pinned `.d.ts` says
+    `Dimension.getBlock` returns `undefined` "if asking for a block at an unloaded chunk".
+    `isChunkLoaded` only promises "loaded (and valid for use with scripting)", while `getBlock`
+    throws for chunks that aren't "loaded and ticking". So a pot at the edge of the ticking area
+    could have its contents (and a running job) dropped next to it.
+  - **Fix:** the pure `stationPresence` (`station-logic.ts`) separates `here` / `gone` /
+    `unknown`, and only `gone` (a block that really is something else) spills.
+  - **Tests:** "the sweep finds the station gone" in `tests/station-logic.test.ts`.
+- **RA2. A held use button flickered the stove.**
+  - **Where:** `stations/stove.ts` `onPlayerInteract`.
+  - **Problem:** with no `isFirstEvent` on component events, each repeat of a held use (if the
+    game repeats, B13) would switch it again.
+  - **Fix:** `PressGate` in `lib/tick-gate.ts`, a debounce that remembers every attempt, so
+    repeats less than 8 ticks apart are one press. → B31.
+  - **Tests:** "press gate" in `tests/tick-gate.test.ts`.
+- **RA3. A held use button asked for a second choice form.**
+  - **Where:** `ui/pot-screen.ts` `openPotScreen`.
+  - **Problem:** repeats arriving before the form was up each called `form.show`, and the second
+    one was refused as busy with a `Close chat, then try again.` chat line.
+  - **Fix:** the same `PressGate`, per player. → B31.
+- **RA4. Hand-outs to a player who just left now drop instead of erroring.**
+  - **Where:** `lib/inventory.ts` `giveOrDrop`.
+  - **Problem:** on an invalid player, `getComponent` throws. `returnItems` catches that, so the
+    items were logged and lost, with the saved state already cleared.
+  - **Fix:** `giveOrDrop` drops everything at `dropAt` when `player.isValid` is false. Every
+    current caller checks `isValid` first, so this only guards future deferred paths.
+
+### Checked and fine
+
+- **Multiplayer:**
+  - Every pot action (`addFromHand`, `startCooking`, `collect`, `takeAll`, `spill`) reads the
+    saved state, decides, consumes the hand and saves in one synchronous call, so two players in
+    one tick are sequential. Sneak actions are deferred with `system.run`, and they re-read the
+    block (`refAt`) and the held item (`handleUse` → `getHeldItem`) when they run.
+  - The choice form re-validates after its `await` through `startCooking` (`It changed`,
+    `It's gone`).
+  - The guide's `await` loop changes nothing in the world (an action-bar hint and a sound, after
+    `isValid`).
+  - Discovery, the guide, the starter items and poster cycling read the acting player's own
+    properties.
+  - Sneak-chop runs one interval per player. Each chop takes from that player's hand first, and
+    the interval stops on leave (`playerLeave`), on a distance over 4, or when the board or the
+    held item changes.
+  - The cake, the bush pick and the stove act on the block's live state. Two players on the stove
+    in the same tick cancel out, like a lever.
+- **Item duplication:**
+  - Station hand-outs clear the saved state before giving (`save` then `returnItems`). `spill`
+    clears first too, and `onBreak` + `onPlayerBreak` spill once between them.
+  - A break while a form is open spills once; the form's tap then finds `gone`, or an empty pot
+    after a re-place (`resetPlaced`).
+  - The board consumes before it gives. `giveOrDrop` drops whatever doesn't fit.
+  - The cake has no loot.
+  - The poster drops one per break, deduplicated across both parts. A refund marks its parts so
+    they don't drop as well, and creative gets no refund because creative placement doesn't
+    consume. The one loss case is B33.
+- **Chunk unload:**
+  - The sweep checks `isChunkLoaded`, and now `getBlock` too (RA1). Stations in unloaded chunks
+    stay tracked and pause.
+  - Effect entities: one whose chunk unloads is forgotten (`entityRemove`, which the `.d.ts`
+    documents as firing on unload). The saved copy is removed on `entityLoad`, and a pot still
+    cooking spawns a fresh spoon (`removeStrays` clears a leftover on that block first). A board
+    left with `hk:chopping` true is fixed on its random tick or its next use.
+  - Station records only exist for stations with contents. `spill`, `takeAll`, `collect` and a
+    finished, collected pot delete them. A pot removed without an event is spilled by the sweep
+    once its chunk ticks. The add-on removed and re-added is covered in B34.
+- **`/reload`:**
+  - Every interval (sweep, ghosts, fx loop, sneak-chop) and every in-memory map (tracked
+    stations, fx registry, ghost hints, tick gates, poster and cake support checks) belongs to the
+    script instance, and `/reload` starts a new one.
+  - Persisted: station contents and job ticks, the fast flag, player discovery and first-join
+    flags, and block states. Lost on purpose: ghost hints (3 s), sneak-chop (stops) and pending
+    support checks (a removal in that same tick isn't re-checked).
+  - The fx cleanup runs on the first tick after a reload (`registerFx`'s `system.run`) and on
+    `worldLoad`. Nothing subscribes twice: every subscription is made once, at top level.
+- **Performance:**
+  - Intervals: the sweep every 10 ticks over tracked stations only, ghosts every 10 ticks, the fx
+    loop every 5 ticks and only while effects exist, sneak-chop every 6 ticks per chopping player.
+    No per-block `onTick`.
+  - `getEntities` runs only at world load and reload (`cleanupAll`, per type) and per effect spawn
+    (`removeStrays`, 0.75 blocks).
+  - Caps: effects `FX_CAPS` (B35), ghosts 48 emitters per update and 2 pots per player.
+  - Dynamic properties: about 150 characters per station with contents, plus a short crop list per
+    player.
+  - The sweep cost at scale is B32.
+
+### Not changed, noted
+
+- `resetPlaced` discards stale saved contents when a pot is placed where one vanished without an
+  event within the last sweep (for example `/setblock` and then an immediate re-place). It loses
+  them rather than spilling them; this is a command-only edge, so it's left as is.
+- `entitySpawn` and `entityLoad` have no type filter in 2.10.0, so their callbacks run for every
+  entity (item drops included). The check is a single string compare.
+- `/hk:debug` (agent A, release build) is out of this audit's scope. slice.md's "/hk:debug"
+  section still says `GameDirectors`, and agent A's change makes it `Admin`.

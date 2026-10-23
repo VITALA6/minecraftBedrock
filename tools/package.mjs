@@ -37,6 +37,21 @@ function collect(base, folders) {
   return entries.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 }
 
+// What must never ship: sources and source maps, notes, test files and deploy markers. The build
+// only copies behavior/ and resource/ and bundles scripts/main.ts, so none of this should reach
+// dist/; this guards against a stray file dropped into a pack folder.
+const FORBIDDEN = [
+  /\.(ts|mts|map|md|mjs|bbmodel)$/i,
+  /(^|\/)\.deployed-from-repo$/,
+  /(^|\/)(tests?|docs)\//,
+];
+
+/** Throws if any entry is a file that doesn't belong in a release. */
+function checkEntries(entries) {
+  const bad = entries.filter((e) => FORBIDDEN.some((re) => re.test(e.name))).map((e) => e.name);
+  if (bad.length > 0) throw new Error(`not for release: ${bad.join(", ")}`);
+}
+
 /** A zip archive of `entries` (no zip64: throws past 4 GiB or 65535 entries). */
 function zip(entries) {
   const locals = [];
@@ -99,6 +114,7 @@ async function main() {
   const hash = gitHash();
   await buildPack(PACK, { release: true, hash });
   const entries = collect(DIST_DIR, FOLDERS);
+  checkEntries(entries);
   const out = path.join(DIST_DIR, `${NAME}-${hash.replace("+", "-dirty")}.mcaddon`);
   const bytes = zip(entries);
   writeFileSync(out, bytes);

@@ -1,0 +1,79 @@
+{
+  "$comment": "Edit list for tools/edit-trailer.mjs (format in its header). Scene names are the in-game scenes in packs/harvest_kitchen/scripts/trailer/scenes.ts; in/out are seconds of scene time (0 = the shot's first frame, the scene's duration = its last). Crossfades are centred on the cut and eat into the half-second handles each take records before and after the shot, so a cut's length is the sum of out - in.",
+  "productName": "Harvest Kitchen",
+  "storeLine": "[STORE / DOWNLOAD LINE]",
+  "cuts": [
+    {
+      "id": "full",
+      "output": "harvest-kitchen-trailer.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "xfade": 0.4,
+      "target": 48,
+      "requireAll": true,
+      "captionStyle": "lower",
+      "endCard": { "seconds": 2.5, "hold": 0 },
+      "musicFadeOut": 2.5,
+      "shots": [
+        { "scene": "farm" },
+        { "scene": "seeds" },
+        { "scene": "grow", "caption": "Grow" },
+        { "scene": "berries" },
+        { "scene": "chop", "caption": "Chop" },
+        { "scene": "cook", "caption": "Cook" },
+        { "scene": "simmer" },
+        { "scene": "serve" },
+        { "scene": "guide" },
+        { "scene": "lava", "caption": "Food with powers" },
+        { "scene": "jam" },
+        { "scene": "cake", "caption": "Share with friends" },
+        { "scene": "finale" }
+      ]
+    },
+    {
+      "id": "30s",
+      "output": "harvest-kitchen-trailer-30s.mp4",
+      "width": 1920,
+      "height": 1080,
+      "fps": 60,
+      "xfade": 0.4,
+      "target": 30,
+      "captionStyle": "lower",
+      "endCard": { "seconds": 2.5, "hold": 0 },
+      "musicFadeOut": 2,
+      "shots": [
+        { "scene": "farm", "out": 3.5 },
+        { "scene": "grow", "out": 3.5, "caption": "Grow" },
+        { "scene": "chop", "out": 3.5, "caption": "Chop" },
+        { "scene": "cook", "caption": "Cook" },
+        { "scene": "simmer" },
+        { "scene": "serve", "out": 2.5 },
+        { "scene": "lava", "out": 3.5, "caption": "Food with powers" },
+        { "scene": "cake", "out": 4, "caption": "Share with friends" },
+        { "scene": "finale", "in": 0.5 }
+      ]
+    },
+    {
+      "id": "vertical",
+      "output": "harvest-kitchen-vertical-15s.mp4",
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "xfade": 0.2,
+      "target": 15,
+      "frame": "crop",
+      "captionStyle": "big",
+      "endCard": { "seconds": 2.2, "hold": 0 },
+      "musicFadeOut": 1.5,
+      "shots": [
+        { "scene": "grow", "in": 0.8, "out": 3.4, "caption": "Grow" },
+        { "scene": "chop", "out": 2.6, "caption": "Chop" },
+        { "scene": "cook", "out": 2.4, "caption": "Cook" },
+        { "scene": "lava", "in": 1.6, "out": 4, "caption": "Food with powers" },
+        { "scene": "cake", "in": 1, "out": 3.6, "caption": "Share with friends" },
+        { "scene": "finale", "in": 1.6 }
+      ]
+    }
+  ]
+}

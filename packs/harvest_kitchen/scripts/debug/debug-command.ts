@@ -2,6 +2,7 @@ import {
   BlockPermutation,
   CommandPermissionLevel,
   CustomCommandParamType,
+  CustomCommandSource,
   CustomCommandStatus,
   ItemStack,
   Player,
@@ -191,47 +192,64 @@ function run(player: Player, action: Action): void {
   }
 }
 
+/** An operator: anyone above the default member level ("Any"). Readable in restricted mode. */
+function isOperator(player: Player): boolean {
+  return player.commandPermissionLevel >= CommandPermissionLevel.GameDirectors;
+}
+
+// Registered in every build, release included: it's how an operator checks a world (build id,
+// data check, station state). Two gates keep it operator-only:
+//   1. permissionLevel Admin: "any operator, but NOT command blocks" (the pinned .d.ts), so the
+//      game itself refuses members and command blocks before the callback runs.
+//   2. The callback re-checks the source: only a player running it directly (sourceType Entity,
+//      not Block, NPCDialogue or Server), and that player must be an operator, again inside the
+//      deferred run in case their level changed. A source that runs it as someone else
+//      (`/execute as`) is held to that entity's level too.
 export function registerDebugCommand(registry: CustomCommandRegistry): void {
   registry.registerEnum(ACTION_ENUM, [...ACTIONS]);
   registry.registerCommand(
     {
       name: COMMAND,
       description: "Harvest Kitchen test helpers (kit, grow, fast, pot, validate, reset, fx).",
-      permissionLevel: CommandPermissionLevel.GameDirectors,
+      permissionLevel: CommandPermissionLevel.Admin,
       // Operator-only already; works in worlds without cheats so test sessions need no setup.
       cheatsRequired: false,
       mandatoryParameters: [{ name: ACTION_ENUM, type: CustomCommandParamType.Enum }],
     },
     (origin, action: unknown) => {
       const player = origin.sourceEntity;
-      if (!(player instanceof Player)) {
+      if (origin.sourceType !== CustomCommandSource.Entity || !(player instanceof Player)) {
         return { status: CustomCommandStatus.Failure, message: "Run this as a player." };
+      }
+      if (!isOperator(player)) {
+        return { status: CustomCommandStatus.Failure, message: "Operators only." };
       }
       if (!isAction(action)) {
         return { status: CustomCommandStatus.Failure, message: `Use: ${ACTIONS.join(" | ")}` };
       }
       system.run(() => {
-        if (player.isValid) run(player, action);
+        if (player.isValid && isOperator(player)) run(player, action);
       });
       return { status: CustomCommandStatus.Success };
     },
   );
 }
 
-/** Chat on join is for test sessions only: release builds (npm run build:release) send none. */
-function isTester(player: Player): boolean {
-  return !__RELEASE__ && player.commandPermissionLevel >= CommandPermissionLevel.GameDirectors;
-}
+// Chat on join is for test sessions only: release builds (npm run build:release) send none.
+// Each function tests __RELEASE__ itself (not through a helper) so the release bundle compiles
+// its body away; esbuild doesn't inline function calls.
 
 /** Operators see the running build on join (deploy only takes effect after re-entering). */
 export function announceBuild(player: Player): void {
-  if (isTester(player)) player.sendMessage(t("hk.debug.build", __BUILD_ID__));
+  if (__RELEASE__) return;
+  if (isOperator(player)) player.sendMessage(t("hk.debug.build", __BUILD_ID__));
 }
 
 /** Tells an operator on join if the data check found problems (the log file may have lost it). */
 export function announceProblems(player: Player): void {
+  if (__RELEASE__) return;
   const count = lastValidation().length;
-  if (count === 0 || !isTester(player)) return;
+  if (count === 0 || !isOperator(player)) return;
   const message: RawMessage = t("hk.debug.problems", count);
   player.sendMessage(message);
 }

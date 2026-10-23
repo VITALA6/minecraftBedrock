@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { POSTER_USE_GAP_TICKS, SLICE_BITE_GAP_TICKS } from "../scripts/config";
-import { TickGate } from "../scripts/lib/tick-gate";
+import {
+  POSTER_USE_GAP_TICKS,
+  POT_FORM_PRESS_GAP_TICKS,
+  SLICE_BITE_GAP_TICKS,
+  STOVE_PRESS_GAP_TICKS,
+} from "../scripts/config";
+import { PressGate, TickGate } from "../scripts/lib/tick-gate";
 
 describe("tick gate (poster use, cake bites CR7)", () => {
   it("lets the first action through", () => {
@@ -42,5 +47,39 @@ describe("tick gate (poster use, cake bites CR7)", () => {
 
   it("the poster gap is short enough never to block a deliberate second sneak + use", () => {
     assert.ok(POSTER_USE_GAP_TICKS >= 1 && POSTER_USE_GAP_TICKS <= 10);
+  });
+});
+
+describe("press gate (stove switch, pot choice form)", () => {
+  it("lets the first press through", () => {
+    assert.equal(new PressGate(8).press("a", 0), true);
+  });
+
+  it("a held button acts once, however long it's held", () => {
+    const gate = new PressGate(STOVE_PRESS_GAP_TICKS);
+    // Holding use for 5 s, if the game repeats the interaction every 4 ticks:
+    let switches = 0;
+    for (let tick = 0; tick < 100; tick += 4) if (gate.press("p", tick)) switches++;
+    assert.equal(switches, 1);
+  });
+
+  it("the next press after a pause acts again", () => {
+    const gate = new PressGate(8);
+    gate.press("p", 0);
+    gate.press("p", 4); // a repeat
+    assert.equal(gate.press("p", 11), false, "only 7 ticks after the last repeat");
+    assert.equal(gate.press("p", 30), true);
+  });
+
+  it("keys are independent: two players switch the same stove", () => {
+    const gate = new PressGate(8);
+    assert.equal(gate.press("steve", 0), true);
+    assert.equal(gate.press("alex", 0), true);
+  });
+
+  it("the gaps are short enough never to swallow a deliberate second click", () => {
+    for (const gap of [STOVE_PRESS_GAP_TICKS, POT_FORM_PRESS_GAP_TICKS]) {
+      assert.ok(gap >= 5 && gap <= 10, `${gap} ticks`);
+    }
   });
 });

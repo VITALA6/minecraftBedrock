@@ -588,12 +588,15 @@ function dish(ctx: GuideContext, at: GuidePage & { kind: "dish" }): PageModel {
   });
 
   // Footer: the ingredients by name (touch has no tooltips), or where to find what's missing.
+  // A count of 1 is left out, as on vanilla stacks: the 3-line footer is tight in de/pl/fr.
   if (known) {
     page.text(
       BOOK.footer,
       joined(
         steps.grid.map((ingredient) =>
-          tr("hk.ui.item_count", ingredient.count, ingredientName(ctx, ingredient)),
+          ingredient.count === 1
+            ? ingredientName(ctx, ingredient)
+            : tr("hk.ui.item_count", ingredient.count, ingredientName(ctx, ingredient)),
         ),
       ),
     );

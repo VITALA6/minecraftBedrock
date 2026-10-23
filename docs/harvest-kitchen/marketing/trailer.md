@@ -89,6 +89,58 @@ Notes:
 - [B2] works: optional insert in shot 5 or 6 showing sneak + use with a whole stack. It's not in
   the main list because it's unproven.
 
+## In-game scenes
+
+Added 2026-10-23. Every shot above has a scripted scene in dev builds:
+`/scriptevent hk:trailer <scene>` sets the time and weather, stages blocks, puts your player on
+their mark with the right items, hides the HUD and flies the camera (`Camera.setCamera` with
+eases). Data in `packs/harvest_kitchen/scripts/trailer/scenes.ts`, how to record in
+`recording-guide.md`, the edit in `trailer-edit.json` (cut by `tools/edit-trailer.mjs`).
+Each take is preroll, a black marker, a 0.5 s handle, the shot, a 0.5 s handle and a black marker;
+the edit tool finds the shot by the marker.
+
+The set is built once with `hk:trailer anchor` (stand at its origin, **face east**) and
+`hk:trailer stage`. It clears an area of about 24 × 25 blocks around the anchor first.
+
+| #   | Scene     | Camera                                     | You do                                         |
+| --- | --------- | ------------------------------------------ | ---------------------------------------------- |
+| 1   | `farm`    | push-in over the rows, FOV 80, sunrise     | nothing (parked out of frame)                  |
+| 2   | `seeds`   | over the shoulder, static                  | break grass until seeds drop                   |
+| 3   | `grow`    | ground level beside one crop, static       | nothing: the scene plants and grows the tomato |
+| 4   | `berries` | slight high angle, sideways drift          | use the strawberry bush                        |
+| 5   | `chop`    | 45° above the board, FOV 60                | tomato on the board, then onion                |
+| 6   | `cook`    | eye level, pot centred, static             | two Tomato Soup Mixes into the pot             |
+| 7   | `simmer`  | same framing, slow push-in                 | empty hand on the ready pot: cooking starts    |
+| 8   | `serve`   | first person (your own view, hand visible) | take the soup when it dings                    |
+| 9   | `guide`   | first person, HUD on                       | Kitchen Guide → "What can I make?" → a dish    |
+| 10  | `lava`    | over the shoulder, cut to a side view      | eat Chili Stew, walk across the lava           |
+| 11  | `jam`     | low side view, pans and tracks             | eat the jam, sprint when the camera moves      |
+| 12  | `cake`    | slow 90° orbit, slightly high, sunset      | eat a slice every ~2 s                         |
+| 13  | `finale`  | pull back and rise, sunset, FOV 80         | nothing; the end card comes in the edit        |
+
+**Where the scenes differ from the shot text** (the pack changed after this plan was written):
+
+- **Shot 3:** a scripted re-enactment. The scene sets the crop's stages itself, with the bone meal
+  sound and the growth particle, so the player stays out of frame.
+- **Shot 6 (D16):** the pot cooks a mix, not raw tomatoes. The player drops two Tomato Soup Mixes
+  (2 tomatoes + a bowl on the vanilla crafting table each). The scene places a fresh, empty pot.
+- **Shot 7:** there's no lid while cooking. The lid only shows when cooking pauses for lack of
+  heat. The shot is "ready" (glint, chime), then an empty-hand use starts cooking: the lid sound,
+  steam and the glowing rim.
+- **Shot 8:** no lid comes off. "Done" is the bell, and one use collects the dish.
+- **Shot 9:** the Recipe Book is now the **Kitchen Guide**, an item (D19). Its "What can I make?"
+  spread lists what your inventory can make; give yourself only a few ingredients first.
+- **30 s cut:** dropping shots 2, 4, 9 and 11 and trimming 12 to 4 s leaves 33 s, not 30. The edit
+  also trims shots 1, 3, 5, 10 and 13 by 0.5 s each and shot 8 to 2.5 s.
+- **15 s vertical cut (Shorts/TikTok):** grow, chop, cook, lava, cake, finale, centre-cropped to
+  9:16 with large captions.
+- **Captions:** "Share with friends" is still flagged [MP]. Drop it from `trailer-edit.json` until
+  multiplayer is checked.
+
+Screenshots: `hk:trailer still <1-8>` holds a still camera (no movement, HUD hidden, except 5,
+which needs the UI) for each screenshot below, until `hk:trailer stop`. Item frames for
+screenshot 6 go on the staged wall by hand.
+
 ## Screenshots (8)
 
 Sizes, count limits, and whether UI or text is allowed in store screenshots: per publisher spec

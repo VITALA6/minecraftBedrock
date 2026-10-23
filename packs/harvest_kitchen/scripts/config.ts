@@ -127,6 +127,8 @@ export const GUIDE_OPEN_GAP_TICKS = 10; // one Kitchen Guide per click, even if 
 export const POSTER_SYNC_RETRY_TICKS = 20; // a part placed late (chunk edge) is synced once more
 export const SLICE_BITE_GAP_TICKS = 10; // a held use button eats at most 2 slices per second
 export const PISTON_SETTLE_TICKS = 3; // a pushed block lands ~2 ticks after the piston fires
+export const STOVE_PRESS_GAP_TICKS = 8; // one stove switch per press, even if a held use repeats
+export const POT_FORM_PRESS_GAP_TICKS = 8; // one choice form per press (a held use repeats)
 
 export const DEBUG_GROW_RADIUS = 8; // /hk:debug grow
 

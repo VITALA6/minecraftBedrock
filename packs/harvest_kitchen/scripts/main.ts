@@ -20,6 +20,7 @@ import { registerContainerStation, registerStationEvents } from "./stations/cont
 import { registerCuttingBoard, registerCuttingBoardEvents } from "./stations/cutting-board";
 import { startStationSweep } from "./stations/station-engine";
 import { registerStove } from "./stations/stove";
+import { registerTrailer } from "./trailer/trailer";
 
 // Custom components and commands can only be registered during startup.
 system.beforeEvents.startup.subscribe(
@@ -61,3 +62,5 @@ registerDishSupport();
 registerPosterEvents();
 registerPosterSupport();
 registerFx();
+// Trailer camera scenes (/scriptevent hk:trailer): test builds only, compiled out of releases.
+if (!__RELEASE__) registerTrailer();

@@ -33,9 +33,10 @@ free-form tags field, so categories are the tags on CurseForge.
 - Leave out Multiplayer until the multiplayer test session (plan.md, M4) has passed.
 
 **Summary limit.** CurseForge describes the summary as "a short blurb" shown in search results, but
-neither its support pages nor its moderation blog give a character limit. **TO VERIFY:** read the
-counter on the summary field in the Authors Console. The summary below is 132 characters, kept
-under 150 as a safe target.
+neither its support pages nor its moderation blog give a character limit. **TO VERIFY (still open,
+rechecked 2026-10-24):** read the counter on the summary field in the Authors Console. The
+Moderation Policies only say "preferably no longer than 1 sentence" and not a copy of the
+description. The summary below is 132 characters, kept under 150 as a safe target.
 
 ## Summary
 
@@ -47,10 +48,11 @@ pot over a fire. No experiments needed."
 
 ## Description
 
-Paste everything between the two rules below. **TO VERIFY:** whether the CurseForge editor for
-Bedrock projects accepts Markdown. MCPEDL's upload guide says the CurseForge description is HTML.
-If there's no Markdown option, paste it into the editor's visual mode, or convert it to HTML
-first.
+Paste everything between the two rules below. **Verified 2026-10-24:** the CurseForge editor has
+two modes, WYSIWYG (the default) and Markdown ("Project Submission Guide and Tips"). Switch it to
+Markdown before you paste. MCPEDL receives the rendered HTML, which is why its upload guide talks
+about HTML. If the Markdown option is missing for Bedrock, paste into WYSIWYG from a rendered
+Markdown preview instead.
 
 ---
 
@@ -112,7 +114,7 @@ one from a book and a carrot.
     time.
 - **Effects by colour.** 16 of the 18 dishes give an effect, and its colour tells you what kind:
   red heals you (Regeneration, Absorption, Health Boost), blue moves you (Speed, Jump Boost, Slow
-  Falling), yellow digs faster (Haste), green helps you explore (Night Vision, Water Breathing,
+  Falling), yellow speeds up digging (Haste), green helps you explore (Night Vision, Water Breathing,
   Fire Resistance). The two sandwiches are plain filling food.
 - **Nothing goes to waste:** bowl dishes give the bowl back, the jam gives its bottle back, and the
   skewer gives its stick back.
@@ -246,10 +248,11 @@ Paste this into the file's changelog field when you upload the `.mcaddon`. The f
 > - Eight kitchen decor blocks.
 > - English, Ukrainian, Polish, German, Spanish, Brazilian Portuguese, French and Russian.
 
-**File details.** Game version: 1.26.50 or newer. Release type: Release. **TO VERIFY:** CurseForge's
-support article says uploaded files must be `.zip` archives. Check whether the Bedrock upload
-accepts the `.mcaddon` from `npm run package` as it is (many Bedrock projects offer `.mcaddon`
-downloads), or whether it needs a `.zip` around it.
+**File details.** Game version: 1.26.50 or newer (the CurseForge picker labels it `26.50`).
+Release type: Release. **Verified 2026-10-24:** upload the `.mcaddon` from `npm run package` as
+it is, without a `.zip` around it. The support article's ".zip" rule is for "most games"; Bedrock
+projects on CurseForge ship `.mcaddon` files (Verity, Ores Booster), and CurseForge's own Bedrock
+install guide names `.mcaddon` and `.mcpack` as the formats.
 
 ## Sources checked
 
@@ -258,3 +261,10 @@ downloads), or whether it needs a `.zip` around it.
   (fields, up to 4 additional categories, English titles and descriptions)
 - https://blog.curseforge.com/how-to-pass-moderation-review-on-curseforge-2/ (summary, logo,
   description and links guidance; no numeric limits)
+- https://support.curseforge.com/support/solutions/articles/9000199552 (Project Submission Guide
+  and Tips: WYSIWYG or Markdown editor, logo at least 400x400 PNG; 2026-10-24)
+- https://support.curseforge.com/support/solutions/articles/9000197279-moderation-policies
+  (avatar 400x400, no WebP; summary one sentence; no external download links; 2026-10-24)
+- https://blog.curseforge.com/how-to-install-add-ons-in-minecraft-bedrock/ (`.mcaddon` and
+  `.mcpack`, 2026-04-29) and https://www.curseforge.com/minecraft-bedrock/addons/verity-bedrock-edition/files
+  (`.mcaddon` files, versions labelled `26.50`; 2026-10-24)

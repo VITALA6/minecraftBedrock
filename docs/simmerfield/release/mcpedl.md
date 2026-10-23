@@ -29,10 +29,11 @@ synced to MCPEDL. What it asks for:
 The Author Rewards Program toggle and 2FA on CurseForge are part of the same guide; they're
 optional for the listing itself.
 
-**TO VERIFY:** whether mcpedl.com still accepts a direct upload outside the CurseForge sync, and
-what that form asks for. The fields below match what a published mcpedl.com project page shows
-(Description, Latest Changes, Installation, Downloads, Supported Minecraft Versions, Tags), so the
-text works either way.
+**Verified 2026-10-24: no direct upload.** CurseForge's "How to host MCPEDL projects on
+CurseForge" (https://blog.curseforge.com/how-to-host-mcpedl-projects-on-curseforge/) says that
+since 30 April 2025 new projects and updates go "only ... via the CurseForge Authors Console".
+The fields below match what a published mcpedl.com project page shows (Description, Latest
+Changes, Installation, Downloads, Supported Minecraft Versions, Tags); keep them as a reference.
 
 Notes from MCPEDL's moderation guidelines (https://mcpedl.com/moderation-guidelines/):
 
@@ -44,8 +45,9 @@ Notes from MCPEDL's moderation guidelines (https://mcpedl.com/moderation-guideli
   these rules and never lead to an error page. With the CurseForge sync this doesn't apply, since
   the downloads come from CurseForge.
 - A feedback channel (bug reports, ideas) is strongly recommended.
-- **TO VERIFY:** neither page gives a minimum description length, a screenshot count or a tag
-  list. (mcpedl.org, a different site, asks for 3 to 6 screenshots; that is not mcpedl.com.)
+- **TO VERIFY (still open, rechecked 2026-10-24):** neither page gives a minimum description
+  length or a screenshot count. (mcpedl.org, a different site, asks for 3 to 6 screenshots; that
+  is not mcpedl.com.) Tags are answered below: they come from the CurseForge categories.
 
 Owner still needs a **720x340 thumbnail** (the 400x400 `logo-400.png` is the avatar, not the
 thumbnail).
@@ -117,7 +119,7 @@ from a book and a carrot.
   Soup, Strawberry Jam, Stuffed Eggplant, Ratatouille and Eggplant Curry.
 - Made on the crafting table: Garden Salad, Salsa, Veggie Sandwich, Hearty Sandwich, Strawberry
   Cup, Eggplant Salad, Veggie Skewer, and a Strawberry Cake you place and eat one slice at a time.
-- Effects by colour: red heals you, blue moves you, yellow digs faster, green helps you explore.
+- Effects by colour: red heals you, blue moves you, yellow speeds up digging, green helps you explore.
   16 of the 18 dishes give an effect; the two sandwiches are plain filling food.
 - Bowl dishes give the bowl back, the jam gives its bottle back, and the skewer gives its stick
   back.
@@ -181,8 +183,11 @@ you. Leave it on, and play.
 
 ## Supported Minecraft versions
 
-1.26.50 and newer (the `min_engine_version` in both manifests). **TO VERIFY:** MCPEDL's version
-picker may only list release lines such as "1.26"; pick the one that covers 1.26.50.
+1.26.50 and newer (the `min_engine_version` in both manifests). **Checked 2026-10-24:** there is
+no MCPEDL version picker for synced projects. The post shows versions taken from the CurseForge
+files (a synced post, mcpedl.com/ores-booster, shows "26.30", one of the four versions on its
+CurseForge files; which one MCPEDL picks isn't documented). Pick `26.50` in the CurseForge
+upload form.
 
 ## Downloads
 
@@ -193,8 +198,9 @@ link a direct download that meets the host rules above.
 
 ## Tags
 
-**TO VERIFY:** MCPEDL's tag list wasn't reachable without logging in. Suggested, if they exist
-there: Addons (category), Food, Farming, Survival, Crops, Cooking. Use only tags the form offers.
+**Checked 2026-10-24:** synced posts take their tags from the CurseForge categories (on
+mcpedl.com/ores-booster the tags are exactly the CurseForge project's four categories). There is
+nothing to fill in on MCPEDL: the tags will be Food, Survival and Vanilla+ from `curseforge.md`.
 
 ## Changelog (Latest Changes)
 
@@ -206,3 +212,7 @@ the Kitchen Guide and Recipe Poster, eight kitchen decor blocks, eight languages
 - https://mcpedl.com/cf-reward-program/ (Uploading to MCPEDL, read 2026-10-23)
 - https://mcpedl.com/moderation-guidelines/ (read 2026-10-23)
 - A published mcpedl.com project page, for the section names
+- https://blog.curseforge.com/how-to-host-mcpedl-projects-on-curseforge/ (CurseForge-only
+  uploads since 2025-04-30; read 2026-10-24)
+- https://mcpedl.com/ores-booster/ and https://www.curseforge.com/minecraft-bedrock/addons/ores-booster
+  (a synced project: same slug, tags = CurseForge categories; read 2026-10-24)

@@ -32,8 +32,8 @@ sources are at the bottom.
    `simmerfield_BP`/`simmerfield_RP` folders in `development_behavior_packs/` and
    `development_resource_packs/` (otherwise the game may load those instead). Double-click the
    `.mcaddon`; expect two "Successfully imported" messages. Make a new world, activate
-   **Simmerfield BP**, check the RP comes along, and play the five "How to start" steps from the
-   description. `/wm_kitchen:debug validate` must show the same hash as the file name.
+   **Simmerfield**, check that **Simmerfield Resources** comes along, and play the five "How to
+   start" steps from the description. `/wm_kitchen:debug validate` must show the same hash as the file name.
 7. **[YOU] Record media.** Shot list: `docs/simmerfield/marketing/trailer.md` (update it first:
    mixes go into the pot, the book is the Kitchen Guide) and `recording-guide.md`. Needed:
    - 9 screenshots (`TODO-shot-*.png` in `curseforge.md`), PNG or JPG;

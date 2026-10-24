@@ -171,8 +171,8 @@ You need **Minecraft Bedrock Edition 1.26.50 or newer**. No experiments are need
 **Turn it on for a world:**
 
 1. Create a new world, or open the settings of a world you already have.
-2. Go to **Behavior Packs**, find **Simmerfield BP** under Available and tap **Activate**.
-3. The resource pack (**Simmerfield RP**) is added for you, because the behavior pack depends
+2. Go to **Behavior Packs**, find **Simmerfield** under Available and tap **Activate**.
+3. The resource pack (**Simmerfield Resources**) is added for you, because the behavior pack depends
    on it. Leave it on.
 4. Play. You don't need to turn on any experiments.
 

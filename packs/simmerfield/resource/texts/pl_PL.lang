@@ -1,5 +1,5 @@
-pack.name=Simmerfield RP
-pack.description=Tekstury, modele i nazwy dla Simmerfield.
+pack.name=Simmerfield Resources
+pack.description=Uprawa i gotowanie od Wendermods
 
 ## Produce, seeds, prepared ingredients
 item.wm_kitchen:tomato.name=Pomidor

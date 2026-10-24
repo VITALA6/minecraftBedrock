@@ -137,7 +137,7 @@ describe("shipped names", () => {
     const release = sources.find(([where]) => where.endsWith("(release)"))?.[1] ?? "";
     assert.ok(release.includes('"wm_kitchen:tomato"'), "release bundle");
     const lang = readFileSync(`${PACK}/resource/texts/en_US.lang`, "utf8");
-    assert.match(lang, /^pack\.name=Simmerfield RP$/m);
+    assert.match(lang, /^pack\.name=Simmerfield Resources$/m);
     assert.match(lang, /^wm_kitchen\.guide\.title=/m);
     assert.ok(shipped.some((file) => file.includes("textures/wm_kitchen/items/")));
     const ui = readFileSync(`${PACK}/resource/ui/server_form.json`, "utf8");
@@ -164,5 +164,29 @@ describe("license", () => {
     const [missing, fromStub] = run.stdout.split("\n").map((line) => JSON.parse(line) as string[]);
     assert.deepEqual(missing, []);
     assert.equal(fromStub?.length, 7, "the check finds a missing term");
+  });
+});
+
+// What the game's pack list shows: the names (the brand, in every language), a one-line
+// description, and the icon (tools/make-logo.mjs writes it from the logo; --check here).
+describe("pack list entry", () => {
+  const LANGS = ["en_US", "de_DE", "es_ES", "fr_FR", "pl_PL", "pt_BR", "ru_RU", "uk_UA"];
+  const NAMES = { behavior: "Simmerfield", resource: "Simmerfield Resources" };
+
+  for (const [side, name] of Object.entries(NAMES)) {
+    it(`${side}: pack.name is "${name}" and pack.description one short line, in all 8 languages`, () => {
+      for (const lang of LANGS) {
+        const text = readFileSync(`${PACK}/${side}/texts/${lang}.lang`, "utf8");
+        assert.match(text, new RegExp(`^pack\\.name=${name}$`, "m"), `${side} ${lang}`);
+        const description = /^pack\.description=(.*)$/m.exec(text)?.[1] ?? "";
+        assert.ok(description.includes("Wendermods"), `${side} ${lang}: ${description}`);
+        assert.ok(description.length <= 48, `${side} ${lang}: too long for one line`);
+      }
+    });
+  }
+
+  it("both pack icons are the logo at half size (tools/make-logo.mjs --check)", () => {
+    const run = spawnSync("node", ["tools/make-logo.mjs", "--check"], { encoding: "utf8" });
+    assert.equal(run.status, 0, run.stdout + run.stderr);
   });
 });

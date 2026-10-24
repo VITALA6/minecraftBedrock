@@ -60,5 +60,6 @@ marked **TO VERIFY** in the files.
   - [ ] multiplayer, before you add the Multiplayer category or any "share with friends" text.
 - [ ] **Languages:** the description lists eight. Make sure all seven translations are in
       `resource/texts/` and `languages.json` before you upload.
-- [ ] **Pack names:** the install steps say "Simmerfield BP" and "Simmerfield RP", the current
-      `pack.name` values. Update the steps if those change.
+- [x] **Pack names:** the behavior pack is "Simmerfield" and the resource pack "Simmerfield
+      Resources" (`pack.name`, the same in all 8 languages; 2026-10-24), and the install steps say
+      so. Both packs' icon is the logo at half size (`tools/make-logo.mjs`).

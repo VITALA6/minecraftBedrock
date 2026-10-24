@@ -1,8 +1,9 @@
-// Writes the 400×400 project logo for CurseForge and MCPEDL:
+// Writes the 400×400 project logo for CurseForge and MCPEDL, and the same art as both packs' icon:
 //   docs/simmerfield/release/logo-400.png
+//   packs/simmerfield/{behavior,resource}/pack_icon.png   200×200, the logo at exactly half size
 //
-//   node tools/make-logo.mjs           write the PNG
-//   node tools/make-logo.mjs --check   exit 1 if the PNG differs from what it would write
+//   node tools/make-logo.mjs           write the PNGs
+//   node tools/make-logo.mjs --check   exit 1 if a PNG differs from what it would write
 //
 // Built only from our own 16×16 art: the pack's item textures (packs/simmerfield/resource/
 // textures/wm_kitchen/items/) and the campfire the recipe posters use (art/simmerfield/generated/
@@ -14,6 +15,10 @@
 // rays behind the pot and a band of tilled soil with a grass edge at the bottom. Colours are
 // fixed hex values below. Checked for legibility scaled down to 64 px.
 //
+// The pack icon is the logo with every other pixel: every position, scale and the background grid
+// are even, so halving loses nothing (the pot ×7, the small icons ×4). The game's pack list shows
+// it at about 64 px, like its own 64×64 icons.
+//
 // Deterministic: the same textures give a byte-identical PNG.
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -24,6 +29,9 @@ import { ROOT } from "./paths.mjs";
 const ITEMS = path.join(ROOT, "packs/simmerfield/resource/textures/wm_kitchen/items");
 const INGREDIENTS = path.join(ROOT, "art/simmerfield/generated/ingredients");
 const OUT = path.join(ROOT, "docs/simmerfield/release/logo-400.png");
+const PACK_ICONS = ["behavior", "resource"].map((side) =>
+  path.join(ROOT, "packs/simmerfield", side, "pack_icon.png"),
+);
 
 const SIZE = 400;
 const CELL = 8; // background grid and the small icons' texel size
@@ -112,20 +120,47 @@ function render() {
     blit(im, icon, scale, x + dx, y + dy, COLOURS.shadow, alpha);
     blit(im, icon, scale, x, y);
   }
-  return encodePng(im);
+  return im;
 }
 
-const png = render();
-if (process.argv.includes("--check")) {
-  let same;
-  try {
-    same = readFileSync(OUT).equals(png);
-  } catch {
-    same = false; // no logo yet
-  }
-  console.log(`[make-logo] ${path.relative(ROOT, OUT)} ${same ? "up to date" : "differs"}`);
-  process.exit(same ? 0 : 1);
+/** `im` at half size, nearest-neighbour; throws if anything isn't on the 2 px grid. */
+function half(im) {
+  const w = im.w / 2;
+  const out = { w, h: im.h / 2, px: new Uint8Array(w * (im.h / 2) * 4) };
+  for (let y = 0; y < im.h; y++)
+    for (let x = 0; x < im.w; x++) {
+      const s = (y * im.w + x) * 4;
+      const d = ((y >> 1) * w + (x >> 1)) * 4;
+      if (x % 2 === 0 && y % 2 === 0) out.px.set(im.px.subarray(s, s + 4), d);
+      else if (im.px.subarray(s, s + 4).some((v, k) => v !== out.px[d + k]))
+        throw new Error(
+          `logo pixel (${x}, ${y}) isn't on the 2 px grid: the pack icon would lose it`,
+        );
+    }
+  return out;
 }
-mkdirSync(path.dirname(OUT), { recursive: true });
-writeFileSync(OUT, png);
-console.log(`[make-logo] wrote ${path.relative(ROOT, OUT)}`);
+
+const logo = render();
+const outputs = [
+  [OUT, encodePng(logo)],
+  ...PACK_ICONS.map((file) => [file, encodePng(half(logo))]),
+];
+if (process.argv.includes("--check")) {
+  let ok = true;
+  for (const [file, png] of outputs) {
+    let same;
+    try {
+      same = readFileSync(file).equals(png);
+    } catch {
+      same = false; // not written yet
+    }
+    console.log(`[make-logo] ${path.relative(ROOT, file)} ${same ? "up to date" : "differs"}`);
+    ok &&= same;
+  }
+  process.exit(ok ? 0 : 1);
+}
+for (const [file, png] of outputs) {
+  mkdirSync(path.dirname(file), { recursive: true });
+  writeFileSync(file, png);
+  console.log(`[make-logo] wrote ${path.relative(ROOT, file)}`);
+}

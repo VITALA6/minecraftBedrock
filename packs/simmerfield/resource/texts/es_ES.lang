@@ -1,5 +1,5 @@
-pack.name=Simmerfield RP
-pack.description=Texturas, modelos y nombres para Simmerfield.
+pack.name=Simmerfield Resources
+pack.description=Cultivo y cocina, por Wendermods
 
 ## Produce, seeds, prepared ingredients
 item.wm_kitchen:tomato.name=Tomate

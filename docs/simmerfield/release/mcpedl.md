@@ -181,7 +181,7 @@ Android: tap the downloaded .mcaddon file and open it with Minecraft.
 iOS: open the .mcaddon file in the Files app, tap Share and choose Minecraft.
 
 Then turn it on for a world: create a world or edit one you have, go to Behavior Packs, find
-Simmerfield BP under Available and tap Activate. The resource pack (Simmerfield RP) is added for
+Simmerfield under Available and tap Activate. The resource pack (Simmerfield Resources) is added for
 you. Leave it on, and play.
 
 ## Supported Minecraft versions

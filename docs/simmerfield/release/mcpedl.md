@@ -119,8 +119,8 @@ from a book and a carrot.
   Soup, Strawberry Jam, Stuffed Eggplant, Ratatouille and Eggplant Curry.
 - Made on the crafting table: Garden Salad, Salsa, Veggie Sandwich, Hearty Sandwich, Strawberry
   Cup, Eggplant Salad, Veggie Skewer, and a Strawberry Cake you place and eat one slice at a time.
-- Effects by colour: red heals you, blue moves you, yellow speeds up digging, green helps you explore.
-  16 of the 18 dishes give an effect; the two sandwiches are plain filling food.
+- Effects by colour: red heals you, blue moves you, yellow speeds up digging, green helps you
+  explore. 16 of the 18 dishes give an effect; the two sandwiches are plain filling food.
 - Bowl dishes give the bowl back, the jam gives its bottle back, and the skewer gives its stick
   back.
 - Kitchen Guide: every recipe and its steps, the crops and where to find them, how to play, and a
@@ -134,6 +134,9 @@ from a book and a carrot.
   Русский. Minecraft picks the language from your game settings.
 
 [TODO-gif-chopping.gif: chopping on the cutting board]
+
+About the images: they show the add-on's real blocks, items and models, exactly as they look
+in the game. The art itself was made with AI-assisted tools and finished by hand.
 
 [TODO-shot-1-farm.png: the farm at sunset, with the pot on a campfire]
 [TODO-shot-3-chopping.png: chopping a cucumber on the Cutting Board]
@@ -157,13 +160,13 @@ to the top. A global resource pack that changes menus can do the same.
 
 **Credits**
 
-Made by Wendermods. Code, textures and models: [CREDITS]. Sounds are vanilla Minecraft sounds.
-[OPTIONAL: note on the AI-assisted pipeline.]
+Made by Wendermods. Art: hand-finished pixel art, made with AI-assisted tools. Sounds are vanilla
+Minecraft sounds.
 
-License: All Rights Reserved (Wendermods). Play it in your own worlds and on your own servers,
-and show it in videos, streams and screenshots. Please don't re-upload or redistribute it. The
-full text is in LICENSE.txt inside both packs. Not affiliated with Mojang or Microsoft.
-Feedback and bug reports: [LINK].
+License: All Rights Reserved (Wendermods). Play it in your own worlds and on your own servers, and
+show it in videos, streams and screenshots, monetized ones included. Please don't re-upload or
+redistribute it. The full text is in LICENSE.txt inside both packs. Not affiliated with Mojang or
+Microsoft. Feedback and bug reports: [LINK].
 
 ## Installation
 

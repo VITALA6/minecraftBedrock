@@ -163,6 +163,6 @@ describe("license", () => {
     assert.equal(run.status, 0, run.stderr);
     const [missing, fromStub] = run.stdout.split("\n").map((line) => JSON.parse(line) as string[]);
     assert.deepEqual(missing, []);
-    assert.equal(fromStub?.length, 6, "the check finds a missing term");
+    assert.equal(fromStub?.length, 7, "the check finds a missing term");
   });
 });

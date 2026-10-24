@@ -112,10 +112,10 @@ one from a book and a carrot.
   - Made on the crafting table: Garden Salad, Salsa, Veggie Sandwich, Hearty Sandwich, Strawberry
     Cup, Eggplant Salad, Veggie Skewer, and a Strawberry Cake you place and eat one slice at a
     time.
-- **Effects by colour.** 16 of the 18 dishes give an effect, and its colour tells you what kind:
-  red heals you (Regeneration, Absorption, Health Boost), blue moves you (Speed, Jump Boost, Slow
-  Falling), yellow speeds up digging (Haste), green helps you explore (Night Vision, Water Breathing,
-  Fire Resistance). The two sandwiches are plain filling food.
+- **Effects by colour.** 16 of the 18 dishes give an effect, and its colour tells you what kind: red
+  heals you (Regeneration, Absorption, Health Boost), blue moves you (Speed, Jump Boost, Slow
+  Falling), yellow speeds up digging (Haste), green helps you explore (Night Vision, Water
+  Breathing, Fire Resistance). The two sandwiches are plain filling food.
 - **Nothing goes to waste:** bowl dishes give the bowl back, the jam gives its bottle back, and the
   skewer gives its stick back.
 - **Kitchen Guide:** a book with every recipe and its steps, the crops and where to find them,
@@ -134,6 +134,9 @@ one from a book and a carrot.
 ![GIF: chopping on the cutting board](TODO-gif-chopping.gif)
 
 ### Screenshots
+
+About the images: they show the add-on's real blocks, items and models, exactly as they look
+in the game. The art itself was made with AI-assisted tools and finished by hand.
 
 ![Screenshot: the farm at sunset, with the pot on a campfire](TODO-shot-1-farm.png)
 ![Screenshot: strawberry bushes in a meadow](TODO-shot-2-strawberries.png)
@@ -217,16 +220,15 @@ growth, fast cooking and the state of a pot.
 ### Credits
 
 - Made by Wendermods.
-- Code, textures and models: `[CREDITS: who made what]`.
-- `[OPTIONAL: a note on the AI-assisted code and art pipeline, as in the Waypoint pitch]`
+- Art: hand-finished pixel art, made with AI-assisted tools.
 - Sounds are vanilla Minecraft sounds.
 
 ### License
 
-All Rights Reserved (Wendermods). Play it in your own worlds and on your own servers, and show it
-in videos, streams and screenshots. Please don't re-upload or redistribute it; link to this page
-instead. The full text is in `LICENSE.txt` inside both packs. Simmerfield is not affiliated with
-or endorsed by Mojang or Microsoft.
+All Rights Reserved (Wendermods). Play it in your own worlds and on your own servers, and show it in
+videos, streams and screenshots, monetized ones included. Please don't re-upload or redistribute it;
+link to this page instead. The full text is in `LICENSE.txt` inside both packs. Simmerfield is not
+affiliated with or endorsed by Mojang or Microsoft.
 
 Links (put these at the bottom, per CurseForge's moderation guidance):
 `[ISSUES / FEEDBACK LINK]` · `[DISCORD OR SOCIAL LINKS]` · `[PORTFOLIO SITE]`

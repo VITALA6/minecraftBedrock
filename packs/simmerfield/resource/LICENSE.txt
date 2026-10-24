@@ -6,7 +6,8 @@ copyright holder. No part of it may be copied, modified, redistributed, re-uploa
 whole or in part, without prior written permission from the copyright holder.
 
 You may download it from an official release page and use it in your own Minecraft worlds and
-on your own servers. You may also show it in videos, live streams and screenshots.
+on your own servers. You may also show it in videos, live streams and screenshots,
+including monetized ones.
 
 Minecraft is a trademark of Mojang AB. This add-on is not affiliated with or endorsed by Mojang
 or Microsoft.

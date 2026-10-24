@@ -20,8 +20,9 @@ marked **TO VERIFY** in the files.
 - [ ] **License.** All Rights Reserved, filled in on both pages; `LICENSE.txt` ships in both
       packs (`npm run package` checks it). Still to do in the CurseForge Authors Console: pick
       All Rights Reserved, and set Project Distribution to allow third-party distribution (MCPEDL).
-- [ ] **Credits.** "Made by Wendermods" is filled in. Still open: who made what, and whether to
-      mention the AI-assisted pipeline (placeholders in both files).
+- [x] **Credits.** "Made by Wendermods" and "Art: hand-finished pixel art, made with AI-assisted
+      tools." in both files (decided 2026-10-24), plus the image note above the screenshots that
+      CurseForge's "AI Misleading Content Disclosure" rule asks for.
 - [ ] **GIFs** (placeholders `TODO-gif-*.gif`), matched to the shots in
       `../marketing/trailer.md`:
   - [ ] `TODO-gif-seeds.gif`: breaking grass and finding seeds (trailer shot 2)

@@ -41,9 +41,11 @@ sources are at the bottom.
    - the **MCPEDL thumbnail**, 720x340 px (see phase 4);
    - optional: the banner, and the trailer with your music (`npm run trailer:edit -- --music
 <file>`). Music must be yours or licensed for redistribution (CurseForge policy).
-8. **Fill the placeholders** in `curseforge.md`: credits line, the optional AI-pipeline note
-   (decide; if any showcase image is AI-altered, CurseForge requires a visible disclaimer), and
-   the links line. For the issues link, use the CurseForge project's comments page (you get the
+8. **Fill the placeholders** in `curseforge.md`: the links line. The credits line and the AI note
+   above the screenshots are done (decided 2026-10-24). CurseForge's "AI Misleading Content
+   Disclosure" rule: an AI-modified showcase image that may misrepresent the mod needs a visible
+   disclaimer "on the image or in the description"; keep the note in the description if you
+   replace images. For the issues link, use the CurseForge project's comments page (you get the
    URL in phase 2). No download links of any kind: CurseForge forbids external download links.
 9. **Keep** `docs/simmerfield/release/logo-400.png` (400x400 PNG). It meets the avatar rule
    (exactly 400x400, not WebP, not a solid colour). Regenerate with `node tools/make-logo.mjs`.

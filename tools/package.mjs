@@ -58,6 +58,7 @@ const LICENSE_TERMS = [
   ["no redistribution", /may be copied, modified, redistributed/],
   ["own servers allowed", /on your own servers/],
   ["videos and streams allowed", /show it in videos, live streams/],
+  ["monetized videos allowed", /including monetized ones/],
   [
     "not affiliated with Mojang or Microsoft",
     /not affiliated with or endorsed by Mojang or Microsoft/,

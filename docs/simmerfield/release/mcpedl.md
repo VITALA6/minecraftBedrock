@@ -49,8 +49,9 @@ Notes from MCPEDL's moderation guidelines (https://mcpedl.com/moderation-guideli
   length or a screenshot count. (mcpedl.org, a different site, asks for 3 to 6 screenshots; that
   is not mcpedl.com.) Tags are answered below: they come from the CurseForge categories.
 
-Owner still needs a **720x340 thumbnail** (the 400x400 `logo-400.png` is the avatar, not the
-thumbnail).
+Thumbnail: `screenshots/MCPEDL-thumbnail.png` (720x340, cropped from the pot on the campfire;
+`assets/MCPEDL.png` is the composed alternative). The 400x400 `logo-400.png` is the avatar, not the
+thumbnail.
 
 ## Title
 
@@ -58,12 +59,16 @@ Simmerfield: Farming & Cooking
 
 ## Short description
 
-Grow six new crops, cut them on a Cutting Board and cook 18 dishes with helpful effects in a pot
-over a fire. No experiments needed.
+Grow six new crops, chop them and cook 18 dishes with potion effects in a pot over a campfire. No
+experiments needed.
+
+(The synced post uses the CurseForge summary, so this is the same line.)
 
 ## Description
 
-(Paste from here to the end of "Credits". Image placeholders are the same files as on CurseForge.)
+**The synced post uses the CurseForge description** (`curseforge.md`, rewritten 2026-10-24), so
+there is nothing to paste on MCPEDL. The text below is the older 2026-10-23 version, kept only as
+a fallback in case MCPEDL ever accepts direct uploads again; update it from `curseforge.md` first.
 
 [TODO-banner.png: logo banner, the Cooking Pot on a campfire]
 

@@ -40,11 +40,11 @@ description. The summary below is 132 characters, kept under 150 as a safe targe
 
 ## Summary
 
-> Grow six new crops, cut them on a Cutting Board and cook 18 dishes with helpful effects in a pot
-> over a fire. No experiments needed.
+> Grow six new crops, chop them and cook 18 dishes with potion effects in a pot over a campfire. No experiments needed.
 
-132 characters. Shorter fallback (82 characters): "Grow six new crops and cook 18 dishes in a
-pot over a fire. No experiments needed."
+117 characters. "Potion effects" instead of "helpful effects": players know the word, and
+the old line read as if the effects were in the pot. Shorter fallback (82 characters): "Grow six
+new crops and cook 18 dishes in a pot over a fire. No experiments needed."
 
 ## Description
 
@@ -54,166 +54,129 @@ Markdown before you paste. MCPEDL receives the rendered HTML, which is why its u
 about HTML. If the Markdown option is missing for Bedrock, paste into WYSIWYG from a rendered
 Markdown preview instead.
 
+**Images.** The image paths below are files in `screenshots/`. Upload them to the project's Images
+first, then replace each path with the image's CurseForge URL. Order (rewritten 2026-10-24 for the
+first screen): hook, a picture, the feature list, then the tutorial; the long install and conflict
+notes come last.
+
 ---
 
-![Logo banner: the Cooking Pot on a campfire](TODO-banner.png)
+![The Simmerfield kitchen at sunset, with the pot on a campfire](04-kitchen-sunset.png)
 
 **Simmerfield** adds six new crops to Minecraft and a kitchen to cook them in. Grow tomatoes,
-onions, cucumbers, eggplants, chili peppers and strawberries. Cut them on a Cutting Board, craft
-them into mixes and cook them in a Cooking Pot over a fire. Every dish fills you up, and most of
-them also give you a helpful effect.
+onions, cucumbers, eggplants, chili peppers and strawberries, chop them on a Cutting Board, and
+cook them into soups, stews and curries in a pot over the fire. Most dishes give you a potion
+effect.
 
-It runs on the stable Script API, so you don't need to turn on any experiments.
+**No experiments needed. Works in new and existing worlds.**
 
-![GIF: putting a mix in the pot and taking out Tomato Soup](TODO-gif-cooking.gif)
-
-### How to start
-
-1. **Find seeds.** Break grass or ferns and you will sometimes find a seed. Each crop is easier to
-   find in the places it likes: tomatoes in plains and forests, chili peppers in jungles, savannas
-   and badlands, strawberries in meadows, flower forests and cherry groves. Every seed can still
-   turn up anywhere, just less often. The onion has no seed: plant an onion itself.
-2. **Plant them.** Tomato, cucumber and eggplant seeds and onions go on farmland, like wheat.
-   Break the crop when it's fully grown to get the crop and some seeds back. Chili peppers and
-   strawberries grow on bushes: plant them on grass, dirt or farmland, and use a ripe bush to pick
-   the fruit. Bone meal helps everything grow.
-3. **Make a Cutting Board** from a stick and two planks in a row. Hold a tomato, onion, cucumber or
-   eggplant and use the board to get slices or chopped pieces. Sneak and use it to cut the whole
-   stack.
-4. **Make a Cooking Pot** from five iron ingots and a bowl. The pot only cooks with heat right
-   below it: put it on a campfire, fire, lava or a magma block. Or build a Kitchen Stove, use it to
-   switch it on, and sneak to put the pot on top.
-5. **Cook your first dish.** Craft two tomatoes and a bowl into a Tomato Soup Mix on the crafting
-   table. Use the pot with the mix in your hand to put it in, then use it with an empty hand to
-   start cooking. A few seconds later, use it with an empty hand again to take out your Tomato
-   Soup.
-
-Everything else is in the **Kitchen Guide**, the in-game recipe book. You get one free the first
-time you join a world with the add-on, together with a Recipe Poster. If you lose it, craft a new
-one from a book and a carrot.
-
-![GIF: breaking grass and finding seeds](TODO-gif-seeds.gif)
+![GIF: the spoon stirs Chili Stew on the Kitchen Stove](cooking.gif)
 
 ### Features
 
-- **Six new crops:** Tomato, Onion, Cucumber, Eggplant, Chili Pepper and Strawberry. Four grow on
-  farmland; chili peppers and strawberries grow on bushes that you pick and that grow new fruit.
-- **Seeds from grass**, with each crop easier to find in its own biomes.
-- **Cutting Board:** turns tomatoes, onions, cucumbers and eggplants into Sliced Tomato, Chopped
-  Onion, Sliced Cucumber and Sliced Eggplant. A knife chops on the board while you work.
-- **Cooking Pot:** cooks over a campfire, fire, lava, a magma block or a lit Kitchen Stove. It
-  holds up to four mixes and cooks every mix of the same dish at once, so four mixes give you four
-  bowls in the time of one. The liquid takes the colour of the dish, and a spoon stirs while it
-  cooks.
-- **18 dishes.** Hot dishes take two steps: craft the raw ingredients into a mix on the crafting
-  table, then cook the mix in the pot. Cold dishes are crafted straight away.
+- **Six new crops:** Tomato, Onion, Cucumber, Eggplant, Chili Pepper and Strawberry. Their seeds
+  drop from grass, and each one is easier to find in its own biomes. Chili peppers and
+  strawberries grow on bushes you can pick again and again.
+- **Cutting Board:** slices tomatoes, cucumbers and eggplants and chops onions. A knife chops on
+  the board while you work.
+- **Cooking Pot:** cooks over a campfire, fire, lava, a magma block or a lit Kitchen Stove. Put in
+  up to four mixes of the same dish and get four bowls in the time of one. The liquid takes the
+  colour of the dish, and a spoon stirs while it cooks.
+- **18 dishes.** Hot dishes take two steps: craft a mix on the crafting table, then cook it in the
+  pot. Cold dishes are crafted straight away.
   - Cooked in the pot: Tomato Soup, Vegetable Stew, Chili Stew, Fish Chowder, Chicken Soup, Onion
     Soup, Strawberry Jam, Stuffed Eggplant, Ratatouille and Eggplant Curry.
   - Made on the crafting table: Garden Salad, Salsa, Veggie Sandwich, Hearty Sandwich, Strawberry
     Cup, Eggplant Salad, Veggie Skewer, and a Strawberry Cake you place and eat one slice at a
     time.
-- **Effects by colour.** 16 of the 18 dishes give an effect, and its colour tells you what kind: red
-  heals you (Regeneration, Absorption, Health Boost), blue moves you (Speed, Jump Boost, Slow
-  Falling), yellow speeds up digging (Haste), green helps you explore (Night Vision, Water
-  Breathing, Fire Resistance). The two sandwiches are plain filling food.
-- **Nothing goes to waste:** bowl dishes give the bowl back, the jam gives its bottle back, and the
-  skewer gives its stick back.
-- **Kitchen Guide:** a book with every recipe and its steps, the crops and where to find them,
-  how to play, and a "What can I make?" page that shows the dishes you can make from what you
-  carry.
-- **Recipe Poster:** a poster two blocks wide for your kitchen wall. Its first page shows how to
-  get started; sneak and use it to flip through the recipes you have unlocked.
-- **Recipes unlock as you go.** Each new crop you find unlocks the recipes that use it, in the
-  guide, on the poster and in the crafting table's recipe book. In Creative mode everything is
-  unlocked from the start.
+- **Effects by colour.** 16 dishes give an effect, and the colour tells you what kind:
+  - **red** heals you: Regeneration, Absorption, Health Boost;
+  - **blue** moves you: Speed, Jump Boost, Slow Falling;
+  - **yellow** digs faster: Haste;
+  - **green** helps you explore: Night Vision, Water Breathing, Fire Resistance.
+- **Nothing goes to waste:** you get the bowl, the jam bottle and the skewer stick back.
+- **Kitchen Guide:** an in-game recipe book with every recipe, every crop and where to find it,
+  and a "What can I make?" page that checks what you carry. You get one free when you first join.
+- **Recipe Poster:** a two-block poster for your kitchen wall. Sneak and use it to flip through
+  your recipes.
+- **Recipes unlock as you go.** Each new crop you find unlocks its recipes in the guide, on the
+  poster and in the crafting table's recipe book. In Creative everything is unlocked.
 - **Eight kitchen decor blocks:** Kitchen Counter, Kitchen Cabinet, Spice Shelf, Kitchen Sink,
-  Kitchen Stove, Hanging Pan, Jar of Pickles and Vegetable Basket. The Kitchen Stove also heats a
-  pot.
+  Kitchen Stove, Hanging Pan, Jar of Pickles and Vegetable Basket.
 - **Eight languages** (see below).
 
-![GIF: chopping on the cutting board](TODO-gif-chopping.gif)
+![Tomato, onion and cucumber rows at golden hour](08-farm.png)
+
+### Your first soup
+
+1. **Find seeds.** Break grass or ferns. Tomatoes like plains and forests, chili peppers like
+   jungles, savannas and badlands, strawberries like meadows, flower forests and cherry groves.
+   Any seed can still turn up anywhere, just less often. The onion has no seed: plant the onion
+   itself.
+2. **Plant them.** Tomato, cucumber and eggplant seeds and onions go on farmland, like wheat.
+   Break a fully grown crop to get the crop and some seeds back. Chili peppers and strawberries
+   grow on bushes: plant them on grass, dirt or farmland and use a ripe bush to pick it. Bone meal
+   works on all of them.
+3. **Make a Cutting Board** from a stick and two planks in a row. Hold a tomato, onion, cucumber
+   or eggplant and use the board to cut it. Sneak to cut the whole stack.
+4. **Make a Cooking Pot** from five iron ingots and a bowl. It only cooks with heat right below
+   it: a campfire, fire, lava or a magma block. Or build a Kitchen Stove, use it to switch it on,
+   and sneak to put the pot on top.
+5. **Cook.** Craft two tomatoes and a bowl into a Tomato Soup Mix. Use the pot with the mix in your
+   hand to put it in, then with an empty hand to start cooking. A few seconds later, use it with
+   an empty hand again to take out your Tomato Soup.
+
+Everything else is in the **Kitchen Guide**. Lost it? Craft a new one from a book and a carrot.
+
+![GIF: chopping cucumbers on the Cutting Board](chopping.gif)
 
 ### Screenshots
 
-About the images: they show the add-on's real blocks, items and models, exactly as they look
-in the game. The art itself was made with AI-assisted tools and finished by hand.
+_The screenshots show the add-on's real blocks, items and models, exactly as they look in the
+game. The art itself was made with AI-assisted tools and finished by hand._
 
-![Screenshot: the farm at sunset, with the pot on a campfire](TODO-shot-1-farm.png)
-![Screenshot: strawberry bushes in a meadow](TODO-shot-2-strawberries.png)
-![Screenshot: chopping a cucumber on the Cutting Board](TODO-shot-3-chopping.png)
-![Screenshot: the pot cooking at night](TODO-shot-4-pot-night.png)
-![Screenshot: the Kitchen Guide's "What can I make?" page](TODO-shot-5-what-can-i-make.png)
-![Screenshot: dishes on a wall, sorted by effect colour](TODO-shot-6-dishes-by-colour.png)
-![Screenshot: a Strawberry Cake on a table, a few slices gone](TODO-shot-7-cake.png)
-![Screenshot: Chili Stew's Fire Resistance next to lava](TODO-shot-8-dish-power.png)
-![Screenshot: a kitchen built from the decor blocks, with the stove lit](TODO-shot-9-kitchen-decor.png)
-
-![GIF: picking strawberries from a bush](TODO-gif-strawberry-bush.gif)
-![GIF: flipping through the Kitchen Guide](TODO-gif-guide.gif)
+![Strawberry and chili bushes among flowers](05-strawberry-bushes.png)
+![The kitchen decor blocks, with a pot on the lit stove](03-kitchen-decor.png)
+![A Strawberry Cake on a table between lanterns](06-cake-table.png)
+![The Kitchen Guide's Chicken Soup page](10-guide-recipe.png)
 
 ### Installation
 
 You need **Minecraft Bedrock Edition 1.26.50 or newer**. No experiments are needed.
 
-**Windows (PC):**
-
 1. Download the `.mcaddon` file.
-2. Double-click it. Minecraft opens and imports both packs. Wait for the "Successfully imported"
-   messages.
+2. Open it with Minecraft:
+   - **Windows:** double-click it.
+   - **Android:** tap the file in your downloads and choose Minecraft.
+   - **iOS:** open it in the Files app, tap Share and choose Minecraft.
+3. Wait for the two "Successfully imported" messages.
+4. Create a world, or open the settings of one you have. Go to **Behavior Packs**, find
+   **Simmerfield** under Available and tap **Activate**. The resource pack (**Simmerfield
+   Resources**) comes along by itself; leave it on.
 
-**Android and iOS (phone or tablet):**
-
-1. Download the `.mcaddon` file.
-2. Open it with Minecraft. On Android, tap the file in your downloads and choose Minecraft. On iOS,
-   open it in the Files app, tap Share and choose Minecraft.
-3. Wait for the "Successfully imported" messages.
-
-**Turn it on for a world:**
-
-1. Create a new world, or open the settings of a world you already have.
-2. Go to **Behavior Packs**, find **Simmerfield** under Available and tap **Activate**.
-3. The resource pack (**Simmerfield Resources**) is added for you, because the behavior pack depends
-   on it. Leave it on.
-4. Play. You don't need to turn on any experiments.
-
-**Removing it later:** this turns the add-on's blocks into unknown blocks and its items into
-vanilla items. Adding it back restores the blocks. Back up your world first.
+**Removing it later** turns the add-on's blocks into unknown blocks and its items into vanilla
+items. Adding it back restores the blocks. Back up your world first.
 
 ### Known conflicts
 
-The Kitchen Guide's book screen is drawn by the add-on's resource pack. To do that, it replaces
-one vanilla UI file, `ui/server_form.json`: the screen the game uses for menus that add-ons and
-servers open with scripts. The pack keeps the normal menu for everything else and only shows the
-book for the guide's own pages. It changes no other vanilla UI file.
+The Kitchen Guide's book screen replaces one vanilla UI file, `ui/server_form.json`: the screen
+for menus that add-ons and servers open with scripts. Simmerfield shows the book only for its own
+pages and keeps the normal menu everywhere else. Other packs that restyle these menus (chest-style
+inventory menus, custom server form packs) usually replace the same file, and the pack **higher**
+in the resource pack list wins:
 
-Other packs that restyle these script menus (for example chest-style inventory menus, or custom
-server form packs) usually replace the same file. Only one version of that screen can win, and
-the pack that sits **higher** in the world's resource pack list wins:
+- **Other pack higher:** the Kitchen Guide shows as a plain list of buttons with odd codes in the
+  text. The rest of Simmerfield still works.
+- **Simmerfield higher:** the other pack's menus fall back to the plain vanilla look.
 
-- **If the other pack is higher,** the Kitchen Guide opens as a plain list of buttons with some
-  odd codes in the text instead of a book. The rest of Simmerfield still works.
-- **If Simmerfield is higher,** the guide looks right, but the other pack's custom menus fall
-  back to the plain vanilla look.
-
-**Fix:** open the world's settings, go to **Resource Packs**, and move the pack whose menus you
-want to keep to the top of the active list. If you use both often, keep Simmerfield on top
-while you cook and swap the order when you need the other pack. A global resource pack (Settings,
-Global Resources) that changes menus can cause the same problem.
+**Fix:** in the world's **Resource Packs** settings, move the pack whose menus you want to keep to
+the top. A global resource pack that changes menus can cause the same problem.
 
 ### Languages
 
-The add-on's text is available in:
-
-- English
-- Українська (Ukrainian)
-- Polski (Polish)
-- Deutsch (German)
-- Español (Spanish)
-- Português do Brasil (Brazilian Portuguese)
-- Français (French)
-- Русский (Russian)
-
-Minecraft picks the language from your game settings.
+English, Українська (Ukrainian), Polski (Polish), Deutsch (German), Español (Spanish), Português do
+Brasil (Brazilian Portuguese), Français (French), Русский (Russian). Minecraft picks the language
+from your game settings.
 
 ### For server owners
 
@@ -233,8 +196,11 @@ videos, streams and screenshots, monetized ones included. Please don't re-upload
 link to this page instead. The full text is in `LICENSE.txt` inside both packs. Simmerfield is not
 affiliated with or endorsed by Mojang or Microsoft.
 
-Links (put these at the bottom, per CurseForge's moderation guidance):
-`[ISSUES / FEEDBACK LINK]` · `[DISCORD OR SOCIAL LINKS]` · `[PORTFOLIO SITE]`
+### Support
+
+Found a bug, or have an idea? Tell us on our [Discord server](DISCORD_URL).
+
+Need a custom add-on? [wendermods.team](https://wendermods.team)
 
 ---
 

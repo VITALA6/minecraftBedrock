@@ -27,8 +27,9 @@ marked **TO VERIFY** in the files.
       `../marketing/trailer.md`:
   - [ ] `TODO-gif-seeds.gif`: breaking grass and finding seeds (trailer shot 2)
   - [ ] `TODO-gif-strawberry-bush.gif`: picking strawberries (shot 4)
-  - [ ] `TODO-gif-chopping.gif`: chopping on the Cutting Board (shot 5)
-  - [ ] `TODO-gif-cooking.gif`: mix into the pot, cooking, taking the soup out (shots 6 to 8).
+  - [x] `TODO-gif-chopping.gif`: chopping on the Cutting Board (shot 5): `screenshots/chopping.gif`
+  - [x] `TODO-gif-cooking.gif`: `screenshots/cooking.gif` shows the stirring only (the mix going in
+        and the soup coming out are still to film): mix into the pot, cooking, taking the soup out (shots 6 to 8).
         trailer.md predates the two-step mixes (D16): film a Tomato Soup Mix going in, not raw
         tomatoes.
   - [ ] `TODO-gif-guide.gif`: flipping through the Kitchen Guide (shot 9; trailer.md calls it
@@ -37,7 +38,9 @@ marked **TO VERIFY** in the files.
       `assets/curseforge-6-recipe-flow.png` (cook, chop, cake, kitchen decor, crops and dishes,
       recipe flow). Upload them to the CurseForge Images. They show the content, not gameplay, so
       they don't replace the screenshots and GIFs.
-- [ ] **Screenshots** (placeholders `TODO-shot-*.png`): the 8 setups in `../marketing/trailer.md`,
+- [ ] **Screenshots**: 8 real in-game shots in `screenshots/` (2026-10-24, without the player
+      character; pick from `screenshots/contact-sheet.png`). Still missing: the Kitchen Guide page
+      (shot 5) and dishes in item frames (shot 6). The original list, placeholders `TODO-shot-*.png`: the 8 setups in `../marketing/trailer.md`,
       plus `TODO-shot-9-kitchen-decor.png` (a kitchen built from the decor blocks with the stove
       lit; not in trailer.md yet). Shot 7 (cake shared by three players) needs the multiplayer
       test first. Until they exist, the composed images above can fill the gallery

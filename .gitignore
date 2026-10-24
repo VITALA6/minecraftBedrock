@@ -11,3 +11,6 @@ art/references/mods/
 
 # the owner's private release checklist (Ukrainian, never committed)
 /docs/simmerfield/release/TODO-before-release.uk.md
+
+# raw in-game captures behind docs/simmerfield/release/screenshots (large, not committed)
+/docs/simmerfield/release/screenshots/raw/

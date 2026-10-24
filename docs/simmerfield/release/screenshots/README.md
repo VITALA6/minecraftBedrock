@@ -5,21 +5,23 @@ Real in-game captures for the CurseForge gallery and MCPEDL, taken in the owner'
 all, so you can choose. **The player character is in none of them.** Scenery shots used spectator
 mode, and the cooking and chopping loops used invisibility with an empty hand.
 
-| File                        | What it shows                                                                                              |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `01-pot-on-campfire.png`    | The Cooking Pot on a lit campfire at sunset, pink sky, the Cutting Board behind                            |
-| `02-cooking-chili-stew.png` | Close-up of a pot on the lit Kitchen Stove cooking Chili Stew, with the spoon                              |
-| `03-kitchen-decor.png`      | The decor kitchen, front on: counter, sink, stove with pot, cabinet, jar, basket, spice shelf, hanging pan |
-| `04-kitchen-sunset.png`     | The same kitchen at three-quarters at sunset, with the campfire pot behind                                 |
-| `05-strawberry-bushes.png`  | Strawberry and chili bushes among flowers, low angle, sunset sky                                           |
-| `06-cake-table.png`         | The Strawberry Cake on a table between lanterns, the farm and kitchen behind                               |
-| `07-chopping.png`           | The Cutting Board mid-chop (cucumber bits flying), a llama behind                                          |
-| `08-farm.png`               | Tomato, onion and cucumber rows toward the mountain, golden hour                                           |
-| `MCPEDL-thumbnail.png`      | 720×340, cropped from 01 (upload it titled exactly `MCPEDL`)                                               |
-| `cooking.gif` / `.mp4`      | 9 s loop: the spoon stirs Chili Stew on the stove, 640 px, 15 fps                                          |
-| `chopping.gif` / `.mp4`     | 7 s loop: cucumbers chopped on the board, 640 px, 15 fps                                                   |
+| File                        | What it shows                                                                                                    |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `01-pot-on-campfire.png`    | The Cooking Pot on a lit campfire at sunset, pink sky, the Cutting Board behind                                  |
+| `02-cooking-chili-stew.png` | Close-up of a pot on the lit Kitchen Stove cooking Chili Stew, with the spoon                                    |
+| `03-kitchen-decor.png`      | The decor kitchen, front on: counter, sink, stove with pot, cabinet, jar, basket, spice shelf, hanging pan       |
+| `04-kitchen-sunset.png`     | The same kitchen at three-quarters at sunset, with the campfire pot behind                                       |
+| `05-strawberry-bushes.png`  | Strawberry and chili bushes among flowers, low angle, sunset sky                                                 |
+| `06-cake-table.png`         | The Strawberry Cake on a table between lanterns, the farm and kitchen behind                                     |
+| `07-chopping.png`           | The Cutting Board mid-chop (cucumber bits flying), a llama behind                                                |
+| `08-farm.png`               | Tomato, onion and cucumber rows toward the mountain, golden hour                                                 |
+| `09-guide-home.png`         | The Kitchen Guide's home page: chapters with progress, ribbons (shot by the owner)                               |
+| `10-guide-recipe.png`       | The Chicken Soup page: effect, raw ingredients → mix on the crafting table → pot + fire, 8 s (shot by the owner) |
+| `MCPEDL-thumbnail.png`      | 720×340, cropped from 01 (upload it titled exactly `MCPEDL`)                                                     |
+| `cooking.gif` / `.mp4`      | 9 s loop: the spoon stirs Chili Stew on the stove, 640 px, 15 fps                                                |
+| `chopping.gif` / `.mp4`     | 7 s loop: cucumbers chopped on the board, 640 px, 15 fps                                                         |
 
-All stills are 1920×1080. `raw/` (gitignored, about 50 MB) holds every original capture, including
+Stills 01–08 are 1920×1080. 09–10 are 1774×998: the 16:9 area around the book at native size, without the launcher's menu bar and with no scaling, so the pixel UI stays sharp. `raw/` (gitignored, about 50 MB) holds every original capture, including
 the variants that weren't picked (three times of day per angle, the trailer stills 1, 2, 3, 7 and 8).
 
 ## How they were made
@@ -46,8 +48,8 @@ the variants that weren't picked (three times of day per angle, the trailer stil
 - **No crop-growth loop.** Bone meal kept hitting the grass beside a sprout, and resetting the
   grown field with `/fill` and `replace` doesn't match grown states. Try it in the trailer `grow`
   scene instead.
-- **Still to shoot (needs a person):** the Kitchen Guide's "What can I make?" page (screenshot 5)
-  and dishes in item frames (screenshot 6). Both need hands-on actions in menus.
+- **Kitchen Guide:** the home page and a recipe page (09, 10) stand in for screenshot 5 ("What can I
+  make?"). Dishes in item frames (screenshot 6) were not shot.
 - **World changes in the test world:** the set, the levelled ring and the kitchen at about
   (-380, -380). Gamerules changed: `dodaylightcycle`, `doweathercycle` and `domobspawning` are all
   false. The player was left in spectator mode with invisibility.

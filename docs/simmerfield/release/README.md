@@ -38,9 +38,10 @@ marked **TO VERIFY** in the files.
       `assets/curseforge-6-recipe-flow.png` (cook, chop, cake, kitchen decor, crops and dishes,
       recipe flow). Upload them to the CurseForge Images. They show the content, not gameplay, so
       they don't replace the screenshots and GIFs.
-- [ ] **Screenshots**: 8 real in-game shots in `screenshots/` (2026-10-24, without the player
-      character; pick from `screenshots/contact-sheet.png`). Still missing: the Kitchen Guide page
-      (shot 5) and dishes in item frames (shot 6). The original list, placeholders `TODO-shot-*.png`: the 8 setups in `../marketing/trailer.md`,
+- [ ] **Screenshots**: 10 real in-game shots in `screenshots/` (2026-10-24, without the player
+      character), including the Kitchen Guide's home and recipe pages (09, 10); pick from
+      `screenshots/contact-sheet.png`. Not shot: dishes in item frames (shot 6). The original list,
+      placeholders `TODO-shot-*.png`: the 8 setups in `../marketing/trailer.md`,
       plus `TODO-shot-9-kitchen-decor.png` (a kitchen built from the decor blocks with the stove
       lit; not in trailer.md yet). Shot 7 (cake shared by three players) needs the multiplayer
       test first. Until they exist, the composed images above can fill the gallery

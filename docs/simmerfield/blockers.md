@@ -513,7 +513,9 @@ error). Not seen in game:
 - **Fallback:** if writing two states at once makes a part vanish, write them one tick apart; if
   the page state itself is the problem, cap the posters at 16 (drop the blank and two dishes).
 
-## B28. Kitchen Guide book (D19, untested)
+## B28. Kitchen Guide book (D19, works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 3–5): home, chapters, ribbons, dish and crop pages, What can I make?, "???" before discovery, Ukrainian text.
 
 - **What:** `wm_kitchen:guide_book` opens a book of `ActionFormData` pages (`ui/guide-screen.ts`) through
   its item component's `onUse`/`onUseOn`. The pages use only a title, a body and icon buttons
@@ -559,7 +561,9 @@ error). Not seen in game:
   - **Fallback:** if the book still shows item 0 everywhere, use a `stack_panel` per row of cells
     (the choose_realm pattern) with padding panels for positions.
 
-## B29. Pot and board effects (D21, untested)
+## B29. Pot and board effects (D21, works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 6, 8): bubbles, spoon, lid with the fire out, one knife on the board.
 
 - **What:** the pot liquid and rim use flipbook textures while cooking over heat
   (`tools/gen-pot-flipbook.mjs`, `flipbook_textures.json`). A `wm_kitchen:fx_spoon` entity stirs in a
@@ -586,7 +590,9 @@ error). Not seen in game:
   only `/summon`, so both effects are summonable now; a `/summon` one is removed the next tick.
 - **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 14–28.
 
-## B30. Kitchen decor blocks (D22, untested)
+## B30. Kitchen decor blocks (D22, works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 9): decor blocks face the player, the pan hangs, the jar stands on a counter.
 
 - **What:** 8 decorative blocks (counter, cabinet, spice shelf, sink, stove, hanging pan, jar of
   pickles, vegetable basket), no scripts. Recipes: `recipes-cheatsheet.md` "Kitchen decor".
@@ -605,7 +611,9 @@ error). Not seen in game:
     held block, so the pot goes on with sneak.
 - **Test:** [`tests/round-5-guide-fx-decor.md`](tests/round-5-guide-fx-decor.md) steps 29–38.
 
-## B31. One action per press: the stove and the pot's choice form (audit 2026-10-23, untested)
+## B31. One action per press: the stove and the pot's choice form (audit 2026-10-23, works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 7, 10): one choice form per press, the stove switches once while held.
 
 - **What:** block component events have no `isFirstEvent` (B13). If the game repeats
   `onPlayerInteract` while use is held, every repeat would switch the stove again, so it flickers
@@ -623,7 +631,9 @@ error). Not seen in game:
 - **Decide:** B13's "switch the cake to a debounce" is now one line: use `PressGate` in
   `food/sliced-dish.ts` instead of `TickGate`.
 
-## B32. Station sweep cost with many pots (CR11, untested)
+## B32. Station sweep cost with many pots (CR11, partly tested 2026-10-24)
+
+- **Partly tested 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 13): 16 pots cooked on time with no visible lag or watchdog lines. The full 32 pots + 400 crops (round 6 part G) has not run.
 
 - **What:** every 10 ticks, the sweep (`stations/station-engine.ts:379` `sweepOne`) does this for
   each tracked station, meaning any pot with contents, forgotten leftovers and uncollected dishes
@@ -666,7 +676,14 @@ error). Not seen in game:
   `brokenBlockPermutation`'s `wm_kitchen:facing`, or accept it as rare.
 - **Decide:** fix it or accept it.
 
-## B34. Adding the add-on to an existing world, and removing it (untested)
+## B34. Adding the add-on to an existing world, and removing it (works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 16–18): the world loads with the add-on added, removed and re-added.
+- **What removal does (owner, 2026-10-24):** Simmerfield blocks turn into unknown blocks (dirt with
+  a question mark) and Simmerfield items turn into vanilla items. Re-adding the add-on restores the
+  blocks: the waiting dish can be collected and the cooking pot finishes. Whether the converted
+  items come back too wasn't reported. The store pages say only what was seen, and tell players to
+  back up first.
 
 - **What:** this is expected but hasn't been seen.
   - **Adding:** no experiment is needed. Each player gets the welcome, a Recipe Poster and the
@@ -712,7 +729,9 @@ error). Not seen in game:
 - **Decide:** which second client to use for future multiplayer checks (phone, or a second launcher
   instance).
 
-## B37. Cooking after `/reload` relies on `worldLoad` firing again (review 2026-10-24, untested)
+## B37. Cooking after `/reload` relies on `worldLoad` firing again (review 2026-10-24, works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 11): cooking continues after `/reload` and after leaving and re-entering, so the proposed fix is not needed.
 
 - **What:** the station sweep starts only from `world.afterEvents.worldLoad` (`main.ts` →
   `startStationSweep` in `stations/station-engine.ts`). That one call re-reads the saved
@@ -735,7 +754,9 @@ error). Not seen in game:
 - **Decision (2026-10-24):** not applied blind. If `worldLoad` does fire after `/reload`, which
   is likely, this would only add a second code path.
 
-## B38. A pot blown up by TNT: do its contents survive? (review 2026-10-24, untested)
+## B38. A pot blown up by TNT: do its contents survive? (review 2026-10-24, works in game 2026-10-24)
+
+- **Works in game 2026-10-24** (owner, `tests/round-6-fast.uk.md` step 12): all 4 mixes survive TNT next to the pot, so the proposed fix is not needed.
 
 - **What:** a pot destroyed by an explosion spills from `onBreak` (`stations/container-station.ts`
   → `spill`). The saved state is cleared first, and then the items are dropped right away, inside

@@ -176,6 +176,9 @@ You need **Minecraft Bedrock Edition 1.26.50 or newer**. No experiments are need
    on it. Leave it on.
 4. Play. You don't need to turn on any experiments.
 
+**Removing it later:** this turns the add-on's blocks into unknown blocks and its items into
+vanilla items. Adding it back restores the blocks. Back up your world first.
+
 ### Known conflicts
 
 The Kitchen Guide's book screen is drawn by the add-on's resource pack. To do that, it replaces

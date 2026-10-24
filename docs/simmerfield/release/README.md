@@ -57,9 +57,11 @@ marked **TO VERIFY** in the files.
       HTML in the CurseForge editor, `.mcaddon` vs `.zip` uploads, MCPEDL tags and version picker.
 - [ ] **Facts to confirm in game before you publish** (from `../marketing/marketplace.md`):
   - [ ] a fresh world with every experiment off loads clean;
-  - [ ] the add-on works when added to an existing world (seeds from grass, the welcome book);
-  - [ ] what happens to placed pots, boards, cakes and crops when the add-on is removed; add a
-        line to the description once you know;
+  - [x] the add-on works when added to an existing world (seeds from grass, the welcome book;
+        round 6 fast, 2026-10-24);
+  - [x] what happens when the add-on is removed: blocks become unknown blocks, items become
+        vanilla items, and re-adding it restores the blocks. The line is in both store pages
+        under Installation. Whether the items come back too isn't confirmed;
   - [ ] touch and controller play, before you mention them;
   - [ ] multiplayer, before you add the Multiplayer category or any "share with friends" text.
 - [ ] **Languages:** the description lists eight. Make sure all seven translations are in

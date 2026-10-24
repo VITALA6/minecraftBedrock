@@ -184,6 +184,9 @@ Then turn it on for a world: create a world or edit one you have, go to Behavior
 Simmerfield under Available and tap Activate. The resource pack (Simmerfield Resources) is added for
 you. Leave it on, and play.
 
+Removing it later: this turns the add-on's blocks into unknown blocks and its items into vanilla
+items. Adding it back restores the blocks. Back up your world first.
+
 ## Supported Minecraft versions
 
 1.26.50 and newer (the `min_engine_version` in both manifests). **Checked 2026-10-24:** there is
